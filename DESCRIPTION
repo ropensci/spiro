@@ -1,0 +1,21 @@
+Package: spiro
+Title: Manage data from metabolic carts/spiroergometric tests
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Simon",
+           family = "Nolte",
+           role = c("aut", "cre"),
+           email = "simon.nolte@googlemail.com")
+Description: Import, process, summarise and visualise raw data from 
+    various metabolic cart devices.
+License: MIT + file LICENSE
+URL: https://github.com/smnnlt/spiro
+BugReports: https://github.com/smnnlt/spiro/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    ggplot2,
+    XML,
+    zoo
