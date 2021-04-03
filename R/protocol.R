@@ -194,3 +194,93 @@ apply_protocol <- function(data,protocol) {
   attr(out, "protocol") <- protocol
   out
 }
+
+
+guess_protocol <- function(data) {
+
+  rest.initial <- NULL
+
+  nonnulls <- which(data$velocity != 0)
+  firstload <- min(nonnulls)
+  pre.duration <- round(data$time[[firstload]],-1)
+  load1 <- round(data$velocity[[firstload]],2)
+
+  nulls <- which(data$velocity == 0)
+  nonloads1 <- which(data$velocity != load1)
+  nextload <- min(nonloads1[nonloads1 > firstload])
+
+  if (data$velocity[[nextload]] != 0){ #ramp test
+    rest.duration <- 0
+    nextload_timepoint <- round(data$time[[nextload]],-1)
+    load1_time <-  nextload_timepoint - pre.duration
+    load2 <- round(data$velocity[[nextload]],2)
+    nonloads2 <- which(data$velocity != load2)
+    nextload2 <- min(nonloads2[nonloads2 > nextload])
+    nextload2_timepoint <- round(data$time[[nextload2]], -1)
+    load2_time <- nextload2_timepoint - nextload_timepoint
+    load3 <- round(data$velocity[[nextload2]],2)
+    rest.initial <- FALSE
+
+  } else {
+    firstrest <- min(nulls[nulls > firstload])
+    firstrest_point <- round(data$time[[firstrest]],-1)
+    load1_time <- firstrest_point - pre.duration
+
+    secondload <- min(nonnulls[nonnulls > firstrest])
+    secondload_timepoint <- round(data$time[[secondload]],-1)
+    rest.duration <- secondload_timepoint - firstrest_point
+    load2 <- round(data$velocity[[secondload]],2)
+
+    secondrest <- min(nulls[nulls > secondload])
+    secondrest_point <- round(data$time[[secondrest]],-1)
+    load2_time <- secondrest_point - secondload_timepoint
+
+    thirdload <- min(nonnulls[nonnulls > secondrest])
+    load3 <- round(data$velocity[[thirdload]],2)
+  }
+
+  delta_load12 <- load2 - load1
+  delta_load23 <- load3 - load2
+
+  if (delta_load12 == delta_load23 && load1_time == load2_time) { # no warm up
+    step.increment <- delta_load12
+    step.start <- load1
+    step.duration <- load1_time
+    rest.duration <- rest.duration
+    wu.duration <- 0
+    wu.load <- 0
+    rest.initial <- FALSE
+  } else {
+    step.increment <- delta_load23
+    wu.duration <- load1_time
+    wu.load <- load1
+    step.start <- load2
+    step.duration <- load2_time
+    rest.duration <- rest.duration
+    if (is.null(rest.initial)) rest.initial <- TRUE
+  }
+
+  end.timepoint <- round(data$time[[max(nonnulls)]],-1)
+  testtime <- end.timepoint - pre.duration - wu.duration
+  step.count <- trunc(testtime / (step.duration + rest.duration),0)
+  step_modulo <- (testtime %% (step.duration + rest.duration) / step.duration)
+  step.count <- round(step.count + step_modulo,2)
+
+  if (step.increment == 0) testtype <- "constant"
+  else if (rest.duration == 0 && step.duration <= 90) testtype <- "ramp"
+  else testtype <- "increment"
+
+  out <- data.frame(
+    step.start,
+    step.increment,
+    step.duration,
+    rest.duration,
+    pre.duration,
+    wu.duration,
+    wu.load,
+    step.count,
+    rest.initial,
+    testtype
+  )
+  out
+}
