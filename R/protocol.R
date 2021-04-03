@@ -140,3 +140,57 @@ spiro_protocol_gxt <- function(step.count,
   )
   out
 }
+
+apply_protocol <- function(data,protocol) {
+
+  pre <- rep.int(0, protocol$pre.duration)
+  wu <- rep.int(protocol$wu.load, protocol$wu.duration)
+  wuN <- rep.int(0.5, protocol$wu.duration)
+  rest <- rep.int(0, protocol$rest.duration)
+  restN <- rep.int(-1, protocol$rest.duration)
+  if (protocol$rest.initial) {
+    rest.initial <- rest
+    rest.initialN <- restN
+  } else {
+    rest.initial <- NULL
+    rest.initialN <- NULL
+  }
+  i <- 1
+  z <- protocol$step.start
+  out <- NULL
+  outN <- NULL
+
+  while (i <= trunc(protocol$step.count)) {
+    run <- rep.int(z,  protocol$step.duration)
+    runN <- rep.int(i, protocol$step.duration)
+    if (i == 1) {
+      step <- c(rest.initial, run)
+      stepN <- c(rest.initialN, runN)
+    } else {
+      step <- c(rest, run)
+      stepN <- c(restN, runN)
+    }
+    out <- c(out, step)
+    outN <- c(outN, stepN)
+    z <- z + protocol$step.increment
+    i <- i + 1
+  }
+
+  #last step not finished
+  if ((protocol$step.count - trunc(protocol$step.count)) != 0) {
+    lastduration <- round(
+      protocol$step.duration * (protocol$step.count - trunc(protocol$step.count)),-1)
+    last <- rep.int(z, lastduration)
+    lastN <- rep.int(i,lastduration)
+    out <- c(out, rest, last)
+    outN <- c(outN, restN, lastN)
+  }
+  outtest <- c(pre,wu,out)
+  posttime <- length(data$time) - length(outtest)
+  post <- rep.int(0, posttime)
+  postN <- rep.int(-2, posttime)
+  out <- data.frame(load = c(outtest, post), step = c(pre, wuN, outN, postN), data)
+  attr(out, "info") <- attr(data,"info")
+  attr(out, "protocol") <- protocol
+  out
+}
