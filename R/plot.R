@@ -57,7 +57,7 @@ spiro_plot_HR <- function(data, title = FALSE) {
                        alpha = 0.5) +
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis( ~. / 20, name = "Velocity [m/s]")) +
-    ggplot2::labs(title = title, x = "Duration [s]", y = "HR [1/min]") +
+    ggplot2::labs(title = t, x = "Duration [s]", y = "HR [1/min]") +
     ggplot2::theme_bw()
 }
 
