@@ -9,7 +9,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  fig.height = 4,
+  dpi = 150
 )
 ```
 
@@ -17,7 +19,7 @@ knitr::opts_chunk$set(
 
 The goal of `spiro` is to enable a fast workflow with raw files from metabolic
 carts/spiroergometry systems. It provides simple tools for data
-import,processing and visualisation.
+import,processing, summary and visualisation.
 
 ## Installation
 
@@ -28,3 +30,31 @@ Install the current development version from GitHub
 devtools::install_github("smnnlt/spiro")
 ```
 
+## Usage
+
+* Use `spiro()` for one-step data import and processing from raw metabolic cart
+  files. 
+* Use `spiro_summary()` and `spiro_glance()` for getting a stepwise or
+  overall summary of the imported data. 
+* Use `spiro_plot_*()` as a shortcut for visualising the imported data.
+  
+#### Metabolic Carts
+
+The following metabolic carts are currently supported by `spiro`:
+
+* ZAN
+  
+
+## Example
+
+```{r example, warning=FALSE}
+library(spiro)
+
+# setup data for example
+file <- spiro_example("zan_gxt")
+
+gxt_data <- spiro(file)
+spiro_summary(gxt_data)
+
+spiro_plot_VO2(gxt_data)
+```

@@ -3,6 +3,7 @@
 S3method(spiro_glance,default)
 S3method(spiro_glance,spiro_clt)
 export(spiro)
+export(spiro_example)
 export(spiro_glance)
 export(spiro_plot_HR)
 export(spiro_plot_VO2)
