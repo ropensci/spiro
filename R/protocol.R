@@ -50,9 +50,13 @@ spiro_protocol <- function(step.start,
                           testtype = NULL) {
 
   if (is.null(testtype)) {
-    if (step.increment == 0) testtype <- "constant"
-    else if (rest.duration == 0 && step.duration <= 90) testtype <- "ramp"
-    else testtype <- "increment"
+    if (step.increment == 0) {
+      testtype <- "constant"
+    } else if (rest.duration == 0 && step.duration <= 90) {
+      testtype <- "ramp"
+    } else {
+      testtype <- "increment"
+    }
   }
 
   out <- data.frame(
@@ -266,9 +270,13 @@ guess_protocol <- function(data) {
   step_modulo <- (testtime %% (step.duration + rest.duration) / step.duration)
   step.count <- round(step.count + step_modulo,2)
 
-  if (step.increment == 0) testtype <- "constant"
-  else if (rest.duration == 0 && step.duration <= 90) testtype <- "ramp"
-  else testtype <- "increment"
+  if (step.increment == 0) {
+    testtype <- "constant"
+  } else if (rest.duration == 0 && step.duration <= 90) {
+    testtype <- "ramp"
+  } else {
+    testtype <- "increment"
+  }
 
   out <- data.frame(
     step.start,

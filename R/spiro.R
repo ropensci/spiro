@@ -49,8 +49,11 @@ spiro <- function(file,
                   protocol = NULL) {
 
   dt_imported <- spiro_import(file)
-  if (is.null(protocol)) ptcl <- guess_protocol(dt_imported)
-  else ptcl <- protocol
+  if (is.null(protocol)) {
+    ptcl <- guess_protocol(dt_imported)
+  } else {
+    ptcl <- protocol
+  }
   dt_ipol <- spiro_interpolate(dt_imported)
   dt_out <- spiro_add(data = apply_protocol(data = dt_ipol, protocol = ptcl),
                       weight = weight)

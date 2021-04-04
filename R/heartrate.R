@@ -15,8 +15,11 @@ hr_import <- function(file) {
 
 apply_hr <- function(data, hr_data, offset = 0) {
   pre_time <- attr(data, "protocol")$pre.duration + offset
-  if (pre_time < 0) hr_prewhile <- hr_data[-1:pre_time]
-  else hr_prewhile <- c(rep(NA, pre_time),hr_data)
+  if (pre_time < 0) {
+    hr_prewhile <- hr_data[-1:pre_time]
+  } else {
+    hr_prewhile <- c(rep(NA, pre_time),hr_data)
+  }
 
   if (length(hr_prewhile) >= nrow(data)) {
     data$HR <- as.numeric(hr_prewhile[1:nrow(data)])

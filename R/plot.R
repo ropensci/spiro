@@ -21,8 +21,11 @@ NULL
 #' @export
 spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 
-  if (title) t <- spiro_plot.title(data = data)
-  else t = NULL
+  if (title) {
+    t <- spiro_plot.title(data = data)
+    } else {
+    t <- NULL
+    }
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$VO2_rel)) +
     ggplot2::geom_line(colour = "blue") +
@@ -39,9 +42,14 @@ spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 #' @export
 
 spiro_plot_HR <- function(data, title = FALSE) {
+
   if (all(data$HR == 0, na.rm = TRUE)) stop("No heart rate data available")
-  if (title) t <- spiro_plot.title(data = data)
-  else t = NULL
+  if (title) {
+    t <- spiro_plot.title(data = data)
+  } else {
+    t <- NULL
+  }
+
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$HR)) +
     ggplot2::geom_point(colour = "red", size = 0.5) +
     ggplot2::geom_area(ggplot2::aes(y = load * 20),
