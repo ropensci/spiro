@@ -21,15 +21,13 @@ NULL
 #' @export
 spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 
-  if (title) {
-    t <- paste(testtype_title(attr(data,"protocol")$testtype),
-               attr(data,"info")$name, attr(data,"info")$surname)
-  } else {
-    t = NULL
-  }
+  if (title) t <- spiro_plot.title(data = data)
+  else t = NULL
+
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$VO2_rel)) +
     ggplot2::geom_line(colour = "blue") +
-    ggplot2::geom_area(ggplot2::aes(y = load * 5), colour = "black", alpha = 0.5) +
+    ggplot2::geom_area(ggplot2::aes(y = load * 5),
+                       colour = "black", alpha = 0.5) +
     ggplot2::geom_line(ggplot2::aes(y = zoo::rollmean(data$VO2_rel,smooth, na.pad = TRUE)),
                        colour = "red") +
     ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / 5, name = "Velocity [m/s]")) +
@@ -42,12 +40,8 @@ spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 
 spiro_plot_HR <- function(data, title = FALSE) {
   if (all(data$HR == 0, na.rm = TRUE)) stop("No heart rate data available")
-  if (title) {
-    t <- paste(testtype_title(attr(data,"protocol")$testtype),
-               attr(data,"info")$name, attr(data,"info")$surname)
-  } else {
-    t = NULL
-  }
+  if (title) t <- spiro_plot.title(data = data)
+  else t = NULL
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$HR)) +
     ggplot2::geom_point(colour = "red", size = 0.5) +
     ggplot2::geom_area(ggplot2::aes(y = load * 20),
@@ -57,4 +51,15 @@ spiro_plot_HR <- function(data, title = FALSE) {
       sec.axis = ggplot2::sec_axis( ~. / 20, name = "Velocity [m/s]")) +
     ggplot2::labs(title = title, x = "Duration [s]", y = "HR [1/min]") +
     ggplot2::theme_bw()
+}
+
+spiro_plot.title <- function(data) {
+  testtype <- attr(data,"protocol")$testtype
+  type <- switch(testtype,
+                 constant = "Constant Load Test",
+                 ramp = "Ramp Test",
+                 increment = "Graded Exercise Test")
+  name <- attr(data,"info")$name
+  surname <- attr(data,"info")$surname
+  title <- paste(type, name, surname)
 }
