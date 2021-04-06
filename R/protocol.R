@@ -148,10 +148,13 @@ spiro_protocol_gxt <- function(step.count,
 apply_protocol <- function(data,protocol) {
 
   if (length(protocol) != 10) {
-    data$load <- rep.int(0, length(data$time))
-    data$step <- rep.int(0, length(data$time))
-    attr(data,"protocol") <- NA
-    return(data)
+    out <- data.frame(
+      load = rep.int(0, length(data$time)),
+      step = rep.int(0, length(data$time)),
+      subset(data,select = -c(velocity,incr)))
+    attr(out,"protocol") <- NA
+    attr(out,"info") <- attr(data,"info")
+    return(out)
   }
 
   pre <- rep.int(0, protocol$pre.duration)
@@ -209,7 +212,7 @@ apply_protocol <- function(data,protocol) {
     out <- data.frame(
       load = c(outtest, post),
       step = c(pre, wuN, outN, postN),
-      data)
+      subset(data,select = -c(velocity,incr)))
   }
   attr(out, "info") <- attr(data,"info")
   attr(out, "protocol") <- protocol
