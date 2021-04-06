@@ -4,13 +4,25 @@
 \alias{spiro}
 \title{Process raw data from metabolic carts/spiroergometric measures}
 \usage{
-spiro(file, weight = NULL, hr_file = NULL, hr_offset = 0, protocol = NULL)
+spiro(
+  file,
+  device = NULL,
+  weight = NULL,
+  hr_file = NULL,
+  hr_offset = 0,
+  protocol = NULL
+)
 }
 \arguments{
 \item{file}{the name of the file which contains the spiroergometry data. The
 file  will be found by partial matching of the regular expression within
 the working directory (and one level above). Alternatively, \code{file} can
 be an absolute or relative path.}
+
+\item{device}{A character string, specifying the device for measurement. By
+default the device type is guessed by the characteristics of \code{file}.
+This can be overridden by setting the argument to \code{"zan"} or
+\code{"cosmed"}.}
 
 \item{weight}{Numeric value for participant's body weight, if the default
 value saved in \code{file} should be overwritten.}
