@@ -62,8 +62,8 @@ spiro <- function(file,
     ptcl <- guess_protocol(dt_imported)
   }
   dt_ipol <- spiro_interpolate(dt_imported)
-  dt_out <- spiro_add(data = apply_protocol(data = dt_ipol, protocol = ptcl),
-                      weight = weight)
+  dt_ptcl <- apply_protocol(data = dt_ipol, protocol = ptcl)
+  dt_out <- spiro_add(data = dt_ptcl, weight = weight)
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           offset = hr_offset)

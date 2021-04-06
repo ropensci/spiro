@@ -5,6 +5,7 @@ getstepmeans <- function(step_number, data, interval = 30) {
   df <- data.frame(
     step_number = step_number,
     load = mean(stepend$load, na.rm = TRUE),
+    VE = mean(stepend$VE, na.rm = TRUE),
     VO2 = mean(stepend$VO2, na.rm = TRUE),
     VCO2 = mean(stepend$VCO2, na.rm = TRUE),
     RER = mean(stepend$RER, na.rm = TRUE),

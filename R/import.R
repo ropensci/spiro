@@ -28,6 +28,9 @@ spiro_import_zan <- function(file) {
     time = data$Zeit/1000,
     VO2 = data$VO2,
     VCO2 = data$VCO2,
+    RR = 60000 / (data$tin + data$tex),
+    VT = (data$Vin / 1000),
+    VE = (60 * data$Vin) / (data$tin + data$tex),
     HR = data$HR,
     velocity = round(data$Geschw./3600,2),
     incr = data$Steig./10
@@ -92,6 +95,9 @@ spiro_import_cosmed <- function(file) {
     time = l[l != 0],
     VO2 = data$VO2,
     VCO2 = data$VCO2,
+    RR = data$Rf,
+    VT = data$VT,
+    VE = data$VE,
     HR = data$HR,
     velocity = round(speed/36,2),
     incr = grade
