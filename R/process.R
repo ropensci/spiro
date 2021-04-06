@@ -7,13 +7,15 @@ spiro_interpolate <- function(data) {
 }
 
 spiro_interpolate.internal <- function(y, x) {
-  interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
+  interpol <- suppressWarnings(
+    stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE))))
   dfinter <- interpol$y
   dfinter
 }
 
 spiro_add <- function(data, weight = NULL) {
   if (is.null(weight)) weight = attr(data, "info")$weight
+  if (is.na(weight)) stop("No 'weight' specified")
   data$VO2_rel <- data$VO2 / weight
   data$VCO2_rel <- data$VCO2 / weight
   data$RER <- data$VCO2 / data$VO2

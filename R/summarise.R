@@ -38,6 +38,7 @@ getstepmeans <- function(step_number, data, interval = 30) {
 
 spiro_summary <- function(data, interval = 30) {
   protocol <- attr(data, "protocol")
+  if (is.na(protocol)) stop("No protocol found")
   steplength <- protocol$step.duration
   stepcount <- protocol$step.count
   if (interval > steplength) {
@@ -103,17 +104,17 @@ spiro_glance.default <- function(data, interval = 30) {
   data$VO2_rel_rm <- zoo::rollmean(data$VO2_rel, interval, na.pad = TRUE)
   data$RER_rm <- zoo::rollmean(data$RER, interval, na.pad = TRUE)
   data$HR_rm <- zoo::rollmean(data$HR, interval, na.pad = TRUE)
-  data_cut <- data[data$step >= 1,]
+  if (any(data$step != 0)) data <- data[data$step >= 1,]
 
   df <- data.frame(
-    VO2max_abs = max(data_cut$VO2_rm, na.rm = TRUE),
-    VO2max_rel = max(data_cut$VO2_rel_rm, na.rm = TRUE),
-    RER_max = max(data_cut$RER_rm, na.rm = TRUE)
+    VO2max_abs = max(data$VO2_rm, na.rm = TRUE),
+    VO2max_rel = max(data$VO2_rel_rm, na.rm = TRUE),
+    RER_max = max(data$RER_rm, na.rm = TRUE)
   )
   df <- round(df, 2)
 
   if (!all(data$HR == 0, na.rm = TRUE)) {
-    df_hr <- data.frame(HR_max = round(max(data_cut$HR_rm, na.rm = TRUE),0))
+    df_hr <- data.frame(HR_max = round(max(data$HR_rm, na.rm = TRUE),0))
     df <- cbind(df, df_hr)
   }
 

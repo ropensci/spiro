@@ -147,6 +147,13 @@ spiro_protocol_gxt <- function(step.count,
 
 apply_protocol <- function(data,protocol) {
 
+  if (length(protocol) != 10) {
+    data$load <- rep.int(0, length(data$time))
+    data$step <- rep.int(0, length(data$time))
+    attr(data,"protocol") <- NA
+    return(data)
+  }
+
   pre <- rep.int(0, protocol$pre.duration)
   wu <- rep.int(protocol$wu.load, protocol$wu.duration)
   wuN <- rep.int(0.5, protocol$wu.duration)
