@@ -148,6 +148,8 @@ spiro_protocol_gxt <- function(step.count,
 apply_protocol <- function(data,protocol) {
 
   if (length(protocol) != 10) {
+    velocity <- NULL
+    incr <- NULL
     out <- data.frame(
       load = rep.int(0, length(data$time)),
       step = rep.int(0, length(data$time)),
@@ -239,7 +241,7 @@ guess_protocol <- function(data) {
 
   if (data$velocity[[nextload]] != 0){ #ramp test
     rest.duration <- 0
-    nextload_timepoint <- roundround((data$time[[nextload]] + data$time[[nextload-1]])/2,-1)
+    nextload_timepoint <- round((data$time[[nextload]] + data$time[[nextload-1]])/2,-1)
     load1_time <-  nextload_timepoint - pre.duration
     load2 <- round(data$velocity[[nextload]],2)
     nonloads2 <- which(data$velocity != load2)
