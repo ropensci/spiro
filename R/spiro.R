@@ -20,6 +20,10 @@
 #'   file  will be found by partial matching of the regular expression within
 #'   the working directory (and one level above). Alternatively, \code{file} can
 #'   be an absolute or relative path.
+#' @param device A character string, specifying the device for measurement. By
+#'   default the device type is guessed by the characteristics of \code{file}.
+#'   This can be overridden by setting the argument to \code{"zan"} or
+#'   \code{"cosmed"}.
 #' @param weight Numeric value for participant's body weight, if the default
 #'   value saved in \code{file} should be overwritten.
 #' @param hr_file the name of a \code{*tcx} file which contains additional heart
@@ -43,16 +47,19 @@
 #' @export
 
 spiro <- function(file,
+                  device = NULL,
                   weight = NULL,
                   hr_file = NULL,
                   hr_offset = 0,
                   protocol = NULL) {
 
-  dt_imported <- spiro_import(file)
-  if (is.null(protocol)) {
-    ptcl <- guess_protocol(dt_imported)
-  } else {
+  dt_imported <- spiro_import(file, device = device)
+  if (!is.null(protocol)) {
     ptcl <- protocol
+  } else if (all(dt_imported$velocity == 0)) {
+    ptcl <- NA
+  } else {
+    ptcl <- guess_protocol(dt_imported)
   }
   dt_ipol <- spiro_interpolate(dt_imported)
   dt_out <- spiro_add(data = apply_protocol(data = dt_ipol, protocol = ptcl),
@@ -60,7 +67,9 @@ spiro <- function(file,
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           offset = hr_offset)
-  class(dt_out) <- c(switch(ptcl$testtype,
+  if (is.na(ptcl)) testtype <- NA
+  else testtype <- ptcl$testtype
+  class(dt_out) <- c(switch(testtype,
                             constant = "spiro_clt",
                             increment = "spiro_gxt",
                             ramp = "spiro_rmp",

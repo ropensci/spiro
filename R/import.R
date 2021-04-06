@@ -1,10 +1,11 @@
 
 
-spiro_import <- function(file, type = NULL) {
+spiro_import <- function(file, device = NULL) {
   file <- get_path(file)
-  if (is.null(type)) type <- guess_type(file)
-  switch(type,
+  if (is.null(device)) device <- guess_type(file)
+  switch(device,
          zan = spiro_import_zan(file),
+         cosmed = spiro_import_cosmed(file),
          stop("'type' not specified")
          )
 }
@@ -42,5 +43,76 @@ get_path <- function(name) {
 }
 
 guess_type <- function(file) {
-  "zan"
+  if (grepl("\\.xls", path)) device <- "cosmed"
+  else device <- "zan"
+}
+
+spiro_import_cosmed <- function(file) {
+  tbl <- suppressMessages(readxl::read_excel(file, range = "A1:B8", col_names = FALSE))
+  ldf <- data.frame(t(as.data.frame(tbl[[2]], row.names = tbl[[1]])))
+
+  if (tbl[[1]][[2]] == "Nachname:") { # German language
+    name <- "Vorname."
+    surname <- "Nachname."
+    age <- "Alter."
+    sex <- "Geschlecht."
+    height <- "Größe..cm.."
+    weight <- "Gewicht..Kg.."
+  } else { # English language
+    name <- "First.name."
+    surname <- "Last.name."
+    age <- "Age."
+    sex <- "Sex."
+    height <- "Height..cm.."
+    weight <- "Weight..Kg.."
+  }
+
+  info <- data.frame(
+    name = ldf[[name]],
+    surname = ldf[[surname]],
+    birthday = ldf[[age]],
+    sex = ldf[[sex]],
+    height = as.numeric(ldf[[height]]),
+    weight = as.numeric(ldf[[weight]])
+  )
+
+  data <- readxl::read_excel(file, range = cellranger::cell_cols(10:50))[-1:-2,]
+  l <- to_seconds(data$t)
+  data <- data[l != 0,]
+
+  suppressWarnings(
+    if (is.null(data$Speed)) speed <- rep.int(0,length(l[l != 0]))
+    else speed <- as.numeric(data$Speed)
+  )
+  suppressWarnings(
+    if (is.null(data$Grade)) grade <- rep.int(0,length(l[l != 0]))
+    else grade <- as.numeric(data$Grade)
+  )
+  df <- data.frame(
+    time = l[l != 0],
+    VO2 = data$VO2,
+    VCO2 = data$VCO2,
+    HR = data$HR,
+    velocity = round(speed/36,2),
+    incr = grade
+  )
+  if (is.na(info$weight)) info$weight <- round(as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]),1)
+
+  attr(df, "info") <- info
+  df
+}
+
+
+to_seconds <- function(time_data) {
+  sapply(time_data, to_seconds.internal, USE.NAMES = FALSE)
+}
+
+to_seconds.internal <- function(time) {
+  time_split <- as.numeric(strsplit(time,":")[[1]])
+  if (length(time_split == 3)) {
+    s <- 3600*time_split[[1]]+60*time_split[[2]]+time_split[[3]]
+  } else if (length(time_split == 2)) {
+    s <- 60*time_split[[1]]+time_split[[2]]
+  }
+  s
 }
