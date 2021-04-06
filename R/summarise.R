@@ -38,7 +38,7 @@ getstepmeans <- function(step_number, data, interval = 30) {
 
 spiro_summary <- function(data, interval = 30) {
   protocol <- attr(data, "protocol")
-  if (is.na(protocol)) stop("No protocol found")
+  if (all(is.na(protocol))) stop("No protocol found")
   steplength <- protocol$step.duration
   stepcount <- protocol$step.count
   if (interval > steplength) {

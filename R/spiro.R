@@ -67,7 +67,7 @@ spiro <- function(file,
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           offset = hr_offset)
-  if (is.na(ptcl)) testtype <- NA
+  if (all(is.na(ptcl))) testtype <- NA
   else testtype <- ptcl$testtype
   class(dt_out) <- c(switch(testtype,
                             constant = "spiro_clt",
