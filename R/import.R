@@ -43,7 +43,7 @@ get_path <- function(name) {
 }
 
 guess_type <- function(file) {
-  if (grepl("\\.xls", path)) device <- "cosmed"
+  if (grepl("\\.xls", file)) device <- "cosmed"
   else device <- "zan"
 }
 
@@ -56,7 +56,7 @@ spiro_import_cosmed <- function(file) {
     surname <- "Nachname."
     age <- "Alter."
     sex <- "Geschlecht."
-    height <- "Größe..cm.."
+    height <- "Gr\u00f6\u00dfe..cm.."
     weight <- "Gewicht..Kg.."
   } else { # English language
     name <- "First.name."
@@ -76,7 +76,7 @@ spiro_import_cosmed <- function(file) {
     weight = as.numeric(ldf[[weight]])
   )
 
-  data <- readxl::read_excel(file, range = cellranger::cell_cols(10:50))[-1:-2,]
+  data <- readxl::read_excel(file, range = readxl::cell_cols(10:50))[-1:-2,]
   l <- to_seconds(data$t)
   data <- data[l != 0,]
 
