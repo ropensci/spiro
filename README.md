@@ -5,11 +5,11 @@
 
 The goal of `spiro` is to enable a fast workflow with raw files from
 metabolic carts/spiroergometry systems. It provides simple tools for
-data import,processing, summary and visualisation.
+data import, processing, summary and visualisation.
 
 ## Installation
 
-Install the current development version from GitHub
+Install the current development version from GitHub:
 
 ``` r
 # install.packages("devtools")
@@ -29,6 +29,7 @@ devtools::install_github("smnnlt/spiro")
 
 The following metabolic carts are currently supported by `spiro`:
 
+-   COSMED
 -   ZAN
 
 ## Example
