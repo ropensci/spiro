@@ -15,7 +15,8 @@ spiro_interpolate.internal <- function(y, x) {
 
 spiro_add <- function(data, weight = NULL) {
   if (is.null(weight)) weight = attr(data, "info")$weight
-  if (is.na(weight)) stop("No 'weight' specified")
+  if (is.na(weight))
+    stop("No 'weight' specified")
   data$VO2_rel <- data$VO2 / weight
   data$VCO2_rel <- data$VCO2 / weight
   data$RER <- data$VCO2 / data$VO2

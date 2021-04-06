@@ -8,7 +8,8 @@ hr_add <- function(data, hr_file, offset = 0) {
 hr_import <- function(file) {
   filepath <- get_path(file)
   tcx_data <- XML::xmlParse(filepath)
-  tcx_raw <- XML::xmlToDataFrame(nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns"))
+  tcx_raw <- XML::xmlToDataFrame(
+    nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns"))
   hr <- tcx_raw$HeartRateBpm
   hr
 }

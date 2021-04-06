@@ -1,26 +1,3 @@
-getstepmeans <- function(step_number, data, interval = 30) {
-  step <- data[data$step == step_number,]
-  stepend <- step[(nrow(step)-(interval-1)):nrow(step),]
-
-  df <- data.frame(
-    step_number = step_number,
-    load = mean(stepend$load, na.rm = TRUE),
-    VE = mean(stepend$VE, na.rm = TRUE),
-    VO2 = mean(stepend$VO2, na.rm = TRUE),
-    VCO2 = mean(stepend$VCO2, na.rm = TRUE),
-    RER = mean(stepend$RER, na.rm = TRUE),
-    VO2_rel = mean(stepend$VO2_rel, na.rm = TRUE),
-    RE = mean(stepend$RE, na.rm = FALSE)
-  )
-
-  if (!all(data$HR == 0, na.rm = TRUE)) {
-    df_hr <- data.frame(HR = mean(stepend$HR, na.rm = FALSE))
-    df <- cbind(df, df_hr)
-  }
-  df
-}
-
-
 #' Stepwise summarise data from spiroergometric tests
 #'
 #' \code{spiro_summary} returns a \code{data.frame} summarising the main
@@ -39,25 +16,32 @@ getstepmeans <- function(step_number, data, interval = 30) {
 
 spiro_summary <- function(data, interval = 30) {
   protocol <- attr(data, "protocol")
-  if (all(is.na(protocol))) stop("No protocol found")
+  if (all(is.na(protocol)))
+    stop("No protocol found")
+
   steplength <- protocol$step.duration
   stepcount <- protocol$step.count
   if (interval > steplength) {
     interval <- steplength
     message("'interval' was set to step length")
   }
+
   predf <- NULL
   wudf <- NULL
   if (protocol$pre.duration >= interval) {
     predf <- sapply(0, getstepmeans, data = data, interval = interval)
   } else if (protocol$pre.duration > 0) {
-    predf <- sapply(0, getstepmeans, data = data, interval = protocol$pre.duration)
+    predf <- sapply(0, getstepmeans,
+                    data = data,
+                    interval = protocol$pre.duration)
     message("for pre-measures, interval was set to length of measures")
   }
   if (protocol$wu.duration >= interval) {
     wudf <- sapply(0.5, getstepmeans, data = data, interval = interval)
   } else if (protocol$wu.duration > 0) {
-    predf <- sapply(0, getstepmeans, data = data, interval = protocol$wu.duration)
+    predf <- sapply(0, getstepmeans,
+                    data = data,
+                    interval = protocol$wu.duration)
     message("for warm-up measures, interval was set to length of warm-up")
   }
 
@@ -118,7 +102,6 @@ spiro_glance.default <- function(data, interval = 30) {
     df_hr <- data.frame(HR_max = round(max(data$HR_rm, na.rm = TRUE),0))
     df <- cbind(df, df_hr)
   }
-
   df
 }
 
@@ -134,4 +117,26 @@ spiro_glance.spiro_clt <- function(data, interval = 30) {
   mm <- round(rowMeans(m),2)[-1]
   df_out <- data.frame(t(mm))
   df_out
+}
+
+getstepmeans <- function(step_number, data, interval = 30) {
+  step <- data[data$step == step_number,]
+  stepend <- step[(nrow(step)-(interval-1)):nrow(step),]
+
+  df <- data.frame(
+    step_number = step_number,
+    load = mean(stepend$load, na.rm = TRUE),
+    VE = mean(stepend$VE, na.rm = TRUE),
+    VO2 = mean(stepend$VO2, na.rm = TRUE),
+    VCO2 = mean(stepend$VCO2, na.rm = TRUE),
+    RER = mean(stepend$RER, na.rm = TRUE),
+    VO2_rel = mean(stepend$VO2_rel, na.rm = TRUE),
+    RE = mean(stepend$RE, na.rm = FALSE)
+  )
+
+  if (!all(data$HR == 0, na.rm = TRUE)) {
+    df_hr <- data.frame(HR = mean(stepend$HR, na.rm = FALSE))
+    df <- cbind(df, df_hr)
+  }
+  df
 }

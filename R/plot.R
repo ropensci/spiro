@@ -21,20 +21,20 @@ NULL
 #' @export
 spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 
-  if (title) {
-    t <- spiro_plot.title(data = data)
-  } else {
-    t <- NULL
-  }
+  if (title) t <- spiro_plot.title(data = data) else t <- NULL
   yl <- spiro_plot.guess_units(data)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$VO2_rel)) +
     ggplot2::geom_line(colour = "blue") +
-    ggplot2::geom_area(ggplot2::aes(y = load * yl[[1]]),
-                       colour = "black", alpha = 0.5) +
-    ggplot2::geom_line(ggplot2::aes(y = zoo::rollmean(data$VO2_rel,smooth, na.pad = TRUE)),
-                       colour = "red") +
-    ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / yl[[1]], name = yl[[2]])) +
+    ggplot2::geom_area(
+      ggplot2::aes(y = load * yl[[1]]),
+      colour = "black", alpha = 0.5) +
+    ggplot2::geom_line(
+      ggplot2::aes(y = zoo::rollmean(data$VO2_rel, smooth, na.pad = TRUE)),
+      colour = "red") +
+    ggplot2::scale_y_continuous(
+      sec.axis = ggplot2::sec_axis( ~. / yl[[1]],
+      name = yl[[2]])) +
     ggplot2::labs(title = t, x = "Duration [s]", y = "VO2 [ml/min/kg]") +
     ggplot2:: theme_bw()
 }
@@ -44,19 +44,15 @@ spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
 
 spiro_plot_HR <- function(data, title = FALSE) {
 
-  if (all(data$HR == 0, na.rm = TRUE)) stop("No heart rate data available")
-  if (title) {
-    t <- spiro_plot.title(data = data)
-  } else {
-    t <- NULL
-  }
+  if (all(data$HR == 0, na.rm = TRUE))
+    stop("No heart rate data available")
+  if (title) t <- spiro_plot.title(data = data) else t <- NULL
   yl <- spiro_plot.guess_units(data)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$HR)) +
     ggplot2::geom_point(colour = "red", size = 0.5) +
-    ggplot2::geom_area(ggplot2::aes(y = load * 3 * yl[[1]]),
-                       colour = "black",
-                       alpha = 0.5) +
+    ggplot2::geom_area(
+      ggplot2::aes(y = load * 3 * yl[[1]]), colour = "black", alpha = 0.5) +
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis( ~. / (3 * yl[[1]]), name = yl[[2]])) +
     ggplot2::labs(title = t, x = "Duration [s]", y = "HR [1/min]") +
@@ -68,10 +64,13 @@ spiro_plot.title <- function(data) {
   type <- switch(testtype,
                  constant = "Constant Load Test",
                  ramp = "Ramp Test",
-                 increment = "Graded Exercise Test")
+                 increment = "Graded Exercise Test",
+                 NULL
+          )
   name <- attr(data,"info")$name
   surname <- attr(data,"info")$surname
   title <- paste(type, name, surname)
+  title
 }
 
 spiro_plot.guess_units <- function(data) {

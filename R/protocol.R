@@ -148,7 +148,7 @@ spiro_protocol_gxt <- function(step.count,
 apply_protocol <- function(data,protocol) {
 
   if (length(protocol) != 10) {
-    velocity <- NULL
+    velocity <- NULL # define variables to omit missing global binding error
     incr <- NULL
     out <- data.frame(
       load = rep.int(0, length(data$time)),
@@ -192,10 +192,11 @@ apply_protocol <- function(data,protocol) {
     i <- i + 1
   }
 
-  #last step not finished
+  # if last step was not finished
   if ((protocol$step.count - trunc(protocol$step.count)) != 0) {
     lastduration <- round(
-      protocol$step.duration * (protocol$step.count - trunc(protocol$step.count)),-1)
+      protocol$step.duration * (protocol$step.count -
+                                trunc(protocol$step.count)),-1)
     last <- rep.int(z, lastduration)
     lastN <- rep.int(i,lastduration)
     out <- c(out, rest, last)
@@ -229,7 +230,8 @@ guess_protocol <- function(data) {
   nonnulls <- which(data$velocity != 0)
   firstload <- min(nonnulls)
   if (firstload != 1) {
-    pre.duration <- round((data$time[[firstload]] + data$time[[firstload-1]])/2,-1)
+    pre.duration <- round(
+      (data$time[[firstload]] + data$time[[firstload-1]])/2,-1)
   } else {
     pre.duration <- 0
   }
@@ -239,31 +241,34 @@ guess_protocol <- function(data) {
   nonloads1 <- which(data$velocity != load1)
   nextload <- min(nonloads1[nonloads1 > firstload])
 
-  if (data$velocity[[nextload]] != 0){ #ramp test
+  if (data$velocity[[nextload]] != 0){ #no rest
     rest.duration <- 0
-    nextload_timepoint <- round((data$time[[nextload]] + data$time[[nextload-1]])/2,-1)
+    nextload_timepoint <- round(
+      (data$time[[nextload]] + data$time[[nextload-1]])/2,-1)
     load1_time <-  nextload_timepoint - pre.duration
     load2 <- round(data$velocity[[nextload]],2)
     nonloads2 <- which(data$velocity != load2)
     nextload2 <- min(nonloads2[nonloads2 > nextload])
-    nextload2_timepoint <- round((data$time[[nextload2]] + data$time[[nextload2]])/2,-1)
+    nextload2_timepoint <- round(
+      (data$time[[nextload2]] + data$time[[nextload2]])/2,-1)
     load2_time <- nextload2_timepoint - nextload_timepoint
     load3 <- round(data$velocity[[nextload2]],2)
     rest.initial <- FALSE
-
   } else {
     firstrest <- min(nulls[nulls > firstload])
-    if (firstload != 1)
-    firstrest_point <- round((data$time[[firstrest]] + data$time[[firstrest-1]])/2,-1)
+    firstrest_point <- round(
+      (data$time[[firstrest]] + data$time[[firstrest-1]])/2,-1)
     load1_time <- firstrest_point - pre.duration
 
     secondload <- min(nonnulls[nonnulls > firstrest])
-    secondload_timepoint <- round((data$time[[secondload]] + data$time[[secondload-1]])/2,-1)
+    secondload_timepoint <- round(
+      (data$time[[secondload]] + data$time[[secondload-1]])/2,-1)
     rest.duration <- secondload_timepoint - firstrest_point
     load2 <- round(data$velocity[[secondload]],2)
 
     secondrest <- min(nulls[nulls > secondload])
-    secondrest_point <- round((data$time[[secondrest]] + data$time[[secondrest-1]])/2,-1)
+    secondrest_point <- round(
+      (data$time[[secondrest]] + data$time[[secondrest-1]])/2,-1)
     load2_time <- secondrest_point - secondload_timepoint
 
     thirdload <- min(nonnulls[nonnulls > secondrest])

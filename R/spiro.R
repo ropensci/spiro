@@ -70,10 +70,10 @@ spiro <- function(file,
   if (all(is.na(ptcl))) testtype <- NA
   else testtype <- ptcl$testtype
   class(dt_out) <- c(switch(testtype,
-                            constant = "spiro_clt",
-                            increment = "spiro_gxt",
-                            ramp = "spiro_rmp",
-                            NULL),
+                       constant = "spiro_clt",
+                       increment = "spiro_gxt",
+                       ramp = "spiro_rmp",
+                       NULL),
                      "spiro",
                      "data.frame")
   dt_out
