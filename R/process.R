@@ -1,4 +1,5 @@
 spiro_interpolate <- function(data) {
+  data$time <- dupl(data$time)
   yout <- sapply(data[-1], spiro_interpolate.internal, x = data$time)
   xout <- 1:round(max(data$time, na.rm = TRUE))
   df <- data.frame(time = xout,yout)
@@ -7,8 +8,7 @@ spiro_interpolate <- function(data) {
 }
 
 spiro_interpolate.internal <- function(y, x) {
-  interpol <- suppressWarnings(
-    stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE))))
+  interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
   dfinter <- interpol$y
   dfinter
 }
@@ -28,4 +28,16 @@ spiro_add <- function(data, weight = NULL) {
     }
   }
   data
+}
+
+dupl <- function(values) {
+  d <- anyDuplicated(values)
+  if (d != 0) {
+    ds <- which(duplicated(values))
+    for (di in ds) {
+      values[[di-1]] <- (values[[di-1]]-0.1)
+      values[[di]] <- (values[[di]]+0.1)
+    }
+  }
+  values
 }
