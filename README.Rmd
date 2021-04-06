@@ -50,7 +50,7 @@ The following metabolic carts are currently supported by `spiro`:
 ```{r example, warning=FALSE}
 library(spiro)
 
-# setup data for example
+# get data for example
 file <- spiro_example("zan_gxt")
 
 gxt_data <- spiro(file)
