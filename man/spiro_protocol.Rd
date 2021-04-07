@@ -72,20 +72,20 @@ characteristics.}
 }
 \value{
 A \code{data.frame} containing the test characteristics, which can be
-applied to a given (interpolated) file by \code{apply_protocol}.
+applied to a given (interpolated) file by \code{\link{apply_protocol}}.
 }
 \description{
-\code{spiro_protocol_*} manually generates a testing protocol which can be
+\code{spiro_protocol()} manually generates a testing protocol which can be
 applied to spiroergometry files.
 }
 \details{
 This function provides a manual interface for generating testing protocols in
 exercise science. The shorthands \code{_clt}, \code{_gxt} and
 \code{_rmp} provide wrappers with pre-defined settings for constant load,
-graded exercise (i.e. incremental) and ramp tests.
+graded exercise (i.e. stepwise incremental) and ramp tests.
 
 To automatically determine the protocol from a data file use
-\code{guess_protocol} instead.
+\code{\link{guess_protocol}} instead.
 }
 \section{Functions}{
 \itemize{

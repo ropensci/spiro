@@ -1,12 +1,31 @@
-hr_add <- function(data, hr_file, offset = 0) {
+#' Import and apply heart rate data to a spiroergometric data file
+#'
+#' \code{hr_add()} imports an additional file containing heart rate data and
+#' adds it to an existing spiroergometric data file.
+#'
+#' Heart rate data will be imported from a \code{.tcx} file with
+#' \code{hr_import()}. It is then applied to a given data set by
+#' \code{hr_apply()}.
+#'
+#' @param data A \code{data.frame} containing spiroergometric data interpolated
+#'   to every second.
+#' @param hr_data A data.frame containing the imported heart rate data.
+#' @inheritParams spiro
+#'
+#' @return A \code{data.frame} containing the spiroergometric and heart rate
+#'   data.
+#'
+#' @export
+
+hr_add <- function(data, hr_file, hr_offset = 0) {
   hr_data <- hr_import(hr_file)
-  data <- apply_hr(data, hr_data = hr_data, offset = offset)
+  data <- hr_apply(data, hr_data = hr_data, hr_offset = hr_offset)
   data
 }
 
-
-hr_import <- function(file) {
-  filepath <- get_path(file)
+#' @rdname hr_add
+hr_import <- function(hr_file) {
+  filepath <- get_path(hr_file)
   tcx_data <- XML::xmlParse(filepath)
   tcx_raw <- XML::xmlToDataFrame(
     nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns"))
@@ -14,8 +33,9 @@ hr_import <- function(file) {
   hr
 }
 
-apply_hr <- function(data, hr_data, offset = 0) {
-  pre_time <- attr(data, "protocol")$pre.duration + offset
+#' @rdname hr_add
+hr_apply <- function(data, hr_data, hr_offset = 0) {
+  pre_time <- attr(data, "protocol")$pre.duration + hr_offset
   if (pre_time < 0) {
     hr_prewhile <- hr_data[-1:pre_time]
   } else {

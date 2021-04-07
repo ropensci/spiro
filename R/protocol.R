@@ -1,15 +1,15 @@
 #' Manually generate a testing protocol for spiroergometry files
 #'
-#' \code{spiro_protocol_*} manually generates a testing protocol which can be
+#' \code{spiro_protocol()} manually generates a testing protocol which can be
 #' applied to spiroergometry files.
 #'
 #' This function provides a manual interface for generating testing protocols in
 #' exercise science. The shorthands \code{_clt}, \code{_gxt} and
 #' \code{_rmp} provide wrappers with pre-defined settings for constant load,
-#' graded exercise (i.e. incremental) and ramp tests.
+#' graded exercise (i.e. stepwise incremental) and ramp tests.
 #'
 #' To automatically determine the protocol from a data file use
-#' \code{guess_protocol} instead.
+#' \code{\link{guess_protocol}} instead.
 #'
 #'
 #' @param step.start A numeric value giving the load of the first (non warm-up)
@@ -34,7 +34,7 @@
 #' @param ... Passing of the above arguments in the shorthand functions.
 #'
 #' @return A \code{data.frame} containing the test characteristics, which can be
-#'   applied to a given (interpolated) file by \code{apply_protocol}.
+#'   applied to a given (interpolated) file by \code{\link{apply_protocol}}.
 #'
 #' @export
 
@@ -145,6 +145,18 @@ spiro_protocol_gxt <- function(step.count,
   out
 }
 
+#' Apply a test protocol to a exercise testing dataset
+#'
+#' \code{apply_protocol()} adds a predifined test protocol to an existing set of
+#' data from an exercise test.
+#'
+#' @param data A \code{data.frame} containing the exercise testing data
+#'   interpolated to seconds.
+#' @param protocol A \code{data.frame} containing the test protocol, as created
+#'   by \code{\link{spiro_protocol}} or \code{\link{guess_protocol}}
+#'
+#' @export
+
 apply_protocol <- function(data,protocol) {
 
   if (length(protocol) != 10) {
@@ -222,6 +234,17 @@ apply_protocol <- function(data,protocol) {
   out
 }
 
+#' Guess a test protocol from a corresponding exercise testing dataset
+#'
+#' \code{guess_protocol()} guesses the underlying test protocol based on given
+#' load data.
+#'
+#' @param data A \code{data.frame} containing the exercise testing data. It is
+#'   highly recommend to parse non-interpolated breath-by-breath data.
+#'
+#' @return A \code{data.frame} containing the characteristics of the test
+#'   protocol.
+#' @export
 
 guess_protocol <- function(data) {
 

@@ -14,7 +14,7 @@ spiro(
 )
 }
 \arguments{
-\item{file}{the name of the file which contains the spiroergometry data. The
+\item{file}{The name of the file which contains the spiroergometry data. The
 file  will be found by partial matching of the regular expression within
 the working directory (and one level above). Alternatively, \code{file} can
 be an absolute or relative path.}
@@ -25,37 +25,39 @@ This can be overridden by setting the argument to \code{"zan"} or
 \code{"cosmed"}.}
 
 \item{weight}{Numeric value for participant's body weight, if the default
-value saved in \code{file} should be overwritten.}
+value saved in \code{file} should be overridden.}
 
-\item{hr_file}{the name of a \code{*tcx} file which contains additional heart
+\item{hr_file}{The name of a \code{*tcx} file which contains additional heart
 rate data. The file  will be found by partial matching of the regular
 expression within the working directory (and one level above).
-Alternatively, \code{file} can be an absolute or relative path.}
+Alternatively, \code{hr_file} can be an absolute or relative path.}
 
 \item{hr_offset}{An integer, corresponding to the temporal offset of the
 heart-rate file. By default the start of the heart rate measurement is
 linked to the first load in the test protocol (i.e. the end of the
 pre-measure).}
 
-\item{protocol}{A \code{data.frame} by \code{spiro_protocol} containing the
-test protocol. This is automatically guessed by default.}
+\item{protocol}{A \code{data.frame} by \code{\link{spiro_protocol}}
+containing the test protocol. This is automatically guessed by default.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro_*} with the interpolated
 spirometric data, the corresponding load and (if supplied) additional heart
 rate data.
+
 The attribute \code{"protocol"} provides additional information
 on the underlying testing protocol. The attribute \code{"info"} contains
 additional meta-data from the original raw file.
 }
 \description{
-\code{spiro} wraps multiple functions to import, process and amplify raw data
+\code{spiro()} wraps multiple functions to import, process and amplify raw data
 from metabolic carts into a \code{data.frame}.
 }
 \details{
 This function performs multiple operations on raw data from metabolic carts.
 It imports the raw data from a file, which might be complemented by an
-additional \code{*tcx} file with heart rate data.
+additional \code{.tcx} file with heart rate data. For details of data import
+and supported file types visit \code{\link{spiro_import}}.
 
 Breath-by-breath data is linearly interpolated to get data points for every
 second. Per default, based on the given velocity data, the underlying testing
@@ -64,5 +66,5 @@ exchange are calculated for further analysis.
 
 Per default the body weight saved in the file's metadata is used for
 calculations. It is possible to supply \code{weight} manually to the
-function.
+function, overriding that value.
 }

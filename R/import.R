@@ -1,8 +1,30 @@
-
+#' Import raw data from spiroergometric devices
+#'
+#' \code{spiro_import()} retrieves cardiopulmonary data from various types of
+#' metabolic cart files.
+#'
+#' Different metabolic carts yield different output formats for their data. By
+#' default, this function will guess the used device based on the
+#' characteristics of the given file. This behaviour can be overridden by
+#' explicitly stating \code{device}.
+#'
+#' The currently supported metabolic carts are:
+#' \itemize{
+#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, either in English
+#'     or German language)
+#'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
+#'     names in the form of \code{"EXEDxxx"})
+#' }
+#'
+#' @inheritParams spiro
+#'
+#' @return A \code{data.frame} with data. The attribute \code{info} contains
+#'   addition meta-data retrieved from the original file.
+#' @export
 
 spiro_import <- function(file, device = NULL) {
   file <- get_path(file)
-  if (is.null(device)) device <- guess_type(file)
+  if (is.null(device)) device <- guess_device(file)
   switch(device,
          zan = spiro_import_zan(file),
          cosmed = spiro_import_cosmed(file),
@@ -10,6 +32,15 @@ spiro_import <- function(file, device = NULL) {
   )
 }
 
+#' Import raw data from ZAN spiroergometric devices
+#'
+#' \code{spiro_import_zan()} retrieves cardiopulmonary data from ZAN
+#' metabolic cart files.
+#'
+#' @param file A character string, giving the path of the data file.
+#'
+#' @return A \code{data.frame} with data. The attribute \code{info} contains
+#'   addition meta-data retrieved from the original file.
 spiro_import_zan <- function(file) {
   ldf <- utils::read.csv(file,
                          nrows = 7, skip = 1,
@@ -43,19 +74,57 @@ spiro_import_zan <- function(file) {
   df
 }
 
+#' Get the file path for a data file
+#'
+#' \code{get_path()} performs a serch for a data file.
+#'
+#' Considering the input to be a regular expression, this function will search
+#' one level above the current working directory to find matching files.
+#'
+#' If no matching files are found, \code{get_path} takes the input as a direct
+#' path to a file. If more than one match is found, an error will be displayed.
+#'
+#' @param name A character string, giving the file name to look for.
+#'
+#' @return A character string containing the file path.
+
 get_path <- function(name) {
   filepath <- list.files(path = "..",
                          pattern = name,
                          recursive = TRUE,
                          full.names = TRUE)
-  if (length(filepath) != 1)  filepath <- name
+  if (length(filepath) >1 ) {
+    stop("More than one file was found matching the input")
+  } else if (length(filepath) != 1) {
+    filepath <- name
+  }
   filepath
 }
 
-guess_type <- function(file) {
+
+#' Import raw data from COSMED spiroergometric devices
+#'
+#' \code{guess_device()} guesses the device type of a metabolic carts based on
+#' the characteristics of a raw data file. To get information on supported
+#' devices visit \code{\link{spiro_import}}.
+#'
+#' @param file A character string, giving the path of the data file.
+#'
+#' @return A character string specifying the guessed device.
+
+guess_device <- function(file) {
   if (grepl("\\.xls", file)) device <- "cosmed" else device <- "zan"
 }
 
+#' Import raw data from COSMED spiroergometric devices
+#'
+#' \code{spiro_import_cosmed()} retrieves cardiopulmonary data from ZAN
+#' metabolic cart files.
+#'
+#' @param file A character string, giving the path of the data file.
+#'
+#' @return A \code{data.frame} with data. The attribute \code{info} contains
+#'   addition meta-data retrieved from the original file.
 spiro_import_cosmed <- function(file) {
   tbl <- suppressMessages(
     readxl::read_excel(file, range = "A1:B8", col_names = FALSE))
@@ -124,10 +193,24 @@ spiro_import_cosmed <- function(file) {
   df
 }
 
+#' Convert time data to seconds
+#'
+#' \code{to_seconds()} converts time data of the form hh:mm:ss to seconds.
+#'
+#' @param time_data A character vector containing the time data in the format
+#'   hh:mm:ss or mm:ss.
 to_seconds <- function(time_data) {
   sapply(time_data, to_seconds.internal, USE.NAMES = FALSE)
 }
 
+#' Convert one time data to seconds
+#'
+#' \code{to_seconds.internal()} is an internal function to
+#' \code{\link{to_seconds}}
+#'
+#' @param time_data A character string containing the time data in the format
+#'   hh:mm:ss or mm:ss.
+#' @noRd
 to_seconds.internal <- function(time) {
   time_split <- as.numeric(strsplit(time,":")[[1]])
   if (length(time_split == 3)) {
