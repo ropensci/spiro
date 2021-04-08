@@ -19,6 +19,12 @@
 #'   multiple interpolations on the original data.
 #'
 #' @return A \code{data.frame} with data interpolated to every second.
+#'
+#' @examples
+#' # Import example data
+#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+#'
+#' spiro_interpolate(raw_data)
 #' @export
 spiro_interpolate <- function(data) {
   data$time <- dupl(data$time)

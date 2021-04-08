@@ -61,10 +61,24 @@ and supported file types visit \code{\link{spiro_import}}.
 
 Breath-by-breath data is linearly interpolated to get data points for every
 second. Per default, based on the given velocity data, the underlying testing
-protocol is guessed and applied to the data. Additional variables of gas
-exchange are calculated for further analysis.
+protocol is guessed and applied to the data. If no load data is available or
+the protocol guess turns wrong, there is an option to manually specify the
+test \code{protocol} by setting one of the \code{\link{spiro_protocol}}
+functions as an argument.
 
-Per default the body weight saved in the file's metadata is used for
-calculations. It is possible to supply \code{weight} manually to the
+Additional variables of gas exchange are calculated for further analysis. Per
+default the body weight saved in the file's metadata is used for calculating
+relative measures. It is possible to supply \code{weight} manually to the
 function, overriding that value.
+}
+\examples{
+# get example file
+file <- spiro_example("zan_gxt")
+
+spiro(file)
+
+# manually supply a test protocol
+spiro(file, protocol = spiro_protocol_gxt(step.count = 9, step.start = 2.5,
+  step.increment = 0.5, step.duration = 300))
+
 }

@@ -14,6 +14,12 @@
 #' @param title Logical, whether there should be an automatically generated
 #'   title containing participant's name and type of test.
 #'
+#' @examples
+#' # Import and process example data
+#' gxt_data <- spiro(file = spiro_example("zan_gxt"))
+#'
+#' spiro_plot_VO2(gxt_data)
+#'
 #' @name spiro_plot
 NULL
 

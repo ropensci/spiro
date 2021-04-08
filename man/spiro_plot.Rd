@@ -29,3 +29,10 @@ This function provides a shortcut for visualising spiroergometric data from
 \code{\link{spiro}} with \code{ggplot2}. It generates a graph showing the
 (smoothed) interpolated data, as well as the underlying test protocol.
 }
+\examples{
+# Import and process example data
+gxt_data <- spiro(file = spiro_example("zan_gxt"))
+
+spiro_plot_VO2(gxt_data)
+
+}

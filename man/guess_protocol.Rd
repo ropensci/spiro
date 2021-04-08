@@ -18,3 +18,9 @@ protocol.
 \code{guess_protocol()} guesses the underlying test protocol based on given
 load data.
 }
+\examples{
+# Import example data
+raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+
+guess_protocol(raw_data)
+}

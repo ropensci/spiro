@@ -17,3 +17,10 @@ by \code{\link{spiro_protocol}} or \code{\link{guess_protocol}}}
 \code{apply_protocol()} adds a predifined test protocol to an existing set of
 data from an exercise test.
 }
+\examples{
+# Import and Interpolate example data
+raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+data <- spiro_interpolate(raw_data)
+
+apply_protocol(data, protocol = spiro_protocol_clt(4.5, step.count = 7))
+}

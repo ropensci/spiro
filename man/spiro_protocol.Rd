@@ -104,3 +104,17 @@ test protocols. Per default, there is only a one-minute pre-measure with no
 warm-up. The default rest between steps is set to 30 seconds.
 }}
 
+\examples{
+spiro_protocol(step.start = 150, step.increment = 30, step.duration = 180,
+               rest.duration = 0, pre.duration = 60, wu.duration = 0,
+               wu.load = 0, step.count = 7, rest.initial = FALSE)
+
+# which can be simplified:
+spiro_protocol_gxt(step.count = 7, step.start = 150, step.increment = 30,
+                   step.duration = 180, rest.duration = 30)
+
+spiro_protocol_rmp(step.count = 19, wu.load = 3.0, step.increment = 0.2)
+
+spiro_protocol_clt(step.start = 4.5)
+
+}

@@ -12,9 +12,15 @@
 #' @param interval An integer giving the length of the computational
 #'   interval in seconds.
 #'
+#' @examples
+#' # Import and process example data
+#' gxt_data <- spiro(file = spiro_example("zan_gxt"))
+#'
+#' spiro_summary(gxt_data)
+#'
 #' @export
 
-spiro_summary <- function(data, interval = 30) {
+spiro_summary <- function(data, interval = 120) {
   protocol <- attr(data, "protocol")
   if (all(is.na(protocol)))
     stop("No protocol found")
@@ -73,6 +79,12 @@ spiro_summary <- function(data, interval = 30) {
 #' @param interval An integer, giving the length of the computational
 #'   interval in seconds.
 #'
+#' @examples
+#' # Import and process example data sets
+#' gxt_data <- spiro(file = spiro_example("zan_gxt"))
+#'
+#' spiro_glance(gxt_data)
+#'
 #' @export
 
 spiro_glance <- function(data, interval) {
@@ -120,7 +132,7 @@ spiro_glance.spiro_clt <- function(data, interval = 30) {
 
 #' Get mean data values for a step of an exercise test
 #'
-#' code{getstepmeans()} returns the average data values for a single step pf an
+#' code{getstepmeans()} returns the average data values for a single step of an
 #' exercise test.
 #'
 #' @param step_number An integer giving the number of the step

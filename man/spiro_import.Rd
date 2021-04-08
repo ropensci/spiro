@@ -39,3 +39,9 @@ or German language)
 names in the form of \code{"EXEDxxx"})
 }
 }
+\examples{
+# Get example data
+file <- spiro_example("zan_gxt")
+
+spiro_import(file)
+}

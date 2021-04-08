@@ -20,6 +20,12 @@
 #'
 #' @return A \code{data.frame} with data. The attribute \code{info} contains
 #'   addition meta-data retrieved from the original file.
+#'
+#' @examples
+#' # Get example data
+#' file <- spiro_example("zan_gxt")
+#'
+#' spiro_import(file)
 #' @export
 
 spiro_import <- function(file, device = NULL) {

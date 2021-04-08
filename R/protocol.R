@@ -36,6 +36,19 @@
 #' @return A \code{data.frame} containing the test characteristics, which can be
 #'   applied to a given (interpolated) file by \code{\link{apply_protocol}}.
 #'
+#' @examples
+#' spiro_protocol(step.start = 150, step.increment = 30, step.duration = 180,
+#'                rest.duration = 0, pre.duration = 60, wu.duration = 0,
+#'                wu.load = 0, step.count = 7, rest.initial = FALSE)
+#'
+#' # which can be simplified:
+#' spiro_protocol_gxt(step.count = 7, step.start = 150, step.increment = 30,
+#'                    step.duration = 180, rest.duration = 30)
+#'
+#' spiro_protocol_rmp(step.count = 19, wu.load = 3.0, step.increment = 0.2)
+#'
+#' spiro_protocol_clt(step.start = 4.5)
+#'
 #' @export
 
 spiro_protocol <- function(step.start,
@@ -155,6 +168,12 @@ spiro_protocol_gxt <- function(step.count,
 #' @param protocol A \code{data.frame} containing the test protocol, as created
 #'   by \code{\link{spiro_protocol}} or \code{\link{guess_protocol}}
 #'
+#' @examples
+#' # Import and Interpolate example data
+#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+#' data <- spiro_interpolate(raw_data)
+#'
+#' apply_protocol(data, protocol = spiro_protocol_clt(4.5, step.count = 7))
 #' @export
 
 apply_protocol <- function(data,protocol) {
@@ -244,6 +263,11 @@ apply_protocol <- function(data,protocol) {
 #'
 #' @return A \code{data.frame} containing the characteristics of the test
 #'   protocol.
+#' @examples
+#' # Import example data
+#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+#'
+#' guess_protocol(raw_data)
 #' @export
 
 guess_protocol <- function(data) {

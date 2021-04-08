@@ -4,7 +4,7 @@
 \alias{spiro_summary}
 \title{Stepwise summarise data from spiroergometric tests}
 \usage{
-spiro_summary(data, interval = 30)
+spiro_summary(data, interval = 120)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro_*}, as it is
@@ -21,4 +21,11 @@ parameters for each step of a spiroergometric test.
 This function generates mean values of gas exchange and cardiac parameters
 for all steps of a spiroergometric test. For calculation the given
 \code{interval} before the end of each step is used.
+}
+\examples{
+# Import and process example data
+gxt_data <- spiro(file = spiro_example("zan_gxt"))
+
+spiro_summary(gxt_data)
+
 }

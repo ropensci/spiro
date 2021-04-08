@@ -44,3 +44,10 @@ the rolling averages.
 average of all steps performed at the constant load.
 }}
 
+\examples{
+# Import and process example data sets
+gxt_data <- spiro(file = spiro_example("zan_gxt"))
+
+spiro_glance(gxt_data)
+
+}

@@ -30,3 +30,9 @@ all information for the interpolation.
 Note that the applied linear interpolation will have a minor smoothing
 effect on the data.
 }
+\examples{
+# Import example data
+raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+
+spiro_interpolate(raw_data)
+}
