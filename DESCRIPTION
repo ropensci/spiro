@@ -19,4 +19,8 @@ Imports:
     ggplot2,
     XML,
     zoo,
-    readxl
+    readxl,
+    knitr
+Suggests: 
+    rmarkdown,
+VignetteBuilder: knitr
