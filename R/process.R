@@ -32,6 +32,7 @@ spiro_interpolate <- function(data) {
   xout <- 1:round(max(data$time, na.rm = TRUE))
   df <- data.frame(time = xout,yout)
   attr(df, "info") <- attr(data,"info")
+  class(df) <- c("spiro","data.frame")
   df
 }
 

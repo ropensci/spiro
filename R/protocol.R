@@ -250,6 +250,7 @@ apply_protocol <- function(data,protocol) {
   }
   attr(out, "info") <- attr(data,"info")
   attr(out, "protocol") <- protocol
+  class(out) <- c("spiro","data.frame")
   out
 }
 

@@ -77,6 +77,7 @@ spiro_import_zan <- function(file) {
     incr = data$Steig./10
   )
   attr(df, "info") <- info
+  class(df) <- c("spiro","data.frame")
   df
 }
 
@@ -196,6 +197,7 @@ spiro_import_cosmed <- function(file) {
   }
 
   attr(df, "info") <- info
+  class(df) <- c("spiro","data.frame")
   df
 }
 
