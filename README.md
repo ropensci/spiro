@@ -1,7 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# spiro
+# spiro <img src="man/figures/spiro_logo.png" align="right" width = "200" />
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
+<!-- badges: end -->
+
+## Overview
 
 The goal of `spiro` is to enable a fast workflow with raw files from
 metabolic carts/spiroergometry systems. It provides simple tools for
@@ -42,17 +52,18 @@ file <- spiro_example("zan_gxt")
 
 gxt_data <- spiro(file)
 spiro_summary(gxt_data)
+#> for pre-measures, interval was set to length of measures
 #>    step_number load     VE     VO2    VCO2  RER VO2_rel     RE
-#> 1            0  0.0  11.76  448.40  371.06 0.83    6.79     NA
-#> 2            1  2.0  39.35 1870.23 1578.40 0.84   28.34 236.14
-#> 3            2  2.4  45.19 2136.67 1810.46 0.85   32.37 224.82
-#> 4            3  2.8  50.27 2394.29 2050.63 0.86   36.28 215.93
-#> 5            4  3.2  59.10 2706.73 2322.97 0.86   41.01 213.60
-#> 6            5  3.6  67.23 2996.84 2629.97 0.88   45.41 210.22
-#> 7            6  4.0  78.63 3399.38 3066.69 0.90   51.51 214.61
-#> 8            7  4.4  90.99 3767.31 3452.89 0.92   57.08 216.21
-#> 9            8  4.8 106.38 4166.25 3901.88 0.94   63.13 219.18
-#> 10           9  5.2 127.47 4495.18 4386.05 0.98   68.11 218.30
+#> 1            0  0.0  13.03  500.19  411.74 0.82    7.58     NA
+#> 2            1  2.0  39.87 1860.92 1585.75 0.85   28.20 234.97
+#> 3            2  2.4  44.63 2097.82 1805.27 0.86   31.79 220.73
+#> 4            3  2.8  52.63 2413.01 2122.17 0.88   36.56 217.62
+#> 5            4  3.2  57.19 2710.68 2319.93 0.86   41.07 213.91
+#> 6            5  3.6  67.45 3048.75 2684.87 0.88   46.19 213.86
+#> 7            6  4.0  75.91 3404.02 3026.70 0.89   51.58 214.90
+#> 8            7  4.4  88.36 3724.37 3383.64 0.91   56.43 213.75
+#> 9            8  4.8 106.44 4223.82 3993.55 0.95   64.00 222.21
+#> 10           9  5.2 127.54 4573.91 4488.36 0.98   69.30 222.12
 
 spiro_plot_VO2(gxt_data)
 ```
