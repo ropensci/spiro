@@ -1,0 +1,152 @@
+---
+title: "Import & Processing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Import & Processing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardised workflow for data from metabolic carts.
+
+## One step import and processing with `spiro()`
+
+To directly get started, paste the name of a breath-by-breath raw data file coming from a supported device type into the `spiro()` function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
+
+```{r setup}
+library(spiro)
+
+# Get example data
+file <- spiro_example("zan_gxt")
+
+spiro(file,
+      device = NULL,
+      weight = NULL,
+      hr_file = NULL,
+      hr_offset = 0,
+      protocol = NULL
+      )
+
+```
+
+`spiro()` will return interpolated data for the following parameters:
+
+* **load**: velocity or power either retrieved from the raw data file or manually supplied by setting a protocol
+* **step**: coded variable for the number of the step in the test protocol
+* **time**: testing time (s)
+* **VO2**: oxygen uptake (l/min)
+* **VCO2**: carbon dioxide output (l/min)
+* **RR**: respiratory rate (1/min)
+* **VT**: tidal volume (l)
+* **VE**: minute ventilation (l/min)
+* **HR**: heart rate (1/min), if available
+* **VO2_rel**: relative oxygen uptake (ml/min/kg)
+* **VCO2_rel**: relative carbon dioxide output (ml/min/kg)
+* **RER**: respiratory quotient
+* **RE**: running economy (ml/kg/km), if applicable
+
+## `spiro()` under the hood
+
+To create `data.frame`s as seen above, `spiro()` wraps multiple function, which can be useful for providing additional options for the importing and processing of the data.
+
+<!-- Add function scheme here -->
+
+### Import the data
+
+`spiro_import` imports the raw data from a raw spiroergometric file.
+```{r import}
+data_imp <- spiro_import(file,
+             device = NULL
+             )
+data_imp
+```
+
+The metabolic cart the file is produced by will be automatically guessed, but can also be set manually. Currently the following devices are supported:
+
+* **COSMED** (`"cosmed"`): .xlxs or .xls files in English or German language
+* **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
+
+It is highly recommended to import only raw breath-by-breath data to avoid duplication of interpolation processes.
+
+### Interpolate the data
+
+`spiro_interpolate` performs a linear interpolation on the imported data to obtain values for ever second.
+```{r interpolate}
+data_int <- spiro_interpolate(data_imp)
+data_int
+```
+
+Note that the linear interpolation will lead to a minor smoothing of the data.
+
+### Guess or specify an exercise protocol
+
+To archieve the full functionality of data summary and plotting with the spiro-package, a testing protocol needs to be attached to the imported data. The parameters of exercise protocols in `spiro` are the following:
+
+<!-- Insert Picture of protocol variables -->
+
+#### Guessing a protocol
+
+By default, `spiro()` tries to guess the testing protocol using `guess_protocol()`, looking for velocity or load data in the imported, but not interpolated raw data.
+
+```{r guess_protocol}
+guess_protocol(data_imp)
+
+```
+
+#### Manually supplying a protocol
+
+In cases where there is no load data saved in the metabolic cart's file, or `guess_protocol` turns wrong, a protocol can be manually generated via `spiro_protocol()` and applied to the interpolated data by `apply_protocol`.
+
+```{r spiro_protocol}
+ptcl <- spiro_protocol(step.start = 150, 
+          step.increment = 30, 
+          step.duration = 180,
+          rest.duration = 0, 
+          pre.duration = 60, 
+          wu.duration = 0,
+          wu.load = 0, 
+          step.count = 7, 
+          rest.initial = FALSE)
+
+data_with_ptcl <- apply_protocol(data_int, ptcl)
+```
+
+To avoid specifying every single protocol parameter to `spiro_protocol()` there a wrapper function for common types of exercise test:
+
+* `spiro_protocol_gxt`
+  : for graded exercise/ incremental step test. Deletes any warm-up and sets rest duration to 30s.
+* `spiro_protocol_rmp`
+  : for ramp tests. Creates a two-minute warm up directly leading into incremental 30s-steps without rest in between.
+* `spiro_protocol_clt`
+  : for constant load test. Creates six steps of five minute load with 30s rest in between, following a five minute warm up with half the load.
+
+### Calculate additional parameters from the data
+
+The imported and interpolated gas exchange data, as well as the protocol load data allows the calculation of additional variables with `spiro_add`
+
+```{r spiro_add}
+spiro_add(data_with_ptcl,
+          weight = NULL)
+
+```
+
+For calculating parameters relative to body weight, `spiro_add()` will use the weight found in the original data file's meta data. If for some reason no or the wrong weight was present in the raw data file, `weight` can be manually supllied.
+
+### Attach additional heart rate data
+
+Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g.wrist watch), this data can be attached to the existing `data.frame` of gas exchange measures with `hr_add()`
+
+```{r hr_add}
+#hr_add(data_with_ptcl,
+#       hr_file = NULL,
+#       hr_offset = 0)
+```
+
+`hr_add()` will import the heart rate data from a *tcx file via `hr_import()` and attach it to the existing data with `hr_attach()`. Note that you can manually supply the starting point of the heart rate recording in relation to the gas exchange measures recording with `hr_offset`.
