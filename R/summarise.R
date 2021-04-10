@@ -96,7 +96,7 @@ spiro_glance <- function(data, interval) {
 #'   the rolling averages.
 #' @export
 
-spiro_glance.default <- function(data, interval = 30) {
+spiro_glance.default <- function(data, interval = 15) {
   data$VO2_rm <- zoo::rollmean(data$VO2, interval, na.pad = TRUE)
   data$VO2_rel_rm <- zoo::rollmean(data$VO2_rel, interval, na.pad = TRUE)
   data$RER_rm <- zoo::rollmean(data$RER, interval, na.pad = TRUE)
