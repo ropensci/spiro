@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 
 Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardised workflow for data from metabolic carts.
 
+This vignette provides you information on the how the gas exchange data is imported and processed by the package functions.
+
 ## One step import and processing with `spiro()`
 
 To directly get started, paste the name of a breath-by-breath raw data file coming from a supported device type into the `spiro()` function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
