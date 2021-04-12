@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# spiro <img src="man/figures/spiro_logo.png" align="right" width = "200" />
+# spiro <img src="man/figures/spiro_logo.png" align="right" width = "160" />
 
 <!-- badges: start -->
 
