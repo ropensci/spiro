@@ -64,7 +64,7 @@ spiro_import_zan <- function(file) {
 
   cnames <- c("index",
               utils::read.csv(file, skip = 13, nrows = 96, header = FALSE)$V3)
-  data <- utils::read.csv(file, skip = 111, header = FALSE, col.names = cnames)
+  data <- utils::read.csv(file, skip = 111, header = FALSE, col.names = cnames, fileEncoding = "latin1")
   df <- data.frame(
     time = data$Zeit/1000,
     VO2 = data$VO2,
