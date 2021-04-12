@@ -9,7 +9,7 @@ Authors@R:
 Description: Import, process, summarise and visualise raw data from 
     various metabolic cart devices.
 License: MIT + file LICENSE
-URL: https://github.com/smnnlt/spiro
+URL: https://github.com/smnnlt/spiro, https://smnnlt.github.io/spiro
 BugReports: https://github.com/smnnlt/spiro/issues
 Encoding: UTF-8
 LazyData: true
