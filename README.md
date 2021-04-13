@@ -13,9 +13,9 @@ status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/
 
 ## Overview
 
-The goal of `spiro` is to enable a fast workflow with raw files from
-metabolic carts/spiroergometry systems. It provides simple tools for
-data import, processing, summary and visualisation.
+The goal of `spiro` is to enable a fast workflow with raw data files
+from cardiopulmonary exercise testing. The package provides simple tools
+for data import, processing, summary and visualisation.
 
 ## Installation
 
