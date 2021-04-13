@@ -23,6 +23,8 @@ Different measuring devices and analysis software lead to opaque results in meas
 
 This vignette provides you information on how to summarise and plot data previously imported and processed by `spiro()`.
 
+#### Load the data
+
 ```{r setup}
 library(spiro)
 
@@ -41,11 +43,11 @@ To analyse gas exchange data, usually mean parameters for each performed load st
 spiro_summary(gxt_data, interval = 120)
 ```
 
-The length of the computational interval in seconds can be modified by setting the `interval` argument. If the interval exceed the length of any step, it will be shortened in these cases and you receive a note.
+The length of the computational interval in seconds can be modified by setting the `interval` argument. If the interval exceed the length of any step, it will be shortened in these cases and a note will be displayed.
 
 ## Overall summary with `spiro_glance()`
 
-For some types of exercise tests it may be preferable to get an overall instead of a stepwise summary of parameters. `spiro_glance` will usually show the maximal values within the test after applying a smoothing by the use of a rolling average.
+For some types of exercise tests it may be preferable to get an overall instead of a stepwise summary of parameters. `spiro_glance()` will usually show the maximal values within the test after applying a smoothing by the use of a rolling average.
 
 ```{r spiro_glance}
 spiro_glance(gxt_data, interval = 30)
@@ -53,16 +55,16 @@ spiro_glance(gxt_data, interval = 30)
 
 In this case, the `interval` argument will set the length over which the rolling average will be computed.
 
-For constant load test `spiro_glance()` will behave different, as not the maximal values, but the overall average is useful. Therefore it will calculate the mean parameter values for all steps of the constant load.
+For constant load tests `spiro_glance()` will behave different, as not the maximal values, but the overall average is usually useful to calculate. Therefore the mean parameter values for all steps of the constant load will be displayed.
 
 ## Plotting the data
 
-To plot exercise test data retrieved by `spiro()` it is recommend to use specific visualisation packages such as `ggplot2`, which provide a variety of possible applications.
+To plot exercise test data retrieved by `spiro()` it is recommend to use specific visualisation packages such as `ggplot2`, which give a variety of possible applications.
 However, to provide a quick view on the compiled data (e.g. for checking if the import operated correctly) `spiro` offers function for data visualisation.
 
 ### Plotting oxygen uptake data
 
-In many cases, the (relative) oxygen uptake will be the parameter of most interest when analysing spiroergometric data. `spiro_plot_VO2` visualises the interpolated oxygen uptake data, supplemented by it's rolling average and the underlying protocol load.
+In many cases, the (relative) oxygen uptake will be the parameter of most interest when analysing spiroergometric data. `spiro_plot_VO2()` visualises the interpolated oxygen uptake data, supplemented by it's rolling average and the underlying protocol load.
 
 The length of the computational interval for the rolling average can be changed by setting the `smooth` argument. To allow a further check for correct importing, setting the `title` argument to `TRUE` will create a plot title with the participant's name and the test type.
 
@@ -75,7 +77,7 @@ spiro_plot_VO2(gxt_data,
 
 ### Plotting heart rate data
 
-To verify the presence of correct heart rate data, `spiro_plot_HR` provides an easy option of visualising the data together wwith the protocol load data.
+To verify the presence of correct heart rate data, `spiro_plot_HR()` provides an easy option of visualising the data together with the protocol load data.
 
 To allow a further check for correct importing, setting the `title` argument to `TRUE` will create a plot title with the participant's name and the test type.
 

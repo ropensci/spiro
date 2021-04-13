@@ -20,7 +20,7 @@ This vignette provides you information on the how the gas exchange data is impor
 
 ## One step import and processing with `spiro()`
 
-To directly get started, paste the name of a breath-by-breath raw data file coming from a supported device type into the `spiro()` function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
+To directly get started, paste the name of a breath-by-breath raw data file produced by a supported device into the `spiro()` function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
 
 ```{r setup}
 library(spiro)
@@ -33,8 +33,7 @@ spiro(file,
       weight = NULL,
       hr_file = NULL,
       hr_offset = 0,
-      protocol = NULL
-      )
+      protocol = NULL)
 
 ```
 
@@ -62,11 +61,10 @@ To create `data.frame`s as seen above, `spiro()` wraps multiple function, which 
 
 ### Import the data
 
-`spiro_import` imports the raw data from a raw spiroergometric file.
+`spiro_import()` imports the raw data from a raw spiroergometric file.
 ```{r import}
 data_imp <- spiro_import(file,
-             device = NULL
-             )
+                         device = NULL)
 data_imp
 ```
 
@@ -79,7 +77,7 @@ It is highly recommended to import only raw breath-by-breath data to avoid dupli
 
 ### Interpolate the data
 
-`spiro_interpolate` performs a linear interpolation on the imported data to obtain values for ever second.
+`spiro_interpolate()` performs a linear interpolation on the imported data to obtain values for every second.
 ```{r interpolate}
 data_int <- spiro_interpolate(data_imp)
 data_int
@@ -89,7 +87,7 @@ Note that the linear interpolation will lead to a minor smoothing of the data.
 
 ### Guess or specify an exercise protocol
 
-To archieve the full functionality of data summary and plotting with the spiro-package, a testing protocol needs to be attached to the imported data. The parameters of exercise protocols in `spiro` are the following:
+To archive the full functionality of data summary and plotting with the spiro-package, a testing protocol needs to be attached to the imported data. The parameters of exercise protocols in `spiro` are the following:
 
 <!-- Insert Picture of protocol variables -->
 
@@ -104,7 +102,7 @@ guess_protocol(data_imp)
 
 #### Manually supplying a protocol
 
-In cases where there is no load data saved in the metabolic cart's file, or `guess_protocol` turns wrong, a protocol can be manually generated via `spiro_protocol()` and applied to the interpolated data by `apply_protocol`.
+In cases where there is no load data saved in the metabolic cart's file, or `guess_protocol()` turns wrong, a protocol can be manually generated via `spiro_protocol()` and applied to the interpolated data by `apply_protocol()`.
 
 ```{r spiro_protocol}
 ptcl <- spiro_protocol(step.start = 150, 
@@ -120,7 +118,7 @@ ptcl <- spiro_protocol(step.start = 150,
 data_with_ptcl <- apply_protocol(data_int, ptcl)
 ```
 
-To avoid specifying every single protocol parameter to `spiro_protocol()` there a wrapper function for common types of exercise test:
+To avoid specifying every single protocol parameter to `spiro_protocol()` there are wrapper function for common types of exercise test:
 
 * `spiro_protocol_gxt`
   : for graded exercise/ incremental step test. Deletes any warm-up and sets rest duration to 30s.
@@ -131,7 +129,7 @@ To avoid specifying every single protocol parameter to `spiro_protocol()` there 
 
 ### Calculate additional parameters from the data
 
-The imported and interpolated gas exchange data, as well as the protocol load data allows the calculation of additional variables with `spiro_add`
+The interpolated gas exchange data, together with the protocol load data, allows the calculation of additional variables with `spiro_add()`.
 
 ```{r spiro_add}
 spiro_add(data_with_ptcl,
@@ -139,11 +137,11 @@ spiro_add(data_with_ptcl,
 
 ```
 
-For calculating parameters relative to body weight, `spiro_add()` will use the weight found in the original data file's meta data. If for some reason no or the wrong weight was present in the raw data file, `weight` can be manually supllied.
+For calculating parameters relative to body weight, `spiro_add()` will use the weight found in the original data file's meta data. If for some reason no or the wrong weight was present in the raw data file, `weight` can be manually supplied.
 
 ### Attach additional heart rate data
 
-Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g.wrist watch), this data can be attached to the existing `data.frame` of gas exchange measures with `hr_add()`
+Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g. wrist watch), this data can be attached to the existing `data.frame` of gas exchange measures with `hr_add()`.
 
 ```{r hr_add}
 #hr_add(data_with_ptcl,
@@ -151,4 +149,4 @@ Some metabolic carts only offer complicated options for connecting them to heart
 #       hr_offset = 0)
 ```
 
-`hr_add()` will import the heart rate data from a *tcx file via `hr_import()` and attach it to the existing data with `hr_attach()`. Note that you can manually supply the starting point of the heart rate recording in relation to the gas exchange measures recording with `hr_offset`.
+`hr_add()` will import the heart rate data from a .tcx file via `hr_import()` and attach it to the existing data with `hr_apply()`. Note that you can manually supply the starting point of the heart rate recording in relation to the gas exchange measures recording with `hr_offset`.
