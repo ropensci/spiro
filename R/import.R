@@ -110,9 +110,9 @@ get_path <- function(name) {
 }
 
 
-#' Import raw data from COSMED spiroergometric devices
+#' Guess the device used for a cardiopulmonary measurement
 #'
-#' \code{guess_device()} guesses the device type of a metabolic carts based on
+#' \code{guess_device()} guesses the device type of a metabolic cart based on
 #' the characteristics of a raw data file. To get information on supported
 #' devices visit \code{\link{spiro_import}}.
 #'

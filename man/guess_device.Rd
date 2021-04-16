@@ -2,7 +2,7 @@
 % Please edit documentation in R/import.R
 \name{guess_device}
 \alias{guess_device}
-\title{Import raw data from COSMED spiroergometric devices}
+\title{Guess the device used for a cardiopulmonary measurement}
 \usage{
 guess_device(file)
 }
@@ -13,7 +13,7 @@ guess_device(file)
 A character string specifying the guessed device.
 }
 \description{
-\code{guess_device()} guesses the device type of a metabolic carts based on
+\code{guess_device()} guesses the device type of a metabolic cart based on
 the characteristics of a raw data file. To get information on supported
 devices visit \code{\link{spiro_import}}.
 }
