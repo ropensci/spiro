@@ -52,6 +52,8 @@ spiro(file,
 * **VCO2_rel**: relative carbon dioxide output (ml/min/kg)
 * **RER**: respiratory quotient
 * **RE**: running economy (ml/kg/km), if applicable
+* **CHO**: rate of carbohydrate oxidation (g/min)
+* **FO**: rate of fat oxidation (g/min)
 
 ## `spiro()` under the hood
 

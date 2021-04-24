@@ -89,6 +89,7 @@ spiro_add <- function(data, weight = NULL) {
   out <- calo(df = data)
   attr(out,"protocol") <- attr(data,"protocol")
   attr(out,"info") <- attr(data,"info")
+  class(out) <- class(data)
   out
 }
 
