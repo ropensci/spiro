@@ -60,6 +60,9 @@ spiro_interpolate.internal <- function(y, x) {
 #'
 #' For running protocols, running economy (RE) is calculated.
 #'
+#' Carbohydrate and fat oxidation rates are calculated from gas exchange data
+#' using the formula by Peronnet (1991).
+#'
 #' @param data A \code{data.frame} containing the exercise test data.
 #' @param weight A numeric value to manually set the participant's body weight.
 #'
@@ -83,7 +86,10 @@ spiro_add <- function(data, weight = NULL) {
       }
     }
   }
-  data
+  out <- calo(df = data)
+  attr(out,"protocol") <- attr(data,"protocol")
+  attr(out,"info") <- attr(data,"info")
+  out
 }
 
 #' Handle duplicates for spiroergometric data interpolation
@@ -105,4 +111,32 @@ dupl <- function(values) {
     }
   }
   values
+}
+
+#' Calculate calometric values from gas exchange data
+#'
+#' Internal function to \code{?link{spiro_add}}
+#'
+#' Calculates the rates of carbohydrate and fat oxidation (in grams per minute)
+#' from oxygen uptake and carbon-dioxide output data using the formula from
+#' Peronnet (1991).
+#'
+#' @param df data.frame with data from cardiopulmonary exercise testing
+#' @noRd
+
+calo <- function(df) {
+  m <- mapply(FUN = calo.internal, vo2abs = df$VO2, vco2abs = df$VCO2)
+  cbind(df,round(apply(t(m),2,unlist),2))
+}
+
+calo.internal <- function(vo2abs,vco2abs) {
+  if (is.na(vo2abs)){
+    fo <- NA
+    cho <- NA
+  } else {
+    cho <- (vco2abs/1000) * 4.585 - ((vo2abs/1000) * 3.226)
+    fo <- ((vo2abs/1000) * 1.695) - ((vco2abs/1000) * 1.701)
+    if (fo < 0) fo = 0
+  }
+  list(CHO = cho,FO = fo)
 }

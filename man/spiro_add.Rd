@@ -25,4 +25,7 @@ carbon dioxide (VCO2_rel) output are calculated. \code{weight} can be
 manually overridden, e.g. if the meta-data's value is incorrect or rounded.
 
 For running protocols, running economy (RE) is calculated.
+
+Carbohydrate and fat oxidation rates are calculated from gas exchange data
+using the formula by Peronnet (1991).
 }

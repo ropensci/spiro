@@ -153,7 +153,9 @@ getstepmeans <- function(step_number, data, interval = 30) {
     VCO2 = mean(stepend$VCO2, na.rm = TRUE),
     RER = mean(stepend$RER, na.rm = TRUE),
     VO2_rel = mean(stepend$VO2_rel, na.rm = TRUE),
-    RE = mean(stepend$RE, na.rm = FALSE)
+    RE = mean(stepend$RE, na.rm = FALSE),
+    CHO = mean(stepend$CHO, na.rm = TRUE),
+    FO = mean(stepend$FO, na.rm = TRUE)
   )
 
   if (!all(data$HR == 0, na.rm = TRUE)) {
