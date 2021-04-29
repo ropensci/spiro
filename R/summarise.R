@@ -114,6 +114,11 @@ spiro_glance.default <- function(data, interval = 15) {
     df_hr <- data.frame(HR_max = round(max(data$HR_rm, na.rm = TRUE),0))
     df <- cbind(df, df_hr)
   }
+
+  if (attr(data,"protocol")$testtype == "increment") {
+    colnames(df) <- c("VO2peak_abs","VO2peak_rel","RER_peak")
+    if (ncol(df) == 4) colnames(df)[4] <- "HR_peak"
+  }
   df
 }
 
