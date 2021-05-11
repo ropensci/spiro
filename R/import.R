@@ -48,24 +48,41 @@ spiro_import <- function(file, device = NULL) {
 #' @return A \code{data.frame} with data. The attribute \code{info} contains
 #'   addition meta-data retrieved from the original file.
 spiro_import_zan <- function(file) {
-  ldf <- utils::read.csv(file,
-                         nrows = 7, skip = 1,
-                         sep = "=",
-                         header = FALSE, row.names = 1)
-  ldf <- data.frame(t(ldf))
+
+  # find indices for document structure
+  rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
+  meta_imin <- which(rawdata == "[person]")
+  cnames_imin <- which(rawdata == "[parameter]")
+  data_imin <- which(rawdata == "[Data]")
+
+  # import meta data
+  meta <- read.csv(file, sep = "=",
+                   header = FALSE,
+                   skip = meta_imin,
+                   nrows = cnames_imin-meta_imin-3,
+                   row.names = 1,
+                   blank.lines.skip = FALSE)
+  meta_df <- data.frame(t(meta))
   info <- data.frame(
-    name = ldf$vorname,
-    surname = ldf$name,
-    birthday = ldf$geburtstag,
-    sex = ldf$geschlecht,
-    height = as.numeric(ldf$groesse),
-    weight = as.numeric(ldf$gewicht)
+    name = meta_df$vorname,
+    surname = meta_df$name,
+    birthday = meta_df$geburtstag,
+    sex = meta_df$geschlecht,
+    height = as.numeric(meta_df$groesse),
+    weight = as.numeric(meta_df$gewicht)
   )
 
-  cnames <- c("index",
-              utils::read.csv(
-                file, skip = 13, nrows = 96, header = FALSE)$V3[-96],"fan")
-  data <- utils::read.csv(file, skip = 111, header = FALSE, col.names = cnames)
+  # import column names for main data structure
+  cnames <- read.csv(file, header = FALSE,
+                     skip = cnames_imin+2,
+                     nrows = data_imin-cnames_imin-4)$V3
+  # rename column due to encoding problems
+  if (any(cnames == "VLüfter")) cols[which(cnames == "VLüfter")] <- "fan"
+
+  # import the main data
+  data <- utils::read.csv(file, header = FALSE,
+                          skip = data_imin,
+                          col.names = c("index",cnames))
   df <- data.frame(
     time = data$Zeit/1000,
     VO2 = data$VO2,
@@ -77,6 +94,7 @@ spiro_import_zan <- function(file) {
     velocity = round(data$Geschw./3600,2),
     incr = data$Steig./10
   )
+
   attr(df, "info") <- info
   class(df) <- c("spiro","data.frame")
   df
