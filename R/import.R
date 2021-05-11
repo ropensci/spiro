@@ -77,7 +77,7 @@ spiro_import_zan <- function(file) {
                             skip = cnames_imin+2,
                             nrows = data_imin-cnames_imin-4)$V3
   # rename column due to encoding problems
-  if (any(cnames == "VLüfter")) cols[which(cnames == "VLüfter")] <- "fan"
+  if (any(cnames == "VLüfter")) cnames[which(cnames == "VLüfter")] <- "fan"
 
   # import the main data
   data <- utils::read.csv(file, header = FALSE,
