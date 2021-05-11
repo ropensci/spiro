@@ -76,13 +76,13 @@ spiro_import_zan <- function(file) {
   cnames <- utils::read.csv(file, header = FALSE,
                             skip = cnames_imin+2,
                             nrows = data_imin-cnames_imin-4)$V3
-  # rename column due to encoding problems
-  if (any(cnames == "VL\u00fcfter")) cnames[which(cnames == "VL\u00fcfter")] <- "fan"
+  # remove column due to encoding problems
+  cnames <- cnames[-length(cnames)]
 
   # import the main data
   data <- utils::read.csv(file, header = FALSE,
                           skip = data_imin,
-                          col.names = c("index",cnames))
+                          col.names = c("index",cnames,"fan"))
   df <- data.frame(
     time = data$Zeit/1000,
     VO2 = data$VO2,
