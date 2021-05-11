@@ -59,9 +59,9 @@ hr_interpolate <- function(data) {
   # handle duplicated values
   time <- dupl(ds - (ds[[1]]-1))
   # perform linear interpolation
-  hr <- approx(x = time,
-               y = data$HeartRateBpm,
-               xout = seq.int(1,max(time),1))$y
+  hr <- stats::approx(x = time,
+                      y = data$HeartRateBpm,
+                      xout = seq.int(1,max(time),1))$y
   hr
 }
 
