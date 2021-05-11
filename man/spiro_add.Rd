@@ -2,7 +2,7 @@
 % Please edit documentation in R/process.R
 \name{spiro_add}
 \alias{spiro_add}
-\title{Add additional calculated variables to a spiroergometrical data set}
+\title{Add additional calculated variables to a spiroergometric data set}
 \usage{
 spiro_add(data, weight = NULL)
 }

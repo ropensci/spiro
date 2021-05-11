@@ -49,7 +49,7 @@ spiro_interpolate.internal <- function(y, x) {
 }
 
 
-#' Add additional calculated variables to a spiroergometrical data set
+#' Add additional calculated variables to a spiroergometric data set
 #'
 #' \code{spiro_add()} amplifies existing spiroergometric data by calculation of
 #' additional variables.

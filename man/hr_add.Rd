@@ -38,6 +38,6 @@ adds it to an existing spiroergometric data file.
 }
 \details{
 Heart rate data will be imported from a \code{.tcx} file with
-\code{hr_import()}. It is then applied to a given data set by
-\code{hr_apply()}.
+\code{hr_import()}. After interpolating the data to full seconds, it is then
+applied to a given data set by \code{hr_apply()}.
 }
