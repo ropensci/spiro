@@ -56,12 +56,12 @@ spiro_import_zan <- function(file) {
   data_imin <- which(rawdata == "[Data]")
 
   # import meta data
-  meta <- read.csv(file, sep = "=",
-                   header = FALSE,
-                   skip = meta_imin,
-                   nrows = cnames_imin-meta_imin-3,
-                   row.names = 1,
-                   blank.lines.skip = FALSE)
+  meta <- utils::read.csv(file, sep = "=",
+                          header = FALSE,
+                          skip = meta_imin,
+                          nrows = cnames_imin-meta_imin-3,
+                          row.names = 1,
+                          blank.lines.skip = FALSE)
   meta_df <- data.frame(t(meta))
   info <- data.frame(
     name = meta_df$vorname,
@@ -73,9 +73,9 @@ spiro_import_zan <- function(file) {
   )
 
   # import column names for main data structure
-  cnames <- read.csv(file, header = FALSE,
-                     skip = cnames_imin+2,
-                     nrows = data_imin-cnames_imin-4)$V3
+  cnames <- utils::read.csv(file, header = FALSE,
+                            skip = cnames_imin+2,
+                            nrows = data_imin-cnames_imin-4)$V3
   # rename column due to encoding problems
   if (any(cnames == "VLüfter")) cols[which(cnames == "VLüfter")] <- "fan"
 
@@ -139,7 +139,14 @@ get_path <- function(name) {
 #' @return A character string specifying the guessed device.
 
 guess_device <- function(file) {
-  if (grepl("\\.xls", file)) device <- "cosmed" else device <- "zan"
+  if (grepl("\\.xls", file)) {
+    head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1","V2"))
+    if (any(head == "ID code:")) device <- "cosmed" else device <- "none"
+  } else {
+    head <- utils::read.delim(file, header = FALSE, nrows = 10)
+    if (any(head == "[person]")) device <- "zan" else device <- "none"
+  }
+  device
 }
 
 #' Import raw data from COSMED spiroergometric devices
