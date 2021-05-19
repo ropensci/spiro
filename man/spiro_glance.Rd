@@ -8,9 +8,9 @@
 \usage{
 spiro_glance(data, interval)
 
-\method{spiro_glance}{default}(data, interval = 15)
+\method{spiro_glance}{default}(data, interval = 30)
 
-\method{spiro_glance}{spiro_clt}(data, interval = 30)
+\method{spiro_glance}{spiro_clt}(data, interval = 120)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro_*}, as it is
