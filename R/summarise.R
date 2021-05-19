@@ -55,6 +55,7 @@ spiro_summary <- function(data, interval = 120) {
   ldf <- sapply(steps, getstepmeans, data = data, interval = interval)
   ldf <- cbind(predf, wudf, ldf)
   df <- round(data.frame(apply(t(ldf),2,unlist)),2)
+  attr(df,"interval") <- interval
   df
 }
 
@@ -119,6 +120,7 @@ spiro_glance.default <- function(data, interval = 30) {
     colnames(df) <- c("VO2peak_abs","VO2peak_rel","RER_peak")
     if (ncol(df) == 4) colnames(df)[4] <- "HR_peak"
   }
+  attr(df,"interval") <- interval
   df
 }
 
@@ -132,6 +134,7 @@ spiro_glance.spiro_clt <- function(data, interval = 120) {
   m <- apply(ldf,2,unlist)
   mm <- round(rowMeans(m),2)[-1]
   df_out <- data.frame(t(mm))
+  attr(df_out,"interval") <- interval
   df_out
 }
 
