@@ -67,7 +67,7 @@ spiro_import_zan <- function(file) {
     name = meta_df$vorname,
     surname = meta_df$name,
     birthday = meta_df$geburtstag,
-    sex = meta_df$geschlecht,
+    sex = get_sex(meta_df$geschlecht),
     height = as.numeric(meta_df$groesse),
     weight = as.numeric(meta_df$gewicht)
   )
@@ -187,7 +187,7 @@ spiro_import_cosmed <- function(file) {
     name = ldf[[name]],
     surname = ldf[[surname]],
     birthday = ldf[[age]],
-    sex = ldf[[sex]],
+    sex = get_sex(ldf[[sex]]),
     height = as.numeric(ldf[[height]]),
     weight = as.numeric(ldf[[weight]])
   )
@@ -257,4 +257,30 @@ to_seconds.internal <- function(time) {
     s <- 60*time_split[[1]]+time_split[[2]]
   }
   s
+}
+
+#' Convert sex to factor level
+#'
+#' \code{get_sex()} is a helper function to retrieve the correct sex from file
+#' metadata
+#'
+#' @param chr A character string containing information on the participant's sex
+#'   as specified in the raw data file metadata
+#'
+#' @return A factor level, either \code{male} or \code{female}.
+#' @noRd
+get_sex <- function(chr) {
+  sex <- switch(chr,
+                m = ,
+                "M" = ,
+                "m\u00e4nnlich" = ,
+                male = "male",
+                f = ,
+                "F" = ,
+                w = ,
+                weiblich = ,
+                female = "female",
+                NA)
+  out <- factor(sex, levels = c("female","male"))
+  out
 }
