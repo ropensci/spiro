@@ -141,7 +141,11 @@ get_path <- function(name) {
 guess_device <- function(file) {
   if (grepl("\\.xls", file)) {
     head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1","V2"))
-    if (any(head == "ID code:")) device <- "cosmed" else device <- "none"
+    if (any(head == "ID code:")| any(head == "ID-Code:")) {
+      device <- "cosmed"
+    } else {
+      device <- "none"
+    }
   } else {
     head <- utils::read.delim(file, header = FALSE, nrows = 10)
     if (any(head == "[person]")) device <- "zan" else device <- "none"
