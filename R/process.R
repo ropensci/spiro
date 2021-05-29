@@ -131,13 +131,13 @@ calo <- function(df) {
 }
 
 calo.internal <- function(vo2abs,vco2abs) {
-  if (is.na(vo2abs)){
+  if (is.na(vo2abs) | is.na(vco2abs)){
     fo <- NA
     cho <- NA
   } else {
     cho <- (vco2abs/1000) * 4.585 - ((vo2abs/1000) * 3.226)
     fo <- ((vo2abs/1000) * 1.695) - ((vco2abs/1000) * 1.701)
-    if (fo < 0) fo = 0
+    if (fo < 0) fo <- 0
   }
   list(CHO = cho,FO = fo)
 }
