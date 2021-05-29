@@ -250,10 +250,12 @@ to_seconds <- function(time_data) {
 #'   hh:mm:ss or mm:ss.
 #' @noRd
 to_seconds.internal <- function(time) {
-  time_split <- as.numeric(strsplit(time,":")[[1]])
-  if (length(time_split == 3)) {
+  split <- strsplit(time, ":")[[1]]
+  split[[length(split)]] <- gsub(",",".",split[[length(split)]])
+  time_split <- as.numeric(split)
+  if (length(time_split) == 3) {
     s <- 3600*time_split[[1]]+60*time_split[[2]]+time_split[[3]]
-  } else if (length(time_split == 2)) {
+  } else if (length(time_split) == 2) {
     s <- 60*time_split[[1]]+time_split[[2]]
   }
   s
