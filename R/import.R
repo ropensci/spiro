@@ -281,6 +281,7 @@ get_sex <- function(chr) {
                 weiblich = ,
                 female = "female",
                 NA)
+  if (is.null(sex)) sex <- NA
   out <- factor(sex, levels = c("female","male"))
   out
 }
