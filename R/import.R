@@ -264,10 +264,10 @@ to_seconds.internal <- function(time) {
 #' Convert sex to factor level
 #'
 #' \code{get_sex()} is a helper function to retrieve the correct sex from file
-#' metadata
+#' metadata.
 #'
 #' @param chr A character string containing information on the participant's sex
-#'   as specified in the raw data file metadata
+#'   as specified in the raw data file metadata.
 #'
 #' @return A factor level, either \code{male} or \code{female}.
 #' @noRd
@@ -285,5 +285,41 @@ get_sex <- function(chr) {
                 NA)
   if (is.null(sex)) sex <- NA
   out <- factor(sex, levels = c("female","male"))
+  out
+}
+
+#' Read decimal numbers from characters with comma
+#'
+#' \code{to_number()} is a helper function to retrieve decimal numbers from
+#' characters with a comma.
+#'
+#' @param chr A character string containing a number. A comma might be used as
+#'   decimal mark.
+#'
+#' @return A (decimal) number.
+#' @noRd
+to_number <- function(chr) {
+  readr::parse_number(gsub(",",".",chr))
+}
+
+#' Get file (meta)data from a file by name
+#'
+#' \code{get_meta()} is a helper function to retrieve information in the same
+#' data row as a given expression.
+#'
+#' @param data A data.frame containing the data
+#' @param name An expression. The metadata's name which has to be searched for.
+#' @param column A numeric value, specifying the column from which the data
+#'   should be taken
+#'
+#' @return A character string.
+#' @noRd
+get_meta <- function(data,name,column) {
+  s <- which(data == name)
+  if (any(s)) {
+    out <- data[[max(s),column]]
+  } else {
+    out <- NA
+  }
   out
 }
