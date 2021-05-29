@@ -34,6 +34,7 @@ spiro_import <- function(file, device = NULL) {
   switch(device,
          zan = spiro_import_zan(file),
          cosmed = spiro_import_cosmed(file),
+         cortex = spiro_import_cortex(file),
          stop("'type' not specified")
   )
 }
@@ -141,8 +142,11 @@ get_path <- function(name) {
 guess_device <- function(file) {
   if (grepl("\\.xls", file)) {
     head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1","V2"))
-    if (any(head == "ID code:")| any(head == "ID-Code:")) {
+    if (any(head == "ID code:", na.rm = TRUE)|
+        any(head == "ID-Code:", na.rm = TRUE)) {
       device <- "cosmed"
+    } else if (any(head == "Bediener")) {
+      device <- "cortex"
     } else {
       device <- "none"
     }
@@ -278,19 +282,19 @@ spiro_import_cortex <- function(file) {
 
   # handle missing parameters
   if (any(names(data) != "Geschwindigkeit")) {
-    data$Geschwindigkeit <- NA
+    data$Geschwindigkeit <- 0
   }
   if (any(names(data) != "Steigung")) {
-    data$Steigung <- NA
+    data$Steigung <- 0
   }
 
   # in some cases VCO2 may be missing and thus is recalculated from RER and VO2
-  if (all(names(data) != "V'CO2")) {
+  if (all(names(data) != "V'CO2", na.rm = TRUE)) {
     data$`V'CO2` <- as.numeric(data$`V'O2`) / as.numeric(data$RER)
   }
 
   # work for different variable naming
-  if (any(names(data) == "V'E (BTPS)")) {
+  if (any(names(data) == "V'E (BTPS)", na.rm = TRUE)) {
     ve_name <- "V'E (BTPS)"
     vo2_name <- "V'O2 (STPD)"
   } else {
@@ -400,7 +404,7 @@ to_number <- function(chr) {
 #' @noRd
 get_meta <- function(data,name,column) {
   s <- which(data == name)
-  if (any(s)) {
+  if (any(s,na.rm = TRUE)) {
     out <- data[[max(s),column]]
   } else {
     out <- NA
