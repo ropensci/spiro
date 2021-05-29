@@ -231,6 +231,90 @@ spiro_import_cosmed <- function(file) {
   df
 }
 
+#' Import raw data from Cortex spiroergometric devices
+#'
+#' \code{spiro_import_cortex()} retrieves cardiopulmonary data from cortex
+#' metabolic cart files.
+#'
+#' @param file A character string, giving the path of the data file.
+#'
+#' @return A \code{data.frame} with data. The attribute \code{info} contains
+#'   addition meta-data retrieved from the original file.
+spiro_import_cortex <- function(file) {
+  # read excel file
+  d <- suppressMessages(
+    readxl::read_excel(file, col_names = FALSE)
+  )
+
+  # get meta data (German language)
+  name <- get_meta(d,"Name",3)
+  surname <- get_meta(d,"Vorname",3)
+  sex <- get_meta(d,"Geschlecht",3)
+  birthday <- get_meta(d,"Geburtsdatum",3)
+  height <- get_meta(d,"Gr\u00f6\u00dfe",3)
+  weight <- get_meta(d,"Gewicht",3)
+
+  # write data frame for metadata
+  info <- data.frame(name,
+                     surname,
+                     birthday,
+                     sex = get_sex(sex),
+                     height = to_number(height),
+                     weight = to_number(weight)
+  )
+
+  # get start of data section
+  t_ind <- which(d[,1] == "t")
+
+  # get parameter labels
+  cols <- as.character(d[t_ind,])
+
+  # get parameter count
+  coln <- sum(!is.na(cols))
+
+  # get raw data
+  data <- d[(t_ind+2):nrow(d),1:coln]
+  names(data) <- cols[1:coln]
+
+  # handle missing parameters
+  if (any(names(data) != "Geschwindigkeit")) {
+    data$Geschwindigkeit <- NA
+  }
+  if (any(names(data) != "Steigung")) {
+    data$Steigung <- NA
+  }
+
+  # in some cases VCO2 may be missing and thus is recalculated from RER and VO2
+  if (all(names(data) != "V'CO2")) {
+    data$`V'CO2` <- as.numeric(data$`V'O2`) / as.numeric(data$RER)
+  }
+
+  # work for different variable naming
+  if (any(names(data) == "V'E (BTPS)")) {
+    ve_name <- "V'E (BTPS)"
+    vo2_name <- "V'O2 (STPD)"
+  } else {
+    ve_name <- "V'E"
+    vo2_name <- "V'O2"
+  }
+
+  df <- data.frame(
+    time = to_seconds(data[[1]]),
+    VO2 = as.numeric(data[[vo2_name]]),
+    VCO2 = as.numeric(data$`V'CO2`),
+    RR = as.numeric(data$AF),
+    VT = as.numeric(data$VT),
+    VE = as.numeric(data[[ve_name]]),
+    HR = as.numeric(data$HF),
+    velocity = as.numeric(data$Steigung),
+    incr = as.numeric(data$Steigung)
+  )
+
+  attr(df, "info") <- info
+  class(df) <- c("spiro","data.frame")
+  df
+}
+
 #' Convert time data to seconds
 #'
 #' \code{to_seconds()} converts time data of the form hh:mm:ss to seconds.
