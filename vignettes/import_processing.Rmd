@@ -70,9 +70,12 @@ data_imp <- spiro_import(file,
 data_imp
 ```
 
+#### Currently supported metabolic carts
+
 The metabolic cart the file is produced by will be automatically guessed, but can also be set manually. Currently the following devices are supported:
 
-* **COSMED** (`"cosmed"`): .xlxs or .xls files in English or German language
+* **CORTEX** (`"cortex"`): .xlsx or .xls files in German language
+* **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
 
 It is highly recommended to import only raw breath-by-breath data to avoid duplication of interpolation processes.
