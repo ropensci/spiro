@@ -184,7 +184,7 @@ apply_protocol <- function(data,protocol) {
     out <- data.frame(
       load = rep.int(0, length(data$time)),
       step = rep.int(0, length(data$time)),
-      subset(data,select = -c(velocity,incr)))
+      data[, ! names(data) %in% c("velocity","incr"), drop = F])
     attr(out,"protocol") <- NA
     attr(out,"info") <- attr(data,"info")
     return(out)
@@ -246,7 +246,7 @@ apply_protocol <- function(data,protocol) {
     out <- data.frame(
       load = c(outtest, post),
       step = c(pre, wuN, outN, postN),
-      subset(data,select = -c(velocity,incr)))
+      data[, ! names(data) %in% c("velocity","incr"), drop = F])
   }
   attr(out, "info") <- attr(data,"info")
   attr(out, "protocol") <- protocol
