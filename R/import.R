@@ -387,7 +387,7 @@ get_sex <- function(chr) {
 #' @return A (decimal) number.
 #' @noRd
 to_number <- function(chr) {
-  readr::parse_number(gsub(",",".",chr))
+  gsub("[^\\.0-9]","",gsub(",",".",chr))
 }
 
 #' Get file (meta)data from a file by name
