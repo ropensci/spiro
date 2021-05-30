@@ -49,6 +49,7 @@ devtools::install_github("smnnlt/spiro")
 
 The following metabolic carts are currently supported by `spiro`:
 
+* CORTEX
 * COSMED
 * ZAN
 
