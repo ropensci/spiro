@@ -1,1 +1,17 @@
 url: https://smnnlt.github.io/spiro
+
+navbar:
+  title: "spiro"
+  left:
+    - icon: fa-home fa-lg
+      href: index.html
+    - text: "Import & Processing"
+      href: articles/import_processing.html
+    - text: "Summarising & Plotting"
+      href: articles/summarising_plotting.html
+    - text: "Reference"
+      href: reference/index.html
+  right:
+    - icon: fab fa-github fa-lg
+      href: https://github.com/smnnlt/spiro
+
