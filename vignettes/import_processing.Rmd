@@ -12,15 +12,24 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(ggplot2)
 ```
 
-Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardised workflow for data from metabolic carts.
+Different measuring devices and analysis software lead to opaque results in
+measuring gas exchange parameters. To make exercise science more transparent and
+reproducible, the `spiro` package offers a standardised workflow for data from
+metabolic carts.
 
-This vignette provides you information on the how the gas exchange data is imported and processed by the package functions.
+This vignette provides you information on the how the gas exchange data is
+imported and processed by the package functions.
 
 ## One step import and processing with `spiro()`
 
-To directly get started, paste the name of a breath-by-breath raw data file produced by a supported device into the `spiro()` function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
+To directly get started, paste the name of a breath-by-breath raw data file
+produced by a supported metabolic cart device into the `spiro()` function. This
+will return a `data.frame` containing all relevant data for each second of
+testing, ready for summarising or plotting.
 
 ```{r setup}
 library(spiro)
@@ -57,9 +66,40 @@ spiro(file,
 
 ## `spiro()` under the hood
 
-To create `data.frame`s as seen above, `spiro()` wraps multiple function, which can be useful for providing additional options for the importing and processing of the data.
+To create `data.frame`s as seen above, `spiro()` wraps multiple function, which
+can be useful for providing additional options for the importing and processing
+of the data.
 
-<!-- Add function scheme here -->
+```{r data flow, echo=FALSE}
+ar <- arrow(length = unit(0.1, "inches"), type = "closed")
+dsblue <- "#0053A4"
+
+ggplot() +
+  geom_rect(aes(xmin = 0.2, xmax = 0.8, ymin = 0.27, ymax = 0.84), colour = dsblue, fill = dsblue, alpha = 0.1, size = 1) +
+  annotate("text", x = 0.21, y = 0.81, label = "spiro()", colour = dsblue, hjust = "left") +
+  annotate(geom = "label", x = 0.5, y = 0.9, label = "data file", label.padding = unit(0.5, "lines")) +
+  annotate(geom = "label", x = 0.5, y = 0.7, label = "raw data", label.padding = unit(0.5, "lines")) +
+  annotate(geom = "label", x = 0.5, y = 0.55, label = "interpolated data", label.padding = unit(0.5, "lines")) +
+  annotate(geom = "label", x = 0.5, y = 0.2, label = "spiro data.frame", label.padding = unit(0.5, "lines")) +
+  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.85, yend = 0.75), arrow = ar) +
+  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.65, yend = 0.6), arrow = ar) +
+  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.5, yend = 0.25), arrow = ar) +
+  annotate("text", x = 0.53, y = 0.81, label = "spiro_import()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.63, label = "spiro_interpolate()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.46, label = "apply_protocol()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.38, label = "spiro_add()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.30, label = "hr_apply()", colour = "grey", hjust = "left") +
+  geom_path(aes(x = c(0.57,0.75,0.75,0.7), y = c(0.7,0.7,0.46,0.46)), arrow = ar, linetype = 5) +
+  geom_segment(aes(x = 0.85, xend = 0.7, y = 0.46, yend = 0.46), arrow = ar, linetype = 5) +
+  annotate(geom = "label", x = 0.9, y = 0.46, label = "test protocol", label.padding = unit(0.5, "lines"), color = "grey") +
+    geom_segment(aes(x = 0.85, xend = 0.65, y = 0.3, yend = 0.3), arrow = ar, linetype = 5) +
+  annotate(geom = "label", x = 0.9, y = 0.3, label = "heart rate \n data file", label.padding = unit(0.5, "lines"), color = "grey") +
+  scale_x_continuous(limits = c(0,1), expand = expansion(0,0), breaks = NULL) +
+  scale_y_continuous(limits = c(0,1), expand = expansion(0,0), breaks = NULL) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal()
+```
+
 
 ### Import the data
 
@@ -92,9 +132,41 @@ Note that the linear interpolation will lead to a minor smoothing of the data.
 
 ### Guess or specify an exercise protocol
 
-To archive the full functionality of data summary and plotting with the spiro-package, a testing protocol needs to be attached to the imported data. The parameters of exercise protocols in `spiro` are the following:
+To archive the full functionality of data summary and plotting with the
+spiro-package, a testing protocol needs to be attached to the imported data. The
+parameters of exercise protocols in `spiro` are the following:
 
-<!-- Insert Picture of protocol variables -->
+```{r protocol variable, echo=FALSE}
+ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
+path <- data.frame(x = c(0,0.1,0.1,0.3,0.3,0.32,0.32,0.42,0.42,0.44,0.44,0.54,0.54,0.56,0.56,0.66,0.66,0.68,0.68,0.78,0.78,0.8,0.8,0.9,0.9,0.95),
+                   y = c(0,0,0.2,0.2,0,0,0.4,0.4,0,0,0.5,0.5,0,0,0.6,0.6,0,0,0.7,0.7,0,0,0.8,0.8,0,0))
+ggplot() +
+  geom_segment(aes(x = 0, xend = 0.95, y = 0, yend = 0),colour = "grey", size = 1) +
+  geom_path(aes(x = x, y = y), data = path, size = 1, colour = dsblue) +
+  geom_segment(aes(x = 0, xend = 0.1, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
+  annotate("text", x = 0.05, y = -0.1, label = "pre.duration") +
+  geom_segment(aes(x = 0.1, xend = 0.3, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
+  annotate("text", x = 0.2, y = -0.1, label = "wu.duration") +
+  geom_segment(aes(x = 0.56, xend = 0.66, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
+  annotate("text", x = 0.61, y = -0.1, label = "step.duration") +
+  geom_segment(aes(x = 0.78, xend = 0.8, y = -0.05, yend = -0.05), size = 2) +
+  annotate("text", x = 0.79, y = -0.1, label = "rest.duration") +
+  geom_segment(aes(x = 0.12, xend = 0.12, y = 0, yend = 0.2), arrow = ar2, size = 1) +
+  annotate("text", x = 0.14, y = 0.1, label = "wu.load", hjust = "left") +
+  geom_segment(aes(x = 0.34, xend = 0.34, y = 0, yend = 0.4), arrow = ar2, size = 1) +
+  annotate("text", x = 0.31, y = 0.3, label = "step.start", hjust = "right") +
+  geom_segment(aes(x = 0.66, xend = 0.66, y = 0.6, yend = 0.7), arrow = ar2, size = 1) +
+  annotate("text", x = 0.64, y = 0.65, label = "step.increment", hjust = "right") +
+  annotate("text", x = 0.85, y = 0.75, label = "5", colour = "black") +
+  annotate("text", x = 0.85, y = 0.85, label = "step.count",) +
+  geom_segment(aes(x = 0.34, xend = 0.31, y = -0.05, yend = -0.01), size = 1) +
+  annotate("text", x = 0.35, y = -0.05, label = "rest.initial?", hjust = "left") +
+  scale_x_continuous(limits = c(-0.02,1), expand = expansion(0,0), breaks = NULL) +
+  scale_y_continuous(limits = c(-0.15,1), expand = expansion(0,0), breaks = NULL) +
+  labs(x = "time", y = "load") +
+  theme_minimal()
+```
+
 
 #### Guessing a protocol
 
