@@ -147,7 +147,7 @@ guess_device <- function(file) {
     if (any(head == "ID code:", na.rm = TRUE)|
         any(head == "ID-Code:", na.rm = TRUE)) {
       device <- "cosmed"
-    } else if (any(head == "Bediener")) {
+    } else if (any(head == "Bediener", na.rm = TRUE)) {
       device <- "cortex"
     } else {
       device <- "none"
