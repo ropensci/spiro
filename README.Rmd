@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%",
   fig.width = 6,
   fig.asp = 0.618,
-  dpi = 150
+  dpi = 300
 )
 ```
 
@@ -25,8 +25,9 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The goal of `spiro` is to enable a fast and standardised workflow with raw data files from cardiopulmonary exercise testing. The package provides simple tools for data
-import, processing, summary and visualisation.
+The goal of `spiro` is to enable a fast and standardised workflow with raw data
+files from cardiopulmonary exercise testing. The package provides simple tools
+for data import, processing, summary and visualisation.
 
 ## Installation
 
@@ -41,8 +42,8 @@ devtools::install_github("smnnlt/spiro")
 
 * Use `spiro()` for one-step data import and processing from raw metabolic cart
   files. 
-* Use `spiro_summary()` and `spiro_glance()` for getting a stepwise or
-  overall summary of the imported data. 
+* Use `spiro_summary()` and `spiro_glance()` for a stepwise or overall summary 
+  of the imported data. 
 * Use `spiro_plot_*()` as a shortcut for visualising the imported data.
   
 #### Metabolic Carts

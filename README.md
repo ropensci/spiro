@@ -31,8 +31,8 @@ devtools::install_github("smnnlt/spiro")
 
 -   Use `spiro()` for one-step data import and processing from raw
     metabolic cart files.
--   Use `spiro_summary()` and `spiro_glance()` for getting a stepwise or
-    overall summary of the imported data.
+-   Use `spiro_summary()` and `spiro_glance()` for a stepwise or overall
+    summary of the imported data.
 -   Use `spiro_plot_*()` as a shortcut for visualising the imported
     data.
 
