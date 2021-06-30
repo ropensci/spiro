@@ -66,6 +66,6 @@ hr_interpolate <- function(data) {
 }
 
 gettime <- function(text) {
-  regmatches(text,regexpr("\\d\\d\\:\\d\\d\\:\\d\\d\\.\\d\\d\\d",
+  regmatches(text,regexpr("\\d\\d\\:\\d\\d\\:\\d\\d",
                           text))
 }
