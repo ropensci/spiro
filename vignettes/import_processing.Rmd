@@ -222,9 +222,13 @@ For calculating parameters relative to body weight, `spiro_add()` will use the w
 Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g. wrist watch), this data can be attached to the existing `data.frame` of gas exchange measures with `hr_add()`.
 
 ```{r hr_add}
-#hr_add(data_with_ptcl,
-#       hr_file = NULL,
-#       hr_offset = 0)
+# import and process example data
+data_rt <- spiro(spiro_example("zan_ramp"))
+hr_data <- spiro_example("hr_ramp.tcx")
+
+hr_add(data_rt,
+       hr_file = hr_data,
+       hr_offset = 0)
 ```
 
 `hr_add()` will import the heart rate data from a .tcx file via `hr_import()` and attach it to the existing data with `hr_apply()`. Note that you can manually supply the starting point of the heart rate recording in relation to the gas exchange measures recording with `hr_offset`.

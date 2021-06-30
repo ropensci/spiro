@@ -101,7 +101,11 @@ To allow a further check for correct importing, setting the `title` argument to
 `TRUE` will create a plot title with the participant's name and the test type.
 
 ```{r spiro_plot_HR, warning=FALSE}
-#spiro_plot_HR(gxt_data, 
-#               title = FALSE
-#               )
+# load example data
+data_with_hr <- spiro(spiro_example("zan_ramp"), 
+                      hr_file = spiro_example("hr_ramp.tcx"))
+
+spiro_plot_HR(data_with_hr, 
+              title = FALSE
+              )
 ```
