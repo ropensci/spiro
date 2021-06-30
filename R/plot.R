@@ -31,18 +31,20 @@ spiro_plot_VO2 <- function(data, smooth = 15, title = FALSE) {
   yl <- spiro_plot.guess_units(data)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time, y = data$VO2_rel)) +
-    ggplot2::geom_line(colour = "blue") +
+    ggplot2::geom_line(colour = "#0053a4") +
     ggplot2::geom_area(
       ggplot2::aes(y = load * yl[[1]]),
       colour = "black", alpha = 0.5) +
     ggplot2::geom_line(
       ggplot2::aes(y = zoo::rollmean(data$VO2_rel, smooth, na.pad = TRUE)),
-      colour = "red") +
+      colour = "#e69f00", size = 1) +
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis( ~. / yl[[1]],
       name = yl[[2]])) +
     ggplot2::labs(title = t, x = "Duration [s]", y = "VO2 [ml/min/kg]") +
-    ggplot2:: theme_bw()
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
+
 }
 
 #' @rdname spiro_plot
@@ -62,7 +64,8 @@ spiro_plot_HR <- function(data, title = FALSE) {
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis( ~. / (3 * yl[[1]]), name = yl[[2]])) +
     ggplot2::labs(title = t, x = "Duration [s]", y = "HR [1/min]") +
-    ggplot2::theme_bw()
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.minor.x = eggplot2::element_blank())
 }
 
 #' Generate a title for a spiroergometric data plot
