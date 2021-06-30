@@ -65,7 +65,7 @@ spiro_plot_HR <- function(data, title = FALSE) {
       sec.axis = ggplot2::sec_axis( ~. / (3 * yl[[1]]), name = yl[[2]])) +
     ggplot2::labs(title = t, x = "Duration [s]", y = "HR [1/min]") +
     ggplot2::theme_minimal() +
-    ggplot2::theme(panel.grid.minor.x = eggplot2::element_blank())
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
 }
 
 #' Generate a title for a spiroergometric data plot
