@@ -80,12 +80,12 @@ spiro_plot_VO2(gxt_data)
 
 ## Contributing
 
-If you encounter any bug or want to request new features please, please
-[submit an issue](https://github.com/smnnlt/spiro/issues). If you want
-your type of metabolic cart to be supported by this package, consider
-writing me a message with an example data file. If you are familiar with
-writing R code, feel free to submit any pull requests.
+If you encounter any bug or want to request new features, please [submit
+an issue](https://github.com/smnnlt/spiro/issues). If you want your type
+of metabolic cart to be supported by this package, consider writing me a
+message with an example data file. If you are familiar with writing R
+code, feel free to submit any pull requests.
 
 Please note that this package is released with a [Contributor Code of
 Conduct](https://smnnlt.github.io/spiro/CODE_OF_CONDUCT.html). By
-contributing to `spiro` project, you agree to abide by its terms.
+contributing to `spiro`, you agree to abide by its terms.
