@@ -5,7 +5,8 @@ Authors@R:
     person(given = "Simon",
            family = "Nolte",
            role = c("aut", "cre"),
-           email = "simon.nolte@googlemail.com")
+           email = "simon.nolte@googlemail.com",
+           comment = c(ORCID = "0000-0003-1643-1860"))
 Description: Import, process, summarise and visualise raw data from 
     various metabolic cart devices.
 License: MIT + file LICENSE
