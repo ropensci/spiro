@@ -18,6 +18,12 @@ raw data files from cardiopulmonary exercise testing. The package
 provides simple tools for data import, processing, summary and
 visualisation.
 
+> Warning: <br/> This package is currently under early development. It
+> is recommended to use this software for demonstrational or testing
+> purposes only. We advise against using it for scientific analyses at
+> the moment, as at this stage of development major changes in the
+> package’s computations may occur.
+
 ## Installation
 
 Install the current development version from GitHub:
