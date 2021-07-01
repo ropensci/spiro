@@ -18,8 +18,8 @@ raw data files from cardiopulmonary exercise testing. The package
 provides simple tools for data import, processing, summary and
 visualisation.
 
-> Warning: <br/> This package is currently under early development. It
-> is recommended to use this software for demonstrational or testing
+> WARNING: This package is currently under early development. It is
+> recommended to use this software for demonstrational or testing
 > purposes only. We advise against using it for scientific analyses at
 > the moment, as at this stage of development major changes in the
 > package’s computations may occur.
@@ -77,3 +77,15 @@ spiro_plot_VO2(gxt_data)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+## Contributing
+
+If you encounter any bug or want to request new features please, please
+[submit an issue](https://github.com/smnnlt/spiro/issues). If you want
+your type of metabolic cart to be supported by this package, consider
+writing me a message with an example data file. If you are familiar with
+writing R code, feel free to submit any pull requests.
+
+Please note that this package is released with a [Contributor Code of
+Conduct](https://smnnlt.github.io/spiro/CODE_OF_CONDUCT.html). By
+contributing to `spiro` project, you agree to abide by its terms.
