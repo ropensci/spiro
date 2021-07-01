@@ -35,11 +35,10 @@ hr_import <- function(hr_file) {
 
 #' @rdname hr_add
 hr_apply <- function(data, hr_data, hr_offset = 0) {
-  pre_time <- attr(data, "protocol")$pre.duration + hr_offset
-  if (pre_time < 0) {
+  if (hr_offset < 0) {
     hr_prewhile <- hr_data[-1:pre_time]
   } else {
-    hr_prewhile <- c(rep(NA, pre_time),hr_data)
+    hr_prewhile <- c(rep(NA, hr_offset),hr_data)
   }
 
   if (length(hr_prewhile) >= nrow(data)) {

@@ -36,8 +36,7 @@
 #'   Alternatively, \code{hr_file} can be an absolute or relative path.
 #' @param hr_offset An integer, corresponding to the temporal offset of the
 #'   heart-rate file. By default the start of the heart rate measurement is
-#'   linked to the first load in the test protocol (i.e. the end of the
-#'   pre-measure).
+#'   linked to the start of the gas exchange measurement.
 #' @param protocol A \code{data.frame} by \code{\link{spiro_protocol}}
 #'   containing the test protocol. This is automatically guessed by default.
 #'
