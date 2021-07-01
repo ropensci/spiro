@@ -116,7 +116,7 @@ spiro_glance.default <- function(data, interval = 30) {
     df <- cbind(df, df_hr)
   }
 
-  if (is.na(attr(data,"protocol"))) {
+  if (any(is.na(attr(data,"protocol")))) {
     colnames(df) <- c("VO2peak_abs","VO2peak_rel","RER_peak")
     if (ncol(df) == 4) colnames(df)[4] <- "HR_peak"
   } else if (attr(data,"protocol")$testtype == "increment") {
