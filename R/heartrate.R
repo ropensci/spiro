@@ -15,6 +15,17 @@
 #' @return A \code{data.frame} containing the spiroergometric and heart rate
 #'   data.
 #'
+#' @examples
+#' # Get example data
+#' oxy_file <- spiro_example("zan_ramp")
+#' hr_file <- spiro_example("hr_ramp.tcx")
+#'
+#' # Import and process spiro data
+#' oxy_data <- spiro(oxy_file)
+#'
+#' # Add heart rate data
+#' hr_add(oxy_data, hr_file)
+#'
 #' @export
 
 hr_add <- function(data, hr_file, hr_offset = 0) {
@@ -36,7 +47,7 @@ hr_import <- function(hr_file) {
 #' @rdname hr_add
 hr_apply <- function(data, hr_data, hr_offset = 0) {
   if (hr_offset < 0) {
-    hr_prewhile <- hr_data[-1:pre_time]
+    hr_prewhile <- hr_data[-1:hr_offset]
   } else {
     hr_prewhile <- c(rep(NA, hr_offset),hr_data)
   }

@@ -23,8 +23,7 @@ Alternatively, \code{hr_file} can be an absolute or relative path.}
 
 \item{hr_offset}{An integer, corresponding to the temporal offset of the
 heart-rate file. By default the start of the heart rate measurement is
-linked to the first load in the test protocol (i.e. the end of the
-pre-measure).}
+linked to the start of the gas exchange measurement.}
 
 \item{hr_data}{A data.frame containing the imported heart rate data.}
 }
@@ -40,4 +39,16 @@ adds it to an existing spiroergometric data file.
 Heart rate data will be imported from a \code{.tcx} file with
 \code{hr_import()}. After interpolating the data to full seconds, it is then
 applied to a given data set by \code{hr_apply()}.
+}
+\examples{
+# Get example data
+oxy_file <- spiro_example("zan_ramp")
+hr_file <- spiro_example("hr_ramp.tcx")
+
+# Import and process spiro data
+oxy_data <- spiro(oxy_file)
+
+# Add heart rate data
+hr_add(oxy_data, hr_file)
+
 }

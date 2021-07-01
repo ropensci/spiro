@@ -34,8 +34,7 @@ Alternatively, \code{hr_file} can be an absolute or relative path.}
 
 \item{hr_offset}{An integer, corresponding to the temporal offset of the
 heart-rate file. By default the start of the heart rate measurement is
-linked to the first load in the test protocol (i.e. the end of the
-pre-measure).}
+linked to the start of the gas exchange measurement.}
 
 \item{protocol}{A \code{data.frame} by \code{\link{spiro_protocol}}
 containing the test protocol. This is automatically guessed by default.}
@@ -80,5 +79,11 @@ spiro(file)
 # manually supply a test protocol
 spiro(file, protocol = spiro_protocol_gxt(step.count = 9, step.start = 2.5,
   step.increment = 0.5, step.duration = 300))
+
+# import with additional heart rate data
+oxy_file <- spiro_example("zan_ramp")
+hr_file <- spiro_example("hr_ramp.tcx")
+
+spiro(oxy_file, hr_file = hr_file)
 
 }

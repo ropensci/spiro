@@ -16,9 +16,12 @@
 #'
 #' @examples
 #' # Import and process example data
-#' gxt_data <- spiro(file = spiro_example("zan_gxt"))
+#' ramp_data <- spiro(file = spiro_example("zan_ramp"),
+#'                   hr_file = spiro_example("hr_ramp.tcx"))
 #'
-#' spiro_plot_VO2(gxt_data)
+#' spiro_plot_VO2(ramp_data)
+#'
+#' spiro_plot_HR(ramp_data)
 #'
 #' @name spiro_plot
 NULL

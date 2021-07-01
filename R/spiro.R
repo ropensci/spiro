@@ -58,6 +58,12 @@
 #' spiro(file, protocol = spiro_protocol_gxt(step.count = 9, step.start = 2.5,
 #'   step.increment = 0.5, step.duration = 300))
 #'
+#' # import with additional heart rate data
+#' oxy_file <- spiro_example("zan_ramp")
+#' hr_file <- spiro_example("hr_ramp.tcx")
+#'
+#' spiro(oxy_file, hr_file = hr_file)
+#'
 #' @export
 
 spiro <- function(file,
