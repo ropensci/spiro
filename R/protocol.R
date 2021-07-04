@@ -372,3 +372,38 @@ guess_protocol <- function(data) {
   )
   out
 }
+
+get_protocol <- function(data) {
+
+  # get indices for changes in load
+  index <- 1
+  values <- NULL
+  while (index <= nrow(data)) {
+    values <- c(values, index)
+    load <- data$velocity[[index]] # extract load for specific index
+    vals <- which(data$velocity != load) # look for different loads
+    rest <- vals[vals > index] # filter for later loads
+    if (length(rest) != 0) {
+      index <- min(vals[vals > index]) # move on to next load change
+    } else {
+      break() # if no further load change occurs in the data
+    }
+  }
+
+  changes <- data[values, c("time","velocity")]
+
+  # calculate duration of each load step
+  duration <- rep.int(NA,length(values))
+  for (i in seq_along(values)) {
+    if (i < length(values)) {
+      duration[i] <- changes$time[[i+1]] - changes$time[[i]]
+    } else { # for last load
+      duration[i] <- max(data$time, na.rm = TRUE) - changes$time[[i]]
+    }
+  }
+
+  data.frame(
+    duration = round(duration,-1), # round to full 10 seconds
+    load = changes$velocity
+  )
+}
