@@ -72,6 +72,8 @@ spiro <- function(file,
   dt_imported <- spiro_import(file, device = device)
   if (!is.null(protocol)) {
     ptcl <- protocol
+  } else if (all(i$velocity == 0)) {
+    ptcl <- NULL
   } else {
     ptcl <- get_protocol(dt_imported)
   }
@@ -84,6 +86,7 @@ spiro <- function(file,
                                           hr_offset = hr_offset)
   testtype <- attr(dt_ptcl, "testtype")
   attr(dt_out, "testtype") <- testtype
+  if (is.null(testtype)) testtype <- NA
   class(dt_out) <- c(switch(testtype,
                        constant = "spiro_clt",
                        incremental = "spiro_gxt",

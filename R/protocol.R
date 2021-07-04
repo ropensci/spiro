@@ -234,17 +234,21 @@ get_testtype <- function(protocol) {
 #' @inheritParams protocol_features
 
 process_protocol <- function(protocol, testtype = NULL) {
-  p <- protocol_features(protocol)
-  if (is.null(testtype)) {
-    attr(p, "testtype") <- get_testtype(p)
+  if (is.null(protocol)) {
+    p <- NULL
   } else {
-    attr(p, "testtype") <- switch(
-      ramp = "ramp",
-      constant = "constant",
-      increment = "increment",
-      other = "other",
-      stop("testtype needs to be set properly")
-    )
+    p <- protocol_features(protocol)
+    if (is.null(testtype)) {
+      attr(p, "testtype") <- get_testtype(p)
+    } else {
+      attr(p, "testtype") <- switch(
+        ramp = "ramp",
+        constant = "constant",
+        increment = "increment",
+        other = "other",
+        stop("testtype needs to be set properly")
+      )
+    }
   }
   p
 }
