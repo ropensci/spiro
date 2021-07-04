@@ -174,26 +174,16 @@ ggplot() +
 By default, `spiro()` tries to guess the testing protocol using `guess_protocol()`, looking for velocity or load data in the imported, but not interpolated raw data.
 
 ```{r guess_protocol}
-guess_protocol(data_imp)
+get_protocol(data_imp)
 
 ```
 
 #### Manually supplying a protocol
 
-In cases where there is no load data saved in the metabolic cart's file, or `guess_protocol()` turns wrong, a protocol can be manually generated via `spiro_protocol()` and applied to the interpolated data by `apply_protocol()`.
+In cases where there is no load data saved in the metabolic cart's file, or `get_protocol()` turns wrong, a protocol can be manually generated via `set_protocol_manual` and applied to the interpolated data by `add_protocol()`.
 
 ```{r spiro_protocol}
-ptcl <- spiro_protocol(step.start = 150, 
-          step.increment = 30, 
-          step.duration = 180,
-          rest.duration = 0, 
-          pre.duration = 60, 
-          wu.duration = 0,
-          wu.load = 0, 
-          step.count = 7, 
-          rest.initial = FALSE)
-
-data_with_ptcl <- apply_protocol(data_int, ptcl)
+###
 ```
 
 To avoid specifying every single protocol parameter to `spiro_protocol()` there are wrapper function for common types of exercise test:
@@ -210,8 +200,8 @@ To avoid specifying every single protocol parameter to `spiro_protocol()` there 
 The interpolated gas exchange data, together with the protocol load data, allows the calculation of additional variables with `spiro_add()`.
 
 ```{r spiro_add}
-spiro_add(data_with_ptcl,
-          weight = NULL)
+#spiro_add(data_with_ptcl,
+#          weight = NULL)
 
 ```
 
