@@ -1,183 +1,12 @@
-#' Manually generate a testing protocol for spiroergometry files
-#'
-#' \code{set_protocol()} generates a testing protocol which can be
-#' applied to spiroergometry files.
-#'
-#' This function provides a manual interface for generating testing protocols in
-#' exercise science. The shorthands \code{_clt}, \code{_gxt} and
-#' \code{_rmp} provide wrappers with pre-defined settings for constant load,
-#' graded exercise (i.e. stepwise incremental) and ramp tests.
-#'
-#' To automatically determine the protocol from a data file use
-#' \code{\link{get_protocol}} instead.
-#'
-#' To manually supply a protocol with individual load and duration use
-#' \code{\link{set_protocol_manual}}
-#'
-#'
-#' @param step.start A numeric value giving the load of the first (non warm-up)
-#'   step.
-#' @param step.increment A numeric value, by which load increases with every
-#'   new step.
-#' @param step.duration An integer giving the duration of each step in seconds.
-#' @param rest.duration An integer giving the duration of the rest between the
-#'   steps in seconds.
-#' @param pre.duration An integer giving the duration of the initial
-#'   pre-measurement without load in seconds.
-#' @param wu.duration An integer giving the duration of the warm-up step in
-#'   seconds.
-#' @param wu.load A numeric value giving the load of the warm-up step.
-#' @param step.count A numeric value indicating the number of steps. A
-#'   non-integer value corresponds to a not finished last step.
-#' @param rest.initial A logical, whether there should be a initial rest between
-#'   warm-up and first step.
-#' @param testtype A character value, usually "ramp", "increment" or
-#'   "constant". Per default the testtype is guessed from the test protocol
-#'   characteristics.
-#' @param ... Passing of the above arguments in the shorthand functions.
-#'
-#' @return A \code{data.frame} containing the test characteristics, which can be
-#'   applied to a given (interpolated) file by \code{\link{apply_protocol}}.
-#'
-#' @examples
-#' set_protocol(step.start = 150, step.increment = 30, step.duration = 180,
-#'                rest.duration = 0, pre.duration = 60, wu.duration = 0,
-#'                wu.load = 0, step.count = 7, rest.initial = FALSE)
-#'
-#' # which can be simplified:
-#' set_protocol_gxt(step.count = 7, step.start = 150, step.increment = 30,
-#'                    step.duration = 180, rest.duration = 30)
-#'
-#' set_protocol_rmp(step.count = 19, wu.load = 3.0, step.increment = 0.2)
-#'
-#' set_protocol_clt(step.start = 4.5)
-#'
-#' @export
-
-set_protocol <- function(step.start,
-                          step.increment,
-                          step.duration,
-                          rest.duration,
-                          pre.duration,
-                          wu.duration,
-                          wu.load,
-                          step.count,
-                          rest.initial,
-                          testtype = NULL) {
-
-  if (is.null(testtype)) {
-    if (step.increment == 0) {
-      testtype <- "constant"
-    } else if (rest.duration == 0 && step.duration <= 90) {
-      testtype <- "ramp"
-    } else {
-      testtype <- "increment"
-    }
-  }
-
-  out <- data.frame(
-    step.start,
-    step.increment,
-    step.duration,
-    rest.duration,
-    pre.duration,
-    wu.duration,
-    wu.load,
-    step.count,
-    rest.initial,
-    testtype
-  )
-  out
-}
-
-#' @describeIn set_protocol Interface for constant load test protocols. Per
-#'   default, six steps of five minutes with 30 seconds rest in between are
-#'   applied. Following a one minute pre-measure, the warm-up is of the same
-#'   length and half the load of the steps.
-#' @export
-
-set_protocol_clt <- function(step.start, step.duration = 300, ...) {
-  out <- set_protocol(
-    step.start = step.start,
-    step.increment = 0,
-    step.duration = step.duration,
-    rest.duration = 30,
-    pre.duration = 60,
-    wu.duration = step.duration,
-    wu.load = 0.5 * step.start,
-    step.count = 6,
-    rest.initial = TRUE,
-    testtype = "constant"
-  )
-  out
-}
-
-#' @describeIn set_protocol Interface for ramp test protocols. Per
-#'   default, 30s-steps without rest in between are applied. Following a
-#'   one-minute pre measure , the warm-up has a duration of two minutes and is
-#'   directly followed by the first step.
-#' @export
-
-set_protocol_rmp <- function(step.count,
-                              wu.load = 2.8,
-                              step.increment = 0.15,
-                              step.duration = 30, ...) {
-  out <- set_protocol(
-    step.start = wu.load + step.increment,
-    step.increment = step.increment,
-    step.duration = step.duration,
-    rest.duration = 0,
-    pre.duration = 60,
-    wu.duration = 120,
-    wu.load = wu.load,
-    step.count = step.count,
-    rest.initial = FALSE,
-    testtype = "ramp"
-  )
-  out
-}
-
-#' @describeIn set_protocol Interface for graded exercise/incremental step
-#'   test protocols. Per default, there is only a one-minute pre-measure with no
-#'   warm-up. The default rest between steps is set to 30 seconds.
-#' @export
-
-set_protocol_gxt <- function(step.count,
-                              step.start = 2,
-                              step.increment = 0.4,
-                              step.duration = 300, ...) {
-  out <- set_protocol(
-    step.start = step.start,
-    step.increment = step.increment,
-    step.duration = step.duration,
-    rest.duration = 30,
-    pre.duration = 60,
-    wu.duration = 0,
-    wu.load = 0,
-    step.count = step.count,
-    rest.initial = FALSE,
-    testtype = "increment"
-  )
-  out
-}
-
 #' Apply a test protocol to a exercise testing dataset
 #'
-#' \code{apply_protocol()} adds a predifined test protocol to an existing set of
+#' \code{apply_protocol()} adds a predefined test protocol to an existing set of
 #' data from an exercise test.
 #'
 #' @param data A \code{data.frame} containing the exercise testing data
 #'   interpolated to seconds.
 #' @param protocol A \code{data.frame} containing the test protocol, as created
-#'   by \code{\link{set_protocol}} or \code{\link{guess_protocol}}.
-#'
-#' @examples
-#' # Import and Interpolate example data
-#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
-#' data <- spiro_interpolate(raw_data)
-#'
-#' apply_protocol(data, protocol = set_protocol_clt(4.5, step.count = 7))
-#' @export
+#'   by \code{\link{set_protocol_manual}} or \code{\link{get_protocol}}.
 
 apply_protocol <- function(data, protocol) {
 
@@ -269,6 +98,20 @@ get_protocol <- function(data) {
 #' \code{set_protocol_manually()} allows to set any user-defined load profile
 #' for an exercise test.
 #'
+#' @param duration Either a numeric vector containing the duration (in seconds)
+#'   load each load step, or a \code{data.frame} containing columns for duration
+#'   and load.
+#' @param load A numeric vector of the same length as \code{duration} containing
+#'   the corresponding load of each step.
+#'
+#' @examples
+#' set_protocol_manual(duration = c(300,120,300,60,300), load = (3,5,3,6,3))
+#'
+#' # using a data.frame as input
+#' pt_data <- data.frame(
+#'   duration = c(180,150,120,90,60,30),
+#'   load = c(200,250,300,350,400))
+#' set_protocol_manual(pt_data)
 #' @export
 
 set_protocol_manual <- function(duration, load = NULL) {
@@ -311,39 +154,47 @@ set_protocol_manual.data.frame <- function(data) {
   out
 }
 
-protocol_features <- function(data) {
-  data$type <- NA
-  data$code <- NA
+#' Extract features from a test protocol
+#'
+#' \code{protocol_features()} adds characteristic features to the load steps of
+#' an exercise testing protocol.
+#'
+#' @param protocol A \code{data.frame} containing the raw protocol as given by
+#'   \link{\code{get_protocol()}} or \link{\code{set_protocol_manual()}}.
 
-  if (data$load[[1]] == 0) {
-    data$type[1] <- "pre measures"
-    data$code[1] <- 0
+protocol_features <- function(protocol) {
+  protocol$type <- NA
+  protocol$code <- NA
+
+  if (protocol$load[[1]] == 0) {
+    protocol$type[1] <- "pre measures"
+    protocol$code[1] <- 0
   }
-  d <- diff(data$load[data$load != 0]) # calculate differences
+  d <- diff(protocol$load[protocol$load != 0]) # calculate differences
 
   if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) { # warm up present
-    data$type[min(which(data$load != 0))]  <- "warm up"
-    data$code[min(which(data$load != 0))]  <- 0.5
+    protocol$type[min(which(protocol$load != 0))]  <- "warm up"
+    protocol$code[min(which(protocol$load != 0))]  <- 0.5
   }
 
   # load steps and rest
   code_i <- 1
-  for (i in which(is.na(data$type))) {
-    if (data$load[i] == 0) {
-      data$type[i] <- "rest"
-      data$code[i] <- -1
+  for (i in which(is.na(protocol$type))) {
+    if (protocol$load[i] == 0) {
+      protocol$type[i] <- "rest"
+      protocol$code[i] <- -1
     } else {
-      data$type[i] <- "load"
-      data$code[i] <- code_i
+      protocol$type[i] <- "load"
+      protocol$code[i] <- code_i
       code_i <- code_i + 1 # consecutive numbers for load steps
     }
   }
   # post measures
-  if (data$load[nrow(data)] == 0) {
-    data$type[nrow(data)] <- "post measures"
-    data$code[nrow(data)] <- -2
+  if (protocol$load[nrow(protocol)] == 0) {
+    protocol$type[nrow(protocol)] <- "post measures"
+    protocol$code[nrow(protocol)] <- -2
   }
-  data
+  protocol
 }
 
 
@@ -352,8 +203,8 @@ protocol_features <- function(data) {
 #' \code{get_testtype()} guesses which type of testing protocol a exercise test
 #' is.
 #'
-#' @param protocol A \code{data.frame} containing the test protocol, as given by
-#'   \code{\link{protocol_features}}.
+#' @param protocol A \code{data.frame} containing the test protocol with
+#'   features, as given by \code{\link{protocol_features}}.
 #'
 #' @return A character, either \code{"incremental"}, \code{"ramp"},
 #'   \code{"constant"} or \code{"other"}.
@@ -373,6 +224,14 @@ get_testtype <- function(protocol) {
   }
   testtype
 }
+
+#' Add information to an exercise test protocol
+#'
+#' \code{get_testtype()} wraps protocol_features() and get_testtype for
+#'
+#' @param testtype A character, either \code{"ramp"}, \code{"constant"},
+#'   \code{"incremental"} or \code{"other"} for manually setting the test type.
+#' @inheritParams protocol_features
 
 process_protocol <- function(protocol, testtype = NULL) {
   p <- protocol_features(protocol)

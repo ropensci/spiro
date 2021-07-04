@@ -7,8 +7,8 @@
 get_testtype(protocol)
 }
 \arguments{
-\item{protocol}{A \code{data.frame} containing the test protocol, as given by
-\code{\link{protocol_features}}.}
+\item{protocol}{A \code{data.frame} containing the test protocol with
+features, as given by \code{\link{protocol_features}}.}
 }
 \value{
 A character, either \code{"incremental"}, \code{"ramp"},

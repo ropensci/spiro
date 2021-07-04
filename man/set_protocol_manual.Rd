@@ -12,6 +12,14 @@ set_protocol_manual(duration, load = NULL)
 
 \method{set_protocol_manual}{data.frame}(data)
 }
+\arguments{
+\item{duration}{Either a numeric vector containing the duration (in seconds)
+load each load step, or a \code{data.frame} containing columns for duration
+and load.}
+
+\item{load}{A numeric vector of the same length as \code{duration} containing
+the corresponding load of each step.}
+}
 \description{
 \code{set_protocol_manually()} allows to set any user-defined load profile
 for an exercise test.
@@ -25,3 +33,12 @@ given separately
 column
 }}
 
+\examples{
+set_protocol_manual(duration = c(300,120,300,60,300), load = (3,5,3,6,3))
+
+# using a data.frame as input
+pt_data <- data.frame(
+  duration = c(180,150,120,90,60,30),
+  load = c(200,250,300,350,400))
+set_protocol_manual(pt_data)
+}

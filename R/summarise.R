@@ -144,7 +144,7 @@ spiro_glance.spiro_clt <- function(data, interval = 120) {
 
 #' Get mean data values for a step of an exercise test
 #'
-#' code{getstepmeans()} returns the average data values for a single step of an
+#' \code{getstepmeans()} returns the average data values for a single step of an
 #' exercise test.
 #'
 #' @param step_number An integer giving the number of the step

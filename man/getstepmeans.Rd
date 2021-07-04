@@ -17,6 +17,6 @@ in seconds. For calculation the last \code{interval} seconds of the step
 will be averaged.}
 }
 \description{
-code{getstepmeans()} returns the average data values for a single step of an
+\code{getstepmeans()} returns the average data values for a single step of an
 exercise test.
 }
