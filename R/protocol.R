@@ -407,3 +407,50 @@ get_protocol <- function(data) {
     load = changes$velocity
   )
 }
+
+#' Manually setting a testing profile
+#'
+#' \code{set_protocol_manually()} allows to set any user-defined load profile
+#' for an exercise test.
+#'
+#' @export
+
+set_protocol_manual <- function(duration, load = NULL) {
+  UseMethod("set_protocol_manual")
+}
+
+#' @describeIn set_protocol_manual Default method when duration and load are
+#'   given separately
+#' @export
+
+set_protocol_manual.default <- function(duration, load) {
+  if (length(duration) != length(load)) {
+    stop("duration and load must be vectors of the same length")
+  }
+  data.frame(
+    duration = duration,
+    load = load
+  )
+}
+
+#' @describeIn set_protocol_manual Method for data.frames with duration and load
+#'   column
+#' @export
+
+set_protocol_manual.data.frame <- function(data) {
+
+  if (any(names(dd) == "duration") && any(names(dd) == "load")) {
+    out <- data.frame(
+      duration = data$duration,
+      load = data$load
+    )
+  } else if (ncol(data) == 2) {
+    out <- data.frame(
+      duration = data[1, ],
+      load = data[2, ]
+    )
+  } else {
+    stop("data.frame must contain columns duration and load")
+  }
+  out
+}
