@@ -95,7 +95,7 @@ get_protocol <- function(data) {
 
 #' Manually setting a testing profile
 #'
-#' \code{set_protocol_manually()} allows to set any user-defined load profile
+#' \code{set_protocol_manual()} allows to set any user-defined load profile
 #' for an exercise test.
 #'
 #' @param duration Either a numeric vector containing the duration (in seconds)
@@ -105,12 +105,12 @@ get_protocol <- function(data) {
 #'   the corresponding load of each step.
 #'
 #' @examples
-#' set_protocol_manual(duration = c(300,120,300,60,300), load = (3,5,3,6,3))
+#' set_protocol_manual(duration = c(300,120,300,60,300), load = c(3,5,3,6,3))
 #'
 #' # using a data.frame as input
 #' pt_data <- data.frame(
 #'   duration = c(180,150,120,90,60,30),
-#'   load = c(200,250,300,350,400))
+#'   load = c(200,250,300,350,400,450))
 #' set_protocol_manual(pt_data)
 #' @export
 
@@ -136,17 +136,17 @@ set_protocol_manual.default <- function(duration, load) {
 #'   column
 #' @export
 
-set_protocol_manual.data.frame <- function(data) {
+set_protocol_manual.data.frame <- function(duration, load = NULL) {
 
-  if (any(names(dd) == "duration") && any(names(dd) == "load")) {
+  if (any(names(duration) == "duration") && any(names(duration) == "load")) {
     out <- data.frame(
-      duration = data$duration,
-      load = data$load
+      duration = duration$duration,
+      load = duration$load
     )
-  } else if (ncol(data) == 2) {
+  } else if (ncol(duration) == 2) {
     out <- data.frame(
-      duration = data[1, ],
-      load = data[2, ]
+      duration = duration[1, ],
+      load = duration[2, ]
     )
   } else {
     stop("data.frame must contain columns duration and load")
@@ -160,7 +160,7 @@ set_protocol_manual.data.frame <- function(data) {
 #' an exercise testing protocol.
 #'
 #' @param protocol A \code{data.frame} containing the raw protocol as given by
-#'   \link{\code{get_protocol()}} or \link{\code{set_protocol_manual()}}.
+#'   \code{\link{get_protocol}} or \code{\link{set_protocol_manual}}.
 
 protocol_features <- function(protocol) {
   protocol$type <- NA
@@ -227,7 +227,7 @@ get_testtype <- function(protocol) {
 
 #' Add information to an exercise test protocol
 #'
-#' \code{get_testtype()} wraps protocol_features() and get_testtype for
+#' \code{process_protocol()} wraps protocol_features() and get_testtype() for
 #'
 #' @param testtype A character, either \code{"ramp"}, \code{"constant"},
 #'   \code{"incremental"} or \code{"other"} for manually setting the test type.

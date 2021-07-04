@@ -8,7 +8,7 @@ protocol_features(protocol)
 }
 \arguments{
 \item{protocol}{A \code{data.frame} containing the raw protocol as given by
-\link{\code{get_protocol()}} or \link{\code{set_protocol_manual()}}.}
+\code{\link{get_protocol}} or \code{\link{set_protocol_manual}}.}
 }
 \description{
 \code{protocol_features()} adds characteristic features to the load steps of

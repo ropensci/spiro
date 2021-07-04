@@ -62,8 +62,7 @@ Breath-by-breath data is linearly interpolated to get data points for every
 second. Per default, based on the given velocity data, the underlying testing
 protocol is guessed and applied to the data. If no load data is available or
 the protocol guess turns wrong, there is an option to manually specify the
-test \code{protocol} by setting one of the \code{\link{spiro_protocol}}
-functions as an argument.
+test \code{protocol} by using \code{\link{set_protocol_manual}}
 
 Additional variables of gas exchange are calculated for further analysis. Per
 default the body weight saved in the file's metadata is used for calculating

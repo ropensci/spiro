@@ -8,11 +8,11 @@ process_protocol(protocol, testtype = NULL)
 }
 \arguments{
 \item{protocol}{A \code{data.frame} containing the raw protocol as given by
-\link{\code{get_protocol()}} or \link{\code{set_protocol_manual()}}.}
+\code{\link{get_protocol}} or \code{\link{set_protocol_manual}}.}
 
 \item{testtype}{A character, either \code{"ramp"}, \code{"constant"},
 \code{"incremental"} or \code{"other"} for manually setting the test type.}
 }
 \description{
-\code{get_testtype()} wraps protocol_features() and get_testtype for
+\code{process_protocol()} wraps protocol_features() and get_testtype() for
 }
