@@ -454,3 +454,20 @@ set_protocol_manual.data.frame <- function(data) {
   }
   out
 }
+
+protocol_features <- function(data) {
+  data$type <- NA
+
+  if (data$load[[1]] == 0) data$type[1] <- "pre measures"
+  d <- diff(data$load[data$load != 0]) # calculate differences
+
+  if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) { # warm up present
+    data$type[min(which(data$load != 0))]  <- "warm up"
+  }
+
+  for (i in which(is.na(data$type))) {
+    if (data$load[i] == 0) data$type[i] <- "rest" else data$type[i] <- "load"
+  }
+
+  data
+}
