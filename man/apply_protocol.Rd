@@ -11,7 +11,7 @@ apply_protocol(data, protocol)
 interpolated to seconds.}
 
 \item{protocol}{A \code{data.frame} containing the test protocol, as created
-by \code{\link{spiro_protocol}} or \code{\link{guess_protocol}}}
+by \code{\link{set_protocol}} or \code{\link{guess_protocol}}.}
 }
 \description{
 \code{apply_protocol()} adds a predifined test protocol to an existing set of
@@ -22,5 +22,5 @@ data from an exercise test.
 raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 data <- spiro_interpolate(raw_data)
 
-apply_protocol(data, protocol = spiro_protocol_clt(4.5, step.count = 7))
+apply_protocol(data, protocol = set_protocol_clt(4.5, step.count = 7))
 }

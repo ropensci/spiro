@@ -1,6 +1,6 @@
 #' Manually generate a testing protocol for spiroergometry files
 #'
-#' \code{spiro_protocol()} generates a testing protocol which can be
+#' \code{set_protocol()} generates a testing protocol which can be
 #' applied to spiroergometry files.
 #'
 #' This function provides a manual interface for generating testing protocols in
@@ -40,21 +40,21 @@
 #'   applied to a given (interpolated) file by \code{\link{apply_protocol}}.
 #'
 #' @examples
-#' spiro_protocol(step.start = 150, step.increment = 30, step.duration = 180,
+#' set_protocol(step.start = 150, step.increment = 30, step.duration = 180,
 #'                rest.duration = 0, pre.duration = 60, wu.duration = 0,
 #'                wu.load = 0, step.count = 7, rest.initial = FALSE)
 #'
 #' # which can be simplified:
-#' spiro_protocol_gxt(step.count = 7, step.start = 150, step.increment = 30,
+#' set_protocol_gxt(step.count = 7, step.start = 150, step.increment = 30,
 #'                    step.duration = 180, rest.duration = 30)
 #'
-#' spiro_protocol_rmp(step.count = 19, wu.load = 3.0, step.increment = 0.2)
+#' set_protocol_rmp(step.count = 19, wu.load = 3.0, step.increment = 0.2)
 #'
-#' spiro_protocol_clt(step.start = 4.5)
+#' set_protocol_clt(step.start = 4.5)
 #'
 #' @export
 
-spiro_protocol <- function(step.start,
+set_protocol <- function(step.start,
                           step.increment,
                           step.duration,
                           rest.duration,
@@ -90,14 +90,14 @@ spiro_protocol <- function(step.start,
   out
 }
 
-#' @describeIn spiro_protocol Interface for constant load test protocols. Per
+#' @describeIn set_protocol Interface for constant load test protocols. Per
 #'   default, six steps of five minutes with 30 seconds rest in between are
 #'   applied. Following a one minute pre-measure, the warm-up is of the same
 #'   length and half the load of the steps.
 #' @export
 
-spiro_protocol_clt <- function(step.start, step.duration = 300, ...) {
-  out <- spiro_protocol(
+set_protocol_clt <- function(step.start, step.duration = 300, ...) {
+  out <- set_protocol(
     step.start = step.start,
     step.increment = 0,
     step.duration = step.duration,
@@ -112,17 +112,17 @@ spiro_protocol_clt <- function(step.start, step.duration = 300, ...) {
   out
 }
 
-#' @describeIn spiro_protocol Interface for ramp test protocols. Per
+#' @describeIn set_protocol Interface for ramp test protocols. Per
 #'   default, 30s-steps without rest in between are applied. Following a
 #'   one-minute pre measure , the warm-up has a duration of two minutes and is
 #'   directly followed by the first step.
 #' @export
 
-spiro_protocol_rmp <- function(step.count,
+set_protocol_rmp <- function(step.count,
                               wu.load = 2.8,
                               step.increment = 0.15,
                               step.duration = 30, ...) {
-  out <- spiro_protocol(
+  out <- set_protocol(
     step.start = wu.load + step.increment,
     step.increment = step.increment,
     step.duration = step.duration,
@@ -137,16 +137,16 @@ spiro_protocol_rmp <- function(step.count,
   out
 }
 
-#' @describeIn spiro_protocol Interface for graded exercise/incremental step
+#' @describeIn set_protocol Interface for graded exercise/incremental step
 #'   test protocols. Per default, there is only a one-minute pre-measure with no
 #'   warm-up. The default rest between steps is set to 30 seconds.
 #' @export
 
-spiro_protocol_gxt <- function(step.count,
+set_protocol_gxt <- function(step.count,
                               step.start = 2,
                               step.increment = 0.4,
                               step.duration = 300, ...) {
-  out <- spiro_protocol(
+  out <- set_protocol(
     step.start = step.start,
     step.increment = step.increment,
     step.duration = step.duration,
@@ -169,14 +169,14 @@ spiro_protocol_gxt <- function(step.count,
 #' @param data A \code{data.frame} containing the exercise testing data
 #'   interpolated to seconds.
 #' @param protocol A \code{data.frame} containing the test protocol, as created
-#'   by \code{\link{spiro_protocol}} or \code{\link{guess_protocol}}
+#'   by \code{\link{set_protocol}} or \code{\link{guess_protocol}}.
 #'
 #' @examples
 #' # Import and Interpolate example data
 #' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 #' data <- spiro_interpolate(raw_data)
 #'
-#' apply_protocol(data, protocol = spiro_protocol_clt(4.5, step.count = 7))
+#' apply_protocol(data, protocol = set_protocol_clt(4.5, step.count = 7))
 #' @export
 
 apply_protocol <- function(data, protocol) {
@@ -208,6 +208,7 @@ apply_protocol <- function(data, protocol) {
   out <- cbind(add, data[, ! names(data) %in% c("velocity","incr"), drop = F])
   attr(out,"protocol") <- protocol
   attr(out,"info") <- attr(data,"info")
+  attr(out,"testtype") <- attr(protocol,"testtype")
   out
 }
 
@@ -342,6 +343,49 @@ protocol_features <- function(data) {
     data$type[nrow(data)] <- "post measures"
     data$code[nrow(data)] <- -2
   }
-
   data
+}
+
+
+#' Guess a exercise test type from a corresponding test protocol
+#'
+#' \code{get_testtype()} guesses which type of testing protocol a exercise test
+#' is.
+#'
+#' @param protocol A \code{data.frame} containing the test protocol, as given by
+#'   \code{\link{protocol_features}}.
+#'
+#' @return A character, either \code{"incremental"}, \code{"ramp"},
+#'   \code{"constant"} or \code{"other"}.
+
+get_testtype <- function(protocol) {
+  # round load increases to prevent non-exact equality
+  d <- round(diff(protocol$load[protocol$type == "load"]),4)
+  t <- protocol$duration[protocol$type == "load"]
+  if (all(d[-1] == 0)) {
+    testtype <- "constant"
+  } else if (all(t[-1] < 120)) {
+    testtype <- "ramp"
+  } else if (all(d[-1] == d[2])) {
+    testtype <- "incremental"
+  } else {
+    testtype <- "other"
+  }
+  testtype
+}
+
+process_protocol <- function(protocol, testtype = NULL) {
+  p <- protocol_features(protocol)
+  if (is.null(testtype)) {
+    attr(p, "testtype") <- get_testtype(p)
+  } else {
+    attr(p, "testtype") <- switch(
+      ramp = "ramp",
+      constant = "constant",
+      increment = "increment",
+      other = "other",
+      stop("testtype needs to be set properly")
+    )
+  }
+  p
 }

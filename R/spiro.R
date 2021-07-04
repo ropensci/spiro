@@ -76,22 +76,21 @@ spiro <- function(file,
   dt_imported <- spiro_import(file, device = device)
   if (!is.null(protocol)) {
     ptcl <- protocol
-  } else if (all(dt_imported$velocity == 0) | all(is.na(dt_imported$velocity))){
-    ptcl <- NA
   } else {
-    ptcl <- guess_protocol(dt_imported)
+    ptcl <- get_protocol(dt_imported)
   }
+  protocol <- process_protocol(ptcl)
   dt_ipol <- spiro_interpolate(dt_imported)
-  dt_ptcl <- apply_protocol(data = dt_ipol, protocol = ptcl)
+  dt_ptcl <- apply_protocol(data = dt_ipol, protocol = protocol)
   dt_out <- spiro_add(data = dt_ptcl, weight = weight)
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           hr_offset = hr_offset)
-  if (all(is.na(ptcl))) testtype <- NA
-  else testtype <- ptcl$testtype
+  testtype <- attr(dt_ptcl, "testtype")
+  attr(dt_out, "testtype") <- testtype
   class(dt_out) <- c(switch(testtype,
                        constant = "spiro_clt",
-                       increment = "spiro_gxt",
+                       incremental = "spiro_gxt",
                        ramp = "spiro_rmp",
                        NULL),
                      "spiro",
