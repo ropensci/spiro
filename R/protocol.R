@@ -176,81 +176,35 @@ spiro_protocol_gxt <- function(step.count,
 #' apply_protocol(data, protocol = spiro_protocol_clt(4.5, step.count = 7))
 #' @export
 
-apply_protocol <- function(data,protocol) {
+apply_protocol <- function(data, protocol) {
 
-  if (length(protocol) != 10) {
-    velocity <- NULL # define variables to omit missing global binding error
-    incr <- NULL
-    out <- data.frame(
-      load = rep.int(0, length(data$time)),
-      step = rep.int(0, length(data$time)),
-      data[, ! names(data) %in% c("velocity","incr"), drop = F])
-    attr(out,"protocol") <- NA
-    attr(out,"info") <- attr(data,"info")
-    return(out)
-  }
-
-  pre <- rep.int(0, protocol$pre.duration)
-  wu <- rep.int(protocol$wu.load, protocol$wu.duration)
-  wuN <- rep.int(0.5, protocol$wu.duration)
-  rest <- rep.int(0, protocol$rest.duration)
-  restN <- rep.int(-1, protocol$rest.duration)
-  if (protocol$rest.initial) {
-    rest.initial <- rest
-    rest.initialN <- restN
+  if (is.null(protocol)) { # no protocol given
+    add <- data.frame(
+      load = rep.int(0, nrow(data)),
+      step = rep.int(0, nrow(data))
+    )
   } else {
-    rest.initial <- NULL
-    rest.initialN <- NULL
-  }
-  i <- 1
-  z <- protocol$step.start
-  out <- NULL
-  outN <- NULL
-
-  while (i <= trunc(protocol$step.count)) {
-    run <- rep.int(z,  protocol$step.duration)
-    runN <- rep.int(i, protocol$step.duration)
-    if (i == 1) {
-      step <- c(rest.initial, run)
-      stepN <- c(rest.initialN, runN)
-    } else {
-      step <- c(rest, run)
-      stepN <- c(restN, runN)
+    load <- rep.int(protocol$load, protocol$duration)
+    step <- rep.int(protocol$code, protocol$duration)
+    add <- data.frame(
+      load = load,
+      step = step
+    )
+    if (nrow(data) < nrow(add)) {
+      add <- add[1:nrow(data), ]
+      rownames(add) <- NULL
+    } else if (nrow(data) > nrow(add)) {
+      dif <- nrow(data) - nrow(add)
+      end <- data.frame(
+        load = rep.int(0,dif),
+        step = rep.int(-2,dif)
+      )
+      add <- rbind(add, end)
     }
-    out <- c(out, step)
-    outN <- c(outN, stepN)
-    z <- z + protocol$step.increment
-    i <- i + 1
   }
-
-  # if last step was not finished
-  if ((protocol$step.count - trunc(protocol$step.count)) != 0) {
-    lastduration <- round(
-      protocol$step.duration * (protocol$step.count -
-                                trunc(protocol$step.count)),-1)
-    last <- rep.int(z, lastduration)
-    lastN <- rep.int(i,lastduration)
-    out <- c(out, rest, last)
-    outN <- c(outN, restN, lastN)
-  }
-  outtest <- c(pre,wu,out)
-  posttime <- length(data$time) - length(outtest)
-  if (posttime <= 0) {
-    out <- data.frame(
-      load = outtest[1:length(data$time)],
-      step = c(pre, wuN, outN)[1:length(data$time)],
-      data)
-  } else {
-    post <- rep.int(0, posttime)
-    postN <- rep.int(-2, posttime)
-    out <- data.frame(
-      load = c(outtest, post),
-      step = c(pre, wuN, outN, postN),
-      data[, ! names(data) %in% c("velocity","incr"), drop = F])
-  }
-  attr(out, "info") <- attr(data,"info")
-  attr(out, "protocol") <- protocol
-  class(out) <- c("spiro","data.frame")
+  out <- cbind(add, data[, ! names(data) %in% c("velocity","incr"), drop = F])
+  attr(out,"protocol") <- protocol
+  attr(out,"info") <- attr(data,"info")
   out
 }
 
