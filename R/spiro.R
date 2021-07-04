@@ -72,7 +72,7 @@ spiro <- function(file,
   dt_imported <- spiro_import(file, device = device)
   if (!is.null(protocol)) {
     ptcl <- protocol
-  } else if (all(i$velocity == 0)) {
+  } else if (all(dt_imported$velocity == 0)) {
     ptcl <- NULL
   } else {
     ptcl <- get_protocol(dt_imported)
