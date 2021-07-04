@@ -457,16 +457,35 @@ set_protocol_manual.data.frame <- function(data) {
 
 protocol_features <- function(data) {
   data$type <- NA
+  data$code <- NA
 
-  if (data$load[[1]] == 0) data$type[1] <- "pre measures"
+  if (data$load[[1]] == 0) {
+    data$type[1] <- "pre measures"
+    data$code[1] <- 0
+  }
   d <- diff(data$load[data$load != 0]) # calculate differences
 
   if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) { # warm up present
     data$type[min(which(data$load != 0))]  <- "warm up"
+    data$code[min(which(data$load != 0))]  <- 0.5
   }
 
+  # load steps and rest
+  code_i <- 1
   for (i in which(is.na(data$type))) {
-    if (data$load[i] == 0) data$type[i] <- "rest" else data$type[i] <- "load"
+    if (data$load[i] == 0) {
+      data$type[i] <- "rest"
+      data$code[i] <- -1
+    } else {
+      data$type[i] <- "load"
+      data$code[i] <- code_i
+      code_i <- code_i + 1 # consecutive numbers for load steps
+    }
+  }
+  # post measures
+  if (data$load[nrow(data)] == 0) {
+    data$type[nrow(data)] <- "post measures"
+    data$code[nrow(data)] <- -2
   }
 
   data
