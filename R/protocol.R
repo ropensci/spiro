@@ -213,7 +213,7 @@ apply_protocol <- function(data, protocol) {
 
 #' Guess a test protocol from a corresponding exercise testing dataset
 #'
-#' \code{guess_protocol()} gets the underlying test protocol based on given
+#' \code{get_protocol()} gets the underlying test protocol based on given
 #' load data.
 #'
 #' @param data A \code{data.frame} containing the exercise testing data. It is
