@@ -252,3 +252,94 @@ process_protocol <- function(protocol, testtype = NULL) {
   }
   p
 }
+
+#' Setting an exercise testing profile
+#'
+#' \code{set_protocol()} allows to set an load profile for an exercise test
+#' based on profile sections.
+#'
+#' @param ... Functions related to sections of the test profile, such as
+#'   \code{pre}, \code{wu}, \code{const} or \code{step}. Sections will be
+#'   evaluated in the order they are entered.
+#' @param duration A number, giving the duration of the test section or
+#'   a single load within the test section (in seconds).
+#' @param rest.duration A number, specifying the duration of (each) rest (in
+#'   seconds).
+#' @param load A number, giving the (initial) load of a section.
+#' @param increment A number, giving the difference in load between the current
+#'   and the following load step.
+#' @param count An integer for the number of load sections.
+#' @seealso [set_protocol_manual] for completely manual protocol design.
+#'
+#' @examples
+#' set_protocol(pre(60), wu(300,100), step(180,150,25,8,30))
+#'
+#' @export
+set_protocol <- function(...) {
+  l <- list(...)
+  do.call("rbind",l)
+}
+
+#' @describeIn set_protocol Add pre-measures to a load protocol
+#' @export
+
+pre <- function(duration) {
+  data.frame(
+    duration = duration,
+    load = 0
+  )
+}
+
+#' @describeIn set_protocol Add a warm up to a load protocol
+#' @export
+
+wu <- function(duration, load, rest.duration = 0) {
+  if (rest.duration == 0) {
+    p <- NULL
+    l <- NULL
+  } else {
+    p <- rest.duration
+    l <- 0
+  }
+  data.frame(
+    duration = c(duration, p),
+    load = c(load, l)
+  )
+}
+
+#' @describeIn set_protocol Add a stepwise load protocol
+#' @export
+
+step <- function(duration, load, increment, count, rest.duration = 0) {
+  rest.load <- 0
+  if (rest.duration == 0) {
+    rest.load <- NULL
+    rest.duration <- NULL
+  }
+  i <- 1
+  l <- load
+  ds <- NULL
+  ls <- NULL
+  while (i <= count) {
+    ds <- c(ds, duration, rest.duration)
+    ls <- c(ls, l, rest.load)
+    l <- l + increment
+    i <- i + 1
+  }
+  d <- data.frame(
+    duration = ds,
+    load = ls
+  )
+  if (is.null(rest.load)) d else d[-nrow(d), ] # remove last rest interval
+}
+
+#' @describeIn set_protocol Add a constant load protocol
+#' @export
+
+const <- function(duration, load, count, rest.duration = 0) {
+  step(duration = duration,
+       load = load,
+       increment = 0,
+       count = count,
+       rest.duration = rest.duration)
+}

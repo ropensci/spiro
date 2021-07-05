@@ -12,7 +12,8 @@
 #' second. Per default, based on the given velocity data, the underlying testing
 #' protocol is guessed and applied to the data. If no load data is available or
 #' the protocol guess turns wrong, there is an option to manually specify the
-#' test \code{protocol} by using \code{\link{set_protocol_manual}}
+#' test \code{protocol} by using \code{\link{set_protocol}} or
+#' \code{\link{set_protocol_manual}}.
 #'
 #' Additional variables of gas exchange are calculated for further analysis. Per
 #' default the body weight saved in the file's metadata is used for calculating
@@ -36,8 +37,9 @@
 #' @param hr_offset An integer, corresponding to the temporal offset of the
 #'   heart-rate file. By default the start of the heart rate measurement is
 #'   linked to the start of the gas exchange measurement.
-#' @param protocol A \code{data.frame} by \code{\link{set_protocol_manual}}
-#'   containing the test protocol. This is automatically guessed by default.
+#' @param protocol A \code{data.frame} by \code{\link{set_protocol}} or
+#'   \code{\link{set_protocol_manual}} containing the test protocol. This is
+#'   automatically guessed by default.
 #'
 #' @return A \code{data.frame} of the class \code{spiro_*} with the interpolated
 #'   spirometric data, the corresponding load and (if supplied) additional heart
@@ -52,6 +54,9 @@
 #' file <- spiro_example("zan_gxt")
 #'
 #' spiro(file)
+#'
+#' # import with user-defined test profile
+#' spiro(file, protocol = set_protocol(pre(60),step(300,2,0.4,9,30)))
 #'
 #' # import with additional heart rate data
 #' oxy_file <- spiro_example("zan_ramp")
