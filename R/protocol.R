@@ -7,6 +7,7 @@
 #'   interpolated to seconds.
 #' @param protocol A \code{data.frame} containing the test protocol, as created
 #'   by \code{\link{set_protocol_manual}} or \code{\link{get_protocol}}.
+#' @export
 
 apply_protocol <- function(data, protocol) {
 
@@ -232,6 +233,7 @@ get_testtype <- function(protocol) {
 #' @param testtype A character, either \code{"ramp"}, \code{"constant"},
 #'   \code{"incremental"} or \code{"other"} for manually setting the test type.
 #' @inheritParams protocol_features
+#' @export
 
 process_protocol <- function(protocol, testtype = NULL) {
   if (is.null(protocol)) {
