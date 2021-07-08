@@ -39,6 +39,7 @@ apply_protocol <- function(data, protocol) {
   attr(out,"protocol") <- protocol
   attr(out,"info") <- attr(data,"info")
   attr(out,"testtype") <- attr(protocol,"testtype")
+  class(out) <- class(data)
   out
 }
 
