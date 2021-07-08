@@ -14,8 +14,8 @@ be an absolute or relative path.}
 
 \item{device}{A character string, specifying the device for measurement. By
 default the device type is guessed by the characteristics of \code{file}.
-This can be overridden by setting the argument to \code{"zan"} or
-\code{"cosmed"}.}
+This can be overridden by setting the argument to \code{"cortex"},
+\code{"cosmed"} or \code{"zan"}.}
 }
 \value{
 A \code{data.frame} with data. The attribute \code{info} contains

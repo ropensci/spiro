@@ -1,7 +1,7 @@
 #' Process raw data from metabolic carts/spiroergometric measures
 #'
-#' \code{spiro()} wraps multiple functions to import, process and amplify raw data
-#' from metabolic carts into a \code{data.frame}.
+#' \code{spiro()} wraps multiple functions to import, process and amplify raw
+#' data from metabolic carts into a \code{data.frame}.
 #'
 #' This function performs multiple operations on raw data from metabolic carts.
 #' It imports the raw data from a file, which might be complemented by an
@@ -26,8 +26,8 @@
 #'   be an absolute or relative path.
 #' @param device A character string, specifying the device for measurement. By
 #'   default the device type is guessed by the characteristics of \code{file}.
-#'   This can be overridden by setting the argument to \code{"zan"} or
-#'   \code{"cosmed"}.
+#'   This can be overridden by setting the argument to \code{"cortex"},
+#'   \code{"cosmed"} or \code{"zan"}.
 #' @param weight Numeric value for participant's body weight, if the default
 #'   value saved in \code{file} should be overridden.
 #' @param hr_file The name of a \code{*tcx} file which contains additional heart
@@ -45,8 +45,8 @@
 #'   spirometric data, the corresponding load and (if supplied) additional heart
 #'   rate data.
 #'
-#'   The attribute \code{"protocol"} provides additional information
-#'   on the underlying testing protocol. The attribute \code{"info"} contains
+#'   The attribute \code{"protocol"} provides additional information on the
+#'   underlying testing protocol. The attribute \code{"info"} contains
 #'   additional meta-data from the original raw file.
 #'
 #' @examples
