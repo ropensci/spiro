@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
 )
 
 library(ggplot2)
+ar <- arrow(length = unit(0.1, "inches"), type = "closed")
+dsblue <- "#0053A4"
 ```
 
 Different measuring devices and analysis software lead to opaque results in
@@ -72,8 +74,6 @@ can be useful for providing additional options for the importing and processing
 of the data.
 
 ```{r data flow, echo=FALSE}
-ar <- arrow(length = unit(0.1, "inches"), type = "closed")
-dsblue <- "#0053A4"
 
 ggplot() +
   geom_rect(aes(xmin = 0.2, xmax = 0.8, ymin = 0.27, ymax = 0.84), colour = dsblue, fill = dsblue, alpha = 0.1, size = 1) +
@@ -106,8 +106,7 @@ ggplot() +
 
 `spiro_import()` imports the raw data from a raw spiroergometric file.
 ```{r import}
-data_imp <- spiro_import(file,
-                         device = NULL)
+data_imp <- spiro_import(file, device = NULL)
 data_imp
 ```
 
@@ -133,81 +132,82 @@ Note that the linear interpolation will lead to a minor smoothing of the data.
 
 ### Guess or specify an exercise protocol
 
-To archive the full functionality of data summary and plotting with the
-spiro-package, a testing protocol needs to be attached to the imported data. The
-parameters of exercise protocols in `spiro` are the following:
-
-```{r protocol variable, echo=FALSE}
-ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
-path <- data.frame(x = c(0,0.1,0.1,0.3,0.3,0.32,0.32,0.42,0.42,0.44,0.44,0.54,0.54,0.56,0.56,0.66,0.66,0.68,0.68,0.78,0.78,0.8,0.8,0.9,0.9,0.95),
-                   y = c(0,0,0.2,0.2,0,0,0.4,0.4,0,0,0.5,0.5,0,0,0.6,0.6,0,0,0.7,0.7,0,0,0.8,0.8,0,0))
-ggplot() +
-  geom_segment(aes(x = 0, xend = 0.95, y = 0, yend = 0),colour = "grey", size = 1) +
-  geom_path(aes(x = x, y = y), data = path, size = 1, colour = dsblue) +
-  geom_segment(aes(x = 0, xend = 0.1, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
-  annotate("text", x = 0.05, y = -0.1, label = "pre.duration") +
-  geom_segment(aes(x = 0.1, xend = 0.3, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
-  annotate("text", x = 0.2, y = -0.1, label = "wu.duration") +
-  geom_segment(aes(x = 0.56, xend = 0.66, y = -0.05, yend = -0.05), arrow = ar2, size = 1) +
-  annotate("text", x = 0.61, y = -0.1, label = "step.duration") +
-  geom_segment(aes(x = 0.78, xend = 0.8, y = -0.05, yend = -0.05), size = 2) +
-  annotate("text", x = 0.79, y = -0.1, label = "rest.duration") +
-  geom_segment(aes(x = 0.12, xend = 0.12, y = 0, yend = 0.2), arrow = ar2, size = 1) +
-  annotate("text", x = 0.14, y = 0.1, label = "wu.load", hjust = "left") +
-  geom_segment(aes(x = 0.34, xend = 0.34, y = 0, yend = 0.4), arrow = ar2, size = 1) +
-  annotate("text", x = 0.31, y = 0.3, label = "step.start", hjust = "right") +
-  geom_segment(aes(x = 0.66, xend = 0.66, y = 0.6, yend = 0.7), arrow = ar2, size = 1) +
-  annotate("text", x = 0.64, y = 0.65, label = "step.increment", hjust = "right") +
-  annotate("text", x = 0.85, y = 0.75, label = "5", colour = "black") +
-  annotate("text", x = 0.85, y = 0.85, label = "step.count",) +
-  geom_segment(aes(x = 0.34, xend = 0.31, y = -0.05, yend = -0.01), size = 1) +
-  annotate("text", x = 0.35, y = -0.05, label = "rest.initial?", hjust = "left") +
-  scale_x_continuous(limits = c(-0.02,1), expand = expansion(0,0), breaks = NULL) +
-  scale_y_continuous(limits = c(-0.15,1), expand = expansion(0,0), breaks = NULL) +
-  labs(x = "time", y = "load") +
-  theme_minimal()
-```
-
+To achieve the full functionality of later data summary and plotting with the
+spiro-package, a testing protocol needs to be attached to the imported data. 
 
 #### Guessing a protocol
 
-By default, `spiro()` tries to guess the testing protocol using `guess_protocol()`, looking for velocity or load data in the imported, but not interpolated raw data.
+By default, `spiro()` tries to guess the testing protocol using
+`guess_protocol()`, looking for velocity or load data in the imported, but not
+interpolated raw data.
 
 ```{r guess_protocol}
-guess_protocol(data_imp)
+get_protocol(data_imp)
 
 ```
 
 #### Manually supplying a protocol
 
-In cases where there is no load data saved in the metabolic cart's file, or `guess_protocol()` turns wrong, a protocol can be manually generated via `spiro_protocol()` and applied to the interpolated data by `apply_protocol()`.
+In cases where there is no load data saved in the metabolic cart's file, or
+`get_protocol()` turns wrong, a protocol can be manually generated. There are to
+ways to initially generate a protocol, either completely manual with
+`set_protocol_manual()` or using a helper function `set_protocol()`. Once a
+protocol has been set, it can be attached to an existing data.frame with
+`process_protocol()` and `apply_protocol()`.
 
-```{r spiro_protocol}
-ptcl <- spiro_protocol(step.start = 150, 
-          step.increment = 30, 
-          step.duration = 180,
-          rest.duration = 0, 
-          pre.duration = 60, 
-          wu.duration = 0,
-          wu.load = 0, 
-          step.count = 7, 
-          rest.initial = FALSE)
+```{r set_protocol_manual}
+# manually setting a test protocol
+pt <- set_protocol_manual(
+  duration = c(60,300,30,300,30,300,30,300,30,300,30,300,30,300,30,300,30,300),
+  load = c(0,3,0,3.2,0,3.4,0,3.6,0,3.8,0,4,0,4.2,0,4.4,0,4.6)
+)
 
-data_with_ptcl <- apply_protocol(data_int, ptcl)
+# apply protocol to data.frame
+data_with_ptcl <- apply_protocol(data = data_int, 
+                                 protocol = process_protocol(pt))
+data_with_ptcl
 ```
 
-To avoid specifying every single protocol parameter to `spiro_protocol()` there are wrapper function for common types of exercise test:
+Alternatively to providing every single load step, a protocol can be defined by segments with `set_protocol`. Pre-defined segment types such as `pre`, `wu` and `step` can be pasted into the function in the desired order. The following graph illustrates an example:
 
-* `spiro_protocol_gxt`
-  : for graded exercise/ incremental step test. Deletes any warm-up and sets rest duration to 30s.
-* `spiro_protocol_rmp`
-  : for ramp tests. Creates a two-minute warm up directly leading into incremental 30s-steps without rest in between.
-* `spiro_protocol_clt`
-  : for constant load test. Creates six steps of five minute load with 30s rest in between, following a five minute warm up with half the load.
+```{r protocol variable, echo=FALSE}
+ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
+path <- data.frame(
+  x = c(0,0.1,0.1,0.3,0.3,0.32,0.32,0.42,0.42,0.44,0.44,0.54,0.54,0.56,0.56,0.66,0.66,0.68,0.68,0.78,0.78,0.8,0.8,0.9,0.9,0.95),
+  y = c(0,0,0.2,0.2,0,0,0.4,0.4,0,0,0.5,0.5,0,0,0.6,0.6,0,0,0.7,0.7,0,0,0.8,0.8,0,0),
+  type = factor(
+    c("pre","wu","wu","wu","wu",rep("load",21)),
+    levels = c("pre","wu","load")
+  )
+)
+ggplot() +
+  geom_segment(aes(x = 0, xend = 0.95, y = 0, yend = 0),colour = "grey", size = 1) +
+  geom_path(aes(x = x, y = y, colour = type), data = path, size = 1, group = TRUE, show.legend = FALSE) +
+  annotate("text", x = c(0.03,0.05,0.05,0.05,0.03), y = c(0.97,0.90,0.83,0.76,0.69), 
+           label = c(
+             "set_protocol(",
+             "pre(duration),",
+             "wu(duration, load, rest),",
+             "step(duration, load, increment, count, rest)",
+              ")"), 
+           hjust = "left", vjust = "top",
+           colour = c("black", "#d55e00", "#009e73", dsblue, "black"),
+           size = 4.5) +
+  scale_x_continuous(limits = c(-0.02,1), expand = expansion(0,0)) +
+  scale_y_continuous(limits = c(-0.15,1), expand = expansion(0,0)) +
+  scale_colour_manual(values = c("#d55e00","#009e73",dsblue)) +
+  labs(x = "time", y = "load") +
+  theme_minimal()
+```
+
+```{r}
+set_protocol(pre(60), wu(300,80), step(180,100,25,6,30))
+```
 
 ### Calculate additional parameters from the data
 
-The interpolated gas exchange data, together with the protocol load data, allows the calculation of additional variables with `spiro_add()`.
+The interpolated gas exchange data, together with the protocol load data, allows
+the calculation of additional variables with `spiro_add()`.
 
 ```{r spiro_add}
 spiro_add(data_with_ptcl,
@@ -215,7 +215,10 @@ spiro_add(data_with_ptcl,
 
 ```
 
-For calculating parameters relative to body weight, `spiro_add()` will use the weight found in the original data file's meta data. If for some reason no or the wrong weight was present in the raw data file, `weight` can be manually supplied.
+For calculating parameters relative to body weight, `spiro_add()` will use the
+weight found in the original data file's meta data. If for some reason no or the
+wrong weight was present in the raw data file, `weight` can be manually
+supplied.
 
 ### Attach additional heart rate data
 

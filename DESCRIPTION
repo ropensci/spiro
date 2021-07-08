@@ -23,5 +23,7 @@ Imports:
     readxl,
     knitr
 Suggests: 
-    rmarkdown,
+    testthat (>= 3.0.0),
+    rmarkdown
 VignetteBuilder: knitr
+Config/testthat/edition: 3

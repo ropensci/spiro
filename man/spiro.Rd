@@ -21,8 +21,8 @@ be an absolute or relative path.}
 
 \item{device}{A character string, specifying the device for measurement. By
 default the device type is guessed by the characteristics of \code{file}.
-This can be overridden by setting the argument to \code{"zan"} or
-\code{"cosmed"}.}
+This can be overridden by setting the argument to \code{"cortex"},
+\code{"cosmed"} or \code{"zan"}.}
 
 \item{weight}{Numeric value for participant's body weight, if the default
 value saved in \code{file} should be overridden.}
@@ -36,21 +36,22 @@ Alternatively, \code{hr_file} can be an absolute or relative path.}
 heart-rate file. By default the start of the heart rate measurement is
 linked to the start of the gas exchange measurement.}
 
-\item{protocol}{A \code{data.frame} by \code{\link{spiro_protocol}}
-containing the test protocol. This is automatically guessed by default.}
+\item{protocol}{A \code{data.frame} by \code{\link{set_protocol}} or
+\code{\link{set_protocol_manual}} containing the test protocol. This is
+automatically guessed by default.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro_*} with the interpolated
 spirometric data, the corresponding load and (if supplied) additional heart
 rate data.
 
-The attribute \code{"protocol"} provides additional information
-on the underlying testing protocol. The attribute \code{"info"} contains
+The attribute \code{"protocol"} provides additional information on the
+underlying testing protocol. The attribute \code{"info"} contains
 additional meta-data from the original raw file.
 }
 \description{
-\code{spiro()} wraps multiple functions to import, process and amplify raw data
-from metabolic carts into a \code{data.frame}.
+\code{spiro()} wraps multiple functions to import, process and amplify raw
+data from metabolic carts into a \code{data.frame}.
 }
 \details{
 This function performs multiple operations on raw data from metabolic carts.
@@ -62,8 +63,8 @@ Breath-by-breath data is linearly interpolated to get data points for every
 second. Per default, based on the given velocity data, the underlying testing
 protocol is guessed and applied to the data. If no load data is available or
 the protocol guess turns wrong, there is an option to manually specify the
-test \code{protocol} by setting one of the \code{\link{spiro_protocol}}
-functions as an argument.
+test \code{protocol} by using \code{\link{set_protocol}} or
+\code{\link{set_protocol_manual}}.
 
 Additional variables of gas exchange are calculated for further analysis. Per
 default the body weight saved in the file's metadata is used for calculating
@@ -76,9 +77,8 @@ file <- spiro_example("zan_gxt")
 
 spiro(file)
 
-# manually supply a test protocol
-spiro(file, protocol = spiro_protocol_gxt(step.count = 9, step.start = 2.5,
-  step.increment = 0.5, step.duration = 300))
+# import with user-defined test profile
+spiro(file, protocol = set_protocol(pre(60),step(300,2,0.4,9,30)))
 
 # import with additional heart rate data
 oxy_file <- spiro_example("zan_ramp")

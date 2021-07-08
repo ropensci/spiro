@@ -22,37 +22,72 @@
 
 spiro_summary <- function(data, interval = 120) {
   protocol <- attr(data, "protocol")
-  if (all(is.na(protocol)))
+  if (is.null(protocol))
     stop("No protocol found")
-
-  steplength <- protocol$step.duration
-  stepcount <- protocol$step.count
-  if (interval > steplength) {
-    interval <- steplength
-    message("'interval' was set to step length")
-  }
 
   predf <- NULL
   wudf <- NULL
-  if (protocol$pre.duration >= interval) {
-    predf <- sapply(0, getstepmeans, data = data, interval = interval)
-  } else if (protocol$pre.duration > 0) {
+  if (any(data$step == 0)) { # for pre measures
+    pre_duration <- protocol$duration[[1]]
+    if (pre_duration >= interval) {
+      predf <- sapply(0, getstepmeans, data = data, interval = interval)
+    } else { # computational interval longer than pre measures
     predf <- sapply(0, getstepmeans,
                     data = data,
-                    interval = protocol$pre.duration)
-    message("for pre-measures, interval was set to length of measures")
-  }
-  if (protocol$wu.duration >= interval) {
-    wudf <- sapply(0.5, getstepmeans, data = data, interval = interval)
-  } else if (protocol$wu.duration > 0) {
-    predf <- sapply(0, getstepmeans,
-                    data = data,
-                    interval = protocol$wu.duration)
-    message("for warm-up measures, interval was set to length of warm-up")
+                    interval = pre_duration)
+    message(
+      sprintf(
+      "for pre-measures, interval was set to length of measures (%s seconds)",
+      pre_duration)
+    )
+    }
   }
 
-  steps <- 1:trunc(stepcount)
-  ldf <- sapply(steps, getstepmeans, data = data, interval = interval)
+  if (any(data$step == 0.5)) { # for warm up
+    wu_duration <- protocol$duration[[which(protocol$code == 0.5)]]
+    if (wu_duration >= interval) {
+      wudf <- sapply(0.5, getstepmeans, data = data, interval = interval)
+    } else { # computational interval longer than warm up
+      predf <- sapply(0.5, getstepmeans,
+                      data = data,
+                      interval = wu_duration)
+      message(
+        sprintf(
+         "for warm-up measures, interval was set to length of warm-up (%s seconds)",
+         wu_duration)
+      )
+    }
+  }
+
+  # special handle, if all load steps are less than interval
+  # interval will be given the value of the longest step
+  if (all(protocol$duration[protocol$type == "load"] < interval)) {
+    interval <- max(protocol$duration[protocol$type == "load"])
+    message(sprintf("for load steps, interval was set to %s seconds", interval))
+  }
+
+  # for load steps
+  # compare step lengths and computational interval
+  step_interval <- vector(mode = "numeric", length = max(data$step))
+  for (i in seq(max(data$step))) {
+    i_duration <- protocol$duration[[which(protocol$code == i)]]
+    if (i_duration >= interval) {
+      step_interval[i] <- interval
+    } else {
+      step_interval[i] <- i_duration
+      message(
+        sprintf("for step %s, interval was set to length of step (%s seconds)",
+                i, i_duration)
+      )
+    }
+  }
+
+  steps <- 1:max(data$step)
+  ldf <- mapply(FUN = getstepmeans,
+    step_number = steps,
+    interval = step_interval,
+    MoreArgs = list(data = data)
+  )
   ldf <- cbind(predf, wudf, ldf)
   df <- round(data.frame(apply(t(ldf),2,unlist)),2)
   attr(df,"interval") <- interval
@@ -116,10 +151,10 @@ spiro_glance.default <- function(data, interval = 30) {
     df <- cbind(df, df_hr)
   }
 
-  if (any(is.na(attr(data,"protocol")))) {
+  if (is.null(attr(data, "testtype"))) {
     colnames(df) <- c("VO2peak_abs","VO2peak_rel","RER_peak")
     if (ncol(df) == 4) colnames(df)[4] <- "HR_peak"
-  } else if (attr(data,"protocol")$testtype == "increment") {
+  } else if (attr(data, "testtype") == "incremental") {
     colnames(df) <- c("VO2peak_abs","VO2peak_rel","RER_peak")
     if (ncol(df) == 4) colnames(df)[4] <- "HR_peak"
   }
@@ -144,7 +179,7 @@ spiro_glance.spiro_clt <- function(data, interval = 120) {
 
 #' Get mean data values for a step of an exercise test
 #'
-#' code{getstepmeans()} returns the average data values for a single step of an
+#' \code{getstepmeans()} returns the average data values for a single step of an
 #' exercise test.
 #'
 #' @param step_number An integer giving the number of the step
