@@ -275,7 +275,7 @@ process_protocol <- function(protocol, testtype = NULL) {
 #' @seealso [set_protocol_manual] for completely manual protocol design.
 #'
 #' @examples
-#' set_protocol(pre(60), wu(300,100), step(180,150,25,8,30))
+#' set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
 #'
 #' @export
 set_protocol <- function(...) {
@@ -313,7 +313,7 @@ wu <- function(duration, load, rest.duration = 0) {
 #' @describeIn set_protocol Add a stepwise load protocol
 #' @export
 
-step <- function(duration, load, increment, count, rest.duration = 0) {
+steps <- function(duration, load, increment, count, rest.duration = 0) {
   rest.load <- 0
   if (rest.duration == 0) {
     rest.load <- NULL
@@ -340,7 +340,7 @@ step <- function(duration, load, increment, count, rest.duration = 0) {
 #' @export
 
 const <- function(duration, load, count, rest.duration = 0) {
-  step(duration = duration,
+  steps(duration = duration,
        load = load,
        increment = 0,
        count = count,

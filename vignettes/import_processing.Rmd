@@ -168,7 +168,7 @@ data_with_ptcl <- apply_protocol(data = data_int,
 data_with_ptcl
 ```
 
-Alternatively to providing every single load step, a protocol can be defined by segments with `set_protocol`. Pre-defined segment types such as `pre`, `wu` and `step` can be pasted into the function in the desired order. The following graph illustrates an example:
+Alternatively to providing every single load step, a protocol can be defined by segments with `set_protocol`. Pre-defined segment types such as `pre`, `wu` and `steps` can be pasted into the function in the desired order. The following graph illustrates an example:
 
 ```{r protocol variable, echo=FALSE}
 ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
@@ -188,7 +188,7 @@ ggplot() +
              "set_protocol(",
              "pre(duration),",
              "wu(duration, load, rest),",
-             "step(duration, load, increment, count, rest)",
+             "steps(duration, load, increment, count, rest)",
               ")"), 
            hjust = "left", vjust = "top",
            colour = c("black", "#d55e00", "#009e73", dsblue, "black"),
@@ -201,7 +201,7 @@ ggplot() +
 ```
 
 ```{r}
-set_protocol(pre(60), wu(300,80), step(180,100,25,6,30))
+set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 ```
 
 ### Calculate additional parameters from the data

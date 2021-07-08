@@ -4,7 +4,7 @@
 \alias{set_protocol}
 \alias{pre}
 \alias{wu}
-\alias{step}
+\alias{steps}
 \alias{const}
 \title{Setting an exercise testing profile}
 \usage{
@@ -14,7 +14,7 @@ pre(duration)
 
 wu(duration, load, rest.duration = 0)
 
-step(duration, load, increment, count, rest.duration = 0)
+steps(duration, load, increment, count, rest.duration = 0)
 
 const(duration, load, count, rest.duration = 0)
 }
@@ -46,13 +46,13 @@ based on profile sections.
 
 \item \code{wu}: Add a warm up to a load protocol
 
-\item \code{step}: Add a stepwise load protocol
+\item \code{steps}: Add a stepwise load protocol
 
 \item \code{const}: Add a constant load protocol
 }}
 
 \examples{
-set_protocol(pre(60), wu(300,100), step(180,150,25,8,30))
+set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
 
 }
 \seealso{
