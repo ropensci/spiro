@@ -71,7 +71,8 @@ displayed.
 To plot exercise test data handled by `spiro()` it is recommend to use specific
 visualisation packages such as `ggplot2` on the data. However, to provide a
 quick view on the compiled data (e.g. for checking if the import operated
-correctly) `spiro` offers basic shorthand functions of data visualisation.
+correctly) the `spiro` package offers basic shorthand functions of data
+visualisation.
 
 ### Plotting oxygen uptake data
 
