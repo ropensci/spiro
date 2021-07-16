@@ -15,3 +15,33 @@ navbar:
     - icon: fab fa-github fa-lg
       href: https://github.com/smnnlt/spiro
 
+reference:
+- title: "General data import and processing"
+- contents:
+  - spiro
+  - starts_with("spiro_import")
+  - guess_device
+  - spiro_interpolate
+  - spiro_add
+- title: "Dealing with exercise protocols"
+- contents:
+  - matches("protocol")
+  - get_testtype
+- title: "Working with additional heart rate data"
+- contents:
+  - starts_with("hr")
+- title: "Summarising"
+- contents:
+  - spiro_summary
+  - spiro_glance
+  - getstepmeans
+- title: "Plotting"
+- contents:
+  - starts_with("spiro_plot")
+- title: "General package functions"
+- contents:
+  - spiro-package
+  - spiro_example
+  - get_path
+  - knit_print.spiro
+  - to_seconds
