@@ -147,7 +147,7 @@ spiro_glance.default <- function(data, interval = 30) {
   df <- round(df, 2)
 
   if (!all(data$HR == 0, na.rm = TRUE)) {
-    df_hr <- data.frame(HR_max = round(max(data$HR_rm, na.rm = TRUE),0))
+    df_hr <- data.frame(HR_max = max(data$HR, na.rm = TRUE))
     df <- cbind(df, df_hr)
   }
 
@@ -167,8 +167,7 @@ spiro_glance.default <- function(data, interval = 30) {
 #'   average of all steps performed at the constant load.
 #' @export
 spiro_glance.spiro_clt <- function(data, interval = 120) {
-  protocol <- attr(data, "protocol")
-  steps <- 1:trunc(protocol$step.count)
+  steps <- 1:max(data$step)
   ldf <- sapply(steps, getstepmeans, data = data, interval = interval)
   m <- apply(ldf,2,unlist)
   mm <- round(rowMeans(m),2)[-1]
