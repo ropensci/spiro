@@ -170,7 +170,22 @@ spiro_glance.default <- function(data, interval = 30) {
 #'   average of all steps performed at the constant load.
 #' @export
 spiro_glance.spiro_clt <- function(data, interval = 120) {
-  steps <- 1:max(data$step)
+
+  protocol <- attr(data, "protocol")
+  if (is.null(protocol))
+    stop("No protocol found")
+
+  # check if the last step was completed
+  last_duration <- protocol$duration[[which(protocol$code == max(data$step))]]
+
+  # if last step was shorter than calculation interval (early termination)
+  # this step will be excluded from the calculation of the overall summary
+  if (last_duration < interval) {
+    steps <- 1:(max(data$step - 1))
+    message("Last step was excluded from summary calculation due to termination of the test")
+  } else {
+    steps <- 1:max(data$step)
+  }
   ldf <- sapply(steps, getstepmeans, data = data, interval = interval)
   m <- apply(ldf,2,unlist)
   mm <- round(rowMeans(m),2)[-1]
