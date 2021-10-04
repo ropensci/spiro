@@ -207,7 +207,14 @@ spiro_glance.spiro_clt <- function(data, interval = 120) {
 #'    will be averaged.
 getstepmeans <- function(step_number, data, interval = 30) {
   step <- data[data$step == step_number,]
-  stepend <- step[(nrow(step)-(interval-1)):nrow(step),]
+
+  # get start of calculation interval
+  if (nrow(step) >= interval) {
+    cstart <- nrow(step)-(interval-1)
+  } else { # special case if last step was shorter than interval
+    cstart <- 1
+  }
+  stepend <- step[cstart:nrow(step),]
 
   df <- data.frame(
     step_number = step_number,
