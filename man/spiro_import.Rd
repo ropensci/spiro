@@ -7,15 +7,13 @@
 spiro_import(file, device = NULL)
 }
 \arguments{
-\item{file}{The name of the file which contains the spiroergometry data. The
-file  will be found by partial matching of the regular expression within
-the working directory (and one level above). Alternatively, \code{file} can
-be an absolute or relative path.}
+\item{file}{The absolute or relative path of the file that contains the gas
+exchange data.}
 
 \item{device}{A character string, specifying the device for measurement. By
-default the device type is guessed by the characteristics of \code{file}.
-This can be overridden by setting the argument to \code{"cortex"},
-\code{"cosmed"} or \code{"zan"}.}
+default the device type is guessed by the characteristics of the
+\code{file}. This can be overridden by setting the argument to
+\code{"cortex"}, \code{"cosmed"} or \code{"zan"}.}
 }
 \value{
 A \code{data.frame} with data. The attribute \code{info} contains

@@ -9,10 +9,10 @@
 #' and supported file types visit \code{\link{spiro_import}}.
 #'
 #' Breath-by-breath data is linearly interpolated to get data points for every
-#' second. Per default, based on the given velocity data, the underlying testing
-#' protocol is guessed and applied to the data. If no load data is available or
-#' the protocol guess turns wrong, there is an option to manually specify the
-#' test \code{protocol} by using \code{\link{set_protocol}} or
+#' second. Based on the given load data, the underlying exercise protocol is
+#' guessed and applied to the data. If no load data is available or the protocol
+#' guess turns wrong, there is an option to manually specify the exercise
+#' \code{protocol} by using \code{\link{set_protocol}} or
 #' \code{\link{set_protocol_manual}}.
 #'
 #' Additional variables of gas exchange are calculated for further analysis. Per
@@ -20,20 +20,16 @@
 #' relative measures. It is possible to supply \code{weight} manually to the
 #' function, overriding that value.
 #'
-#' @param file The name of the file which contains the spiroergometry data. The
-#'   file  will be found by partial matching of the regular expression within
-#'   the working directory (and one level above). Alternatively, \code{file} can
-#'   be an absolute or relative path.
+#' @param file The absolute or relative path of the file that contains the gas
+#'   exchange data.
 #' @param device A character string, specifying the device for measurement. By
-#'   default the device type is guessed by the characteristics of \code{file}.
-#'   This can be overridden by setting the argument to \code{"cortex"},
-#'   \code{"cosmed"} or \code{"zan"}.
+#'   default the device type is guessed by the characteristics of the
+#'   \code{file}. This can be overridden by setting the argument to
+#'   \code{"cortex"}, \code{"cosmed"} or \code{"zan"}.
 #' @param weight Numeric value for participant's body weight, if the default
-#'   value saved in \code{file} should be overridden.
-#' @param hr_file The name of a \code{*tcx} file which contains additional heart
-#'   rate data. The file  will be found by partial matching of the regular
-#'   expression within the working directory (and one level above).
-#'   Alternatively, \code{hr_file} can be an absolute or relative path.
+#'   value saved in the \code{file} should be overridden.
+#' @param hr_file The absolute or relative path of a \code{*tcx} file that
+#'   contains additional heart rate data.
 #' @param hr_offset An integer, corresponding to the temporal offset of the
 #'   heart-rate file. By default the start of the heart rate measurement is
 #'   linked to the start of the gas exchange measurement.
@@ -73,24 +69,40 @@ spiro <- function(file,
                   hr_offset = 0,
                   protocol = NULL) {
 
+  # import the gas exchange raw data
   dt_imported <- spiro_import(file, device = device)
-  if (!is.null(protocol)) {
+
+  # find or guess an exercise protocol
+  if (!is.null(protocol)) { # use manually specified protocol
     ptcl <- protocol
-  } else if (all(dt_imported$velocity == 0)) {
+  } else if (all(dt_imported$velocity == 0)) { # no protocol available
     ptcl <- NULL
-  } else {
+  } else { # guess protocol
     ptcl <- get_protocol(dt_imported)
   }
+
+  # interpolate the data and add the protocol
   protocol <- process_protocol(ptcl)
   dt_ipol <- spiro_interpolate(dt_imported)
   dt_ptcl <- apply_protocol(data = dt_ipol, protocol = protocol)
+
+  # calculate additional variables
   dt_out <- spiro_add(data = dt_ptcl, weight = weight)
+
+  # Add heart rate if available
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           hr_offset = hr_offset)
+
+  # set test type attribute
   testtype <- attr(dt_ptcl, "testtype")
   attr(dt_out, "testtype") <- testtype
   if (is.null(testtype)) testtype <- NA
+
+  # save raw data as attribute
+  attr(dt_out, "raw") <- dt_imported
+
+  # set object class (based on test type)
   class(dt_out) <- c(switch(testtype,
                        constant = "spiro_clt",
                        incremental = "spiro_gxt",

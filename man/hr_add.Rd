@@ -16,10 +16,8 @@ hr_apply(data, hr_data, hr_offset = 0)
 \item{data}{A \code{data.frame} containing spiroergometric data interpolated
 to every second.}
 
-\item{hr_file}{The name of a \code{*tcx} file which contains additional heart
-rate data. The file  will be found by partial matching of the regular
-expression within the working directory (and one level above).
-Alternatively, \code{hr_file} can be an absolute or relative path.}
+\item{hr_file}{The absolute or relative path of a \code{*tcx} file that
+contains additional heart rate data.}
 
 \item{hr_offset}{An integer, corresponding to the temporal offset of the
 heart-rate file. By default the start of the heart rate measurement is

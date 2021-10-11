@@ -31,7 +31,6 @@
 #' @export
 
 spiro_import <- function(file, device = NULL) {
-  file <- get_path(file)
   if (is.null(device)) device <- guess_device(file)
   switch(device,
          zan = spiro_import_zan(file),
@@ -102,34 +101,6 @@ spiro_import_zan <- function(file) {
   class(df) <- c("spiro","data.frame")
   df
 }
-
-#' Get the file path for a data file
-#'
-#' \code{get_path()} performs a serch for a data file.
-#'
-#' Considering the input to be a regular expression, this function will search
-#' one level above the current working directory to find matching files.
-#'
-#' If no matching files are found, \code{get_path} takes the input as a direct
-#' path to a file. If more than one match is found, an error will be displayed.
-#'
-#' @param name A character string, giving the file name to look for.
-#'
-#' @return A character string containing the file path.
-
-get_path <- function(name) {
-  filepath <- list.files(path = "..",
-                         pattern = name,
-                         recursive = TRUE,
-                         full.names = TRUE)
-  if (length(filepath) >1 ) {
-    stop("More than one file was found matching the input")
-  } else if (length(filepath) != 1) {
-    filepath <- name
-  }
-  filepath
-}
-
 
 #' Guess the device used for a cardiopulmonary measurement
 #'

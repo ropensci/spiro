@@ -36,8 +36,7 @@ hr_add <- function(data, hr_file, hr_offset = 0) {
 
 #' @rdname hr_add
 hr_import <- function(hr_file) {
-  filepath <- get_path(hr_file)
-  tcx_data <- XML::xmlParse(filepath)
+  tcx_data <- XML::xmlParse(hr_file)
   tcx_raw <- XML::xmlToDataFrame(
     nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns"))
   hr <- hr_interpolate(tcx_raw)
