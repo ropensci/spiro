@@ -36,7 +36,7 @@ spiro_import <- function(file, device = NULL) {
          zan = spiro_import_zan(file),
          cosmed = spiro_import_cosmed(file),
          cortex = spiro_import_cortex(file),
-         stop("'type' not specified")
+         stop("Could not find device type. Please specify the 'type' argument")
   )
 }
 
@@ -53,9 +53,9 @@ spiro_import_zan <- function(file) {
 
   # find indices for document structure
   rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
-  meta_imin <- which(rawdata == "[person]")
-  cnames_imin <- which(rawdata == "[parameter]")
-  data_imin <- which(rawdata == "[Data]")
+  meta_imin <- which(rawdata == "[person]") # meta data
+  cnames_imin <- which(rawdata == "[parameter]") # column names
+  data_imin <- which(rawdata == "[Data]") # raw data
 
   # import meta data
   meta <- utils::read.csv(file, sep = "=",
@@ -73,12 +73,14 @@ spiro_import_zan <- function(file) {
     height = as.numeric(meta_df$groesse),
     weight = as.numeric(meta_df$gewicht)
   )
+  # Replace missing values with NAs
+  info <- replace(info,which(info == ""),NA)
 
   # import column names for main data structure
   cnames <- utils::read.csv(file, header = FALSE,
                             skip = cnames_imin+2,
                             nrows = data_imin-cnames_imin-4)$V3
-  # remove column due to encoding problems
+  # remove last column due to encoding problems
   cnames <- cnames[-length(cnames)]
 
   # import the main data
@@ -93,7 +95,7 @@ spiro_import_zan <- function(file) {
     VT = (data$Vin / 1000),
     VE = (60 * data$Vin) / (data$tin + data$tex),
     HR = data$HR,
-    velocity = round(data$Geschw./3600,2),
+    load = round(data$Geschw./3600,2),
     incr = data$Steig./10
   )
 
@@ -113,18 +115,26 @@ spiro_import_zan <- function(file) {
 #' @return A character string specifying the guessed device.
 
 guess_device <- function(file) {
-  if (grepl("\\.xls", file)) {
+  if (grepl("\\.xls", file)) { #Excel file
+    # Read head of the Excel file
     head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1","V2"))
+
+    # files from Cosmed devices usually start with a line "ID-Code:"
     if (any(head == "ID code:", na.rm = TRUE)|
         any(head == "ID-Code:", na.rm = TRUE)) {
       device <- "cosmed"
+    # files from Cortex devices usually contain a line at the head: "Bediener"
+    # this is currently only working in German language
+    # English equivalent is needed
     } else if (any(head == "Bediener", na.rm = TRUE)) {
       device <- "cortex"
-    } else {
+    } else { # device type not found
       device <- "none"
     }
-  } else {
-    head <- utils::read.delim(file, header = FALSE, nrows = 10)
+  } else { # non-Excel file
+    # read the first rows of the file
+    head <- utils::read.delim(file, header = FALSE, nrows = 5)
+    # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) device <- "zan" else device <- "none"
   }
   device
@@ -195,7 +205,7 @@ spiro_import_cosmed <- function(file) {
     VT = data$VT,
     VE = data$VE,
     HR = data$HR,
-    velocity = round(speed/36,2),
+    load = round(speed/36,2),
     incr = grade
   )
   if (is.na(info$weight)) {
@@ -283,7 +293,7 @@ spiro_import_cortex <- function(file) {
     VT = as.numeric(data$VT),
     VE = as.numeric(data[[ve_name]]),
     HR = as.numeric(data$HF),
-    velocity = as.numeric(data$Steigung),
+    load = as.numeric(data$Steigung),
     incr = as.numeric(data$Steigung)
   )
 

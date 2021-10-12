@@ -35,7 +35,7 @@ apply_protocol <- function(data, protocol) {
       add <- rbind(add, end)
     }
   }
-  out <- cbind(add, data[, ! names(data) %in% c("velocity","incr"), drop = F])
+  out <- cbind(add, data[, ! names(data) %in% c("load","incr"), drop = F])
   attr(out,"protocol") <- protocol
   attr(out,"info") <- attr(data,"info")
   attr(out,"testtype") <- attr(protocol,"testtype")
@@ -67,8 +67,8 @@ get_protocol <- function(data) {
   values <- NULL
   while (index <= nrow(data)) {
     values <- c(values, index)
-    load <- data$velocity[[index]] # extract load for specific index
-    vals <- which(data$velocity != load) # look for different loads
+    load <- data$load[[index]] # extract load for specific index
+    vals <- which(data$load != load) # look for different loads
     rest <- vals[vals > index] # filter for later loads
     if (length(rest) != 0) {
       index <- min(vals[vals > index]) # move on to next load change
@@ -77,7 +77,7 @@ get_protocol <- function(data) {
     }
   }
 
-  changes <- data[values, c("time","velocity")]
+  changes <- data[values, c("time","load")]
 
   # calculate duration of each load step
   duration <- rep.int(NA,length(values))
@@ -91,7 +91,7 @@ get_protocol <- function(data) {
 
   data.frame(
     duration = round(duration,-1), # round to full 10 seconds
-    load = changes$velocity
+    load = changes$load
   )
 }
 

@@ -75,7 +75,7 @@ spiro <- function(file,
   # find or guess an exercise protocol
   if (!is.null(protocol)) { # use manually specified protocol
     ptcl <- protocol
-  } else if (all(dt_imported$velocity == 0)) { # no protocol available
+  } else if (all(dt_imported$load == 0)) { # no protocol available
     ptcl <- NULL
   } else { # guess protocol
     ptcl <- get_protocol(dt_imported)
