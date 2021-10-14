@@ -77,6 +77,7 @@ get_protocol <- function(data) {
     }
   }
 
+  # get time and load for every time point when load changes
   changes <- data[values, c("time","load")]
 
   # calculate duration of each load step
@@ -140,18 +141,21 @@ set_protocol_manual.default <- function(duration, load) {
 
 set_protocol_manual.data.frame <- function(duration, load = NULL) {
 
+  # check if data frame has columns names 'duration' and 'load'
   if (any(names(duration) == "duration") && any(names(duration) == "load")) {
     out <- data.frame(
       duration = duration$duration,
       load = duration$load
     )
+  # check if data frame has only two colummns
+  # first column will be interpreted as duration, second as load
   } else if (ncol(duration) == 2) {
     out <- data.frame(
       duration = duration[1, ],
       load = duration[2, ]
     )
   } else {
-    stop("data.frame must contain columns duration and load")
+    stop("data.frame must contain columns 'duration' and 'load'")
   }
   out
 }
@@ -297,7 +301,7 @@ pre <- function(duration) {
 #' @export
 
 wu <- function(duration, load, rest.duration = 0) {
-  if (rest.duration == 0) {
+  if (rest.duration == 0) { # no rest after warm up
     p <- NULL
     l <- NULL
   } else {
@@ -323,6 +327,8 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
   l <- load
   ds <- NULL
   ls <- NULL
+  # repeatedly bind load (and eventually rest) measures until step count is
+  # reached
   while (i <= count) {
     ds <- c(ds, duration, rest.duration)
     ls <- c(ls, l, rest.load)
@@ -333,7 +339,7 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
     duration = ds,
     load = ls
   )
-  if (is.null(rest.load)) d else d[-nrow(d), ] # remove last rest interval
+  if (is.null(rest.load)) d else d[-nrow(d),] # remove last rest interval
 }
 
 #' @describeIn set_protocol Add a constant load protocol

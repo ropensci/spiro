@@ -27,12 +27,21 @@
 #' spiro_interpolate(raw_data)
 #' @export
 spiro_interpolate <- function(data) {
+
+  # find and handle duplicates
+  # in some rare cases time data may contain duplicates (e.g. when time was
+  # rounded).
   data$time <- dupl(data$time)
+
+  # interpolate the data
   yout <- sapply(data[-1], spiro_interpolate.internal, x = data$time)
+  # write time column
   xout <- 1:round(max(data$time, na.rm = TRUE))
+
   df <- data.frame(time = xout,yout)
-  attr(df, "info") <- attr(data,"info")
-  class(df) <- c("spiro","data.frame")
+
+  attr(df, "info") <- attr(data,"info") # save meta data as attribute
+  class(df) <- c("spiro","data.frame") # write class
   df
 }
 
@@ -43,6 +52,8 @@ spiro_interpolate <- function(data) {
 #' @param y,x Numeric vectors giving the data to be interpolate
 #' @noRd
 spiro_interpolate.internal <- function(y, x) {
+
+  # simple linear interpolation based on time data
   interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
   dfinter <- interpol$y
   dfinter
