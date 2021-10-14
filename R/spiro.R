@@ -82,9 +82,8 @@ spiro <- function(file,
   }
 
   # interpolate the data and add the protocol
-  protocol <- process_protocol(ptcl)
   dt_ipol <- spiro_interpolate(dt_imported)
-  dt_ptcl <- apply_protocol(data = dt_ipol, protocol = protocol)
+  dt_ptcl <- add_protocol(data = dt_ipol, protocol = ptcl)
 
   # calculate additional variables
   dt_out <- spiro_add(data = dt_ptcl, weight = weight)

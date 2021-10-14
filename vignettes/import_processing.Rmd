@@ -87,7 +87,7 @@ ggplot() +
   geom_segment(aes(x = 0.5, xend = 0.5, y = 0.5, yend = 0.25), arrow = ar) +
   annotate("text", x = 0.53, y = 0.81, label = "spiro_import()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.63, label = "spiro_interpolate()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.46, label = "apply_protocol()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.46, label = "add_protocol()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.38, label = "spiro_add()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.30, label = "hr_apply()", colour = "grey", hjust = "left") +
   geom_path(aes(x = c(0.57,0.75,0.75,0.7), y = c(0.7,0.7,0.46,0.46)), arrow = ar, linetype = 5) +
@@ -153,7 +153,7 @@ In cases where there is no load data saved in the metabolic cart's file, or
 ways to initially generate a protocol, either completely manual with
 `set_protocol_manual()` or using a helper function `set_protocol()`. Once a
 protocol has been set, it can be attached to an existing data.frame with
-`process_protocol()` and `apply_protocol()`.
+`add_protocol()`.
 
 ```{r set_protocol_manual}
 # manually setting a test protocol
@@ -163,8 +163,7 @@ pt <- set_protocol_manual(
 )
 
 # apply protocol to data.frame
-data_with_ptcl <- apply_protocol(data = data_int, 
-                                 protocol = process_protocol(pt))
+data_with_ptcl <- add_protocol(data = data_int, protocol = pt)
 data_with_ptcl
 ```
 

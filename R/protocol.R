@@ -1,30 +1,35 @@
-#' Apply a test protocol to a exercise testing dataset
+#' Add a test protocol to an exercise testing dataset
 #'
-#' \code{apply_protocol()} adds a predefined test protocol to an existing set of
+#' \code{add_protocol()} adds a predefined test protocol to an existing set of
 #' data from an exercise test.
 #'
-#' @param data A \code{data.frame} containing the exercise testing data
-#'   interpolated to seconds.
+#' @param data A spiro \code{data.frame} containing the exercise testing data.
 #' @param protocol A \code{data.frame} containing the test protocol, as created
 #'   by \code{\link{set_protocol_manual}} or \code{\link{get_protocol}}.
 #' @export
 
-apply_protocol <- function(data, protocol) {
+add_protocol <- function(data, protocol) {
 
+
+  # attach the protocol to the data frame
   if (is.null(protocol)) { # no protocol given
     add <- data.frame(
       load = rep.int(0, nrow(data)),
       step = rep.int(0, nrow(data))
     )
+    ptcl <- NULL
   } else {
-    load <- rep.int(protocol$load, protocol$duration)
-    step <- rep.int(protocol$code, protocol$duration)
+    # preprocess the protocol
+    ptcl <- get_features(protocol)
+
+    load <- rep.int(ptcl$load, ptcl$duration)
+    step <- rep.int(ptcl$code, ptcl$duration)
     add <- data.frame(
       load = load,
       step = step
     )
     if (nrow(data) < nrow(add)) {
-      add <- add[1:nrow(data), ]
+      add <- add[1:nrow(data),]
       rownames(add) <- NULL
     } else if (nrow(data) > nrow(add)) {
       dif <- nrow(data) - nrow(add)
@@ -35,13 +40,14 @@ apply_protocol <- function(data, protocol) {
       add <- rbind(add, end)
     }
   }
-  out <- cbind(add, data[, ! names(data) %in% c("load","incr"), drop = F])
-  attr(out,"protocol") <- protocol
+  out <- cbind(add, data[,!names(data) %in% c("load","incr"), drop = F])
   attr(out,"info") <- attr(data,"info")
-  attr(out,"testtype") <- attr(protocol,"testtype")
-  class(out) <- class(data)
+  attr(out,"protocol") <- ptcl
+  attr(out,"raw") <- attr(data,"raw")
+  attr(out,"testtype") <- get_testtype(ptcl)
   out
 }
+
 
 #' Guess a test protocol from a corresponding exercise testing dataset
 #'
@@ -96,79 +102,21 @@ get_protocol <- function(data) {
   )
 }
 
-#' Manually setting a testing profile
+#' Extract features from an exercise test protocol
 #'
-#' \code{set_protocol_manual()} allows to set any user-defined load profile
-#' for an exercise test.
-#'
-#' @param duration Either a numeric vector containing the duration (in seconds)
-#'   load each load step, or a \code{data.frame} containing columns for duration
-#'   and load.
-#' @param load A numeric vector of the same length as \code{duration} containing
-#'   the corresponding load of each step.
-#'
-#' @examples
-#' set_protocol_manual(duration = c(300,120,300,60,300), load = c(3,5,3,6,3))
-#'
-#' # using a data.frame as input
-#' pt_data <- data.frame(
-#'   duration = c(180,150,120,90,60,30),
-#'   load = c(200,250,300,350,400,450))
-#' set_protocol_manual(pt_data)
-#' @export
-
-set_protocol_manual <- function(duration, load = NULL) {
-  UseMethod("set_protocol_manual")
-}
-
-#' @describeIn set_protocol_manual Default method when duration and load are
-#'   given separately
-#' @export
-
-set_protocol_manual.default <- function(duration, load) {
-  if (length(duration) != length(load)) {
-    stop("duration and load must be vectors of the same length")
-  }
-  data.frame(
-    duration = duration,
-    load = load
-  )
-}
-
-#' @describeIn set_protocol_manual Method for data.frames with duration and load
-#'   column
-#' @export
-
-set_protocol_manual.data.frame <- function(duration, load = NULL) {
-
-  # check if data frame has columns names 'duration' and 'load'
-  if (any(names(duration) == "duration") && any(names(duration) == "load")) {
-    out <- data.frame(
-      duration = duration$duration,
-      load = duration$load
-    )
-  # check if data frame has only two colummns
-  # first column will be interpreted as duration, second as load
-  } else if (ncol(duration) == 2) {
-    out <- data.frame(
-      duration = duration[1, ],
-      load = duration[2, ]
-    )
-  } else {
-    stop("data.frame must contain columns 'duration' and 'load'")
-  }
-  out
-}
-
-#' Extract features from a test protocol
-#'
-#' \code{protocol_features()} adds characteristic features to the load steps of
+#' \code{get_features()} adds characteristic features to the load steps of
 #' an exercise testing protocol.
 #'
 #' @param protocol A \code{data.frame} containing the raw protocol as given by
-#'   \code{\link{get_protocol}} or \code{\link{set_protocol_manual}}.
+#'   \code{\link{get_protocol}}, \code{\link{set_protocol}} or
+#'   \code{\link{set_protocol_manual}}.
 
-protocol_features <- function(protocol) {
+get_features <- function(protocol) {
+
+  # -- TO DO --
+  # rewrite so that it does also work for special protocols (e.g. only a few
+  # protocol steps)
+
   protocol$type <- NA
   protocol$code <- NA
 
@@ -204,13 +152,13 @@ protocol_features <- function(protocol) {
 }
 
 
-#' Guess a exercise test type from a corresponding test protocol
+#' Guess the type of exercise test protocol
 #'
 #' \code{get_testtype()} guesses which type of testing protocol a exercise test
-#' is.
+#' used.
 #'
 #' @param protocol A \code{data.frame} containing the test protocol with
-#'   features, as given by \code{\link{protocol_features}}.
+#'   features, as given by \code{\link{get_features}}.
 #'
 #' @return A character, either \code{"incremental"}, \code{"ramp"},
 #'   \code{"constant"} or \code{"other"}.
@@ -219,11 +167,11 @@ get_testtype <- function(protocol) {
   # round load increases to prevent non-exact equality
   d <- round(diff(protocol$load[protocol$type == "load"]),4)
   t <- protocol$duration[protocol$type == "load"]
-  if (all(d[-1] == 0)) {
+  if (all(d[-1] == 0)) { # no load changes
     testtype <- "constant"
-  } else if (all(t[-1] < 120)) {
+  } else if (all(t[-1] < 120)) { # load steps shorter than 120 seconds
     testtype <- "ramp"
-  } else if (all(d[-1] == d[2])) {
+  } else if (all(d[-1] == d[2])) { # same increment for all steps
     testtype <- "incremental"
   } else {
     testtype <- "other"
@@ -231,34 +179,6 @@ get_testtype <- function(protocol) {
   testtype
 }
 
-#' Add information to an exercise test protocol
-#'
-#' \code{process_protocol()} wraps protocol_features() and get_testtype() for
-#'
-#' @param testtype A character, either \code{"ramp"}, \code{"constant"},
-#'   \code{"incremental"} or \code{"other"} for manually setting the test type.
-#' @inheritParams protocol_features
-#' @export
-
-process_protocol <- function(protocol, testtype = NULL) {
-  if (is.null(protocol)) {
-    p <- NULL
-  } else {
-    p <- protocol_features(protocol)
-    if (is.null(testtype)) {
-      attr(p, "testtype") <- get_testtype(p)
-    } else {
-      attr(p, "testtype") <- switch(
-        ramp = "ramp",
-        constant = "constant",
-        increment = "increment",
-        other = "other",
-        stop("testtype needs to be set properly")
-      )
-    }
-  }
-  p
-}
 
 #' Setting an exercise testing profile
 #'
@@ -327,7 +247,7 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
   l <- load
   ds <- NULL
   ls <- NULL
-  # repeatedly bind load (and eventually rest) measures until step count is
+  # repeatedly binds load (and eventually rest) measures until step count is
   # reached
   while (i <= count) {
     ds <- c(ds, duration, rest.duration)
@@ -351,4 +271,68 @@ const <- function(duration, load, count, rest.duration = 0) {
        increment = 0,
        count = count,
        rest.duration = rest.duration)
+}
+
+#' Manually setting a testing profile
+#'
+#' \code{set_protocol_manual()} allows to set any user-defined load profile
+#' for an exercise test.
+#'
+#' @param duration Either a numeric vector containing the duration (in seconds)
+#'   load each load step, or a \code{data.frame} containing columns for duration
+#'   and load.
+#' @param load A numeric vector of the same length as \code{duration} containing
+#'   the corresponding load of each step.
+#'
+#' @examples
+#' set_protocol_manual(duration = c(300,120,300,60,300), load = c(3,5,3,6,3))
+#'
+#' # using a data.frame as input
+#' pt_data <- data.frame(
+#'   duration = c(180,150,120,90,60,30),
+#'   load = c(200,250,300,350,400,450))
+#' set_protocol_manual(pt_data)
+#' @export
+
+set_protocol_manual <- function(duration, load = NULL) {
+  UseMethod("set_protocol_manual")
+}
+
+#' @describeIn set_protocol_manual Default method when duration and load are
+#'   given separately
+#' @export
+
+set_protocol_manual.default <- function(duration, load) {
+  if (length(duration) != length(load)) {
+    stop("duration and load must be vectors of the same length")
+  }
+  data.frame(
+    duration = duration,
+    load = load
+  )
+}
+
+#' @describeIn set_protocol_manual Method for data.frames with duration and load
+#'   column
+#' @export
+
+set_protocol_manual.data.frame <- function(duration, load = NULL) {
+
+  # check if data frame has columns names 'duration' and 'load'
+  if (any(names(duration) == "duration") && any(names(duration) == "load")) {
+    out <- data.frame(
+      duration = duration$duration,
+      load = duration$load
+    )
+    # check if data frame has only two colummns
+    # first column will be interpreted as duration, second as load
+  } else if (ncol(duration) == 2) {
+    out <- data.frame(
+      duration = duration[1, ],
+      load = duration[2, ]
+    )
+  } else {
+    stop("data.frame must contain columns 'duration' and 'load'")
+  }
+  out
 }

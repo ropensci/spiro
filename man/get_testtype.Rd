@@ -2,13 +2,13 @@
 % Please edit documentation in R/protocol.R
 \name{get_testtype}
 \alias{get_testtype}
-\title{Guess a exercise test type from a corresponding test protocol}
+\title{Guess the type of exercise test protocol}
 \usage{
 get_testtype(protocol)
 }
 \arguments{
 \item{protocol}{A \code{data.frame} containing the test protocol with
-features, as given by \code{\link{protocol_features}}.}
+features, as given by \code{\link{get_features}}.}
 }
 \value{
 A character, either \code{"incremental"}, \code{"ramp"},
@@ -16,5 +16,5 @@ A character, either \code{"incremental"}, \code{"ramp"},
 }
 \description{
 \code{get_testtype()} guesses which type of testing protocol a exercise test
-is.
+used.
 }
