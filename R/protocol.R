@@ -22,29 +22,33 @@ add_protocol <- function(data, protocol) {
     # preprocess the protocol
     ptcl <- get_features(protocol)
 
-    load <- rep.int(ptcl$load, ptcl$duration)
-    step <- rep.int(ptcl$code, ptcl$duration)
+    # write load and step code vectors
     add <- data.frame(
-      load = load,
-      step = step
+      load = rep.int(ptcl$load, ptcl$duration),
+      step = rep.int(ptcl$code, ptcl$duration)
     )
-    if (nrow(data) < nrow(add)) {
-      add <- add[1:nrow(data),]
+    if (nrow(data) < nrow(add)) { # protocol longer than data
+      add <- add[1:nrow(data),] # remove last protocol values
       rownames(add) <- NULL
-    } else if (nrow(data) > nrow(add)) {
+    } else if (nrow(data) > nrow(add)) { # protocol shorter than data
       dif <- nrow(data) - nrow(add)
-      end <- data.frame(
+      end <- data.frame( # code last seconds as post measures
         load = rep.int(0,dif),
         step = rep.int(-2,dif)
       )
       add <- rbind(add, end)
     }
   }
-  out <- cbind(add, data[,!names(data) %in% c("load","incr"), drop = F])
+
+  # add protocol variables to the existing data
+  out <- cbind(add, data[,!names(data) %in% c("load","incr"), drop = FALSE])
+
+  # preserve and create attributes
   attr(out,"info") <- attr(data,"info")
   attr(out,"protocol") <- ptcl
   attr(out,"raw") <- attr(data,"raw")
   attr(out,"testtype") <- get_testtype(ptcl)
+
   out
 }
 
@@ -117,6 +121,7 @@ get_features <- function(protocol) {
   # rewrite so that it does also work for special protocols (e.g. only a few
   # protocol steps)
 
+  # create empty columns
   protocol$type <- NA
   protocol$code <- NA
 
@@ -126,15 +131,17 @@ get_features <- function(protocol) {
   }
   d <- diff(protocol$load[protocol$load != 0]) # calculate differences
 
-  if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) { # warm up present
+  # check if differences between steps are all equal
+  # if first difference is unusual, this suggests that a warm-up is present
+  if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) {
     protocol$type[min(which(protocol$load != 0))]  <- "warm up"
     protocol$code[min(which(protocol$load != 0))]  <- 0.5
   }
 
-  # load steps and rest
+  # write load steps and rest
   code_i <- 1
   for (i in which(is.na(protocol$type))) {
-    if (protocol$load[i] == 0) {
+    if (protocol$load[i] == 0) { # no load means rest
       protocol$type[i] <- "rest"
       protocol$code[i] <- -1
     } else {
@@ -144,7 +151,7 @@ get_features <- function(protocol) {
     }
   }
   # post measures
-  if (protocol$load[nrow(protocol)] == 0) {
+  if (protocol$load[nrow(protocol)] == 0) { # last load
     protocol$type[nrow(protocol)] <- "post measures"
     protocol$code[nrow(protocol)] <- -2
   }
