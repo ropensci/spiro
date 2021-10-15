@@ -95,9 +95,10 @@ spiro <- function(file,
   dt_out <- calo(data = dt_out)
 
   # Add heart rate if available
-  if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
-                                          hr_file= hr_file,
-                                          hr_offset = hr_offset)
+  if (!is.null(hr_file)) {
+    dt_out <- add_hr(data = dt_out, hr_file= hr_file, hr_offset = hr_offset)
+  }
+
   # save raw data as attribute
   attr(dt_out, "raw") <- dt_imported
 
