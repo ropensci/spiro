@@ -88,7 +88,7 @@ ggplot() +
   annotate("text", x = 0.53, y = 0.81, label = "spiro_import()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.63, label = "spiro_interpolate()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.46, label = "add_protocol()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.38, label = "spiro_add()", colour = "grey", hjust = "left") +
+  annotate("text", x = 0.53, y = 0.38, label = "add_weight()", colour = "grey", hjust = "left") +
   annotate("text", x = 0.53, y = 0.30, label = "hr_apply()", colour = "grey", hjust = "left") +
   geom_path(aes(x = c(0.57,0.75,0.75,0.7), y = c(0.7,0.7,0.46,0.46)), arrow = ar, linetype = 5) +
   geom_segment(aes(x = 0.85, xend = 0.7, y = 0.46, yend = 0.46), arrow = ar, linetype = 5) +
@@ -212,9 +212,7 @@ The interpolated gas exchange data, together with the protocol load data, allows
 the calculation of additional variables with `spiro_add()`.
 
 ```{r spiro_add}
-spiro_add(data_with_ptcl,
-          weight = NULL)
-
+add_weight(data_with_ptcl, weight = NULL)
 ```
 
 For calculating parameters relative to body weight, `spiro_add()` will use the

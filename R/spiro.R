@@ -81,34 +81,26 @@ spiro <- function(file,
     ptcl <- get_protocol(dt_imported)
   }
 
-  # interpolate the data and add the protocol
+  # interpolate the data
   dt_ipol <- spiro_interpolate(dt_imported)
+
+  # add a protocol
   dt_ptcl <- add_protocol(data = dt_ipol, protocol = ptcl)
 
+  # add data calculated from body weight
+  dt_out <- add_weight(data = dt_ptcl, weight = weight)
+
   # calculate additional variables
-  dt_out <- spiro_add(data = dt_ptcl, weight = weight)
+  dt_out$RER <- dt_out$VCO2 / dt_out$VO2
+  dt_out <- calo(data = dt_out)
 
   # Add heart rate if available
   if (!is.null(hr_file)) dt_out <- hr_add(data = dt_out,
                                           hr_file= hr_file,
                                           hr_offset = hr_offset)
-
-  # set test type attribute
-  testtype <- attr(dt_ptcl, "testtype")
-  attr(dt_out, "testtype") <- testtype
-  if (is.null(testtype)) testtype <- NA
-
   # save raw data as attribute
   attr(dt_out, "raw") <- dt_imported
 
-  # set object class (based on test type)
-  class(dt_out) <- c(switch(testtype,
-                       constant = "spiro_clt",
-                       incremental = "spiro_gxt",
-                       ramp = "spiro_rmp",
-                       NULL),
-                     "spiro",
-                     "data.frame")
   dt_out
 }
 

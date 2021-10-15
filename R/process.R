@@ -60,9 +60,10 @@ spiro_interpolate.internal <- function(y, x) {
 }
 
 
-#' Add additional calculated variables to a spiroergometric data set
+#' Calculated additional variables related to body weight to a spiroergometric
+#' data set
 #'
-#' \code{spiro_add()} amplifies existing spiroergometric data by calculation of
+#' \code{add_weight()} amplifies existing spiroergometric data by calculation of
 #' additional variables.
 #'
 #' Based on the participant's body weight relative oxygen uptake (VO2_rel) and
@@ -71,25 +72,30 @@ spiro_interpolate.internal <- function(y, x) {
 #'
 #' For running protocols, running economy (RE) is calculated.
 #'
-#' Carbohydrate and fat oxidation rates are calculated from gas exchange data
-#' using the formula by Peronnet (1991).
-#'
 #' @param data A \code{data.frame} containing the exercise test data.
 #' @param weight A numeric value to manually set the participant's body weight.
 #'
 #' @return A \code{data.frame} containing the data amplified by the additional
 #'   variables.
 #' @export
-spiro_add <- function(data, weight = NULL) {
+
+add_weight <- function(data, weight = NULL) {
+  # find weight in meta data if not specified
   if (is.null(weight)) weight = attr(data, "info")$weight
+
+  # no weight found
   if (is.na(weight))
     stop("No 'weight' specified")
+
+  # calculate data relative to body weight
   data$VO2_rel <- data$VO2 / weight
   data$VCO2_rel <- data$VCO2 / weight
-  data$RER <- data$VCO2 / data$VO2
+
+  # calculate running economy if applicable
+  # check if protocol was a running exercise
   if (!all(is.null(data$load)) && max(data$load < 30)) {
     data$RE <- (100/6) * (data$VO2_rel / data$load)
-    for (i in seq_along(data$RE)) {
+    for (i in seq_along(data$RE)) { # result NAs for rest sections
       if (is.na(data$RE[[i]])) {
         data$RE[[i]] <- NA
       } else if (data$RE[[i]] >= 1000) {
@@ -97,11 +103,8 @@ spiro_add <- function(data, weight = NULL) {
       }
     }
   }
-  out <- calo(df = data)
-  attr(out,"protocol") <- attr(data,"protocol")
-  attr(out,"info") <- attr(data,"info")
-  class(out) <- class(data)
-  out
+
+  data
 }
 
 #' Handle duplicates for spiroergometric data interpolation
@@ -136,9 +139,17 @@ dupl <- function(values) {
 #' @param df data.frame with data from cardiopulmonary exercise testing
 #' @noRd
 
-calo <- function(df) {
-  m <- mapply(FUN = calo.internal, vo2abs = df$VO2, vco2abs = df$VCO2)
-  cbind(df,round(apply(t(m),2,unlist),2))
+calo <- function(data) {
+  m <- mapply(FUN = calo.internal, vo2abs = data$VO2, vco2abs = data$VCO2)
+  out <- cbind(data,round(apply(t(m),2,unlist),2))
+
+  # preserve class and attributes
+  class(out) <- class(data)
+  attr(out,"info") <- attr(data,"info")
+  attr(out,"protocol") <- attr(data,"protocol")
+  attr(out,"raw") <- attr(data,"raw")
+  attr(out,"testtype") <- attr(data,"testtype")
+  out
 }
 
 calo.internal <- function(vo2abs,vco2abs) {

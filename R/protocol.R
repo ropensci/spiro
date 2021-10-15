@@ -48,6 +48,12 @@ add_protocol <- function(data, protocol) {
   attr(out,"protocol") <- ptcl
   attr(out,"raw") <- attr(data,"raw")
   attr(out,"testtype") <- get_testtype(ptcl)
+  testtype_class <- switch(attr(out,"testtype"),
+                           "constant" = "spiro_clt",
+                           "ramp" = "spiro_rmp",
+                           "incremental" = "spiro_gxt",
+                           NULL)
+  class(out) <- c(testtype_class,class(data))
 
   out
 }
