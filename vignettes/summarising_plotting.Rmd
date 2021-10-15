@@ -45,7 +45,8 @@ spiro_summary(gxt_data, interval = 120)
 
 The length of the computational interval (in seconds) can be modified by setting
 the `interval` argument. If the interval exceed the length of any step in any
-case, it will be shortened displaying a note.
+case, it will be shortened displaying a note. You can turn these messages of
+with setting the argument `quiet = TRUE`.
 
 ## Maximal parameter values with `spiro_max()`
 
