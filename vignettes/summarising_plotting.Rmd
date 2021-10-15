@@ -47,24 +47,17 @@ The length of the computational interval (in seconds) can be modified by setting
 the `interval` argument. If the interval exceed the length of any step in any
 case, it will be shortened displaying a note.
 
-## Overall summary with `spiro_glance()`
+## Maximal parameter values with `spiro_max()`
 
 For some types of exercise tests it may be preferable to get an overall instead
-of a stepwise summary of parameters. `spiro_glance()` will usually show the
-maximal values within the test after applying a smoothing by the use of a
-rolling average.
+of a stepwise summary of parameters. `spiro_max()` calculates the maximal values
+within the test after applying a smoothing by the use of a rolling average.
 
 ```{r spiro_glance}
-spiro_glance(gxt_data, interval = 30)
+spiro_max(gxt_data, interval = 30)
 ```
-
-In the case of graded incremental or ramp tests, the `interval` argument will
-set the length over which the rolling average will be computed.
-
-For constant load tests `spiro_glance()` will behave different, as not the
-maximal values, but the overall average is usually useful to be calculated.
-Therefore the mean parameter values for all steps of the constant load will be
-displayed.
+The `interval` argument will set the length over which the rolling average will
+be computed.
 
 ## Plotting the data
 

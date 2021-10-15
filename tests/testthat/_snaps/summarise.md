@@ -41,13 +41,8 @@
     24        22.0 6.10 144.21 4877.32 5128.64 1.05   73.90 201.91 7.78 0.00
     25        23.0 6.25 142.36 4393.91 4662.32 1.06   66.57 177.53 7.20 0.00
 
-# glance returnes peak values for graded incremental tests
-
-      VO2peak_abs VO2peak_rel RER_peak
-    1     4732.28        71.7     1.15
-
 # glance returnes max values for ramp tests
 
-      VO2max_abs VO2max_rel RER_max
-    1     5001.2      75.78    1.06
+         VO2    VCO2 VO2_rel     VE  RER HR
+    1 5001.2 5202.47   75.78 145.33 1.06 NA
 

@@ -37,8 +37,8 @@ devtools::install_github("smnnlt/spiro")
 
 -   Use `spiro()` for one-step data import and processing from raw
     metabolic cart files.
--   Use `spiro_summary()` and `spiro_glance()` for a stepwise or overall
-    summary of the imported data.
+-   Use `spiro_summary()` and `spiro_max()` for a stepwise summary or a
+    calculation of maximum parameter values.
 -   Use `spiro_plot_*()` as a shortcut for visualising the imported
     data.
 
@@ -60,7 +60,7 @@ file <- spiro_example("zan_gxt")
 
 gxt_data <- spiro(file)
 spiro_summary(gxt_data)
-#> for pre-measures, interval was set to length of measures
+#> for pre-measures, interval was set to length of measures (60 seconds)
 #>    step_number load     VE     VO2    VCO2  RER VO2_rel     RE  CHO   FO
 #> 1            0  0.0  13.03  500.19  411.74 0.82    7.58     NA 0.27 0.15
 #> 2            1  2.0  39.87 1860.92 1585.75 0.85   28.20 234.97 1.27 0.46
@@ -72,7 +72,6 @@ spiro_summary(gxt_data)
 #> 8            7  4.4  88.36 3724.37 3383.64 0.91   56.43 213.75 3.50 0.56
 #> 9            8  4.8 106.44 4223.82 3993.55 0.95   64.00 222.21 4.68 0.37
 #> 10           9  5.2 127.54 4573.91 4488.36 0.98   69.30 222.12 5.82 0.12
-
 spiro_plot_VO2(gxt_data)
 ```
 
