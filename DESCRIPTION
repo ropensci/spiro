@@ -5,10 +5,10 @@ Authors@R:
     person(given = "Simon",
            family = "Nolte",
            role = c("aut", "cre"),
-           email = "simon.nolte@googlemail.com",
+           email = "s.nolte@dshs-koeln.de",
            comment = c(ORCID = "0000-0003-1643-1860"))
 Description: Import, process, summarise and visualise raw data from 
-    various metabolic cart devices.
+    metabolic carts.
 License: MIT + file LICENSE
 URL: https://github.com/smnnlt/spiro, https://smnnlt.github.io/spiro
 BugReports: https://github.com/smnnlt/spiro/issues
