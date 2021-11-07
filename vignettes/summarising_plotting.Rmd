@@ -71,20 +71,12 @@ visualisation.
 ### Plotting oxygen uptake data
 
 In many cases, the (relative) oxygen uptake will be the parameter of most
-interest when analysing spiroergometric data. `spiro_plot_VO2()` visualises the
-interpolated oxygen uptake data, it's rolling average and the
-underlying protocol load.
+interest when analysing spiroergometric data. `spiro_plot_VO2()` visualises the rolling average for the interpolated relative oxygen uptake data and the underlying protocol load.
 
-The length of the computational interval for the rolling average can be changed
-by setting the `smooth` argument. To allow a further check for correct
-importing, setting the `title` argument to `TRUE` will create a plot title with
-the participant's name and the test type.
+The length of the computational interval for the rolling average can be changed by setting the `smooth` argument.
 
 ```{r spiro_plot_VO2, warning=FALSE}
-spiro_plot_VO2(gxt_data, 
-               smooth = 15,
-               title = FALSE
-               )
+spiro_plot_VO2(gxt_data, smooth = 15)
 ```
 
 ### Plotting heart rate data
@@ -92,15 +84,11 @@ spiro_plot_VO2(gxt_data,
 To verify the presence of correct heart rate data, `spiro_plot_HR()` provides an
 easy option of visualising the data together with the protocol load data.
 
-To allow a further check for correct importing, setting the `title` argument to
-`TRUE` will create a plot title with the participant's name and the test type.
 
 ```{r spiro_plot_HR, warning=FALSE}
 # load example data
 data_with_hr <- spiro(spiro_example("zan_ramp"), 
                       hr_file = spiro_example("hr_ramp.tcx"))
 
-spiro_plot_HR(data_with_hr, 
-              title = FALSE
-              )
+spiro_plot_HR(data_with_hr)
 ```
