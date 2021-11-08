@@ -177,17 +177,22 @@ get_features <- function(protocol) {
 #'   \code{"constant"} or \code{"other"}.
 
 get_testtype <- function(protocol) {
-  # round load increases to prevent non-exact equality
-  d <- round(diff(protocol$load[protocol$type == "load"]),4)
-  t <- protocol$duration[protocol$type == "load"]
-  if (all(d[-1] == 0)) { # no load changes
-    testtype <- "constant"
-  } else if (all(t[-1] < 120)) { # load steps shorter than 120 seconds
-    testtype <- "ramp"
-  } else if (all(d[-1] == d[2])) { # same increment for all steps
-    testtype <- "incremental"
+
+  if (is.null(protocol)) {
+    testtype <- "unknown"
   } else {
-    testtype <- "other"
+    # round load increases to prevent non-exact equality
+    d <- round(diff(protocol$load[protocol$type == "load"]),4)
+    t <- protocol$duration[protocol$type == "load"]
+    if (all(d[-1] == 0)) { # no load changes
+      testtype <- "constant"
+    } else if (all(t[-1] < 120)) { # load steps shorter than 120 seconds
+      testtype <- "ramp"
+    } else if (all(d[-1] == d[2])) { # same increment for all steps
+      testtype <- "incremental"
+    } else {
+      testtype <- "other"
+    }
   }
   testtype
 }
