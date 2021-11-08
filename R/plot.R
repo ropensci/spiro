@@ -96,6 +96,18 @@ spiro_plot_VO2 <- function(data, smooth = 15) {
                    legend.title = ggplot2::element_blank())
 }
 
+spiro_plot.EQ_CO2 <- function(data) {
+  raw <- attr(data,"raw")
+  # bring VCO2 data into desired unit (l/min)
+  raw$VCO2 <- raw$VCO2 / 1000
+
+  ggplot2::ggplot(data = raw, ggplot2::aes(x = VCO2, y = VE)) +
+    ggplot2::geom_point(size = 2.5, shape = 21, fill = "#0053a4", colour = "white", na.rm = TRUE) +
+    ggplot2::labs(x = "VCO2 (l/min)", y = "VE (l/min)") +
+    ggplot2::theme_minimal(13) +
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
+}
+
 #' @rdname spiro_plot
 #' @export
 
@@ -124,6 +136,36 @@ spiro_plot_HR <- function(data) {
     ggplot2::scale_colour_manual(values = c("red","pink")) +
     ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / sec_axis_factor)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
+    ggplot2::theme_minimal(13) +
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
+                   legend.position = c(0.15,0.9),
+                   legend.background = ggplot2::element_rect(colour = "white",fill = alpha('white',0.9)),
+                   legend.title = ggplot2::element_blank())
+}
+
+spiro_plot.Vslope <- function(data) {
+  raw <- attr(data,"raw")
+  # remove rows without time stamp
+  raw <- raw[!is.na(raw$time),]
+
+  # match HR to breath-by-breath raw data if no raw heartrate data is available
+  if (!(raw$HR != 0 && !is.na(raw$HR))) {
+    raw$HR <- data$HR[replace(round(raw$time),round(raw$time) == 0, 1)]
+  }
+  # bring VO2 data into desired unit (l/min)
+  raw$VO2 <- raw$VO2 / 1000
+  # scale VCO2 data for being displayed on second y-axis
+  raw$VCO2 <- raw$VCO2 /20
+  raw <- raw[,c("time","HR","VO2","VCO2")]
+
+  raw_long <- reshape(raw, direction = "long",varying = c("HR","VCO2"),v.names = "value", idvar = c("time"), times = c("HR","VCO2"), timevar = "measure")
+  raw_long$measure <- factor(raw_long$measure, levels = c("HR","VCO2"), labels = c("HR (bpm)","VCO2 (l/min)"))
+
+  ggplot2::ggplot(data = raw_long, ggplot2::aes(x = VO2, y = value, fill = measure)) +
+    ggplot2::geom_point(size = 2.5, na.rm = TRUE, shape = 21, colour = "white") +
+    ggplot2::scale_fill_manual(values = c("red","#0053a4")) +
+    ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / 50)) +
+    ggplot2::labs(x = "VO2 (l/min)", y = NULL) +
     ggplot2::theme_minimal(13) +
     ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
                    legend.position = c(0.15,0.9),
@@ -165,6 +207,16 @@ spiro_plot.EQ <- function(data, smooth = 15) {
                    legend.position = c(0.15,0.9),
                    legend.background = ggplot2::element_rect(colour = "white",fill = alpha('white',0.9)),
                    legend.title = ggplot2::element_blank())
+}
+
+spiro.plot_Ventilation <- function(data) {
+  raw <- attr(data,"raw")
+
+  ggplot2::ggplot(data = raw, ggplot2::aes(x = VE, y = VT)) +
+    ggplot2::geom_point(size = 2.5, shape = 21, fill = "grey30", colour = "white", na.rm = TRUE) +
+    ggplot2::labs(x = "VE (l/min)", y = "VT (l)") +
+    ggplot2::theme_minimal(13) +
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
 }
 
 spiro_plot.RER <- function(data, smooth = 15) {
