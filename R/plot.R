@@ -243,6 +243,36 @@ spiro_plot.RER <- function(data, smooth = 15) {
                    legend.title = ggplot2::element_blank())
 }
 
+spiro_plot.Pet <- function(data,smooth = 15) {
+  data$PetO2 <- zoo::rollmean(data$PetO2, smooth, na.pad = TRUE)
+  data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, na.pad = TRUE)
+
+  d <- data[,c("time","load","PetO2","PetCO2")]
+  d_long <- reshape(d, direction = "long",varying = c("PetO2","PetCO2"),v.names = "value", idvar = c("time","load"), times = c("PetO2","PetCO2"), timevar = "measure")
+  d_long$measure <- factor(d_long$measure, levels = c("PetO2","PetCO2"),labels = c("PetO2 (mmHG)","PetCO2 (mmHg)"))
+
+  ggplot2::ggplot(data = d_long, ggplot2::aes(x = time)) +
+    list(
+      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+        ggplot2::geom_line(
+          ggplot2::aes(y = value, colour = measure),
+          size = 1, na.rm = TRUE)
+      } else {
+        ggborderline::geom_borderline(
+          ggplot2::aes(y = value, colour = measure),
+          size = 1, na.rm = TRUE)
+      }
+    ) +
+    ggplot2::scale_colour_manual(values = c("#c00000","#0053a4")) +
+    ggplot2::scale_y_continuous(limits = c(0,150)) +
+    ggplot2::labs(x = "Duration (s)", y = NULL) +
+    ggplot2::theme_minimal(13) +
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
+                   legend.position = c(0.15,0.9),
+                   legend.background = ggplot2::element_rect(colour = "white",fill = alpha('white',0.9)),
+                   legend.title = ggplot2::element_blank())
+}
+
 #' Adjust axes in spiroergometric data plot
 #'
 #' Internal function to \code{?link{spiro_plot}}
