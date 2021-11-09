@@ -21,7 +21,8 @@ Imports:
     XML,
     zoo,
     readxl,
-    knitr
+    knitr,
+    cowplot
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown,
