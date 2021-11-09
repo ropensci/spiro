@@ -2,13 +2,9 @@
 % Please edit documentation in R/plot.R
 \name{spiro_plot}
 \alias{spiro_plot}
-\alias{spiro_plot_VO2}
-\alias{spiro_plot_HR}
-\title{Plot data from spiroergometry files}
+\title{Plot data from cardiopulmonary exercise data files}
 \usage{
-spiro_plot_VO2(data, smooth = 15)
-
-spiro_plot_HR(data)
+spiro_plot(data, which, smooth)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro_*}, as it is
@@ -19,20 +15,17 @@ for gas exchange measures.}
 }
 \description{
 \code{spiro_plot_*()} returns a \code{ggplot2} graph visualising
-data from a spiroergometric test.
+data from cardiopulmonary exercise testing.
 }
 \details{
 This function provides a shortcut for visualising spiroergometric data from
-\code{\link{spiro}} with \code{ggplot2}. It generates a graph showing the
-(smoothed) interpolated data, as well as the underlying test protocol.
+\code{\link{spiro}} with the help of \code{ggplot2}.
 }
 \examples{
 # Import and process example data
 ramp_data <- spiro(file = spiro_example("zan_ramp"),
                   hr_file = spiro_example("hr_ramp.tcx"))
 
-spiro_plot_VO2(ramp_data)
-
-spiro_plot_HR(ramp_data)
+spiro_plot(ramp_data)
 
 }
