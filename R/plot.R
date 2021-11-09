@@ -38,7 +38,7 @@
 
 spiro_plot <- function(data, which = 1:9, smooth = 15) {
   # check input for `which` argument
-  if (!is.numeric(w) || !all(w %in% 1:9))
+  if (!is.numeric(which) || !all(which %in% 1:9))
     stop("which must be a numeric vector containing any integers between 1 and 9")
 
   l <- lapply(which, spiro_plot.internal, data = data, smooth = smooth)
