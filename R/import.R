@@ -107,8 +107,8 @@ spiro_import_zan <- function(file) {
     # velocity is given in m/min in the raw data
     load = round(data$Geschw./3600,2),
     incr = data$Steig./10,
-    PetO2 = NA,
-    PetCO2 = NA
+    PetO2 = 0,
+    PetCO2 = 0
   )
 
   attr(df, "info") <- info # write meta data
