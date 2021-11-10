@@ -4,7 +4,7 @@
 \alias{spiro_plot}
 \title{Plot data from cardiopulmonary exercise data files}
 \usage{
-spiro_plot(data, which = 1:9, smooth = 15)
+spiro_plot(data, which = 1:9, smooth = 15, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro}, as it is
@@ -27,6 +27,9 @@ Plot:
 
 \item{smooth}{Integer for calculation of a rolling average (in seconds)
 for gas exchange measures.}
+
+\item{...}{Arguments passed to ggplot2::theme() to modify the appearance of
+the plots. Use \code{size} to change the base size of the plots (given in pts).}
 }
 \description{
 \code{spiro_plot()} returns a \code{ggplot2} graph visualising

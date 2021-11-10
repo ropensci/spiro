@@ -22,6 +22,8 @@
 #' * 9: PetO2 and PetCO2 over time
 #' @param smooth Integer for calculation of a rolling average (in seconds)
 #'   for gas exchange measures.
+#' @param ... Arguments passed to ggplot2::theme() to modify the appearance of
+#'   the plots. Use `size` to change the base size of the plots (given in pts).
 #'
 #' @examples
 #' # Import and process example data
@@ -36,26 +38,26 @@
 #'
 #' @export
 
-spiro_plot <- function(data, which = 1:9, smooth = 15) {
+spiro_plot <- function(data, which = 1:9, smooth = 15,...) {
   # check input for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9))
     stop("which must be a numeric vector containing any integers between 1 and 9")
 
-  l <- lapply(which, spiro_plot.internal, data = data, smooth = smooth)
+  l <- lapply(which, spiro_plot.internal, data = data, smooth = smooth, ...)
   cowplot::plot_grid(plotlist = l)
 }
 
-spiro_plot.internal <- function(which, data, smooth) {
+spiro_plot.internal <- function(which, data, smooth,...) {
   p <- switch(which,
-              `1` = spiro_plot_VE(data,smooth),
-              `2` = spiro_plot_HR(data,smooth),
-              `3` = spiro_plot_VO2(data,smooth),
-              `4` = spiro_plot_EQCO2(data),
-              `5` = spiro_plot_vslope(data),
-              `6` = spiro_plot_EQ(data,smooth),
-              `7` = spiro_plot_vent(data),
-              `8` = spiro_plot_RER(data,smooth),
-              `9` = spiro_plot_Pet(data,smooth))
+              `1` = spiro_plot_VE(data,smooth,...),
+              `2` = spiro_plot_HR(data,smooth,...),
+              `3` = spiro_plot_VO2(data,smooth,...),
+              `4` = spiro_plot_EQCO2(data,...),
+              `5` = spiro_plot_vslope(data,...),
+              `6` = spiro_plot_EQ(data,smooth,...),
+              `7` = spiro_plot_vent(data,...),
+              `8` = spiro_plot_RER(data,smooth,...),
+              `9` = spiro_plot_Pet(data,smooth,...))
   p
 }
 
@@ -63,7 +65,7 @@ spiro_plot.internal <- function(which, data, smooth) {
 #' Plot ventilation over time
 #'
 #' @noRd
-spiro_plot_VE <- function(data, smooth = 15) {
+spiro_plot_VE <- function(data, smooth = 15,...) {
 
   data$VE <- zoo::rollmean(data$VE, smooth, na.pad = TRUE)
 
@@ -81,17 +83,12 @@ spiro_plot_VE <- function(data, smooth = 15) {
     ) +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
-
 #' Plot heartrate and oxygen pulse over time
 #'
 #' @noRd
-spiro_plot_HR <- function(data, smooth = 15) {
+spiro_plot_HR <- function(data, smooth = 15,...) {
 
   sec_axis_factor <- 5
   data$pulse <- zoo::rollmean(data$VO2 / data$HR, smooth, na.pad = TRUE) * sec_axis_factor
@@ -116,17 +113,13 @@ spiro_plot_HR <- function(data, smooth = 15) {
     ggplot2::scale_colour_manual(values = c("red","pink")) +
     ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / sec_axis_factor)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot oxygen uptake, carbon dioxide output and load over time
 #'
 #' @noRd
-spiro_plot_VO2 <- function(data, smooth = 15) {
+spiro_plot_VO2 <- function(data, smooth = 15,...) {
 
   yl <- spiro_plot.guess_units(data)
 
@@ -162,17 +155,13 @@ spiro_plot_VO2 <- function(data, smooth = 15) {
                                     name = yl[[2]])) +
     ggplot2::scale_color_manual(values = c("#c00000","#0053a4")) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot VCO2 vs. VE
 #'
 #' @noRd
-spiro_plot_EQCO2 <- function(data) {
+spiro_plot_EQCO2 <- function(data,...) {
   raw <- attr(data,"raw")
   # bring VCO2 data into desired unit (l/min)
   raw$VCO2 <- raw$VCO2 / 1000
@@ -180,14 +169,13 @@ spiro_plot_EQCO2 <- function(data) {
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VCO2, y = raw$VE)) +
     ggplot2::geom_point(size = 2.5, shape = 21, fill = "#0053a4", colour = "white", na.rm = TRUE) +
     ggplot2::labs(x = "VCO2 (l/min)", y = "VE (l/min)") +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot V-Slope graph
 #'
 #' @noRd
-spiro_plot_vslope <- function(data) {
+spiro_plot_vslope <- function(data,...) {
   raw <- attr(data,"raw")
   # remove rows without time stamp
   raw <- raw[!is.na(raw$time),]
@@ -210,17 +198,13 @@ spiro_plot_vslope <- function(data) {
     ggplot2::scale_fill_manual(values = c("red","#0053a4")) +
     ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / 50)) +
     ggplot2::labs(x = "VO2 (l/min)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot EQVO2 and EQCO2 over time
 #'
 #' @noRd
-spiro_plot_EQ <- function(data, smooth = 15) {
+spiro_plot_EQ <- function(data, smooth = 15,...) {
 
   # remove implausible high values before smoothing
   data$EQ_O2 <- 1000 * data$VE / data$VO2
@@ -249,30 +233,25 @@ spiro_plot_EQ <- function(data, smooth = 15) {
     ) +
     ggplot2::scale_colour_manual(values = c("#c00000","#0053a4")) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot VE vs. RR
 #'
 #' @noRd
-spiro_plot_vent <- function(data) {
+spiro_plot_vent <- function(data,...) {
   raw <- attr(data,"raw")
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VE, y = raw$VT)) +
     ggplot2::geom_point(size = 2.5, shape = 21, fill = "grey30", colour = "white", na.rm = TRUE) +
     ggplot2::labs(x = "VE (l/min)", y = "VT (l)") +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot RER over time
 #'
 #' @noRd
-spiro_plot_RER <- function(data, smooth = 15) {
+spiro_plot_RER <- function(data, smooth = 15,...) {
   data$RER <- zoo::rollmean(data$RER, smooth, na.pad = TRUE)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
@@ -289,17 +268,13 @@ spiro_plot_RER <- function(data, smooth = 15) {
     ) +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Plot PetO2 and PetCO2 over time
 #'
 #' @noRd
-spiro_plot_Pet <- function(data,smooth = 15) {
+spiro_plot_Pet <- function(data,smooth = 15,...) {
   data$PetO2 <- zoo::rollmean(data$PetO2, smooth, na.pad = TRUE)
   data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, na.pad = TRUE)
 
@@ -322,11 +297,7 @@ spiro_plot_Pet <- function(data,smooth = 15) {
     ggplot2::scale_colour_manual(values = c("#c00000","#0053a4")) +
     ggplot2::scale_y_continuous(limits = c(0,150)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    ggplot2::theme_minimal(13) +
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                   legend.position = c(0.15,0.9),
-                   legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
-                   legend.title = ggplot2::element_blank())
+    theme_spiro(...)
 }
 
 #' Adjust axes in spiroergometric data plot
@@ -349,4 +320,22 @@ spiro_plot.guess_units <- function(data) {
   }
   out <- list(yscale, ylabel)
   out
+}
+
+#' Internal ggplot2 theme for spiro plots
+#'
+#'
+#' @param size An integer, giving the base size for the theme.
+#' @param ... Arguments passed to ggplot2::theme()
+#'
+#' @noRd
+theme_spiro <- function(size = 13,...) {
+  list(
+    ggplot2::theme_minimal(base_size = size),
+    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
+                  legend.position = c(0.15,0.9),
+                  legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
+                  legend.title = ggplot2::element_blank(),
+                  ...)
+  )
 }
