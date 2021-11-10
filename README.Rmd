@@ -50,7 +50,7 @@ devtools::install_github("smnnlt/spiro")
   files. 
 * Use `spiro_summary()` and `spiro_max()` for a stepwise summary or a 
   calculation of maximum parameter values.
-* Use `spiro_plot_*()` as a shortcut for visualising the imported data.
+* Use `spiro_plot()` to visualising the data.
   
 #### Metabolic Carts
 
@@ -71,7 +71,7 @@ file <- spiro_example("zan_gxt")
 gxt_data <- spiro(file)
 spiro_summary(gxt_data)
 
-spiro_plot_VO2(gxt_data)
+spiro_plot(gxt_data)
 ```
 
 ## Contributing
