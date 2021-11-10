@@ -62,33 +62,19 @@ be computed.
 
 ## Plotting the data
 
-To plot exercise test data handled by `spiro()` it is recommend to use specific
-visualisation packages such as `ggplot2` on the data. However, to provide a
-quick view on the compiled data (e.g. for checking if the import operated
-correctly) the `spiro` package offers basic shorthand functions of data
-visualisation.
+The `spiro` package offers basic shorthand functions for visualizing data from cardiopulmonary exercise testing. With `spiro_plot()` you can display the traditional Wasserman 9-Panel Plot.
 
-### Plotting oxygen uptake data
-
-In many cases, the (relative) oxygen uptake will be the parameter of most
-interest when analysing spiroergometric data. `spiro_plot_VO2()` visualises the rolling average for the interpolated relative oxygen uptake data and the underlying protocol load.
-
-The length of the computational interval for the rolling average can be changed by setting the `smooth` argument.
-
-```{r spiro_plot_VO2, warning=FALSE}
-spiro_plot_VO2(gxt_data, smooth = 15)
-```
-
-### Plotting heart rate data
-
-To verify the presence of correct heart rate data, `spiro_plot_HR()` provides an
-easy option of visualising the data together with the protocol load data.
-
-
-```{r spiro_plot_HR, warning=FALSE}
+```{r spiro_plot}
 # load example data
-data_with_hr <- spiro(spiro_example("zan_ramp"), 
+data <- spiro(spiro_example("zan_ramp"), 
                       hr_file = spiro_example("hr_ramp.tcx"))
 
-spiro_plot_HR(data_with_hr)
+spiro_plot(data)
+```
+
+You can combine selected panels of the 9-Panel Plot by setting the `which` argument.
+
+```{r spiro_plot_which}
+# Plot only V-Slope (Panel 5) and VO2/VCO2 over time (Panel 3)
+spiro_plot(data, which = c(5,3))
 ```
