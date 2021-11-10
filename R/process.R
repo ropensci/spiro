@@ -54,8 +54,12 @@ spiro_interpolate <- function(data) {
 spiro_interpolate.internal <- function(y, x) {
 
   # simple linear interpolation based on time data
-  interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
-  dfinter <- interpol$y
+  if (all(is.na(y))) {
+    dfinter <- NA
+  } else {
+    interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
+    dfinter <- interpol$y
+  }
   dfinter
 }
 

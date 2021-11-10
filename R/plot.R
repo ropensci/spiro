@@ -111,7 +111,15 @@ spiro_plot_HR <- function(data, smooth = 15,...) {
       }
     ) +
     ggplot2::scale_colour_manual(values = c("red","pink")) +
-    ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / sec_axis_factor)) +
+    list(
+      # create a second y-axis only if data values are available as ggplot2
+      # returns an error if sec_axis() is applied to all NAs
+      if (!all(is.na(d_long$value))) {
+        ggplot2::scale_y_continuous(limits = c(0,250), sec.axis = ggplot2::sec_axis(~ . / sec_axis_factor))
+      } else {
+        ggplot2::scale_y_continuous(limits = c(0,250))
+      }
+    ) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(...)
 }

@@ -125,7 +125,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   df <- round(df, 2) # round data to two decimals
 
   # check if HR data is available
-  if (!all(data$HR == 0, na.rm = TRUE)) {
+  if (!all(is.na(data$HR))) {
     if (hr_smooth) {
       # apply smoothing to heart rate data
       hr_max <- round(max(zoo::rollmean(data$HR, smooth, na.pad = TRUE), na.rm = TRUE))
@@ -195,7 +195,6 @@ getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
   )
 
   # Replace missing values with NAs
-  if (df$HR == 0) df$HR <- NA
   df[1,which(is.na(df))] <- NA
 
   df
