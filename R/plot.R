@@ -193,7 +193,7 @@ spiro_plot_vslope <- function(data) {
   raw <- raw[!is.na(raw$time),]
 
   # match HR to breath-by-breath raw data if no raw heartrate data is available
-  if (!(raw$HR != 0 && !is.na(raw$HR))) {
+  if (!(any(raw$HR != 0, na.rm = TRUE))) {
     raw$HR <- data$HR[replace(round(raw$time),round(raw$time) == 0, 1)]
   }
   # bring VO2 data into desired unit (l/min)
