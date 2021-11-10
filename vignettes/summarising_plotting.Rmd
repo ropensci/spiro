@@ -55,7 +55,7 @@ of a stepwise summary of parameters. `spiro_max()` calculates the maximal values
 within the test after applying a smoothing by the use of a rolling average.
 
 ```{r spiro_glance}
-spiro_max(gxt_data, interval = 30)
+spiro_max(gxt_data, smooth = 30)
 ```
 The `interval` argument will set the length over which the rolling average will
 be computed.
