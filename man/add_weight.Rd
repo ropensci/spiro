@@ -2,8 +2,8 @@
 % Please edit documentation in R/process.R
 \name{add_weight}
 \alias{add_weight}
-\title{Calculated additional variables related to body weight to a spiroergometric
-data set}
+\title{Calculate additional variables related to body weight for cardiopulmonary
+exercise testing data}
 \usage{
 add_weight(data, weight = NULL)
 }
@@ -17,13 +17,14 @@ A \code{data.frame} containing the data amplified by the additional
 variables.
 }
 \description{
-\code{add_weight()} amplifies existing spiroergometric data by calculation of
-additional variables.
+\code{add_weight()} amplifies existing spiroergometric data by the calculation of
+body weight-related variables.
 }
 \details{
 Based on the participant's body weight relative oxygen uptake (VO2_rel) and
-carbon dioxide (VCO2_rel) output are calculated. \code{weight} can be
-manually overridden, e.g. if the meta-data's value is incorrect or rounded.
+carbon dioxide (VCO2_rel) output are calculated. \code{weight} will be
+received from the original file's meta data, but can be manually overridden,
+e.g. if the meta-data's value is incorrect or rounded.
 
 For running protocols, running economy (RE) is calculated.
 }

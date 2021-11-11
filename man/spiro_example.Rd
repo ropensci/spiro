@@ -10,6 +10,10 @@ spiro_example(file)
 \item{file}{Name of the file.}
 }
 \description{
-\code{spiro_example} return the file path for example data files within the
+\code{spiro_example} returns the file path for example data files within the
 \code{spiro} package.
+}
+\examples{
+spiro_example("zan_gxt")
+
 }

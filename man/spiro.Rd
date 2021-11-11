@@ -46,8 +46,8 @@ underlying testing protocol. The attribute \code{"info"} contains
 additional meta-data from the original raw file.
 }
 \description{
-\code{spiro()} wraps multiple functions to import, process and amplify raw
-data from metabolic carts into a \code{data.frame}.
+\code{spiro()} wraps multiple functions to import and process raw data from
+metabolic carts into a \code{data.frame}.
 }
 \details{
 This function performs multiple operations on raw data from metabolic carts.
@@ -58,14 +58,21 @@ and supported file types visit \code{\link{spiro_import}}.
 Breath-by-breath data is linearly interpolated to get data points for every
 second. Based on the given load data, the underlying exercise protocol is
 guessed and applied to the data. If no load data is available or the protocol
-guess turns wrong, there is an option to manually specify the exercise
-\code{protocol} by using \code{\link{set_protocol}} or
-\code{\link{set_protocol_manual}}.
+guess turns wrong, you can manually specify the exercise \code{protocol} by
+using \code{\link{set_protocol}} or \code{\link{set_protocol_manual}}.
 
 Additional variables of gas exchange are calculated for further analysis. Per
 default the body weight saved in the file's metadata is used for calculating
 relative measures. It is possible to supply \code{weight} manually to the
 function, overriding that value.
+
+Protocols, heart rate data and weight information can also be given in a
+piping coding style using the functions \code{\link{add_protocol},
+\code{\link{add_hr}} and \code{\link{add_weight}}} (see examples).
+
+After processing, you may summarize the resulting data frame with
+\code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
+\code{\link{spiro_plot}}.
 }
 \examples{
 # get example file
@@ -81,5 +88,10 @@ oxy_file <- spiro_example("zan_ramp")
 hr_file <- spiro_example("hr_ramp.tcx")
 
 spiro(oxy_file, hr_file = hr_file)
+
+# use spiro and the add_* function in a pipe
+spiro(file) |>
+  add_hr(hr_file = hr_file, hr_offset = 60) |>
+  add_weight(68.2)
 
 }

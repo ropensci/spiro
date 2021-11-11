@@ -19,16 +19,16 @@ A \code{data.frame} with data interpolated to every second.
 to seconds.
 }
 \details{
-As spiroergometric data is usually recorded breath-by-breath it spans erratic
-time intervals. For further calculations, a interpolation to every second of
-the measurement is beneficial.
+As spiroergometric data is usually recorded breath-by-breath it comprises
+different time intervals. For further calculations, a interpolation to every
+second of the measurement is beneficial.
 
 If there a duplicates in the data's time values (mostly due to rounding or
 imprecise time measurements) both values will be slightly separated to keep
 all information for the interpolation.
 
-Note that the applied linear interpolation will have a minor smoothing
-effect on the data.
+Note that the applied linear interpolation will have a minor effect of
+smoothing on the data.
 }
 \examples{
 # Import example data

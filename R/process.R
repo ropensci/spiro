@@ -3,16 +3,16 @@
 #' \code{spiro_interpolate()} linearly interpolates data from exercise testing
 #' to seconds.
 #'
-#' As spiroergometric data is usually recorded breath-by-breath it spans erratic
-#' time intervals. For further calculations, a interpolation to every second of
-#' the measurement is beneficial.
+#' As spiroergometric data is usually recorded breath-by-breath it comprises
+#' different time intervals. For further calculations, a interpolation to every
+#' second of the measurement is beneficial.
 #'
 #' If there a duplicates in the data's time values (mostly due to rounding or
 #' imprecise time measurements) both values will be slightly separated to keep
 #' all information for the interpolation.
 #'
-#' Note that the applied linear interpolation will have a minor smoothing
-#' effect on the data.
+#' Note that the applied linear interpolation will have a minor effect of
+#' smoothing on the data.
 #'
 #' @param data A \code{data.frame} containing the imported raw data. It is
 #'   highly recommended to contain breath-by-breath data to avoid applying
@@ -25,7 +25,6 @@
 #' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 #'
 #' spiro_interpolate(raw_data)
-#' @export
 spiro_interpolate <- function(data) {
 
   # find and handle duplicates
@@ -64,15 +63,16 @@ spiro_interpolate.internal <- function(y, x) {
 }
 
 
-#' Calculated additional variables related to body weight to a spiroergometric
-#' data set
+#' Calculate additional variables related to body weight for cardiopulmonary
+#' exercise testing data
 #'
-#' \code{add_weight()} amplifies existing spiroergometric data by calculation of
-#' additional variables.
+#' \code{add_weight()} amplifies existing spiroergometric data by the calculation of
+#' body weight-related variables.
 #'
 #' Based on the participant's body weight relative oxygen uptake (VO2_rel) and
-#' carbon dioxide (VCO2_rel) output are calculated. \code{weight} can be
-#' manually overridden, e.g. if the meta-data's value is incorrect or rounded.
+#' carbon dioxide (VCO2_rel) output are calculated. \code{weight} will be
+#' received from the original file's meta data, but can be manually overridden,
+#' e.g. if the meta-data's value is incorrect or rounded.
 #'
 #' For running protocols, running economy (RE) is calculated.
 #'

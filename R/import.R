@@ -358,6 +358,7 @@ spiro_import_cortex <- function(file) {
 #'
 #' @param time_data A character vector containing the time data in the format
 #'   hh:mm:ss or mm:ss.
+#' @noRd
 to_seconds <- function(time_data) {
   sapply(time_data, to_seconds.internal, USE.NAMES = FALSE)
 }

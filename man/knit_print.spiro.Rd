@@ -2,7 +2,7 @@
 % Please edit documentation in R/knit_print.R
 \name{knit_print.spiro}
 \alias{knit_print.spiro}
-\title{Printing spiroergometric data frames in a knitr context}
+\title{Printing spiro data frames in a knitr context}
 \usage{
 \method{knit_print}{spiro}(x, min = 10, max = 20, ...)
 }
@@ -22,12 +22,12 @@ be limited in printing if row number exceed \code{max}.}
 from \code{\link{spiro}} within \code{knitr}.
 }
 \details{
-Spiroergometric data as imported by \code{\link{spiro}} will often come in
-large \code{data.frame}s. When knitting a R-Markdown document these will
-normally be printed in full size.
+Cardiopulmonary exercise testing data imported by \code{\link{spiro}} will
+often come in large \code{data.frame}s. When knitting R Markdown documents
+these will normally be printed in full size.
 
 This function provides a method for \code{data.frame}s of the class
-\code{spiro} to limit the displayed row number to \code{min} if it exceeds
-\code{max}. The number of hidden data rows will be printed below the
+\code{spiro} to limit the number of rows displayed to \code{min} if it
+exceeds \code{max}. The number of hidden data rows will be printed below the
 \code{data.frame}.
 }

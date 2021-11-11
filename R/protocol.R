@@ -5,7 +5,20 @@
 #'
 #' @param data A spiro \code{data.frame} containing the exercise testing data.
 #' @param protocol A \code{data.frame} containing the test protocol, as created
-#'   by \code{\link{set_protocol_manual}} or \code{\link{get_protocol}}.
+#'   by \code{\link{set_protocol}}, \code{\link{set_protocol_manual}} or
+#'   \code{\link{get_protocol}}.
+#'
+#'
+#' @examples
+#' # Get example data
+#' file <- spiro_example("zan_gxt")
+#'
+#' spiro(file) |>
+#'   add_protocol(set_protocol(pre(60), steps(300,50,50,7,30)))
+#'
+#' @seealso [set_protocol] for protocol setting with helper functions.
+#' @seealso [set_protocol_manual] for manual protocol design.
+#' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #' @export
 
 add_protocol <- function(data, protocol) {
@@ -69,11 +82,13 @@ add_protocol <- function(data, protocol) {
 #'
 #' @return A \code{data.frame} containing the characteristics of the test
 #'   protocol.
+#'
 #' @examples
 #' # Import example data
 #' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 #'
 #' get_protocol(raw_data)
+#'
 #' @export
 
 get_protocol <- function(data) {
@@ -203,7 +218,7 @@ get_testtype <- function(protocol) {
 #' \code{set_protocol()} allows to set an load profile for an exercise test
 #' based on profile sections.
 #'
-#' @param ... Functions related to sections of the test profile, such as
+#' @param ... Functions related to sections of the load profile, such as
 #'   \code{pre}, \code{wu}, \code{const} or \code{step}. Sections will be
 #'   evaluated in the order they are entered.
 #' @param duration A number, giving the duration of the test section or
@@ -214,7 +229,8 @@ get_testtype <- function(protocol) {
 #' @param increment A number, giving the difference in load between the current
 #'   and the following load step.
 #' @param count An integer for the number of load sections.
-#' @seealso [set_protocol_manual] for completely manual protocol design.
+#' @seealso [set_protocol_manual] for manual protocol design.
+#' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #'
 #' @examples
 #' set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
@@ -308,8 +324,13 @@ const <- function(duration, load, count, rest.duration = 0) {
 #' # using a data.frame as input
 #' pt_data <- data.frame(
 #'   duration = c(180,150,120,90,60,30),
-#'   load = c(200,250,300,350,400,450))
+#'   load = c(200,250,300,350,400,450)
+#'   )
+#'
 #' set_protocol_manual(pt_data)
+#'
+#' @seealso [set_protocol] for protocol setting with helper functions.
+#' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #' @export
 
 set_protocol_manual <- function(duration, load = NULL) {
@@ -330,8 +351,8 @@ set_protocol_manual.default <- function(duration, load) {
   )
 }
 
-#' @describeIn set_protocol_manual Method for data.frames with duration and load
-#'   column
+#' @describeIn set_protocol_manual Method for data frames with a duration and a
+#'   load column
 #' @export
 
 set_protocol_manual.data.frame <- function(duration, load = NULL) {

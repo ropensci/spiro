@@ -1,15 +1,15 @@
-#' Printing spiroergometric data frames in a knitr context
+#' Printing spiro data frames in a knitr context
 #'
 #' \code{knit_print.spiro()} provides a method for printing \code{data.frames}
 #' from \code{\link{spiro}} within \code{knitr}.
 #'
-#' Spiroergometric data as imported by \code{\link{spiro}} will often come in
-#' large \code{data.frame}s. When knitting a R-Markdown document these will
-#' normally be printed in full size.
+#' Cardiopulmonary exercise testing data imported by \code{\link{spiro}} will
+#' often come in large \code{data.frame}s. When knitting R Markdown documents
+#' these will normally be printed in full size.
 #'
 #' This function provides a method for \code{data.frame}s of the class
-#' \code{spiro} to limit the displayed row number to \code{min} if it exceeds
-#' \code{max}. The number of hidden data rows will be printed below the
+#' \code{spiro} to limit the number of rows displayed to \code{min} if it
+#' exceeds \code{max}. The number of hidden data rows will be printed below the
 #' \code{data.frame}.
 #'
 #' @param x A \code{data.frame} of the class \code{spiro} to be printed.

@@ -23,4 +23,5 @@ load data.
 raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 
 get_protocol(raw_data)
+
 }

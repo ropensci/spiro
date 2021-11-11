@@ -19,7 +19,7 @@ steps(duration, load, increment, count, rest.duration = 0)
 const(duration, load, count, rest.duration = 0)
 }
 \arguments{
-\item{...}{Functions related to sections of the test profile, such as
+\item{...}{Functions related to sections of the load profile, such as
 \code{pre}, \code{wu}, \code{const} or \code{step}. Sections will be
 evaluated in the order they are entered.}
 
@@ -56,5 +56,7 @@ set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
 
 }
 \seealso{
-\link{set_protocol_manual} for completely manual protocol design.
+\link{set_protocol_manual} for manual protocol design.
+
+\link{get_protocol} For automated extracting of protocols from raw data.
 }

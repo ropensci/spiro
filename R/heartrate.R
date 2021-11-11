@@ -1,11 +1,10 @@
-#' Import and apply heart rate data to a spiroergometric data file
+#' Import and apply heart rate data to cardiopulmonary exercise testing data
 #'
 #' \code{add_hr()} imports an additional file containing heart rate data and
 #' adds it to an existing spiroergometric data file.
 #'
-#' Heart rate data will be imported from a \code{.tcx} file. After
-#' interpolating the data to full seconds, it is then applied to a given data
-#' set.
+#' Heart rate data will be imported from a \code{.tcx} file. After interpolating
+#' the data to full seconds, it is then matched to the imported data.
 #'
 #' @param data A \code{data.frame} containing spiroergometric data interpolated
 #'   to every second.

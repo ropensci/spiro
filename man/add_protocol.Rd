@@ -10,9 +10,25 @@ add_protocol(data, protocol)
 \item{data}{A spiro \code{data.frame} containing the exercise testing data.}
 
 \item{protocol}{A \code{data.frame} containing the test protocol, as created
-by \code{\link{set_protocol_manual}} or \code{\link{get_protocol}}.}
+by \code{\link{set_protocol}}, \code{\link{set_protocol_manual}} or
+\code{\link{get_protocol}}.}
 }
 \description{
 \code{add_protocol()} adds a predefined test protocol to an existing set of
 data from an exercise test.
+}
+\examples{
+# Get example data
+file <- spiro_example("zan_gxt")
+
+spiro(file) |>
+  add_protocol(set_protocol(pre(60), steps(300,50,50,7,30)))
+
+}
+\seealso{
+\link{set_protocol} for protocol setting with helper functions.
+
+\link{set_protocol_manual} for manual protocol design.
+
+\link{get_protocol} For automated extracting of protocols from raw data.
 }

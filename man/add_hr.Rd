@@ -2,7 +2,7 @@
 % Please edit documentation in R/heartrate.R
 \name{add_hr}
 \alias{add_hr}
-\title{Import and apply heart rate data to a spiroergometric data file}
+\title{Import and apply heart rate data to cardiopulmonary exercise testing data}
 \usage{
 add_hr(data, hr_file, hr_offset = 0)
 }
@@ -26,9 +26,8 @@ data.
 adds it to an existing spiroergometric data file.
 }
 \details{
-Heart rate data will be imported from a \code{.tcx} file. After
-interpolating the data to full seconds, it is then applied to a given data
-set.
+Heart rate data will be imported from a \code{.tcx} file. After interpolating
+the data to full seconds, it is then matched to the imported data.
 }
 \examples{
 # Get example data
