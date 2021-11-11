@@ -41,7 +41,7 @@ add_protocol <- function(data, protocol) {
   }
 
   # add protocol variables to the existing data
-  out <- cbind(add, data[,!names(data) %in% c("load","incr"), drop = FALSE])
+  out <- cbind(add, data[,!names(data) %in% c("load","step"), drop = FALSE])
 
   # preserve and create attributes
   attr(out,"info") <- attr(data,"info")
