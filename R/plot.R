@@ -145,7 +145,7 @@ spiro_plot_VO2 <- function(data, smooth = 15,...) {
 
   # reshape data into long format
   d_long <- stats::reshape(d, direction = "long",varying = c("VO2_rel","VCO2_rel"),v.names = "value", idvar = c("time","load"), times = c("VO2_rel","VCO2_rel"), timevar = "measure")
-  d_long$measure <- factor(d_long$measure, levels = c("VO2_rel","VCO2_rel"), labels = c("VO2_rel (ml/min/kg)","VCO2_rel (ml/min/kg)"))
+  d_long$measure <- factor(d_long$measure, levels = c("VO2_rel","VCO2_rel"), labels = c("VO2 (ml/min/kg)","VCO2 (ml/min/kg)"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     ggplot2::geom_area(
@@ -345,8 +345,9 @@ theme_spiro <- function(size = 13,...) {
   list(
     ggplot2::theme_minimal(base_size = size),
     ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                  legend.position = c(0.15,0.9),
-                  legend.background = ggplot2::element_rect(colour = "white",fill = ggplot2::alpha('white',0.9)),
+                  legend.position = c(0.02,0.98),
+                  legend.background = ggplot2::element_rect(colour = NA,fill = ggplot2::alpha('white',0.9)),
+                  legend.justification = c(0,1),
                   legend.title = ggplot2::element_blank(),
                   ...)
   )
