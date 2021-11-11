@@ -69,6 +69,19 @@ spiro <- function(file,
                   hr_offset = 0,
                   protocol = NULL) {
 
+  # validate inputs
+  if (!is.null(weight)) {
+    if (!is.numeric(weight)) {
+      stop("'weight' must be a numeric value")
+    } else if (weight <= 0) {
+      stop("'weight' must be greater than 0")
+    }
+  }
+
+  if (!is.null(hr_file) && !is.numeric(hr_offset)) {
+    stop("'hr_offset' must be a numeric value")
+  }
+
   # import the gas exchange raw data
   dt_imported <- spiro_import(file, device = device)
 

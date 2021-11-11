@@ -38,7 +38,23 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
   # step wise summary only works when load step are available
   protocol <- attr(data, "protocol")
   if (is.null(protocol))
-    stop("No protocol found")
+    stop("Data does not contain an exercise protocol")
+
+  # input validation
+  if (!is.numeric(interval)) {
+    stop("'interval' must be an integer")
+  } else if (interval < 1) {
+    stop("'interval' must be greater or equal to 1")
+  }
+
+  if (!is.logical(quiet)) {
+    stop("'quiet' must be either TRUE or FALSE")
+  }
+
+  if (!is.logical(exclude)) {
+    stop("'exclude' must be either TRUE or FALSE")
+  }
+
 
   # special handle, if all load steps are less than interval
   # interval will be given the value of the longest step
@@ -102,6 +118,17 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
 #' @export
 
 spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
+
+  # input validation for `smooth` argument
+  if (!is.numeric(smooth)) {
+    stop("'smooth' must be an integer")
+  } else if (smooth < 1) {
+    stop("'smooth' must be greater or equal to 1")
+  }
+
+  if (!is.logical(hr_smooth)) {
+    stop("'hr_smooth' must be either TRUE or FALSE")
+  }
 
   # calculate rolling averages
   data$VO2_rm <- zoo::rollmean(data$VO2, smooth, fill = NA)
