@@ -19,9 +19,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardised workflow for data from metabolic carts.
+Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardized workflow for data from metabolic carts.
 
-This vignette provides you information on how to summarise and plot data previously imported and processed by `spiro()`.
+This vignette provides you information on how to summarize and plot data previously imported and processed by `spiro()`.
 
 #### Load the data
 
@@ -37,34 +37,28 @@ gxt_data
 
 ## Stepwise summary with `spiro_summary()`
 
-To analyse gas exchange data, usually mean parameters for each performed load step are warranted. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
+To analyse gas exchange data, often mean parameters for each performed load step are of interest. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
 
-```{r spiro_summary}
+```{r summary}
 spiro_summary(gxt_data, interval = 120)
 ```
 
-The length of the computational interval (in seconds) can be modified by setting
-the `interval` argument. If the interval exceed the length of any step in any
-case, it will be shortened displaying a note. You can turn these messages of
-with setting the argument `quiet = TRUE`.
+The length of the computational interval (in seconds) can be modified with the `interval` argument. If the interval exceed the length of any step in any case, it will be shortened displaying a note. You can turn these messages of with setting the argument `quiet = TRUE`.
 
 ## Maximal parameter values with `spiro_max()`
 
-For some types of exercise tests it may be preferable to get an overall instead
-of a stepwise summary of parameters. `spiro_max()` calculates the maximal values
-within the test after applying a smoothing by the use of a rolling average.
+For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data with a rolling average.
 
-```{r spiro_glance}
+```{r max}
 spiro_max(gxt_data, smooth = 30)
 ```
-The `interval` argument will set the length over which the rolling average will
-be computed.
+The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behaviour with `hr_smooth = TRUE`.
 
 ## Plotting the data
 
-The `spiro` package offers basic shorthand functions for visualizing data from cardiopulmonary exercise testing. With `spiro_plot()` you can display the traditional Wasserman 9-Panel Plot.
+The `spiro` package let you visualize data from cardiopulmonary exercise testing: With `spiro_plot()` you can display the traditional Wasserman 9-Panel Plot.
 
-```{r spiro_plot}
+```{r plot}
 # load example data
 data <- spiro(spiro_example("zan_ramp"), 
                       hr_file = spiro_example("hr_ramp.tcx"))
@@ -72,9 +66,18 @@ data <- spiro(spiro_example("zan_ramp"),
 spiro_plot(data)
 ```
 
-You can combine selected panels of the 9-Panel Plot by setting the `which` argument.
+You can individually select and combine panels of the 9-Panel Plot by setting the `which` argument.
 
-```{r spiro_plot_which}
+```{r plot_select}
 # Plot only V-Slope (Panel 5) and VO2/VCO2 over time (Panel 3)
 spiro_plot(data, which = c(5,3))
+```
+
+Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average with a smoothing interval length of the `smooth` argument. The other panels (4,5,7) use the initial raw data for visualization. 
+
+You can control the appearance of the plots in `spiro_plot()`. Use the `size` argument to change the base size. You can pass other style arguments to `ggplot::theme()` for further customization.
+
+```{r plot_style}
+# Change base size and 
+spiro_plot(data, size = 7, axis.title = ggplot2::element_text(face = "bold", colour = "blue"))
 ```
