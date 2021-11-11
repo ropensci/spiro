@@ -106,7 +106,7 @@ spiro_import_zan <- function(file) {
     HR = data$HR,
     # velocity is given in m/min in the raw data
     load = round(data$Geschw./3600,2),
-    incr = data$Steig./10,
+    #incr = data$Steig./10, # variable currently not used
     PetO2 = NA,
     PetCO2 = NA
   )
@@ -238,7 +238,7 @@ spiro_import_cosmed <- function(file) {
     VE = data$VE,
     HR = data$HR,
     load = round(speed/36,2),
-    incr = grade,
+    #incr = grade, # variable currently not used
     PetO2 = data$PetO2,
     PetCO2 = data$PetCO2
   )
@@ -339,7 +339,7 @@ spiro_import_cortex <- function(file) {
     VE = as.numeric(data[[ve_name]]),
     HR = as.numeric(data$HF),
     load = as.numeric(data$Steigung),
-    incr = as.numeric(data$Steigung),
+    #incr = as.numeric(data$Steigung), # variable currently not used
     PetO2 = as.numeric(data$PetO2),
     PetCO2 = as.numeric(data$PetCO2)
   )
