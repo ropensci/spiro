@@ -103,13 +103,16 @@ spiro_import_zan <- function(file) {
     # ventilation (per minute) is given in ml in the raw data
     VT = (data$Vin / 1000),
     VE = (60 * data$Vin) / (data$tin + data$tex), # calculate minute ventilation
-    HR = if (all(data$HR == 0, na.rm = TRUE)) NA else data$HR,
+    HR = data$HR,
     # velocity is given in m/min in the raw data
     load = round(data$Geschw./3600,2),
     incr = data$Steig./10,
     PetO2 = NA,
     PetCO2 = NA
   )
+
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
 
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro","data.frame") # create spiro class
@@ -233,12 +236,15 @@ spiro_import_cosmed <- function(file) {
     RR = data$Rf,
     VT = data$VT,
     VE = data$VE,
-    HR = if (all(data$HR == 0, na.rm = TRUE)) NA else data$HR,
+    HR = data$HR,
     load = round(speed/36,2),
     incr = grade,
     PetO2 = data$PetO2,
     PetCO2 = data$PetCO2
   )
+
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
 
   # rare special case if weight has been deleted from meta data. Recalculates
   # weight based on relative oxygen uptake present in raw data
@@ -331,12 +337,15 @@ spiro_import_cortex <- function(file) {
     RR = as.numeric(data$AF),
     VT = as.numeric(data$VT),
     VE = as.numeric(data[[ve_name]]),
-    HR = if (all(data$HR == 0, na.rm = TRUE)) NA else as.numeric(data$HF),
+    HR = as.numeric(data$HF),
     load = as.numeric(data$Steigung),
     incr = as.numeric(data$Steigung),
     PetO2 = as.numeric(data$PetO2),
     PetCO2 = as.numeric(data$PetCO2)
   )
+
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
 
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro","data.frame") # create spiro class

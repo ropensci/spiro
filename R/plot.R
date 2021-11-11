@@ -67,7 +67,7 @@ spiro_plot.internal <- function(which, data, smooth,...) {
 #' @noRd
 spiro_plot_VE <- function(data, smooth = 15,...) {
 
-  data$VE <- zoo::rollmean(data$VE, smooth, na.pad = TRUE)
+  data$VE <- zoo::rollmean(data$VE, smooth, fill = NA)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
@@ -91,8 +91,12 @@ spiro_plot_VE <- function(data, smooth = 15,...) {
 spiro_plot_HR <- function(data, smooth = 15,...) {
 
   sec_axis_factor <- 5
-  data$pulse <- zoo::rollmean(data$VO2 / data$HR, smooth, na.pad = TRUE) * sec_axis_factor
-  data$HR <- zoo::rollmean(data$HR, smooth, na.pad = TRUE)
+
+  # Rewrite null values from heart rate to NAs
+  data$HR[which(data$HR == 0)] <- NA
+
+  data$pulse <- zoo::rollmean(data$VO2 / data$HR, smooth, fill = NA) * sec_axis_factor
+  data$HR <- zoo::rollmean(data$HR, smooth, fill = NA)
 
   d <- data[,c("time","load","pulse","HR")]
   d_long <- stats::reshape(d, direction = "long",varying = c("pulse","HR"),v.names = "value", idvar = c("time","load"), times = c("pulse","HR"), timevar = "measure")
@@ -115,9 +119,9 @@ spiro_plot_HR <- function(data, smooth = 15,...) {
       # create a second y-axis only if data values are available as ggplot2
       # returns an error if sec_axis() is applied to all NAs
       if (!all(is.na(d_long$value))) {
-        ggplot2::scale_y_continuous(limits = c(0,250), sec.axis = ggplot2::sec_axis(~ . / sec_axis_factor))
+        ggplot2::scale_y_continuous(limits = c(0,225), sec.axis = ggplot2::sec_axis(~ . / sec_axis_factor))
       } else {
-        ggplot2::scale_y_continuous(limits = c(0,250))
+        ggplot2::scale_y_continuous(limits = c(0,225))
       }
     ) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
@@ -135,8 +139,8 @@ spiro_plot_VO2 <- function(data, smooth = 15,...) {
   d <- data.frame(
     time = data$time,
     load = data$load,
-    VO2_rel = zoo::rollmean(data$VO2_rel, smooth, na.pad = TRUE),
-    VCO2_rel = zoo::rollmean(data$VCO2_rel, smooth, na.pad = TRUE)
+    VO2_rel = zoo::rollmean(data$VO2_rel, smooth, fill = NA),
+    VCO2_rel = zoo::rollmean(data$VCO2_rel, smooth, fill = NA)
   )
 
   # reshape data into long format
@@ -217,11 +221,11 @@ spiro_plot_EQ <- function(data, smooth = 15,...) {
   # remove implausible high values before smoothing
   data$EQ_O2 <- 1000 * data$VE / data$VO2
   data$EQ_O2[which(data$EQ_O2 > 100)] <- NA
-  data$EQ_O2 <- zoo::rollmean(data$EQ_O2, smooth, na.pad = TRUE)
+  data$EQ_O2 <- zoo::rollmean(data$EQ_O2, smooth, fill = NA)
 
   data$EQ_CO2 <- 1000 * data$VE / data$VCO2
   data$EQ_CO2[which(data$EQ_CO2 > 100)] <- NA
-  data$EQ_CO2 <- zoo::rollmean(data$EQ_CO2, smooth, na.pad = TRUE)
+  data$EQ_CO2 <- zoo::rollmean(data$EQ_CO2, smooth, fill = NA)
 
   d <- data[,c("time","load","EQ_O2","EQ_CO2")]
   d_long <- stats::reshape(d, direction = "long",varying = c("EQ_O2","EQ_CO2"),v.names = "value", idvar = c("time","load"), times = c("EQ_O2","EQ_CO2"), timevar = "measure")
@@ -260,7 +264,7 @@ spiro_plot_vent <- function(data,...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = 15,...) {
-  data$RER <- zoo::rollmean(data$RER, smooth, na.pad = TRUE)
+  data$RER <- zoo::rollmean(data$RER, smooth, fill = NA)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
@@ -283,8 +287,8 @@ spiro_plot_RER <- function(data, smooth = 15,...) {
 #'
 #' @noRd
 spiro_plot_Pet <- function(data,smooth = 15,...) {
-  data$PetO2 <- zoo::rollmean(data$PetO2, smooth, na.pad = TRUE)
-  data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, na.pad = TRUE)
+  data$PetO2 <- zoo::rollmean(data$PetO2, smooth, fill = NA)
+  data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, fill = NA)
 
   d <- data[,c("time","load","PetO2","PetCO2")]
   d_long <- stats::reshape(d, direction = "long",varying = c("PetO2","PetCO2"),v.names = "value", idvar = c("time","load"), times = c("PetO2","PetCO2"), timevar = "measure")
