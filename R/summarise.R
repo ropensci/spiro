@@ -113,7 +113,11 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # Use only data during exercising for calculating maximum values
   # Does not apply to HR, since this can also be achieved shortly after
   # termination
-  if (any(data$step != 0)) data_cut <- data[data$step >= 1,]
+  if (any(data$step != 0)) {
+    data_cut <- data[data$step >= 1,]
+  } else {
+    data_cut <- data
+  }
 
   df <- data.frame(
     VO2 = max(data_cut$VO2_rm, na.rm = TRUE),
