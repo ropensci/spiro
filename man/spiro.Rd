@@ -67,8 +67,8 @@ relative measures. It is possible to supply \code{weight} manually to the
 function, overriding that value.
 
 Protocols, heart rate data and weight information can also be given in a
-piping coding style using the functions \code{\link{add_protocol},
-\code{\link{add_hr}} and \code{\link{add_weight}}} (see examples).
+piping coding style using the functions \code{\link{add_protocol}},
+\code{\link{add_hr}} and \code{\link{add_weight}} (see examples).
 
 After processing, you may summarize the resulting data frame with
 \code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
@@ -89,9 +89,9 @@ hr_file <- spiro_example("hr_ramp.tcx")
 
 spiro(oxy_file, hr_file = hr_file)
 
-# use spiro and the add_* function in a pipe
+# use the add_* functions in a pipe
 spiro(file) |>
-  add_hr(hr_file = hr_file, hr_offset = 60) |>
+  add_hr(hr_file = hr_file, hr_offset = 0) |>
   add_weight(68.2)
 
 }
