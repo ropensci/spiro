@@ -30,5 +30,4 @@ average over the length of \code{interval}.
 gxt_data <- spiro(file = spiro_example("zan_gxt"))
 
 spiro_max(gxt_data)
-
 }

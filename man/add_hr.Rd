@@ -39,5 +39,4 @@ oxy_data <- spiro(oxy_file)
 
 # Add heart rate data
 add_hr(oxy_data, hr_file)
-
 }

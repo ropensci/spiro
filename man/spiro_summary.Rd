@@ -42,5 +42,4 @@ displayed in the summary.
 gxt_data <- spiro(file = spiro_example("zan_gxt"))
 
 spiro_summary(gxt_data)
-
 }

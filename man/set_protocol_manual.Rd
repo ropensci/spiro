@@ -34,16 +34,15 @@ load column
 }}
 
 \examples{
-set_protocol_manual(duration = c(300,120,300,60,300), load = c(3,5,3,6,3))
+set_protocol_manual(duration = c(300, 120, 300, 60, 300), load = c(3, 5, 3, 6, 3))
 
 # using a data.frame as input
 pt_data <- data.frame(
-  duration = c(180,150,120,90,60,30),
-  load = c(200,250,300,350,400,450)
-  )
+  duration = c(180, 150, 120, 90, 60, 30),
+  load = c(200, 250, 300, 350, 400, 450)
+)
 
 set_protocol_manual(pt_data)
-
 }
 \seealso{
 \link{set_protocol} for protocol setting with helper functions.

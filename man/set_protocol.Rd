@@ -52,8 +52,7 @@ based on profile sections.
 }}
 
 \examples{
-set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
-
+set_protocol(pre(60), wu(300, 100), steps(180, 150, 25, 8, 30))
 }
 \seealso{
 \link{set_protocol_manual} for manual protocol design.

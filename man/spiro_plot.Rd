@@ -43,13 +43,14 @@ This function provides a shortcut for visualising spiroergometric data from
 }
 \examples{
 # Import and process example data
-ramp_data <- spiro(file = spiro_example("zan_ramp"),
-                  hr_file = spiro_example("hr_ramp.tcx"))
+ramp_data <- spiro(
+  file = spiro_example("zan_ramp"),
+  hr_file = spiro_example("hr_ramp.tcx")
+)
 
 # Diplay the traditional Wasserman 9-Panel Plot
 spiro_plot(ramp_data)
 
 # Display selected panels, here V-Slope
 spiro_plot(ramp_data, which = 5)
-
 }

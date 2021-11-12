@@ -22,8 +22,7 @@ data from an exercise test.
 file <- spiro_example("zan_gxt")
 
 spiro(file) |>
-  add_protocol(set_protocol(pre(60), steps(300,50,50,7,30)))
-
+  add_protocol(set_protocol(pre(60), steps(300, 50, 50, 7, 30)))
 }
 \seealso{
 \link{set_protocol} for protocol setting with helper functions.

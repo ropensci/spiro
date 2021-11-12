@@ -15,5 +15,4 @@ spiro_example(file)
 }
 \examples{
 spiro_example("zan_gxt")
-
 }
