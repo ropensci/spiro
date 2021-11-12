@@ -14,8 +14,7 @@
 #' file <- spiro_example("zan_gxt")
 #'
 #' spiro(file) |>
-#'   add_protocol(set_protocol(pre(60), steps(300,50,50,7,30)))
-#'
+#'   add_protocol(set_protocol(pre(60), steps(300, 50, 50, 7, 30)))
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [set_protocol_manual] for manual protocol design.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
@@ -41,32 +40,33 @@ add_protocol <- function(data, protocol) {
       step = rep.int(ptcl$code, ptcl$duration)
     )
     if (nrow(data) < nrow(add)) { # protocol longer than data
-      add <- add[1:nrow(data),] # remove last protocol values
+      add <- add[1:nrow(data), ] # remove last protocol values
       rownames(add) <- NULL
     } else if (nrow(data) > nrow(add)) { # protocol shorter than data
       dif <- nrow(data) - nrow(add)
       end <- data.frame( # code last seconds as post measures
-        load = rep.int(0,dif),
-        step = rep.int(-2,dif)
+        load = rep.int(0, dif),
+        step = rep.int(-2, dif)
       )
       add <- rbind(add, end)
     }
   }
 
   # add protocol variables to the existing data
-  out <- cbind(add, data[,!names(data) %in% c("load","step"), drop = FALSE])
+  out <- cbind(add, data[, !names(data) %in% c("load", "step"), drop = FALSE])
 
   # preserve and create attributes
-  attr(out,"info") <- attr(data,"info")
-  attr(out,"protocol") <- ptcl
-  attr(out,"raw") <- attr(data,"raw")
-  attr(out,"testtype") <- get_testtype(ptcl)
-  testtype_class <- switch(attr(out,"testtype"),
-                           "constant" = "spiro_clt",
-                           "ramp" = "spiro_rmp",
-                           "incremental" = "spiro_gxt",
-                           NULL)
-  class(out) <- c(testtype_class,class(data))
+  attr(out, "info") <- attr(data, "info")
+  attr(out, "protocol") <- ptcl
+  attr(out, "raw") <- attr(data, "raw")
+  attr(out, "testtype") <- get_testtype(ptcl)
+  testtype_class <- switch(attr(out, "testtype"),
+    "constant" = "spiro_clt",
+    "ramp" = "spiro_rmp",
+    "incremental" = "spiro_gxt",
+    NULL
+  )
+  class(out) <- c(testtype_class, class(data))
 
   out
 }
@@ -88,7 +88,6 @@ add_protocol <- function(data, protocol) {
 #' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
 #'
 #' get_protocol(raw_data)
-#'
 #' @export
 
 get_protocol <- function(data) {
@@ -109,20 +108,20 @@ get_protocol <- function(data) {
   }
 
   # get time and load for every time point when load changes
-  changes <- data[values, c("time","load")]
+  changes <- data[values, c("time", "load")]
 
   # calculate duration of each load step
-  duration <- rep.int(NA,length(values))
+  duration <- rep.int(NA, length(values))
   for (i in seq_along(values)) {
     if (i < length(values)) {
-      duration[i] <- changes$time[[i+1]] - changes$time[[i]]
+      duration[i] <- changes$time[[i + 1]] - changes$time[[i]]
     } else { # for last load
       duration[i] <- max(data$time, na.rm = TRUE) - changes$time[[i]]
     }
   }
 
   data.frame(
-    duration = round(duration,-1), # round to full 10 seconds
+    duration = round(duration, -1), # round to full 10 seconds
     load = changes$load
   )
 }
@@ -155,8 +154,8 @@ get_features <- function(protocol) {
   # check if differences between steps are all equal
   # if first difference is unusual, this suggests that a warm-up is present
   if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) {
-    protocol$type[min(which(protocol$load != 0))]  <- "warm up"
-    protocol$code[min(which(protocol$load != 0))]  <- 0.5
+    protocol$type[min(which(protocol$load != 0))] <- "warm up"
+    protocol$code[min(which(protocol$load != 0))] <- 0.5
   }
 
   # write load steps and rest
@@ -192,12 +191,11 @@ get_features <- function(protocol) {
 #'   \code{"constant"} or \code{"other"}.
 
 get_testtype <- function(protocol) {
-
   if (is.null(protocol)) {
     testtype <- "unknown"
   } else {
     # round load increases to prevent non-exact equality
-    d <- round(diff(protocol$load[protocol$type == "load"]),4)
+    d <- round(diff(protocol$load[protocol$type == "load"]), 4)
     t <- protocol$duration[protocol$type == "load"]
     if (all(d[-1] == 0)) { # no load changes
       testtype <- "constant"
@@ -233,12 +231,11 @@ get_testtype <- function(protocol) {
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #'
 #' @examples
-#' set_protocol(pre(60), wu(300,100), steps(180,150,25,8,30))
-#'
+#' set_protocol(pre(60), wu(300, 100), steps(180, 150, 25, 8, 30))
 #' @export
 set_protocol <- function(...) {
   l <- list(...)
-  do.call("rbind",l)
+  do.call("rbind", l)
 }
 
 #' @describeIn set_protocol Add pre-measures to a load protocol
@@ -293,18 +290,20 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
     duration = ds,
     load = ls
   )
-  if (is.null(rest.load)) d else d[-nrow(d),] # remove last rest interval
+  if (is.null(rest.load)) d else d[-nrow(d), ] # remove last rest interval
 }
 
 #' @describeIn set_protocol Add a constant load protocol
 #' @export
 
 const <- function(duration, load, count, rest.duration = 0) {
-  steps(duration = duration,
-       load = load,
-       increment = 0,
-       count = count,
-       rest.duration = rest.duration)
+  steps(
+    duration = duration,
+    load = load,
+    increment = 0,
+    count = count,
+    rest.duration = rest.duration
+  )
 }
 
 #' Manually setting a testing profile
@@ -319,16 +318,15 @@ const <- function(duration, load, count, rest.duration = 0) {
 #'   the corresponding load of each step.
 #'
 #' @examples
-#' set_protocol_manual(duration = c(300,120,300,60,300), load = c(3,5,3,6,3))
+#' set_protocol_manual(duration = c(300, 120, 300, 60, 300), load = c(3, 5, 3, 6, 3))
 #'
 #' # using a data.frame as input
 #' pt_data <- data.frame(
-#'   duration = c(180,150,120,90,60,30),
-#'   load = c(200,250,300,350,400,450)
-#'   )
+#'   duration = c(180, 150, 120, 90, 60, 30),
+#'   load = c(200, 250, 300, 350, 400, 450)
+#' )
 #'
 #' set_protocol_manual(pt_data)
-#'
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #' @export

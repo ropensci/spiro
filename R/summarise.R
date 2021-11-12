@@ -30,15 +30,15 @@
 #' gxt_data <- spiro(file = spiro_example("zan_gxt"))
 #'
 #' spiro_summary(gxt_data)
-#'
 #' @export
 
 spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) {
 
   # step wise summary only works when load step are available
   protocol <- attr(data, "protocol")
-  if (is.null(protocol))
+  if (is.null(protocol)) {
     stop("Data does not contain an exercise protocol")
+  }
 
   # input validation
   if (!is.numeric(interval)) {
@@ -71,7 +71,7 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
     all_durations <- protocol$duration[protocol$code > 0]
     # check if last step was shorter than all other steps
     if (all(all_durations[length(all_durations)] < all_durations[-length(all_durations)])) {
-      data <- data[data$step != max(data$step),] # exclude step
+      data <- data[data$step != max(data$step), ] # exclude step
       if (!quiet) {
         message("Last step was excluded from summary calculation due to termination of the test")
       }
@@ -79,16 +79,17 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
   }
 
   out <- sapply(unique(data$step)[unique(data$step) >= 0], getstepmeans,
-                data = data,
-                interval = interval,
-                quiet = quiet)
-  out_df <- data.frame(apply(t(out),2,unlist))
+    data = data,
+    interval = interval,
+    quiet = quiet
+  )
+  out_df <- data.frame(apply(t(out), 2, unlist))
 
   # round values to two decimals
-  out_df[,!colnames(out_df) %in% c("step_number","load")] <- round(out_df[,!colnames(out_df) %in% c("step_number","load")],2)
+  out_df[, !colnames(out_df) %in% c("step_number", "load")] <- round(out_df[, !colnames(out_df) %in% c("step_number", "load")], 2)
 
   # write calculation interval as attribute (useful for reactive environments)
-  attr(out_df,"interval") <- interval
+  attr(out_df, "interval") <- interval
 
   out_df
 }
@@ -114,7 +115,6 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
 #' gxt_data <- spiro(file = spiro_example("zan_gxt"))
 #'
 #' spiro_max(gxt_data)
-#'
 #' @export
 
 spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
@@ -141,7 +141,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # Does not apply to HR, since this can also be achieved shortly after
   # termination
   if (any(data$step != 0)) {
-    data_cut <- data[data$step >= 1,]
+    data_cut <- data[data$step >= 1, ]
   } else {
     data_cut <- data
   }
@@ -171,7 +171,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   df <- cbind(df, df_hr)
 
   # write calculation interval as attribute (useful for reactive environments)
-  attr(df,"interval") <- smooth
+  attr(df, "interval") <- smooth
 
   df
 }
@@ -185,12 +185,14 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
 getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
 
   # filter data for desired step number and delete unneeded columns
-  step <- data[data$step == step_number,
-               !colnames(data) %in% c("step","time","VCO2_rel","RR","VT")]
+  step <- data[
+    data$step == step_number,
+    !colnames(data) %in% c("step", "time", "VCO2_rel", "RR", "VT")
+  ]
 
   # get start of calculation interval
   if (nrow(step) >= interval) { # step longer than interval
-    cstart <- nrow(step)-(interval-1)
+    cstart <- nrow(step) - (interval - 1)
   } else { # step shorter than interval
     cstart <- 1
     if (!quiet) {
@@ -198,26 +200,29 @@ getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
         message(
           sprintf(
             "for pre-measures, interval was set to length of measures (%s seconds)",
-            nrow(step))
+            nrow(step)
+          )
         )
       } else if (step_number == 0.5) { # warm up
         message(
           sprintf(
             "for warm-up measures, interval was set to length of warm-up (%s seconds)",
-            nrow(step))
+            nrow(step)
+          )
         )
       } else { # load steps
         message(
           sprintf(
             "for step %s, interval was set to length of step (%s seconds)",
-            step_number, nrow(step))
+            step_number, nrow(step)
+          )
         )
       }
     }
   }
 
   # filter data within calculation interval
-  stepend <- step[cstart:nrow(step),]
+  stepend <- step[cstart:nrow(step), ]
 
   # calculate mean values
   df <- data.frame(
@@ -226,7 +231,7 @@ getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
   )
 
   # Replace missing values with NAs
-  df[1,which(is.na(df))] <- NA
+  df[1, which(is.na(df))] <- NA
 
   df
 }

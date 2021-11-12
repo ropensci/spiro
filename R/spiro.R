@@ -59,7 +59,7 @@
 #' spiro(file)
 #'
 #' # import with user-defined test profile
-#' spiro(file, protocol = set_protocol(pre(60),steps(300,2,0.4,9,30)))
+#' spiro(file, protocol = set_protocol(pre(60), steps(300, 2, 0.4, 9, 30)))
 #'
 #' # import with additional heart rate data
 #' oxy_file <- spiro_example("zan_ramp")
@@ -71,7 +71,6 @@
 #' spiro(file) |>
 #'   add_hr(hr_file = hr_file, hr_offset = 0) |>
 #'   add_weight(68.2)
-#'
 #' @export
 
 spiro <- function(file,
@@ -121,7 +120,7 @@ spiro <- function(file,
 
   # Add heart rate if available
   if (!is.null(hr_file)) {
-    dt_out <- add_hr(data = dt_out, hr_file= hr_file, hr_offset = hr_offset)
+    dt_out <- add_hr(data = dt_out, hr_file = hr_file, hr_offset = hr_offset)
   }
 
   # save raw data as attribute
@@ -129,4 +128,3 @@ spiro <- function(file,
 
   dt_out
 }
-

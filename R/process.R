@@ -31,10 +31,10 @@ spiro_interpolate <- function(data) {
   # write time column
   xout <- 1:round(max(data$time, na.rm = TRUE))
 
-  df <- data.frame(time = xout,yout)
+  df <- data.frame(time = xout, yout)
 
-  attr(df, "info") <- attr(data,"info") # save meta data as attribute
-  class(df) <- c("spiro","data.frame") # write class
+  attr(df, "info") <- attr(data, "info") # save meta data as attribute
+  class(df) <- c("spiro", "data.frame") # write class
   df
 }
 
@@ -79,11 +79,12 @@ spiro_interpolate.internal <- function(y, x) {
 
 add_weight <- function(data, weight = NULL) {
   # find weight in meta data if not specified
-  if (is.null(weight)) weight = attr(data, "info")$weight
+  if (is.null(weight)) weight <- attr(data, "info")$weight
 
   # no weight found
-  if (is.na(weight))
+  if (is.na(weight)) {
     stop("No 'weight' specified")
+  }
 
   # calculate data relative to body weight
   data$VO2_rel <- data$VO2 / weight
@@ -92,7 +93,7 @@ add_weight <- function(data, weight = NULL) {
   # calculate running economy if applicable
   # check if protocol was a running exercise
   if (!all(is.null(data$load)) && max(data$load < 30)) {
-    data$RE <- (100/6) * (data$VO2_rel / data$load)
+    data$RE <- (100 / 6) * (data$VO2_rel / data$load)
     for (i in seq_along(data$RE)) { # result NAs for rest sections
       if (is.na(data$RE[[i]])) {
         data$RE[[i]] <- NA
@@ -119,8 +120,8 @@ dupl <- function(values) {
   if (d != 0) {
     ds <- which(duplicated(values))
     for (di in ds) {
-      values[[di-1]] <- (values[[di-1]]-0.1)
-      values[[di]] <- (values[[di]]+0.1)
+      values[[di - 1]] <- (values[[di - 1]] - 0.1)
+      values[[di]] <- (values[[di]] + 0.1)
     }
   }
   values
@@ -139,25 +140,25 @@ dupl <- function(values) {
 
 calo <- function(data) {
   m <- mapply(FUN = calo.internal, vo2abs = data$VO2, vco2abs = data$VCO2)
-  out <- cbind(data,round(apply(t(m),2,unlist),2))
+  out <- cbind(data, round(apply(t(m), 2, unlist), 2))
 
   # preserve class and attributes
   class(out) <- class(data)
-  attr(out,"info") <- attr(data,"info")
-  attr(out,"protocol") <- attr(data,"protocol")
-  attr(out,"raw") <- attr(data,"raw")
-  attr(out,"testtype") <- attr(data,"testtype")
+  attr(out, "info") <- attr(data, "info")
+  attr(out, "protocol") <- attr(data, "protocol")
+  attr(out, "raw") <- attr(data, "raw")
+  attr(out, "testtype") <- attr(data, "testtype")
   out
 }
 
-calo.internal <- function(vo2abs,vco2abs) {
-  if (is.na(vo2abs) | is.na(vco2abs)){
+calo.internal <- function(vo2abs, vco2abs) {
+  if (is.na(vo2abs) | is.na(vco2abs)) {
     fo <- NA
     cho <- NA
   } else {
-    cho <- (vco2abs/1000) * 4.585 - ((vo2abs/1000) * 3.226)
-    fo <- ((vo2abs/1000) * 1.695) - ((vco2abs/1000) * 1.701)
+    cho <- (vco2abs / 1000) * 4.585 - ((vo2abs / 1000) * 3.226)
+    fo <- ((vo2abs / 1000) * 1.695) - ((vco2abs / 1000) * 1.701)
     if (fo < 0) fo <- 0
   }
-  list(CHO = cho,FO = fo)
+  list(CHO = cho, FO = fo)
 }

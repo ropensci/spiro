@@ -28,22 +28,24 @@
 #'
 #' @examples
 #' # Import and process example data
-#' ramp_data <- spiro(file = spiro_example("zan_ramp"),
-#'                   hr_file = spiro_example("hr_ramp.tcx"))
+#' ramp_data <- spiro(
+#'   file = spiro_example("zan_ramp"),
+#'   hr_file = spiro_example("hr_ramp.tcx")
+#' )
 #'
 #' # Diplay the traditional Wasserman 9-Panel Plot
 #' spiro_plot(ramp_data)
 #'
 #' # Display selected panels, here V-Slope
 #' spiro_plot(ramp_data, which = 5)
-#'
 #' @export
 
 spiro_plot <- function(data, which = 1:9, smooth = 15, size = 13, ...) {
 
   # input validation for `which` argument
-  if (!is.numeric(which) || !all(which %in% 1:9))
+  if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
+  }
 
   # input validation for `smooth` argument
   if (!is.numeric(smooth)) {
@@ -53,21 +55,22 @@ spiro_plot <- function(data, which = 1:9, smooth = 15, size = 13, ...) {
   }
 
 
-  l <- lapply(which, spiro_plot.internal, data = data, smooth = smooth,size = size, ...)
+  l <- lapply(which, spiro_plot.internal, data = data, smooth = smooth, size = size, ...)
   cowplot::plot_grid(plotlist = l)
 }
 
-spiro_plot.internal <- function(which, data, smooth,size,...) {
+spiro_plot.internal <- function(which, data, smooth, size, ...) {
   p <- switch(which,
-              `1` = spiro_plot_VE(data,smooth,size,...),
-              `2` = spiro_plot_HR(data,smooth,size,...),
-              `3` = spiro_plot_VO2(data,smooth,size,...),
-              `4` = spiro_plot_EQCO2(data,size,...),
-              `5` = spiro_plot_vslope(data,size,...),
-              `6` = spiro_plot_EQ(data,smooth,size,...),
-              `7` = spiro_plot_vent(data,size,...),
-              `8` = spiro_plot_RER(data,smooth,size,...),
-              `9` = spiro_plot_Pet(data,smooth,size,...))
+    `1` = spiro_plot_VE(data, smooth, size, ...),
+    `2` = spiro_plot_HR(data, smooth, size, ...),
+    `3` = spiro_plot_VO2(data, smooth, size, ...),
+    `4` = spiro_plot_EQCO2(data, size, ...),
+    `5` = spiro_plot_vslope(data, size, ...),
+    `6` = spiro_plot_EQ(data, smooth, size, ...),
+    `7` = spiro_plot_vent(data, size, ...),
+    `8` = spiro_plot_RER(data, smooth, size, ...),
+    `9` = spiro_plot_Pet(data, smooth, size, ...)
+  )
   p
 }
 
@@ -75,31 +78,31 @@ spiro_plot.internal <- function(which, data, smooth,size,...) {
 #' Plot ventilation over time
 #'
 #' @noRd
-spiro_plot_VE <- function(data, smooth = 15,size = 13,...) {
-
+spiro_plot_VE <- function(data, smooth = 15, size = 13, ...) {
   data$VE <- zoo::rollmean(data$VE, smooth, fill = NA)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = data$VE, colour = "VE (l/min)"),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = data$VE, colour = "VE (l/min)"),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 #' Plot heartrate and oxygen pulse over time
 #'
 #' @noRd
-spiro_plot_HR <- function(data, smooth = 15, size = 13,...) {
-
+spiro_plot_HR <- function(data, smooth = 15, size = 13, ...) {
   sec_axis_factor <- 5
 
   # Rewrite null values from heart rate to NAs
@@ -108,41 +111,42 @@ spiro_plot_HR <- function(data, smooth = 15, size = 13,...) {
   data$pulse <- zoo::rollmean(data$VO2 / data$HR, smooth, fill = NA) * sec_axis_factor
   data$HR <- zoo::rollmean(data$HR, smooth, fill = NA)
 
-  d <- data[,c("time","load","pulse","HR")]
-  d_long <- stats::reshape(d, direction = "long",varying = c("pulse","HR"),v.names = "value", idvar = c("time","load"), times = c("pulse","HR"), timevar = "measure")
-  d_long$measure <- factor(d_long$measure, levels = c("HR","pulse"), labels = c("HR (bpm)","VO2/HR (ml)"))
+  d <- data[, c("time", "load", "pulse", "HR")]
+  d_long <- stats::reshape(d, direction = "long", varying = c("pulse", "HR"), v.names = "value", idvar = c("time", "load"), times = c("pulse", "HR"), timevar = "measure")
+  d_long$measure <- factor(d_long$measure, levels = c("HR", "pulse"), labels = c("HR (bpm)", "VO2/HR (ml)"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
-    ggplot2::scale_colour_manual(values = c("red","pink")) +
+    ggplot2::scale_colour_manual(values = c("red", "pink")) +
     list(
       # create a second y-axis only if data values are available as ggplot2
       # returns an error if sec_axis() is applied to all NAs
       if (!all(is.na(d_long$value))) {
-        ggplot2::scale_y_continuous(limits = c(0,225), sec.axis = ggplot2::sec_axis(~ . / sec_axis_factor))
+        ggplot2::scale_y_continuous(limits = c(0, 225), sec.axis = ggplot2::sec_axis(~ . / sec_axis_factor))
       } else {
-        ggplot2::scale_y_continuous(limits = c(0,225))
+        ggplot2::scale_y_continuous(limits = c(0, 225))
       }
     ) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot oxygen uptake, carbon dioxide output and load over time
 #'
 #' @noRd
-spiro_plot_VO2 <- function(data, smooth = 15, size = 13,...) {
-
+spiro_plot_VO2 <- function(data, smooth = 15, size = 13, ...) {
   yl <- spiro_plot.guess_units(data)
 
   # create data frame with rolling averages
@@ -154,79 +158,84 @@ spiro_plot_VO2 <- function(data, smooth = 15, size = 13,...) {
   )
 
   # reshape data into long format
-  d_long <- stats::reshape(d, direction = "long",varying = c("VO2_rel","VCO2_rel"),v.names = "value", idvar = c("time","load"), times = c("VO2_rel","VCO2_rel"), timevar = "measure")
-  d_long$measure <- factor(d_long$measure, levels = c("VO2_rel","VCO2_rel"), labels = c("VO2 (ml/min/kg)","VCO2 (ml/min/kg)"))
+  d_long <- stats::reshape(d, direction = "long", varying = c("VO2_rel", "VCO2_rel"), v.names = "value", idvar = c("time", "load"), times = c("VO2_rel", "VCO2_rel"), timevar = "measure")
+  d_long$measure <- factor(d_long$measure, levels = c("VO2_rel", "VCO2_rel"), labels = c("VO2 (ml/min/kg)", "VCO2 (ml/min/kg)"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     ggplot2::geom_area(
       ggplot2::aes(y = d_long$load * yl[[1]]),
-      colour = "black", alpha = 0.5, position = "identity") +
+      colour = "black", alpha = 0.5, position = "identity"
+    ) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
     ggplot2::scale_y_continuous(
-      sec.axis = ggplot2::sec_axis( ~. / yl[[1]],
-                                    name = yl[[2]])) +
-    ggplot2::scale_color_manual(values = c("#c00000","#0053a4")) +
+      sec.axis = ggplot2::sec_axis(~ . / yl[[1]],
+        name = yl[[2]]
+      )
+    ) +
+    ggplot2::scale_color_manual(values = c("#c00000", "#0053a4")) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot VCO2 vs. VE
 #'
 #' @noRd
-spiro_plot_EQCO2 <- function(data, size = 13,...) {
-  raw <- attr(data,"raw")
+spiro_plot_EQCO2 <- function(data, size = 13, ...) {
+  raw <- attr(data, "raw")
   # bring VCO2 data into desired unit (l/min)
   raw$VCO2 <- raw$VCO2 / 1000
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VCO2, y = raw$VE)) +
     ggplot2::geom_point(size = 2.5, shape = 21, fill = "#0053a4", colour = "white", na.rm = TRUE) +
     ggplot2::labs(x = "VCO2 (l/min)", y = "VE (l/min)") +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot V-Slope graph
 #'
 #' @noRd
-spiro_plot_vslope <- function(data,size,...) {
-  raw <- attr(data,"raw")
+spiro_plot_vslope <- function(data, size, ...) {
+  raw <- attr(data, "raw")
   # remove rows without time stamp
-  raw <- raw[!is.na(raw$time),]
+  raw <- raw[!is.na(raw$time), ]
 
   # match HR to breath-by-breath raw data if no raw heartrate data is available
   if (!(any(raw$HR != 0, na.rm = TRUE))) {
-    raw$HR <- data$HR[replace(round(raw$time),round(raw$time) == 0, 1)]
+    raw$HR <- data$HR[replace(round(raw$time), round(raw$time) == 0, 1)]
   }
   # bring VO2 data into desired unit (l/min)
   raw$VO2 <- raw$VO2 / 1000
   # scale VCO2 data for being displayed on second y-axis
-  raw$VCO2 <- raw$VCO2 /20
-  raw <- raw[,c("time","HR","VO2","VCO2")]
+  raw$VCO2 <- raw$VCO2 / 20
+  raw <- raw[, c("time", "HR", "VO2", "VCO2")]
 
-  raw_long <- stats::reshape(raw, direction = "long",varying = c("HR","VCO2"),v.names = "value", idvar = c("time"), times = c("HR","VCO2"), timevar = "measure")
-  raw_long$measure <- factor(raw_long$measure, levels = c("HR","VCO2"), labels = c("HR (bpm)","VCO2 (l/min)"))
+  raw_long <- stats::reshape(raw, direction = "long", varying = c("HR", "VCO2"), v.names = "value", idvar = c("time"), times = c("HR", "VCO2"), timevar = "measure")
+  raw_long$measure <- factor(raw_long$measure, levels = c("HR", "VCO2"), labels = c("HR (bpm)", "VCO2 (l/min)"))
 
   ggplot2::ggplot(data = raw_long, ggplot2::aes(x = raw_long$VO2, y = raw_long$value, fill = raw_long$measure)) +
     ggplot2::geom_point(size = 2.5, na.rm = TRUE, shape = 21, colour = "white") +
-    ggplot2::scale_fill_manual(values = c("red","#0053a4")) +
-    ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis( ~. / 50)) +
+    ggplot2::scale_fill_manual(values = c("red", "#0053a4")) +
+    ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . / 50)) +
     ggplot2::labs(x = "VO2 (l/min)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot EQVO2 and EQCO2 over time
 #'
 #' @noRd
-spiro_plot_EQ <- function(data, smooth = 15, size = 13,...) {
+spiro_plot_EQ <- function(data, smooth = 15, size = 13, ...) {
 
   # remove implausible high values before smoothing
   data$EQ_O2 <- 1000 * data$VE / data$VO2
@@ -237,89 +246,95 @@ spiro_plot_EQ <- function(data, smooth = 15, size = 13,...) {
   data$EQ_CO2[which(data$EQ_CO2 > 100)] <- NA
   data$EQ_CO2 <- zoo::rollmean(data$EQ_CO2, smooth, fill = NA)
 
-  d <- data[,c("time","load","EQ_O2","EQ_CO2")]
-  d_long <- stats::reshape(d, direction = "long",varying = c("EQ_O2","EQ_CO2"),v.names = "value", idvar = c("time","load"), times = c("EQ_O2","EQ_CO2"), timevar = "measure")
-  d_long$measure <- factor(d_long$measure, levels = c("EQ_O2","EQ_CO2"))
+  d <- data[, c("time", "load", "EQ_O2", "EQ_CO2")]
+  d_long <- stats::reshape(d, direction = "long", varying = c("EQ_O2", "EQ_CO2"), v.names = "value", idvar = c("time", "load"), times = c("EQ_O2", "EQ_CO2"), timevar = "measure")
+  d_long$measure <- factor(d_long$measure, levels = c("EQ_O2", "EQ_CO2"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
-    ggplot2::scale_colour_manual(values = c("#c00000","#0053a4")) +
+    ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot VE vs. RR
 #'
 #' @noRd
-spiro_plot_vent <- function(data, size = 13,...) {
-  raw <- attr(data,"raw")
+spiro_plot_vent <- function(data, size = 13, ...) {
+  raw <- attr(data, "raw")
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VE, y = raw$VT)) +
     ggplot2::geom_point(size = 2.5, shape = 21, fill = "grey30", colour = "white", na.rm = TRUE) +
     ggplot2::labs(x = "VE (l/min)", y = "VT (l)") +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot RER over time
 #'
 #' @noRd
-spiro_plot_RER <- function(data, smooth = 15, size = 13,...) {
+spiro_plot_RER <- function(data, smooth = 15, size = 13, ...) {
   data$RER <- zoo::rollmean(data$RER, smooth, fill = NA)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = data$RER, colour = "RER"),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = data$RER, colour = "RER"),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Plot PetO2 and PetCO2 over time
 #'
 #' @noRd
-spiro_plot_Pet <- function(data,smooth = 15, size = 13,...) {
+spiro_plot_Pet <- function(data, smooth = 15, size = 13, ...) {
   data$PetO2 <- zoo::rollmean(data$PetO2, smooth, fill = NA)
   data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, fill = NA)
 
-  d <- data[,c("time","load","PetO2","PetCO2")]
-  d_long <- stats::reshape(d, direction = "long",varying = c("PetO2","PetCO2"),v.names = "value", idvar = c("time","load"), times = c("PetO2","PetCO2"), timevar = "measure")
-  d_long$measure <- factor(d_long$measure, levels = c("PetO2","PetCO2"),labels = c("PetO2 (mmHG)","PetCO2 (mmHg)"))
+  d <- data[, c("time", "load", "PetO2", "PetCO2")]
+  d_long <- stats::reshape(d, direction = "long", varying = c("PetO2", "PetCO2"), v.names = "value", idvar = c("time", "load"), times = c("PetO2", "PetCO2"), timevar = "measure")
+  d_long$measure <- factor(d_long$measure, levels = c("PetO2", "PetCO2"), labels = c("PetO2 (mmHG)", "PetCO2 (mmHg)"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     list(
-      if (!requireNamespace("ggborderline",quietly = TRUE)) {
+      if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       } else {
         ggborderline::geom_borderline(
           ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE)
+          size = 1, na.rm = TRUE
+        )
       }
     ) +
-    ggplot2::scale_colour_manual(values = c("#c00000","#0053a4")) +
-    ggplot2::scale_y_continuous(limits = c(0,150)) +
+    ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
+    ggplot2::scale_y_continuous(limits = c(0, 150)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
-    theme_spiro(size,...)
+    theme_spiro(size, ...)
 }
 
 #' Adjust axes in spiroergometric data plot
@@ -351,14 +366,16 @@ spiro_plot.guess_units <- function(data) {
 #' @param ... Arguments passed to ggplot2::theme()
 #'
 #' @noRd
-theme_spiro <- function(size = 13,...) {
+theme_spiro <- function(size = 13, ...) {
   list(
     ggplot2::theme_minimal(base_size = size),
-    ggplot2::theme(panel.grid.minor.x = ggplot2::element_blank(),
-                  legend.position = c(0.02,0.98),
-                  legend.background = ggplot2::element_rect(colour = NA,fill = ggplot2::alpha('white',0.9)),
-                  legend.justification = c(0,1),
-                  legend.title = ggplot2::element_blank(),
-                  ...)
+    ggplot2::theme(
+      panel.grid.minor.x = ggplot2::element_blank(),
+      legend.position = c(0.02, 0.98),
+      legend.background = ggplot2::element_rect(colour = NA, fill = ggplot2::alpha("white", 0.9)),
+      legend.justification = c(0, 1),
+      legend.title = ggplot2::element_blank(),
+      ...
+    )
   )
 }

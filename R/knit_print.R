@@ -22,13 +22,14 @@
 #' @importFrom knitr knit_print
 #' @export
 
-knit_print.spiro <- function(x,min = 10,max = 20,...) {
+knit_print.spiro <- function(x, min = 10, max = 20, ...) {
   n <- nrow(x)
-  if (n<=max)
-    NextMethod(x,...)
-  else
-    x <- x[1:min,]
-  nr <- n-min
-  x[,4:ncol(x)] <- round(x[,4:ncol(x)],2)
-  c(NextMethod(x,...),sprintf("... with %s more rows", nr))
+  if (n <= max) {
+    NextMethod(x, ...)
+  } else {
+    x <- x[1:min, ]
+  }
+  nr <- n - min
+  x[, 4:ncol(x)] <- round(x[, 4:ncol(x)], 2)
+  c(NextMethod(x, ...), sprintf("... with %s more rows", nr))
 }

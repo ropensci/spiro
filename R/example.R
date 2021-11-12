@@ -7,7 +7,6 @@
 #'
 #' @examples
 #' spiro_example("zan_gxt")
-#'
 #' @export
 spiro_example <- function(file) {
   system.file("extdata", file, package = "spiro", mustWork = TRUE)

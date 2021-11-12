@@ -23,7 +23,6 @@
 #'
 #' # Add heart rate data
 #' add_hr(oxy_data, hr_file)
-#'
 #' @export
 
 add_hr <- function(data, hr_file, hr_offset = 0) {
@@ -38,7 +37,7 @@ add_hr <- function(data, hr_file, hr_offset = 0) {
   } else {
     # if heart rate measures started after gas exchange measures:
     # write NAs for the first heart rate data points
-    hr_prewhile <- c(rep(NA, hr_offset),hr_data)
+    hr_prewhile <- c(rep(NA, hr_offset), hr_data)
   }
 
   # handle end of data
@@ -65,7 +64,8 @@ hr_import <- function(hr_file) {
 
   tcx_data <- XML::xmlParse(hr_file)
   tcx_raw <- XML::xmlToDataFrame(
-    nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns"))
+    nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns")
+  )
   hr <- hr_interpolate(tcx_raw)
   hr
 }
@@ -76,15 +76,19 @@ hr_interpolate <- function(data) {
   # convert to seconds
   ds <- to_seconds(dt)
   # handle duplicated values
-  time <- dupl(ds - (ds[[1]]-1))
+  time <- dupl(ds - (ds[[1]] - 1))
   # perform linear interpolation
-  hr <- stats::approx(x = time,
-                      y = data$HeartRateBpm,
-                      xout = seq.int(1,max(time),1))$y
+  hr <- stats::approx(
+    x = time,
+    y = data$HeartRateBpm,
+    xout = seq.int(1, max(time), 1)
+  )$y
   hr
 }
 
 gettime <- function(text) {
-  regmatches(text,regexpr("\\d\\d\\:\\d\\d\\:\\d\\d",
-                          text))
+  regmatches(text, regexpr(
+    "\\d\\d\\:\\d\\d\\:\\d\\d",
+    text
+  ))
 }
