@@ -17,10 +17,10 @@ The goal of `spiro` is to enable a fast and standardized workflow with
 raw data from cardiopulmonary exercise testing. The package provides
 simple tools for data import, processing, summary and visualisation.
 
-> WARNING: This package is currently under development. I recommend to
-> use it for demonstrational or testing purposes only at the moment .
-> When using `spiro` for scientific analyses, make sure to state the
-> exact package version, as at this stage of development the package’s
+> WARNING: This package is currently under development. At the moment, I
+> recommend to use it for demonstrational or testing purposes only. When
+> using `spiro` for scientific analyses, make sure to state the exact
+> package version, as at this stage of development the package’s
 > functions may undergo major changes.
 
 ## Installation
@@ -34,7 +34,7 @@ remotes::install_github("smnnlt/spiro")
 
 ## Usage
 
--   Use `spiro()` for to automatically import and process raw data from
+-   Use `spiro()` to automatically import and process raw data from
     cardiopulmonary exercise testing.
 -   Use `spiro_summary()` and `spiro_max()` for a stepwise summary or
     the calculation of maximum parameter values.
