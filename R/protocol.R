@@ -170,8 +170,11 @@ get_features <- function(protocol) {
       code_i <- code_i + 1 # consecutive numbers for load steps
     }
   }
-  # post measures
-  if (protocol$load[nrow(protocol)] == 0) { # last load
+  # check whether post measures exist
+  # if the load of the last step is less or equal to a third of the previous
+  # step, it is considered as a post measure (rest or cool-down).
+  last_load <- protocol$load[nrow(protocol)]
+  if (last_load <= (1 / 3) * protocol$load[nrow(protocol) - 1]) {
     protocol$type[nrow(protocol)] <- "post measures"
     protocol$code[nrow(protocol)] <- -2
   }
