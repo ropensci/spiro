@@ -116,6 +116,7 @@ spiro <- function(file,
 
   # calculate additional variables
   dt_out$RER <- dt_out$VCO2 / dt_out$VO2
+  dt_out$RER[which(is.na(dt_out$RER))] <- NA
   dt_out <- calo(data = dt_out)
 
   # Add heart rate if available
