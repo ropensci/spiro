@@ -95,8 +95,15 @@ spiro_import_zan <- function(file) {
   )
 
   # -- TO DO --
-  # load import currently only works for velocity (not for power)
   # import works only for files of German language
+
+  # get load data
+  if (any(colnames(data) == "Geschw.")) {
+    # velocity is given in (m/min) in the raw data
+    load_data <- round(data$Geschw. / 3600, 2)
+  } else {
+    load_data <- data$Last
+  }
 
   # write a data frame for the main parameters
   df <- data.frame(
@@ -110,8 +117,7 @@ spiro_import_zan <- function(file) {
     VT = (data$Vin / 1000),
     VE = (60 * data$Vin) / (data$tin + data$tex), # calculate minute ventilation
     HR = data$HR,
-    # velocity is given in m/min in the raw data
-    load = round(data$Geschw. / 3600, 2),
+    load = load_data,
     # incr = data$Steig./10, # variable currently not used
     PetO2 = NA,
     PetCO2 = NA
@@ -417,6 +423,7 @@ get_sex <- function(chr) {
     f = ,
     "F" = ,
     w = ,
+    W = ,
     weiblich = ,
     female = "female",
     NA
