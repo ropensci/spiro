@@ -19,22 +19,23 @@ reference:
 - title: "General data import and processing"
 - contents:
   - spiro
+  - add_weight
   - starts_with("spiro_import")
   - guess_device
   - spiro_interpolate
-  - spiro_add
 - title: "Dealing with exercise protocols"
 - contents:
   - matches("protocol")
   - get_testtype
+  - get_features
 - title: "Working with additional heart rate data"
 - contents:
+  - add_hr
   - starts_with("hr")
-- title: "Summarising"
+- title: "Summarizing"
 - contents:
   - spiro_summary
-  - spiro_glance
-  - getstepmeans
+  - spiro_max
 - title: "Plotting"
 - contents:
   - starts_with("spiro_plot")
@@ -42,6 +43,4 @@ reference:
 - contents:
   - spiro-package
   - spiro_example
-  - get_path
   - knit_print.spiro
-  - to_seconds
