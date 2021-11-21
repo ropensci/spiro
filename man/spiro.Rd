@@ -37,13 +37,13 @@ linked to the start of the gas exchange measurement.}
 automatically guessed by default.}
 }
 \value{
-A \code{data.frame} of the class \code{spiro_*} with the interpolated
-spirometric data, the corresponding load and (if supplied) additional heart
-rate data.
+A \code{data.frame} of the class \code{spiro_*} with cardiopulmonary
+parameters interpolated to seconds and the corresponding load data.
 
 The attribute \code{"protocol"} provides additional information on the
 underlying testing protocol. The attribute \code{"info"} contains
-additional meta-data from the original raw file.
+additional meta-data from the original raw file. The attribute \code{"raw"}
+gives the imported raw data (without interpolation).
 }
 \description{
 \code{spiro()} wraps multiple functions to import and process raw data from

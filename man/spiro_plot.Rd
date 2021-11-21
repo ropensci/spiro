@@ -34,11 +34,11 @@ for gas exchange measures.}
 the plots.}
 }
 \description{
-\code{spiro_plot()} returns a \code{ggplot2} graph visualising
+\code{spiro_plot()} returns a \code{ggplot2} graph visualizing
 data from cardiopulmonary exercise testing.
 }
 \details{
-This function provides a shortcut for visualising spiroergometric data from
+This function provides a shortcut for visualizing spiroergometric data from
 \code{\link{spiro}} with the help of \code{ggplot2}.
 }
 \examples{

@@ -5,7 +5,7 @@
 #'
 #' Different metabolic carts yield different output formats for their data. By
 #' default, this function will guess the used device based on the
-#' characteristics of the given file. This behaviour can be overridden by
+#' characteristics of the given file. This behavior can be overridden by
 #' explicitly stating \code{device}.
 #'
 #' The currently supported metabolic carts are:
@@ -128,7 +128,7 @@ spiro_import_zan <- function(file) {
 
   # sometimes values will be saved at the end of the raw data file (after the
   # last measurement). These will be removed.
-  df <- df[1:which.max(df$time),]
+  df <- df[1:which.max(df$time), ]
 
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro", "data.frame") # create spiro class

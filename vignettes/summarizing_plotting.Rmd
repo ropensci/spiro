@@ -1,8 +1,8 @@
 ---
-title: "Summarising & Plotting"
+title: "Summarizing & Plotting"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Summarising & Plotting}
+  %\VignetteIndexEntry{Summarizing & Plotting}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -37,7 +37,7 @@ gxt_data
 
 ## Stepwise summary with `spiro_summary()`
 
-To analyse gas exchange data, often mean parameters for each performed load step are of interest. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
+To analyze gas exchange data, often mean parameters for each performed load step are of interest. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
 
 ```{r summary}
 spiro_summary(gxt_data, interval = 120)
@@ -52,7 +52,7 @@ For some types of exercise tests it may be preferable to get maximal values of t
 ```{r max}
 spiro_max(gxt_data, smooth = 30)
 ```
-The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behaviour with `hr_smooth = TRUE`.
+The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
 
 ## Plotting the data
 

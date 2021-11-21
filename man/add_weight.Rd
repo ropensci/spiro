@@ -24,7 +24,7 @@ body weight-related variables.
 Based on the participant's body weight relative oxygen uptake (VO2_rel) and
 carbon dioxide (VCO2_rel) output are calculated. \code{weight} will be
 received from the original file's meta data, but can be manually overridden,
-e.g. if the meta-data's value is incorrect or rounded.
+e.g. if the value in the meta data is incorrect or rounded.
 
 For running protocols, running economy (RE) is calculated.
 }

@@ -7,9 +7,9 @@
 #' different time intervals. For further calculations, a interpolation to every
 #' second of the measurement is beneficial.
 #'
-#' If there a duplicates in the data's time values (mostly due to rounding or
-#' imprecise time measurements) both values will be slightly separated to keep
-#' all information for the interpolation.
+#' If there a duplicates in the time values (mostly due to rounding or imprecise
+#' time measurements) both values will be slightly separated to keep all
+#' information for the interpolation.
 #'
 #' Note that the applied linear interpolation will have a minor effect of
 #' smoothing on the data.
@@ -66,7 +66,7 @@ spiro_interpolate.internal <- function(y, x) {
 #' Based on the participant's body weight relative oxygen uptake (VO2_rel) and
 #' carbon dioxide (VCO2_rel) output are calculated. \code{weight} will be
 #' received from the original file's meta data, but can be manually overridden,
-#' e.g. if the meta-data's value is incorrect or rounded.
+#' e.g. if the value in the meta data is incorrect or rounded.
 #'
 #' For running protocols, running economy (RE) is calculated.
 #'

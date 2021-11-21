@@ -1,5 +1,5 @@
 Package: spiro
-Title: Manage data from cardiopulmonary exercise testing
+Title: Manage Data from Cardiopulmonary Exercise Testing
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Simon",
@@ -7,10 +7,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "s.nolte@dshs-koeln.de",
            comment = c(ORCID = "0000-0003-1643-1860"))
-Description: Import, process, summarise and visualise raw data from 
+Description: Import, process, summarize and visualize raw data from 
     metabolic carts.
 License: MIT + file LICENSE
-URL: https://github.com/smnnlt/spiro, https://smnnlt.github.io/spiro
+URL: https://github.com/smnnlt/spiro, https://smnnlt.github.io/spiro/
 BugReports: https://github.com/smnnlt/spiro/issues
 Encoding: UTF-8
 LazyData: true

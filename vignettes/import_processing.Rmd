@@ -28,7 +28,7 @@ This vignette provides you information on how the the `spiro` package imports an
 
 ## Import and processing with `spiro()`
 
-To import and process data is quite easy: The `spiro()` function does all the work for you. You just need to paste the path of a file with raw data from cardiopulmonary exercise testing to the function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarising or plotting.
+To import and process data is quite easy: The `spiro()` function does all the work for you. You just need to paste the path of a file with raw data from cardiopulmonary exercise testing to the function. This will return a `data.frame` containing all relevant data for each second of testing, ready for summarizing or plotting.
 
 ```{r setup}
 library(spiro)

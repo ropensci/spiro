@@ -7,8 +7,8 @@ navbar:
       href: index.html
     - text: "Import & Processing"
       href: articles/import_processing.html
-    - text: "Summarising & Plotting"
-      href: articles/summarising_plotting.html
+    - text: "Summarizing & Plotting"
+      href: articles/summarizing_plotting.html
     - text: "Reference"
       href: reference/index.html
   right:

@@ -1,9 +1,9 @@
 #' Plot data from cardiopulmonary exercise data files
 #'
-#' \code{spiro_plot()} returns a \code{ggplot2} graph visualising
+#' \code{spiro_plot()} returns a \code{ggplot2} graph visualizing
 #' data from cardiopulmonary exercise testing.
 #'
-#' This function provides a shortcut for visualising spiroergometric data from
+#' This function provides a shortcut for visualizing spiroergometric data from
 #' \code{\link{spiro}} with the help of \code{ggplot2}.
 #'
 #' @param data A \code{data.frame} of the class \code{spiro}, as it is

@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarise.R
 \name{spiro_summary}
 \alias{spiro_summary}
-\title{Stepwise summarise data from cardiopulmonary exercise testing}
+\title{Stepwise summarize data from cardiopulmonary exercise testing}
 \usage{
 spiro_summary(data, interval = 120, quiet = FALSE, exclude = FALSE)
 }
@@ -20,7 +20,7 @@ for example when intervals were shortened for specific steps.}
 the summary if it was not completely performed.}
 }
 \description{
-\code{spiro_summary()} returns a \code{data.frame} summarising the main
+\code{spiro_summary()} returns a \code{data.frame} summarizing the main
 parameters for each step of a spiroergometric test.
 }
 \details{

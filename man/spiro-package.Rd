@@ -7,7 +7,7 @@
 \description{
 The spiro package enables a fast workflow with raw files from metabolic
 carts/spiroergometry systems. It provides simple tools for data import,
-processing, summary and visualisation.
+processing, summary and visualization.
 }
 \section{Main functions}{
 

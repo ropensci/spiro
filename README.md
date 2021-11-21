@@ -15,10 +15,10 @@ status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/
 
 The goal of `spiro` is to enable a fast and standardized workflow with
 raw data from cardiopulmonary exercise testing. The package provides
-simple tools for data import, processing, summary and visualisation.
+simple tools for data import, processing, summary and visualization.
 
 > WARNING: This package is currently under development. At the moment, I
-> recommend to use it for demonstrational or testing purposes only. When
+> recommend to use it for demonstration or testing purposes only. When
 > using `spiro` for scientific analyses, make sure to state the exact
 > package version, as at this stage of development the package’s
 > functions may undergo major changes.
@@ -38,7 +38,7 @@ remotes::install_github("smnnlt/spiro")
     cardiopulmonary exercise testing.
 -   Use `spiro_summary()` and `spiro_max()` for a stepwise summary or
     the calculation of maximum parameter values.
--   Use `spiro_plot()` to visualise the data.
+-   Use `spiro_plot()` to visualize the data.
 
 #### Metabolic Carts
 

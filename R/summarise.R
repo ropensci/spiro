@@ -1,6 +1,6 @@
-#' Stepwise summarise data from cardiopulmonary exercise testing
+#' Stepwise summarize data from cardiopulmonary exercise testing
 #'
-#' \code{spiro_summary()} returns a \code{data.frame} summarising the main
+#' \code{spiro_summary()} returns a \code{data.frame} summarizing the main
 #' parameters for each step of a spiroergometric test.
 #'
 #' This function generates mean values of gas exchange and cardiac parameters

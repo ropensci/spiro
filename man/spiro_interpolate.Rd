@@ -23,9 +23,9 @@ As spiroergometric data is usually recorded breath-by-breath it comprises
 different time intervals. For further calculations, a interpolation to every
 second of the measurement is beneficial.
 
-If there a duplicates in the data's time values (mostly due to rounding or
-imprecise time measurements) both values will be slightly separated to keep
-all information for the interpolation.
+If there a duplicates in the time values (mostly due to rounding or imprecise
+time measurements) both values will be slightly separated to keep all
+information for the interpolation.
 
 Note that the applied linear interpolation will have a minor effect of
 smoothing on the data.
