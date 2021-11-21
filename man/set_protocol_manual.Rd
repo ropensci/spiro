@@ -34,7 +34,10 @@ load column
 }}
 
 \examples{
-set_protocol_manual(duration = c(300, 120, 300, 60, 300), load = c(3, 5, 3, 6, 3))
+set_protocol_manual(
+  duration = c(300, 120, 300, 60, 300),
+  load = c(3, 5, 3, 6, 3)
+)
 
 # using a data.frame as input
 pt_data <- data.frame(

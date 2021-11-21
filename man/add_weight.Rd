@@ -17,8 +17,8 @@ A \code{data.frame} containing the data amplified by the additional
 variables.
 }
 \description{
-\code{add_weight()} amplifies existing spiroergometric data by the calculation of
-body weight-related variables.
+\code{add_weight()} amplifies existing spiroergometric data by the
+calculation of body weight-related variables.
 }
 \details{
 Based on the participant's body weight relative oxygen uptake (VO2_rel) and
