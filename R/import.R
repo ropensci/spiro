@@ -126,6 +126,10 @@ spiro_import_zan <- function(file) {
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA
 
+  # sometimes values will be saved at the end of the raw data file (after the
+  # last measurement). These will be removed.
+  df <- df[1:which.max(df$time),]
+
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro", "data.frame") # create spiro class
   df
