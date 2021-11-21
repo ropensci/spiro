@@ -27,7 +27,10 @@ spiro_interpolate <- function(data) {
   data$time <- dupl(data$time)
 
   # interpolate the data
-  yout <- sapply(data[-1], spiro_interpolate.internal, x = data$time)
+  yout <- vapply(data[-1], spiro_interpolate.internal,
+    FUN.VALUE = numeric(round(max(data$time, na.rm = TRUE))),
+    x = data$time
+  )
   # write time column
   xout <- 1:round(max(data$time, na.rm = TRUE))
 
@@ -48,9 +51,13 @@ spiro_interpolate.internal <- function(y, x) {
 
   # simple linear interpolation based on time data
   if (all(is.na(y))) {
-    dfinter <- NA
+    dfinter <- rep.int(NA, round(max(x, na.rm = TRUE)))
   } else {
-    interpol <- stats::approx(y = y, x = x, xout = 1:round(max(x, na.rm = TRUE)))
+    interpol <- stats::approx(
+      y = y,
+      x = x,
+      xout = 1:round(max(x, na.rm = TRUE))
+    )
     dfinter <- interpol$y
   }
   dfinter
@@ -60,8 +67,8 @@ spiro_interpolate.internal <- function(y, x) {
 #' Calculate additional variables related to body weight for cardiopulmonary
 #' exercise testing data
 #'
-#' \code{add_weight()} amplifies existing spiroergometric data by the calculation of
-#' body weight-related variables.
+#' \code{add_weight()} amplifies existing spiroergometric data by the
+#' calculation of body weight-related variables.
 #'
 #' Based on the participant's body weight relative oxygen uptake (VO2_rel) and
 #' carbon dioxide (VCO2_rel) output are calculated. \code{weight} will be

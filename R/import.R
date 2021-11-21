@@ -378,7 +378,7 @@ spiro_import_cortex <- function(file) {
 #'   hh:mm:ss or mm:ss.
 #' @noRd
 to_seconds <- function(time_data) {
-  sapply(time_data, to_seconds.internal, USE.NAMES = FALSE)
+  vapply(time_data, to_seconds.internal, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
 }
 
 #' Convert one time data to seconds

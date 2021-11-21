@@ -44,7 +44,7 @@ add_hr <- function(data, hr_file, hr_offset = 0) {
   if (length(hr_prewhile) >= nrow(data)) {
     # if heart rate measures ended after gas exchange measures:
     # cut end of heart rate data
-    data$HR <- as.numeric(hr_prewhile[1:nrow(data)])
+    data$HR <- as.numeric(hr_prewhile[seq_len(nrow(data))])
   } else {
     # if heart rate measures ended before gas exchange measures:
     # write NAs for the last heart rate data points
@@ -72,7 +72,7 @@ hr_import <- function(hr_file) {
 
 hr_interpolate <- function(data) {
   # get time data from tcx
-  dt <- sapply(data$Time, gettime, USE.NAMES = FALSE)
+  dt <- vapply(data$Time, gettime, FUN.VALUE = character(1), USE.NAMES = FALSE)
   # convert to seconds
   ds <- to_seconds(dt)
   # handle duplicated values

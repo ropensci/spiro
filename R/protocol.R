@@ -40,7 +40,7 @@ add_protocol <- function(data, protocol) {
       step = rep.int(ptcl$code, ptcl$duration)
     )
     if (nrow(data) < nrow(add)) { # protocol longer than data
-      add <- add[1:nrow(data), ] # remove last protocol values
+      add <- add[seq_len(nrow(data)), ] # remove last protocol values
       rownames(add) <- NULL
     } else if (nrow(data) > nrow(add)) { # protocol shorter than data
       dif <- nrow(data) - nrow(add)
@@ -321,7 +321,10 @@ const <- function(duration, load, count, rest.duration = 0) {
 #'   the corresponding load of each step.
 #'
 #' @examples
-#' set_protocol_manual(duration = c(300, 120, 300, 60, 300), load = c(3, 5, 3, 6, 3))
+#' set_protocol_manual(
+#'   duration = c(300, 120, 300, 60, 300),
+#'   load = c(3, 5, 3, 6, 3)
+#' )
 #'
 #' # using a data.frame as input
 #' pt_data <- data.frame(

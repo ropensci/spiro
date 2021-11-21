@@ -32,7 +32,10 @@
 #' spiro_summary(gxt_data)
 #' @export
 
-spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) {
+spiro_summary <- function(data,
+                          interval = 120,
+                          quiet = FALSE,
+                          exclude = FALSE) {
 
   # step wise summary only works when load step are available
   protocol <- attr(data, "protocol")
@@ -61,7 +64,9 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
   if (all(protocol$duration[protocol$type == "load"] < interval)) {
     interval <- max(protocol$duration[protocol$type == "load"])
     if (!quiet) {
-      message(sprintf("for load steps, interval was set to %s seconds", interval))
+      message(
+        sprintf("for load steps, interval was set to %s seconds", interval)
+      )
     }
   }
 
@@ -69,21 +74,24 @@ spiro_summary <- function(data, interval = 120, quiet = FALSE, exclude = FALSE) 
   if (exclude) {
     # get all durations of load steps
     all_durations <- protocol$duration[protocol$code > 0]
+    last_num <- length(all_durations)
     # check if last step was shorter than all other steps
-    if (all(all_durations[length(all_durations)] < all_durations[-length(all_durations)])) {
+    if (all(all_durations[last_num] < all_durations[-last_num])) {
       data <- data[data$step != max(data$step), ] # exclude step
       if (!quiet) {
-        message("Last step was excluded from summary calculation due to termination of the test")
+        message(
+          "Last step was excluded from summary calculation due to termination of the test"
+        )
       }
     }
   }
 
-  out <- sapply(unique(data$step)[unique(data$step) >= 0], getstepmeans,
+  out <- lapply(unique(data$step)[unique(data$step) >= 0], getstepmeans,
     data = data,
     interval = interval,
     quiet = quiet
   )
-  out_df <- data.frame(apply(t(out), 2, unlist))
+  out_df <- do.call("rbind", out)
 
   # round values to two decimals
   out_df[, !colnames(out_df) %in% c("step_number", "load")] <- round(out_df[, !colnames(out_df) %in% c("step_number", "load")], 2)
@@ -159,7 +167,11 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   if (!all(is.na(data$HR))) {
     if (hr_smooth) {
       # apply smoothing to heart rate data
-      hr_max <- round(max(zoo::rollmean(data$HR, smooth, fill = NA), na.rm = TRUE))
+      hr_max <- round(
+        max(zoo::rollmean(data$HR, smooth, fill = NA),
+          na.rm = TRUE
+        )
+      )
     } else {
       hr_max <- max(data$HR, na.rm = TRUE)
     }
