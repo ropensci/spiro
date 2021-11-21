@@ -366,15 +366,21 @@ spiro_plot.guess_units <- function(data) {
 #' @param ... Arguments passed to ggplot2::theme()
 #'
 #' @noRd
-theme_spiro <- function(base_size = 13, ...) {
+theme_spiro <- function(base_size = 13,
+                        panel.grid.minor.x = ggplot2::element_blank(),
+                        legend.position = c(0.02, 0.98),
+                        legend.background = ggplot2::element_rect(colour = NA, fill = ggplot2::alpha("white", 0.9)),
+                        legend.justification = c(0, 1),
+                        legend.title = ggplot2::element_blank(),
+                        ...) {
   list(
     ggplot2::theme_minimal(base_size = base_size),
     ggplot2::theme(
-      panel.grid.minor.x = ggplot2::element_blank(),
-      legend.position = c(0.02, 0.98),
-      legend.background = ggplot2::element_rect(colour = NA, fill = ggplot2::alpha("white", 0.9)),
-      legend.justification = c(0, 1),
-      legend.title = ggplot2::element_blank(),
+      panel.grid.minor.x = panel.grid.minor.x,
+      legend.position = legend.position,
+      legend.background = legend.background,
+      legend.justification = legend.justification,
+      legend.title = legend.title,
       ...
     )
   )
