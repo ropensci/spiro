@@ -3,7 +3,7 @@ library(spiro)
 file <- spiro_example("zan_gxt")
 wfile <- spiro_example("hr_ramp.tcx")
 
-test_that("device guess turn right", {
+test_that("device guess turns right", {
   expect_match(spiro:::guess_device(file), "zan")
   expect_match(spiro:::guess_device(wfile), "none")
 })
