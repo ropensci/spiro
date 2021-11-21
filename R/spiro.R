@@ -129,3 +129,40 @@ spiro <- function(file,
 
   dt_out
 }
+
+#' Calculate calometric values from gas exchange data
+#'
+#' Internal function to \code{?link{spiro_add}}
+#'
+#' Calculates the rates of carbohydrate and fat oxidation (in grams per minute)
+#' from oxygen uptake and carbon-dioxide output data using the formula from
+#' Peronnet (1991).
+#'
+#' @param df data.frame with data from cardiopulmonary exercise testing
+#' @noRd
+
+calo <- function(data) {
+  m <- mapply(FUN = calo.internal, vo2abs = data$VO2, vco2abs = data$VCO2)
+  out <- cbind(data, round(apply(t(m), 2, unlist), 2))
+
+  # preserve class and attributes
+  class(out) <- class(data)
+  attr(out, "info") <- attr(data, "info")
+  attr(out, "protocol") <- attr(data, "protocol")
+  attr(out, "raw") <- attr(data, "raw")
+  attr(out, "testtype") <- attr(data, "testtype")
+  out
+}
+
+calo.internal <- function(vo2abs, vco2abs) {
+  if (is.na(vo2abs) | is.na(vco2abs)) {
+    fo <- NA
+    cho <- NA
+  } else {
+    cho <- (vco2abs / 1000) * 4.585 - ((vo2abs / 1000) * 3.226)
+    fo <- ((vo2abs / 1000) * 1.695) - ((vco2abs / 1000) * 1.701)
+    if (fo < 0) fo <- 0
+  }
+  list(CHO = cho, FO = fo)
+}
+

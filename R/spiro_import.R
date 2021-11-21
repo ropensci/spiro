@@ -370,44 +370,6 @@ spiro_import_cortex <- function(file) {
   df
 }
 
-#' Convert time data to seconds
-#'
-#' \code{to_seconds()} converts time data of the form hh:mm:ss to seconds.
-#'
-#' @param time_data A character vector containing the time data in the format
-#'   hh:mm:ss or mm:ss.
-#' @noRd
-to_seconds <- function(time_data) {
-  vapply(time_data, to_seconds.internal, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
-}
-
-#' Convert one time data to seconds
-#'
-#' \code{to_seconds.internal()} is an internal function to
-#' \code{\link{to_seconds}}
-#'
-#' @param time_data A character string containing the time data in the format
-#'   hh:mm:ss or mm:ss.
-#' @noRd
-to_seconds.internal <- function(time) {
-  # data for seconds might contain decimals. Replace comma by point as decimal
-  # mark (e.g. hh:mm:ss,s -> hh:mm:ss.s)
-  time <- gsub(",", ".", time)
-  # split time by double colon separator
-  split <- strsplit(time, ":")[[1]]
-  time_split <- as.numeric(split) # convert vectors to numbers
-
-  # calculate time in seconds based on input format
-  if (length(time_split) == 3) {
-    # for hh:mm:ss or hh:mm:ss.s
-    s <- 3600 * time_split[[1]] + 60 * time_split[[2]] + time_split[[3]]
-  } else if (length(time_split) == 2) {
-    # for mm:ss
-    s <- 60 * time_split[[1]] + time_split[[2]]
-  }
-  s
-}
-
 #' Convert sex to factor level
 #'
 #' \code{get_sex()} is a helper function to retrieve the correct sex from file

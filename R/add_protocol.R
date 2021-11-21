@@ -8,7 +8,6 @@
 #'   by \code{\link{set_protocol}}, \code{\link{set_protocol_manual}} or
 #'   \code{\link{get_protocol}}.
 #'
-#'
 #' @examples
 #' # Get example data
 #' file <- spiro_example("zan_gxt")
