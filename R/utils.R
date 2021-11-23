@@ -28,7 +28,12 @@ dupl <- function(values) {
 #'   hh:mm:ss or mm:ss.
 #' @noRd
 to_seconds <- function(time_data) {
-  vapply(time_data, to_seconds.internal, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
+  vapply(
+    time_data,
+    to_seconds.internal,
+    FUN.VALUE = numeric(1),
+    USE.NAMES = FALSE
+  )
 }
 
 #' Convert single time variable to seconds
