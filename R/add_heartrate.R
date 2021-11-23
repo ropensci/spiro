@@ -62,17 +62,34 @@ hr_import <- function(hr_file) {
   # check if it works for other types of heart rate data files and rewrite
   # accrodingly
 
-  tcx_data <- XML::xmlParse(hr_file)
-  tcx_raw <- XML::xmlToDataFrame(
-    nodes = XML::getNodeSet(tcx_data, "//ns:Trackpoint", "ns")
+  # read XML file
+  tcx <- xml2::read_xml(hr_file)
+
+  # read HR and time data
+  time_raw <- xml2::xml_text(xml2::xml_find_all(tcx,"//d1:Time"))
+  hr_raw <- xml2::xml_text(xml2::xml_find_all(tcx,"//d1:HeartRateBpm"))
+
+  # handle missing heart rate values
+  # search which values are missing
+  hr_index <- grepl("HeartRateBpm", xml2::xml_find_all(tcx,"//d1:Trackpoint"))
+  # assign heart rate values to NA vector
+  hr <- rep.int(NA,length(time_raw))
+  hr[hr_index] <- hr_raw
+
+  tcx_data <- data.frame(
+    time = time_raw,
+    hr = hr
   )
-  hr <- hr_interpolate(tcx_raw)
+
+  # interpolate heart rate data to seconds
+  hr <- hr_interpolate(tcx_data)
+
   hr
 }
 
 hr_interpolate <- function(data) {
   # get time data from tcx
-  dt <- vapply(data$Time, gettime, FUN.VALUE = character(1), USE.NAMES = FALSE)
+  dt <- vapply(data$time, gettime, FUN.VALUE = character(1), USE.NAMES = FALSE)
   # convert to seconds
   ds <- to_seconds(dt)
   # handle duplicated values
@@ -80,7 +97,7 @@ hr_interpolate <- function(data) {
   # perform linear interpolation
   hr <- stats::approx(
     x = time,
-    y = data$HeartRateBpm,
+    y = data$hr,
     xout = seq.int(1, max(time), 1)
   )$y
   hr
