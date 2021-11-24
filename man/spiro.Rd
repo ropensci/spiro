@@ -90,7 +90,10 @@ hr_file <- spiro_example("hr_ramp.tcx")
 spiro(oxy_file, hr_file = hr_file)
 
 # use the add_* functions in a pipe
-spiro(file) |>
+# Note: base R pipe requires R version 4.1 or greater)
+\dontrun{
+  spiro(file) |>
   add_hr(hr_file = hr_file, hr_offset = 0) |>
   add_weight(68.2)
+}
 }
