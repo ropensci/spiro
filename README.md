@@ -98,8 +98,7 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2021). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.0.9000.
-#>   https://smnnlt.github.io/spiro/
+#>   Testing. R package version 0.0.1. https://smnnlt.github.io/spiro/
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -108,7 +107,7 @@ citation("spiro")
 #>     author = {Simon Nolte},
 #>     year = {2021},
 #>     url = {https://smnnlt.github.io/spiro/},
-#>     note = {R package version 0.0.0.9000},
+#>     note = {R package version 0.0.1},
 #>   }
 ```
 
