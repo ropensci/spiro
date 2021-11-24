@@ -75,6 +75,12 @@ spiro_summary(gxt_data)
 spiro_plot(gxt_data)
 ```
 
+## Citation
+
+```{r citation}
+citation("spiro")
+```
+
 ## Contributing
 
 If you encounter a bug or want to request new features, please [submit an
