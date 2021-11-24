@@ -5,7 +5,7 @@
 #'
 #' Different metabolic carts yield different output formats for their data. By
 #' default, this function will guess the used device based on the
-#' characteristics of the given file. This behaviour can be overridden by
+#' characteristics of the given file. This behavior can be overridden by
 #' explicitly stating \code{device}.
 #'
 #' The currently supported metabolic carts are:
@@ -31,13 +31,12 @@
 #' @export
 
 spiro_import <- function(file, device = NULL) {
-  file <- get_path(file)
   if (is.null(device)) device <- guess_device(file)
   switch(device,
-         zan = spiro_import_zan(file),
-         cosmed = spiro_import_cosmed(file),
-         cortex = spiro_import_cortex(file),
-         stop("'type' not specified")
+    zan = spiro_import_zan(file),
+    cosmed = spiro_import_cosmed(file),
+    cortex = spiro_import_cortex(file),
+    stop("Could not find device type. Please specify the 'type' argument")
   )
 }
 
@@ -54,17 +53,19 @@ spiro_import_zan <- function(file) {
 
   # find indices for document structure
   rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
-  meta_imin <- which(rawdata == "[person]")
-  cnames_imin <- which(rawdata == "[parameter]")
-  data_imin <- which(rawdata == "[Data]")
+  meta_imin <- which(rawdata == "[person]") # meta data
+  cnames_imin <- which(rawdata == "[parameter]") # column names
+  data_imin <- which(rawdata == "[Data]") # raw data
 
   # import meta data
-  meta <- utils::read.csv(file, sep = "=",
-                          header = FALSE,
-                          skip = meta_imin,
-                          nrows = cnames_imin-meta_imin-3,
-                          row.names = 1,
-                          blank.lines.skip = FALSE)
+  meta <- utils::read.csv(file,
+    sep = "=",
+    header = FALSE,
+    skip = meta_imin,
+    nrows = cnames_imin - meta_imin - 3,
+    row.names = 1,
+    blank.lines.skip = FALSE
+  )
   meta_df <- data.frame(t(meta))
   info <- data.frame(
     name = meta_df$vorname,
@@ -74,62 +75,65 @@ spiro_import_zan <- function(file) {
     height = as.numeric(meta_df$groesse),
     weight = as.numeric(meta_df$gewicht)
   )
+  # Replace missing values with NAs
+  info <- replace(info, which(info == ""), NA)
 
   # import column names for main data structure
-  cnames <- utils::read.csv(file, header = FALSE,
-                            skip = cnames_imin+2,
-                            nrows = data_imin-cnames_imin-4)$V3
-  # remove column due to encoding problems
+  cnames <- utils::read.csv(file,
+    header = FALSE,
+    skip = cnames_imin + 2,
+    nrows = data_imin - cnames_imin - 4
+  )$V3
+  # remove last column due to encoding problems
   cnames <- cnames[-length(cnames)]
 
   # import the main data
-  data <- utils::read.csv(file, header = FALSE,
-                          skip = data_imin,
-                          col.names = c("index",cnames,"fan"))
-  df <- data.frame(
-    time = data$Zeit/1000,
-    VO2 = data$VO2,
-    VCO2 = data$VCO2,
-    RR = 60000 / (data$tin + data$tex),
-    VT = (data$Vin / 1000),
-    VE = (60 * data$Vin) / (data$tin + data$tex),
-    HR = data$HR,
-    velocity = round(data$Geschw./3600,2),
-    incr = data$Steig./10
+  data <- utils::read.csv(file,
+    header = FALSE,
+    skip = data_imin,
+    col.names = c("index", cnames, "fan")
   )
 
-  attr(df, "info") <- info
-  class(df) <- c("spiro","data.frame")
+  # -- TO DO --
+  # import works only for files of German language
+
+  # get load data
+  if (any(colnames(data) == "Geschw.")) {
+    # velocity is given in (m/min) in the raw data
+    load_data <- round(data$Geschw. / 3600, 2)
+  } else {
+    load_data <- data$Last
+  }
+
+  # write a data frame for the main parameters
+  df <- data.frame(
+    time = data$Zeit / 1000, # time is given in milliseconds in the raw data
+    VO2 = data$VO2,
+    VCO2 = data$VCO2,
+    # length of inhalation plus exhalation in milliseconds gives respiratory
+    # rate
+    RR = 60000 / (data$tin + data$tex),
+    # ventilation (per minute) is given in ml in the raw data
+    VT = (data$Vin / 1000),
+    VE = (60 * data$Vin) / (data$tin + data$tex), # calculate minute ventilation
+    HR = data$HR,
+    load = load_data,
+    # incr = data$Steig./10, # variable currently not used
+    PetO2 = NA,
+    PetCO2 = NA
+  )
+
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
+
+  # sometimes values will be saved at the end of the raw data file (after the
+  # last measurement). These will be removed.
+  df <- df[1:which.max(df$time), ]
+
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
   df
 }
-
-#' Get the file path for a data file
-#'
-#' \code{get_path()} performs a serch for a data file.
-#'
-#' Considering the input to be a regular expression, this function will search
-#' one level above the current working directory to find matching files.
-#'
-#' If no matching files are found, \code{get_path} takes the input as a direct
-#' path to a file. If more than one match is found, an error will be displayed.
-#'
-#' @param name A character string, giving the file name to look for.
-#'
-#' @return A character string containing the file path.
-
-get_path <- function(name) {
-  filepath <- list.files(path = "..",
-                         pattern = name,
-                         recursive = TRUE,
-                         full.names = TRUE)
-  if (length(filepath) >1 ) {
-    stop("More than one file was found matching the input")
-  } else if (length(filepath) != 1) {
-    filepath <- name
-  }
-  filepath
-}
-
 
 #' Guess the device used for a cardiopulmonary measurement
 #'
@@ -142,18 +146,27 @@ get_path <- function(name) {
 #' @return A character string specifying the guessed device.
 
 guess_device <- function(file) {
-  if (grepl("\\.xls", file)) {
-    head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1","V2"))
-    if (any(head == "ID code:", na.rm = TRUE)|
-        any(head == "ID-Code:", na.rm = TRUE)) {
+  if (grepl("\\.xls", file)) { # Excel file
+    # Read head of the Excel file
+    head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1", "V2"))
+
+    # files from Cosmed devices usually start with a line "ID-Code:"
+    if (any(head == "ID code:", na.rm = TRUE) |
+      any(head == "ID-Code:", na.rm = TRUE)) {
       device <- "cosmed"
+      # files from Cortex devices usually contain a line at the head: "Bediener"
+      # -- TO DO --
+      # this is currently only working in German language
+      # English equivalent is needed
     } else if (any(head == "Bediener", na.rm = TRUE)) {
       device <- "cortex"
-    } else {
+    } else { # device type not found
       device <- "none"
     }
-  } else {
-    head <- utils::read.delim(file, header = FALSE, nrows = 10)
+  } else { # non-Excel file
+    # read the first rows of the file
+    head <- utils::read.delim(file, header = FALSE, nrows = 5)
+    # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) device <- "zan" else device <- "none"
   }
   device
@@ -169,18 +182,23 @@ guess_device <- function(file) {
 #' @return A \code{data.frame} with data. The attribute \code{info} contains
 #'   addition meta-data retrieved from the original file.
 spiro_import_cosmed <- function(file) {
+
+  # read meta data
   tbl <- suppressMessages(
-    readxl::read_excel(file, range = "A1:B8", col_names = FALSE))
+    readxl::read_excel(file, range = "A1:B8", col_names = FALSE)
+  )
+  # write as data frame
   ldf <- data.frame(t(as.data.frame(tbl[[2]], row.names = tbl[[1]])))
 
-  if (tbl[[1]][[2]] == "Nachname:") { # For German language
+  # search meta data by names of the desired language
+  if (tbl[[1]][[2]] == "Nachname:") { # for German language
     name <- "Vorname."
     surname <- "Nachname."
     age <- "Alter."
     sex <- "Geschlecht."
-    height <- "Gr\u00f6\u00dfe..cm.."
+    height <- "Gr\u00f6\u00dfe..cm.." # special handling for umlaute
     weight <- "Gewicht..Kg.."
-  } else { # For English language
+  } else { # for English language
     name <- "First.name."
     surname <- "Last.name."
     age <- "Age."
@@ -189,6 +207,7 @@ spiro_import_cosmed <- function(file) {
     weight <- "Weight..Kg.."
   }
 
+  # find and write meta data
   info <- data.frame(
     name = ldf[[name]],
     surname = ldf[[surname]],
@@ -198,42 +217,63 @@ spiro_import_cosmed <- function(file) {
     weight = as.numeric(ldf[[weight]])
   )
 
-  data <- readxl::read_excel(file, range = readxl::cell_cols(10:50))[-1:-2,]
+  # read main data
+  data <- readxl::read_excel(file, range = readxl::cell_cols(10:50))[-1:-2, ]
+  # convert time to seconds (integer)
   l <- to_seconds(data$t)
-  data <- data[l != 0,]
+  # remove rows with no time specified. These might occur at the end of the
+  # file
+  data <- data[l != 0, ]
+
+  # -- TO DO --
+  # rewrite search for speed and grade column
+  # search for power column
 
   suppressWarnings(
     if (is.null(data$Speed)) {
-      speed <- rep.int(0,length(l[l != 0]))
+      speed <- rep.int(0, length(l[l != 0]))
     } else {
       speed <- as.numeric(data$Speed)
     }
   )
+
   suppressWarnings(
     if (is.null(data$Grade)) {
-      grade <- rep.int(0,length(l[l != 0]))
+      grade <- rep.int(0, length(l[l != 0]))
     } else {
       grade <- as.numeric(data$Grade)
     }
   )
+
+  # write data
   df <- data.frame(
-    time = l[l != 0],
+    time = l[l != 0], # exclude not specified times
     VO2 = data$VO2,
     VCO2 = data$VCO2,
     RR = data$Rf,
     VT = data$VT,
     VE = data$VE,
     HR = data$HR,
-    velocity = round(speed/36,2),
-    incr = grade
+    load = round(speed / 36, 2),
+    # incr = grade, # variable currently not used
+    PetO2 = data$PetO2,
+    PetCO2 = data$PetCO2
   )
+
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
+
+  # rare special case if weight has been deleted from meta data. Recalculates
+  # weight based on relative oxygen uptake present in raw data
   if (is.na(info$weight)) {
     info$weight <- round(
-      as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]),1)
+      # used first data value to recalculate weight
+      as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]), 1
+    )
   }
 
-  attr(df, "info") <- info
-  class(df) <- c("spiro","data.frame")
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
   df
 }
 
@@ -252,34 +292,37 @@ spiro_import_cortex <- function(file) {
     readxl::read_excel(file, col_names = FALSE)
   )
 
+  # -- TO DO --
+  # create import option for files of English language
+
   # get meta data (German language)
-  name <- get_meta(d,"Name",3)
-  surname <- get_meta(d,"Vorname",3)
-  sex <- get_meta(d,"Geschlecht",3)
-  birthday <- get_meta(d,"Geburtsdatum",3)
-  height <- get_meta(d,"Gr\u00f6\u00dfe",3)
-  weight <- get_meta(d,"Gewicht",3)
+  name <- get_meta(d, "Name", 3)
+  surname <- get_meta(d, "Vorname", 3)
+  sex <- get_meta(d, "Geschlecht", 3)
+  birthday <- get_meta(d, "Geburtsdatum", 3)
+  height <- get_meta(d, "Gr\u00f6\u00dfe", 3) # special handling for umlaute
+  weight <- get_meta(d, "Gewicht", 3)
 
   # write data frame for metadata
   info <- data.frame(name,
-                     surname,
-                     birthday,
-                     sex = get_sex(sex),
-                     height = to_number(height),
-                     weight = to_number(weight)
+    surname,
+    birthday,
+    sex = get_sex(sex),
+    height = to_number(height),
+    weight = to_number(weight)
   )
 
   # get start of data section
-  t_ind <- which(d[,1] == "t")
+  t_ind <- which(d[, 1] == "t")
 
   # get parameter labels
-  cols <- as.character(d[t_ind,])
+  cols <- as.character(d[t_ind, ])
 
   # get parameter count
   coln <- sum(!is.na(cols))
 
   # get raw data
-  data <- d[(t_ind+2):nrow(d),1:coln]
+  data <- d[(t_ind + 2):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
   # handle missing parameters
@@ -295,7 +338,7 @@ spiro_import_cortex <- function(file) {
     data$`V'CO2` <- as.numeric(data$`V'O2`) / as.numeric(data$RER)
   }
 
-  # work for different variable naming
+  # checking for different variable naming
   if (any(names(data) == "V'E (BTPS)", na.rm = TRUE)) {
     ve_name <- "V'E (BTPS)"
     vo2_name <- "V'O2 (STPD)"
@@ -305,6 +348,7 @@ spiro_import_cortex <- function(file) {
   }
 
   df <- data.frame(
+    # use first column for time independent of name
     time = to_seconds(data[[1]]),
     VO2 = as.numeric(data[[vo2_name]]),
     VCO2 = as.numeric(data$`V'CO2`),
@@ -312,43 +356,18 @@ spiro_import_cortex <- function(file) {
     VT = as.numeric(data$VT),
     VE = as.numeric(data[[ve_name]]),
     HR = as.numeric(data$HF),
-    velocity = as.numeric(data$Steigung),
-    incr = as.numeric(data$Steigung)
+    load = as.numeric(data$Steigung),
+    # incr = as.numeric(data$Steigung), # variable currently not used
+    PetO2 = as.numeric(data$PetO2),
+    PetCO2 = as.numeric(data$PetCO2)
   )
 
-  attr(df, "info") <- info
-  class(df) <- c("spiro","data.frame")
+  # Write null values in HR as NAs
+  df$HR[which(df$HR == 0)] <- NA
+
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
   df
-}
-
-#' Convert time data to seconds
-#'
-#' \code{to_seconds()} converts time data of the form hh:mm:ss to seconds.
-#'
-#' @param time_data A character vector containing the time data in the format
-#'   hh:mm:ss or mm:ss.
-to_seconds <- function(time_data) {
-  sapply(time_data, to_seconds.internal, USE.NAMES = FALSE)
-}
-
-#' Convert one time data to seconds
-#'
-#' \code{to_seconds.internal()} is an internal function to
-#' \code{\link{to_seconds}}
-#'
-#' @param time_data A character string containing the time data in the format
-#'   hh:mm:ss or mm:ss.
-#' @noRd
-to_seconds.internal <- function(time) {
-  split <- strsplit(time, ":")[[1]]
-  split[[length(split)]] <- gsub(",",".",split[[length(split)]])
-  time_split <- as.numeric(split)
-  if (length(time_split) == 3) {
-    s <- 3600*time_split[[1]]+60*time_split[[2]]+time_split[[3]]
-  } else if (length(time_split) == 2) {
-    s <- 60*time_split[[1]]+time_split[[2]]
-  }
-  s
 }
 
 #' Convert sex to factor level
@@ -363,18 +382,20 @@ to_seconds.internal <- function(time) {
 #' @noRd
 get_sex <- function(chr) {
   sex <- switch(chr,
-                m = ,
-                "M" = ,
-                "m\u00e4nnlich" = ,
-                male = "male",
-                f = ,
-                "F" = ,
-                w = ,
-                weiblich = ,
-                female = "female",
-                NA)
+    m = ,
+    "M" = ,
+    "m\u00e4nnlich" = ,
+    male = "male",
+    f = ,
+    "F" = ,
+    w = ,
+    W = ,
+    weiblich = ,
+    female = "female",
+    NA
+  )
   if (is.null(sex)) sex <- NA
-  out <- factor(sex, levels = c("female","male"))
+  out <- factor(sex, levels = c("female", "male", "diverse"))
   out
 }
 
@@ -389,7 +410,7 @@ get_sex <- function(chr) {
 #' @return A (decimal) number.
 #' @noRd
 to_number <- function(chr) {
-  as.numeric(gsub("[^\\.0-9]","",gsub(",",".",chr)))
+  as.numeric(gsub("[^\\.0-9]", "", gsub(",", ".", chr)))
 }
 
 #' Get file (meta)data from a file by name
@@ -404,10 +425,10 @@ to_number <- function(chr) {
 #'
 #' @return A character string.
 #' @noRd
-get_meta <- function(data,name,column) {
+get_meta <- function(data, name, column) {
   s <- which(data == name)
-  if (any(s,na.rm = TRUE)) {
-    out <- data[[max(s),column]]
+  if (any(s, na.rm = TRUE)) {
+    out <- data[[max(s), column]]
   } else {
     out <- NA
   }

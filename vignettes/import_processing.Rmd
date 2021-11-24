@@ -11,6 +11,10 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  out.width = "90%",
+  fig.width = 6,
+  fig.asp = 0.618,
+  fig.align = "center",
   dpi = 300
 )
 
@@ -21,18 +25,14 @@ dsblue <- "#0053A4"
 
 Different measuring devices and analysis software lead to opaque results in
 measuring gas exchange parameters. To make exercise science more transparent and
-reproducible, the `spiro` package offers a standardised workflow for data from
-metabolic carts.
+reproducible, the `spiro` package offers a standardized workflow for data from
+cardiopulmonary exercise testing.
 
-This vignette provides you information on the how the gas exchange data is
-imported and processed by the package functions.
+This vignette provides you information on how the the `spiro` package imports and processes raw data from metabolic carts.
 
-## One step import and processing with `spiro()`
+## Import and processing with `spiro()` {#spiro-function}
 
-To directly get started, paste the name of a breath-by-breath raw data file
-produced by a supported metabolic cart device into the `spiro()` function. This
-will return a `data.frame` containing all relevant data for each second of
-testing, ready for summarising or plotting.
+To import and process data is quite easy: The `spiro()` function does all the work for you. You just need to paste the path of a file with raw data from cardiopulmonary exercise testing to the function. This will return a `data.frame` containing all relevant data for each second of testing, ready for [summarizing or plotting](https://smnnlt.github.io/spiro/articles/summarising_plotting.html).
 
 ```{r setup}
 library(spiro)
@@ -40,120 +40,82 @@ library(spiro)
 # Get example data
 file <- spiro_example("zan_gxt")
 
-spiro(file,
-      device = NULL,
-      weight = NULL,
-      hr_file = NULL,
-      hr_offset = 0,
-      protocol = NULL)
+spiro(file)
 
 ```
 
 `spiro()` will return interpolated data for the following parameters:
 
-* **load**: velocity or power either retrieved from the raw data file or manually supplied by setting a protocol
-* **step**: coded variable for the number of the step in the test protocol
-* **time**: testing time (s)
-* **VO2**: oxygen uptake (l/min)
-* **VCO2**: carbon dioxide output (l/min)
+* **load**: velocity or power, either retrieved from the raw data file or manually supplied by [setting a protocol](#protocol-set)
+* **step**: coded variable for the number of the load step in the test protocol
+* **time**: time (s)
+* **VO2**: oxygen uptake (ml/min)
+* **VCO2**: carbon dioxide output (ml/min)
 * **RR**: respiratory rate (1/min)
 * **VT**: tidal volume (l)
 * **VE**: minute ventilation (l/min)
-* **HR**: heart rate (1/min), if available
+* **HR**: heart rate (bpm), if available
+* **PetO2**: end-tidal partial pressure of oxygen (mmHg)
+* **PetCO2**: end-tidal partial pressure of carbon dioxide (mmHg)
 * **VO2_rel**: relative oxygen uptake (ml/min/kg)
 * **VCO2_rel**: relative carbon dioxide output (ml/min/kg)
-* **RER**: respiratory quotient
 * **RE**: running economy (ml/kg/km), if applicable
+* **RER**: respiratory quotient
 * **CHO**: rate of carbohydrate oxidation (g/min)
 * **FO**: rate of fat oxidation (g/min)
 
-## `spiro()` under the hood
+You can control the exercise protocol, the calculation of parameters related to body weight and the adding of heart rate data with the arguments of `spiro()` or with the helper functions `add_protocol`, `add_weight()` and `add_hr()` within a piping syntax.
 
-To create `data.frame`s as seen above, `spiro()` wraps multiple function, which
-can be useful for providing additional options for the importing and processing
-of the data.
+## Supported metabolic carts {#metabolic-carts}
 
-```{r data flow, echo=FALSE}
-
-ggplot() +
-  geom_rect(aes(xmin = 0.2, xmax = 0.8, ymin = 0.27, ymax = 0.84), colour = dsblue, fill = dsblue, alpha = 0.1, size = 1) +
-  annotate("text", x = 0.21, y = 0.81, label = "spiro()", colour = dsblue, hjust = "left") +
-  annotate(geom = "label", x = 0.5, y = 0.9, label = "data file", label.padding = unit(0.5, "lines")) +
-  annotate(geom = "label", x = 0.5, y = 0.7, label = "raw data", label.padding = unit(0.5, "lines")) +
-  annotate(geom = "label", x = 0.5, y = 0.55, label = "interpolated data", label.padding = unit(0.5, "lines")) +
-  annotate(geom = "label", x = 0.5, y = 0.2, label = "spiro data.frame", label.padding = unit(0.5, "lines")) +
-  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.85, yend = 0.75), arrow = ar) +
-  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.65, yend = 0.6), arrow = ar) +
-  geom_segment(aes(x = 0.5, xend = 0.5, y = 0.5, yend = 0.25), arrow = ar) +
-  annotate("text", x = 0.53, y = 0.81, label = "spiro_import()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.63, label = "spiro_interpolate()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.46, label = "apply_protocol()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.38, label = "spiro_add()", colour = "grey", hjust = "left") +
-  annotate("text", x = 0.53, y = 0.30, label = "hr_apply()", colour = "grey", hjust = "left") +
-  geom_path(aes(x = c(0.57,0.75,0.75,0.7), y = c(0.7,0.7,0.46,0.46)), arrow = ar, linetype = 5) +
-  geom_segment(aes(x = 0.85, xend = 0.7, y = 0.46, yend = 0.46), arrow = ar, linetype = 5) +
-  annotate(geom = "label", x = 0.9, y = 0.46, label = "test protocol", label.padding = unit(0.5, "lines"), color = "grey") +
-    geom_segment(aes(x = 0.85, xend = 0.65, y = 0.3, yend = 0.3), arrow = ar, linetype = 5) +
-  annotate(geom = "label", x = 0.9, y = 0.3, label = "heart rate \n data file", label.padding = unit(0.5, "lines"), color = "grey") +
-  scale_x_continuous(limits = c(0,1), expand = expansion(0,0), breaks = NULL) +
-  scale_y_continuous(limits = c(0,1), expand = expansion(0,0), breaks = NULL) +
-  labs(x = NULL, y = NULL) +
-  theme_minimal()
-```
-
-
-### Import the data
-
-`spiro_import()` imports the raw data from a raw spiroergometric file.
-```{r import}
-data_imp <- spiro_import(file, device = NULL)
-data_imp
-```
-
-#### Currently supported metabolic carts
-
-The metabolic cart the file is produced by will be automatically guessed, but can also be set manually. Currently the following devices are supported:
+The `spiro` package supports different metabolic carts. The metabolic cart a data file is produced by is usually determined automatically, but can also be set manually in the `spiro()` function. Currently this package supports the following devices:
 
 * **CORTEX** (`"cortex"`): .xlsx or .xls files in German language
 * **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
 
-It is highly recommended to import only raw breath-by-breath data to avoid duplication of interpolation processes.
+It is highly recommended to import only raw breath-by-breath data to analyze all available data and avoid the duplication of interpolation processes.
 
-### Interpolate the data
+To only import the data without further processing (such as interpolation) use the function `spiro_import()`:
 
-`spiro_interpolate()` performs a linear interpolation on the imported data to obtain values for every second.
-```{r interpolate}
-data_int <- spiro_interpolate(data_imp)
-data_int
+```{r import}
+spiro_import(file, device = NULL)
 ```
 
-Note that the linear interpolation will lead to a minor smoothing of the data.
+Alternatively you can access the raw data after a `spiro()` call by extracting the `"raw"` attribute of the result.
 
-### Guess or specify an exercise protocol
-
-To achieve the full functionality of later data summary and plotting with the
-spiro-package, a testing protocol needs to be attached to the imported data. 
-
-#### Guessing a protocol
-
-By default, `spiro()` tries to guess the testing protocol using
-`guess_protocol()`, looking for velocity or load data in the imported, but not
-interpolated raw data.
-
-```{r guess_protocol}
-get_protocol(data_imp)
-
+```{r attr, eval=FALSE}
+s <- spiro(file)
+attr(s,"raw")
 ```
 
-#### Manually supplying a protocol
 
-In cases where there is no load data saved in the metabolic cart's file, or
-`get_protocol()` turns wrong, a protocol can be manually generated. There are to
-ways to initially generate a protocol, either completely manual with
-`set_protocol_manual()` or using a helper function `set_protocol()`. Once a
-protocol has been set, it can be attached to an existing data.frame with
-`process_protocol()` and `apply_protocol()`.
+## Exercise protocols {#protocols}
+
+To achieve the full functionality of data summary and plotting with the `spiro`
+package, an exercise protocol needs to be attached to the data.
+
+### Protocol guessing {#protocol-get}
+
+By default, `spiro()` guesses the exercise protocol using `get_protocol()`,
+looking for velocity or load data in the imported raw data. To return the
+protocol guess after a `spiro()` call, access the `"protocol"` attribute.
+
+```{r protocol}
+s <- spiro(file)
+attr(s,"protocol")
+```
+
+### Protocol setting {#protocol-set}
+
+In cases where no load data is saved in the metabolic cart's file or
+`get_protocol()` turns wrong, a protocol can be manually set.
+
+There are two ways to initially generate a protocol: by providing all
+load-duration combinations with `set_protocol_manual()` or by using the helper
+functions within `set_protocol()`. Once a protocol has been set, it can be used
+as the `protocol` argument in a `spiro()` call or attached to a `spiro` data
+frame with `add_protocol()`.
 
 ```{r set_protocol_manual}
 # manually setting a test protocol
@@ -162,16 +124,15 @@ pt <- set_protocol_manual(
   load = c(0,3,0,3.2,0,3.4,0,3.6,0,3.8,0,4,0,4.2,0,4.4,0,4.6)
 )
 
-# apply protocol to data.frame
-data_with_ptcl <- apply_protocol(data = data_int, 
-                                 protocol = process_protocol(pt))
-data_with_ptcl
+# attach protocol within spiro call
+s <- spiro(file, protocol = pt)
+
+# attach protocol with `add_protocol`
+t <- spiro(file)
+add_protocol(t, pt)
 ```
 
-Alternatively to providing every single load step, a protocol can be defined by
-segments with `set_protocol`. Pre-defined segment types such as `pre()`, `wu()`
-and `steps()` can be pasted into the function in the desired order. The
-following graph illustrates an example:
+With `set_protocol()` a protocol can be defined without specifying every single load step. You can paste the pre-defined segment types `pre()`, `wu()`, `const()`and `steps()` into `set_protocol()` in the desired order. The following graph illustrates an example of this practice:
 
 ```{r protocol variable, echo=FALSE}
 ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
@@ -207,34 +168,34 @@ ggplot() +
 set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 ```
 
-### Calculate additional parameters from the data
+## Modify body weight {#weight}
 
-The interpolated gas exchange data, together with the protocol load data, allows
-the calculation of additional variables with `spiro_add()`.
+The `spiro` package calculates parameters relative to body weight. Per default `spiro()` will look for information on body weight in the meta data of the original data file. If for some reason no or the wrong weight is present in the raw data file, `weight` can be manually given as an argument in `spiro()` or with `add_weight`.
 
-```{r spiro_add}
-spiro_add(data_with_ptcl,
-          weight = NULL)
+```{r}
+# set body weight as an argument in `spiro()`
+s <- spiro(file, weight = 68.3)
+
+# set body weight using `add_weight()`
+t <- spiro(file) |>
+  add_weight(68.3)
 
 ```
 
-For calculating parameters relative to body weight, `spiro_add()` will use the
-weight found in the original data file's meta data. If for some reason no or the
-wrong weight was present in the raw data file, `weight` can be manually
-supplied.
+## Work with external heart rate data {#heart-rate}
 
-### Attach additional heart rate data
-
-Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g. wrist watch), this data can be attached to the existing `data.frame` of gas exchange measures with `hr_add()`.
+Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g. wrist watch), this data can be added within the `spiro()` call or by using `add_hr()`.
 
 ```{r hr_add}
-# import and process example data
-data_rt <- spiro(spiro_example("zan_ramp"))
-hr_data <- spiro_example("hr_ramp.tcx")
+# get example data file path
+hpath <- spiro_example("hr_ramp.tcx")
 
-hr_add(data_rt,
-       hr_file = hr_data,
-       hr_offset = 0)
+# add heart rate data within `spiro()`
+h <- spiro(file, hr_file = hpath, hr_offset = 0)
+
+# add heart rate data with `add_hr()`
+i <- spiro(file) |>
+  add_hr(hr_file = hpath, hr_offset = 0)
 ```
 
-`hr_add()` will import the heart rate data from a .tcx file via `hr_import()` and attach it to the existing data with `hr_apply()`. Note that you can manually supply the starting point of the heart rate recording in relation to the gas exchange measures recording with `hr_offset`.
+`add_hr()` will import the heart rate data from a .tcx file and attach it to the existing data set. You can manually set the starting point of the heart rate recording relative to the start of the gas exchange measures recording with the `hr_offset` argument.

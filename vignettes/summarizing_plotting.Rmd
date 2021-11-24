@@ -1,0 +1,83 @@
+---
+title: "Summarizing & Plotting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summarizing & Plotting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "90%",
+  fig.width = 6,
+  fig.asp = 0.618,
+  fig.align = "center",
+  dpi = 300
+)
+```
+
+Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardized workflow for data from metabolic carts.
+
+This vignette provides you information on how to summarize and plot data [previously imported and processed](https://smnnlt.github.io/spiro/articles/import_processing.html) by `spiro()`.
+
+#### Load the data
+
+```{r setup}
+library(spiro)
+
+# import and process example data
+file <- spiro_example("zan_gxt")
+gxt_data <- spiro(file)
+gxt_data
+
+```
+
+## Stepwise summary with `spiro_summary()`
+
+In the analysis of gas exchange data, often mean parameters for each performed load step are of interest. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
+
+```{r summary}
+spiro_summary(gxt_data, interval = 120)
+```
+
+The length of the computational interval (in seconds) can be modified with the `interval` argument. If the interval exceeds the length of any step, it will be shortened for these steps displaying a note. You can turn such messages off with setting the argument `quiet = TRUE`.
+
+## Maximal parameter values with `spiro_max()`
+
+For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data with a rolling average.
+
+```{r max}
+spiro_max(gxt_data, smooth = 30)
+```
+The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
+
+## Plotting the data
+
+The `spiro` package lets you visualize data from cardiopulmonary exercise testing: With `spiro_plot()` you can display the traditional Wasserman 9-Panel Plot.
+
+```{r plot, fig.width = 10, fig.height = 8}
+# load example data
+data <- spiro(spiro_example("zan_ramp"), 
+                      hr_file = spiro_example("hr_ramp.tcx"))
+
+spiro_plot(data)
+```
+
+You can individually select and combine panels of the 9-Panel Plot by setting the `which` argument.
+
+```{r plot_select, fig.width = 7, fig.height = 4}
+# Plot only V-Slope (Panel 5) and VO2/VCO2 over time (Panel 3)
+spiro_plot(data, which = c(5,3))
+```
+
+Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average over an interval set in the `smooth` argument. The other panels (4,5,7) use the initial raw data for visualization. 
+
+You can control the appearance of the plots in `spiro_plot()`. Use the `base_size` argument to change the plot base size. Pass other style arguments to `ggplot::theme()` for further customization.
+
+```{r plot_style, fig.width = 10, fig.height = 8}
+# Change base size and 
+spiro_plot(data, base_size = 9, axis.title = ggplot2::element_text(face = "italic", colour = "blue"))
+```

@@ -3,21 +3,21 @@
 \docType{package}
 \name{spiro-package}
 \alias{spiro-package}
-\title{spiro: A package to work with data from spiroergometric testing}
+\title{spiro: Work with data from cardiopulmonary exercise testing}
 \description{
 The spiro package enables a fast workflow with raw files from metabolic
 carts/spiroergometry systems. It provides simple tools for data import,
-processing, summary and visualisation.
+processing, summary and visualization.
 }
 \section{Main functions}{
 
 \itemize{
-\item Use \code{\link{spiro}} for one-step data import and processing from
-raw metabolic cart files.
-\item Use \code{\link{spiro_summary}} and \code{\link{spiro_glance}} for
-getting a stepwise or overall summary of the imported data.
-\item Use the \code{\link{spiro_plot}} functions as a shortcut for
-visualising the imported data.
+\item Use \code{\link{spiro}} for import and processing of cardiopulmonary
+exercise testing data.
+\item Use \code{\link{spiro_summary}} and \code{\link{spiro_max}} for
+a stepwise summary or the maximum parameter values of the
+imported data.
+\item Use \code{\link{spiro_plot}} to visualize the data.
 }
 }
 

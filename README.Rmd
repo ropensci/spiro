@@ -25,32 +25,32 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The goal of `spiro` is to enable a fast and standardised workflow with raw data
-files from cardiopulmonary exercise testing. The package provides simple tools
-for data import, processing, summary and visualisation.
+The goal of `spiro` is to enable a fast and standardized workflow with raw data
+from cardiopulmonary exercise testing. The package provides simple tools for
+data import, processing, summary and visualization.
 
-> WARNING: This package is currently under early development. It is recommended
-to use this software for demonstrational or testing purposes only. We advise
-against using it for scientific analyses at the moment, as at this stage of
-development major changes in the package's computations may occur.
-
+> WARNING: This package is currently under development. At the moment, I
+recommend to use it for demonstration or testing purposes only. When using
+`spiro` for scientific analyses, make sure to state the exact package version,
+as at this stage of development the package's functions may undergo major
+changes.
 
 ## Installation
 
 Install the current development version from GitHub:
 
 ``` {r installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("smnnlt/spiro")
+# install.packages("remotes")
+remotes::install_github("smnnlt/spiro")
 ```
 
 ## Usage
 
-* Use `spiro()` for one-step data import and processing from raw metabolic cart
-  files. 
-* Use `spiro_summary()` and `spiro_glance()` for a stepwise or overall summary 
-  of the imported data. 
-* Use `spiro_plot_*()` as a shortcut for visualising the imported data.
+* Use `spiro()` to automatically import and process raw data from
+  cardiopulmonary exercise testing.
+* Use `spiro_summary()` and `spiro_max()` for a stepwise summary or the 
+  calculation of maximum parameter values.
+* Use `spiro_plot()` to visualize the data.
   
 #### Metabolic Carts
 
@@ -62,25 +62,32 @@ The following metabolic carts are currently supported by `spiro`:
 
 ## Example
 
-```{r example, warning=FALSE}
+```{r example, warning = FALSE, fig.width = 10, fig.height = 8}
 library(spiro)
 
-# get data for example
+# get data path for example
 file <- spiro_example("zan_gxt")
 
 gxt_data <- spiro(file)
+
 spiro_summary(gxt_data)
 
-spiro_plot_VO2(gxt_data)
+spiro_plot(gxt_data)
+```
+
+## Citation
+
+```{r citation}
+citation("spiro")
 ```
 
 ## Contributing
 
-If you encounter any bug or want to request new features, please [submit an
-issue](https://github.com/smnnlt/spiro/issues). If you want your type of
-metabolic cart to be supported by this package, consider writing me a message
-with an example data file. If you are familiar with writing R code, feel free to
-submit any pull requests.
+If you encounter a bug or want to request new features, please [submit an
+issue](https://github.com/smnnlt/spiro/issues). To have your device type of
+metabolic cart supported by this package, consider writing me a message with
+example data files. If you are familiar with writing R code, feel free to submit
+pull requests.
 
 Please note that this package is released with a [Contributor Code of
 Conduct](https://smnnlt.github.io/spiro/CODE_OF_CONDUCT.html). By contributing
