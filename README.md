@@ -9,6 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
+[![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
 <!-- badges: end -->
 
 ## Overview
