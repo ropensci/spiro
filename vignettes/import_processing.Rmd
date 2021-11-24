@@ -64,7 +64,24 @@ spiro(file)
 * **CHO**: rate of carbohydrate oxidation (g/min)
 * **FO**: rate of fat oxidation (g/min)
 
-You can control the exercise protocol, the calculation of parameters related to body weight and the adding of heart rate data with the arguments of `spiro()` or with the helper functions `add_protocol`, `add_weight()` and `add_hr()` within a piping syntax.
+### Options for data processing {#options}
+
+You can control the exercise protocol, the calculation of parameters related to body weight and the adding of heart rate data with the arguments of `spiro()` or with the helper functions `add_protocol`, `add_weight()` and `add_hr()` within a piping syntax:
+
+```{r piping, eval = FALSE}
+# Note: The Base R pipe requires R version 4.1 or greater
+
+protocol <- set_protocol(
+  wu(duration = 120, load = 50),
+  steps(duration = 30, load = 100, increment = 20, count = 24)
+)
+
+spiro(file = spiro_example("zan_ramp")) |>
+  add_weight(weight = 63.4) |>
+  add_protocol(protocol) |>
+  add_hr(hr_file = spiro_example("hr_ramp.tcx"), hr_offset = 0)
+```
+
 
 ## Supported metabolic carts {#metabolic-carts}
 
@@ -177,8 +194,8 @@ The `spiro` package calculates parameters relative to body weight. Per default `
 s <- spiro(file, weight = 68.3)
 
 # set body weight using `add_weight()`
-t <- spiro(file) |>
-  add_weight(68.3)
+t <- spiro(file) 
+u <- add_weight(t, 68.3)
 
 ```
 
@@ -194,8 +211,8 @@ hpath <- spiro_example("hr_ramp.tcx")
 h <- spiro(file, hr_file = hpath, hr_offset = 0)
 
 # add heart rate data with `add_hr()`
-i <- spiro(file) |>
-  add_hr(hr_file = hpath, hr_offset = 0)
+i <- spiro(file)
+j <- add_hr(i, hr_file = hpath, hr_offset = 0)
 ```
 
 `add_hr()` will import the heart rate data from a .tcx file and attach it to the existing data set. You can manually set the starting point of the heart rate recording relative to the start of the gas exchange measures recording with the `hr_offset` argument.
