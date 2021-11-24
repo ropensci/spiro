@@ -22,4 +22,3 @@ test_that("spiro_summary excludes unfinished steps if desired", {
   expect_equal(nrow(spiro_summary(ramp_data, exclude = FALSE)), 25)
   expect_equal(nrow(spiro_summary(ramp_data, exclude = TRUE)), 24)
 })
-

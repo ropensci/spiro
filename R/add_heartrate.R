@@ -66,14 +66,14 @@ hr_import <- function(hr_file) {
   tcx <- xml2::read_xml(hr_file)
 
   # read HR and time data
-  time_raw <- xml2::xml_text(xml2::xml_find_all(tcx,"//d1:Time"))
-  hr_raw <- xml2::xml_text(xml2::xml_find_all(tcx,"//d1:HeartRateBpm"))
+  time_raw <- xml2::xml_text(xml2::xml_find_all(tcx, "//d1:Time"))
+  hr_raw <- xml2::xml_text(xml2::xml_find_all(tcx, "//d1:HeartRateBpm"))
 
   # handle missing heart rate values
   # search which values are missing
-  hr_index <- grepl("HeartRateBpm", xml2::xml_find_all(tcx,"//d1:Trackpoint"))
+  hr_index <- grepl("HeartRateBpm", xml2::xml_find_all(tcx, "//d1:Trackpoint"))
   # assign heart rate values to NA vector
-  hr <- rep.int(NA,length(time_raw))
+  hr <- rep.int(NA, length(time_raw))
   hr[hr_index] <- hr_raw
 
   tcx_data <- data.frame(

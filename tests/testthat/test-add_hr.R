@@ -8,15 +8,14 @@ test_that("heart rate import works", {
 })
 
 test_that("heart rate is shown as NAs if not present", {
-  expect_identical(all(is.na(spiro(file)$HR)),TRUE)
+  expect_identical(all(is.na(spiro(file)$HR)), TRUE)
 })
 
 test_that("heart rate data adding works", {
-  expect_identical(all(add_hr(spiro(file),hr_file)$HR > 0),TRUE)
+  expect_identical(all(add_hr(spiro(file), hr_file)$HR > 0), TRUE)
 })
 
 test_that("heart rate offset works", {
-  expect_identical(all(is.na(add_hr(spiro(file),hr_file,60)$HR[1:60])),TRUE)
-  expect_identical(add_hr(spiro(file),hr_file,60)$HR[61],127)
+  expect_identical(all(is.na(add_hr(spiro(file), hr_file, 60)$HR[1:60])), TRUE)
+  expect_identical(add_hr(spiro(file), hr_file, 60)$HR[61], 127)
 })
-
