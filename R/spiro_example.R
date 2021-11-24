@@ -20,7 +20,7 @@
 spiro_example <- function(file = NULL) {
   if (is.null(file)) {
     path <- system.file("extdata", package = "spiro")
-    out <- list.files(root, full.names = TRUE)
+    out <- list.files(path, full.names = TRUE)
   } else {
     out <- system.file("extdata", file, package = "spiro", mustWork = TRUE)
   }
