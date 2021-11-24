@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 ```
 
 # spiro <img src="man/figures/spiro_logo.png" align="right" width = "160" />   
-
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
 [![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
+[![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
 <!-- badges: end -->
 
 ## Overview
