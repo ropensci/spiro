@@ -13,6 +13,10 @@ add_protocol(data, protocol)
 by \code{\link{set_protocol}}, \code{\link{set_protocol_manual}} or
 \code{\link{get_protocol}}.}
 }
+\value{
+A \code{data.frame} of the class \code{spiro} with cardiopulmonary
+parameters and the corresponding load data.
+}
 \description{
 \code{add_protocol()} adds a predefined test protocol to an existing set of
 data from an exercise test.

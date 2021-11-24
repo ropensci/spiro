@@ -26,6 +26,8 @@
 #' @param ... Arguments passed to ggplot2::theme() to modify the appearance of
 #'   the plots.
 #'
+#' @return A ggplot object.
+#'
 #' @examples
 #' # Import and process example data
 #' ramp_data <- spiro(

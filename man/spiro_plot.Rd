@@ -33,6 +33,9 @@ for gas exchange measures.}
 \item{...}{Arguments passed to ggplot2::theme() to modify the appearance of
 the plots.}
 }
+\value{
+A ggplot object.
+}
 \description{
 \code{spiro_plot()} returns a \code{ggplot2} graph visualizing
 data from cardiopulmonary exercise testing.

@@ -36,6 +36,9 @@ and the following load step.}
 
 \item{count}{An integer for the number of load sections.}
 }
+\value{
+A \code{data.frame} with the duration and load of each protocol step.
+}
 \description{
 \code{set_protocol()} allows to set an load profile for an exercise test
 based on profile sections.

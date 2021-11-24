@@ -19,6 +19,10 @@ for example when intervals were shortened for specific steps.}
 \item{exclude}{A logical value, whether the last step should be excluded from
 the summary if it was not completely performed.}
 }
+\value{
+A \code{data.frame} with the mean parameters for each step of the
+exercise protocol.
+}
 \description{
 \code{spiro_summary()} returns a \code{data.frame} summarizing the main
 parameters for each step of a spiroergometric test.

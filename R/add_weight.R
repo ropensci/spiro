@@ -14,8 +14,15 @@
 #' @param data A \code{data.frame} containing the exercise test data.
 #' @param weight A numeric value to manually set the participant's body weight.
 #'
-#' @return A \code{data.frame} containing the data amplified by the additional
-#'   variables.
+#' @return A \code{data.frame} of the class \code{spiro} containing the
+#'   cardiopulmonary exercise testing data including variables relative to body
+#'   weight.
+#' @examples
+#' # get example file
+#' file <- spiro_example("zan_gxt")
+#'
+#' s <- spiro(file)
+#' add_weight(s, weight = 65.3)
 #' @export
 add_weight <- function(data, weight = NULL) {
   # find weight in meta data if not specified

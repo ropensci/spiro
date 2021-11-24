@@ -44,7 +44,7 @@
 #'   \code{\link{set_protocol_manual}} containing the test protocol. This is
 #'   automatically guessed by default.
 #'
-#' @return A \code{data.frame} of the class \code{spiro_*} with cardiopulmonary
+#' @return A \code{data.frame} of the class \code{spiro} with cardiopulmonary
 #'   parameters interpolated to seconds and the corresponding load data.
 #'
 #'   The attribute \code{"protocol"} provides additional information on the
@@ -165,4 +165,3 @@ calo.internal <- function(vo2abs, vco2abs) {
   }
   list(CHO = cho, FO = fo)
 }
-

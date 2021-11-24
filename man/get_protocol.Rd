@@ -11,8 +11,7 @@ get_protocol(data)
 highly recommend to parse non-interpolated breath-by-breath data.}
 }
 \value{
-A \code{data.frame} containing the characteristics of the test
-protocol.
+A \code{data.frame} with the duration and load of each protocol step.
 }
 \description{
 \code{get_protocol()} gets the underlying test protocol based on given

@@ -13,8 +13,9 @@ add_weight(data, weight = NULL)
 \item{weight}{A numeric value to manually set the participant's body weight.}
 }
 \value{
-A \code{data.frame} containing the data amplified by the additional
-variables.
+A \code{data.frame} of the class \code{spiro} containing the
+cardiopulmonary exercise testing data including variables relative to body
+weight.
 }
 \description{
 \code{add_weight()} amplifies existing spiroergometric data by the
@@ -27,4 +28,11 @@ received from the original file's meta data, but can be manually overridden,
 e.g. if the value in the meta data is incorrect or rounded.
 
 For running protocols, running economy (RE) is calculated.
+}
+\examples{
+# get example file
+file <- spiro_example("zan_gxt")
+
+s <- spiro(file)
+add_weight(s, weight = 65.3)
 }

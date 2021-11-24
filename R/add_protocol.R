@@ -8,6 +8,9 @@
 #'   by \code{\link{set_protocol}}, \code{\link{set_protocol_manual}} or
 #'   \code{\link{get_protocol}}.
 #'
+#' @return A \code{data.frame} of the class \code{spiro} with cardiopulmonary
+#'   parameters and the corresponding load data.
+#'
 #' @examples
 #' # Get example data
 #' file <- spiro_example("zan_gxt")
@@ -79,8 +82,7 @@ add_protocol <- function(data, protocol) {
 #' @param data A \code{data.frame} containing the exercise testing data. It is
 #'   highly recommend to parse non-interpolated breath-by-breath data.
 #'
-#' @return A \code{data.frame} containing the characteristics of the test
-#'   protocol.
+#' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
 #' @examples
 #' # Import example data
@@ -229,6 +231,9 @@ get_testtype <- function(protocol) {
 #' @param increment A number, giving the difference in load between the current
 #'   and the following load step.
 #' @param count An integer for the number of load sections.
+#'
+#' @return A \code{data.frame} with the duration and load of each protocol step.
+#'
 #' @seealso [set_protocol_manual] for manual protocol design.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #'
@@ -319,6 +324,8 @@ const <- function(duration, load, count, rest.duration = 0) {
 #' @param load A numeric vector of the same length as \code{duration} containing
 #'   the corresponding load of each step.
 #'
+#' @return A \code{data.frame} with the duration and load of each protocol step.
+#'
 #' @examples
 #' set_protocol_manual(
 #'   duration = c(300, 120, 300, 60, 300),
@@ -330,7 +337,6 @@ const <- function(duration, load, count, rest.duration = 0) {
 #'   duration = c(180, 150, 120, 90, 60, 30),
 #'   load = c(200, 250, 300, 350, 400, 450)
 #' )
-#'
 #' set_protocol_manual(pt_data)
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.

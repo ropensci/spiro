@@ -25,6 +25,9 @@
 #' @param exclude A logical value, whether the last step should be excluded from
 #'   the summary if it was not completely performed.
 #'
+#' @return A \code{data.frame} with the mean parameters for each step of the
+#'   exercise protocol.
+#'
 #' @examples
 #' # Import and process example data
 #' gxt_data <- spiro(file = spiro_example("zan_gxt"))

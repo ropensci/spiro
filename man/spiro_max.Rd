@@ -17,6 +17,9 @@ interval for the rolling average.}
 data. Default is \code{FALSE}, which means that the absolute maximum heart rate
 value is taken without smoothing.}
 }
+\value{
+A \code{data.frame} with the maximum parameter values of the data.
+}
 \description{
 \code{spiro_max()} returns a \code{data.frame} with the maximum parameter
 parameters of a spiroergometric test.

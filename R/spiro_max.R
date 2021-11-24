@@ -14,6 +14,8 @@
 #'   data. Default is `FALSE`, which means that the absolute maximum heart rate
 #'   value is taken without smoothing.
 #'
+#' @return A \code{data.frame} with the maximum parameter values of the data.
+#'
 #' @examples
 #' # Import and process example data sets
 #' gxt_data <- spiro(file = spiro_example("zan_gxt"))
@@ -65,7 +67,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
       # apply smoothing to heart rate data
       hr_max <- round(
         max(zoo::rollmean(data$HR, smooth, fill = NA),
-            na.rm = TRUE
+          na.rm = TRUE
         )
       )
     } else {

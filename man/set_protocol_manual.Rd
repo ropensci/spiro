@@ -20,6 +20,9 @@ and load.}
 \item{load}{A numeric vector of the same length as \code{duration} containing
 the corresponding load of each step.}
 }
+\value{
+A \code{data.frame} with the duration and load of each protocol step.
+}
 \description{
 \code{set_protocol_manual()} allows to set any user-defined load profile
 for an exercise test.
@@ -44,7 +47,6 @@ pt_data <- data.frame(
   duration = c(180, 150, 120, 90, 60, 30),
   load = c(200, 250, 300, 350, 400, 450)
 )
-
 set_protocol_manual(pt_data)
 }
 \seealso{

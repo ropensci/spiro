@@ -37,7 +37,7 @@ linked to the start of the gas exchange measurement.}
 automatically guessed by default.}
 }
 \value{
-A \code{data.frame} of the class \code{spiro_*} with cardiopulmonary
+A \code{data.frame} of the class \code{spiro} with cardiopulmonary
 parameters interpolated to seconds and the corresponding load data.
 
 The attribute \code{"protocol"} provides additional information on the
