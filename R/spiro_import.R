@@ -119,8 +119,8 @@ spiro_import_zan <- function(file) {
     HR = data$HR,
     load = load_data,
     # incr = data$Steig./10, # variable currently not used
-    PetO2 = NA,
-    PetCO2 = NA
+    PetO2 = as.numeric(NA),
+    PetCO2 = as.numeric(NA)
   )
 
   # Write null values in HR as NAs
