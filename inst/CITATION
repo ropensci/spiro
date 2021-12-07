@@ -1,13 +1,11 @@
-citHeader("To cite spiro in publications use:")
-
-version <- meta$Version
+version <- packageVersion("spiro")
 note <- sprintf("R package version %s", version)
 
-citEntry(
-  entry    = "Manual",
+bibentry(
+  bibtype  = "Manual",
   title    = "spiro: Manage Data from Cardiopulmonary Exercise Testing",
   author   = person("Simon", "Nolte"),
-  year     = "2021",
+  year     = 2021,
   url      = "https://smnnlt.github.io/spiro/",
   note     = note,
   textVersion = paste0(
@@ -15,5 +13,6 @@ citEntry(
     "spiro: Manage Data from Cardiopulmonary Exercise Testing. ",
     "R package version ", version, ". ",
     "https://smnnlt.github.io/spiro/"
-  )
+  ),
+  header = "To cite spiro in publications use:"
 )
