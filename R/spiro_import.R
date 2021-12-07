@@ -248,16 +248,16 @@ spiro_import_cosmed <- function(file) {
   # write data
   df <- data.frame(
     time = l[l != 0], # exclude not specified times
-    VO2 = data$VO2,
-    VCO2 = data$VCO2,
-    RR = data$Rf,
-    VT = data$VT,
-    VE = data$VE,
-    HR = data$HR,
+    VO2 = as.numeric(data$VO2),
+    VCO2 = as.numeric(data$VCO2),
+    RR = as.numeric(data$Rf),
+    VT = as.numeric(data$VT),
+    VE = as.numeric(data$VE),
+    HR = as.numeric(data$HR),
     load = round(speed / 36, 2),
     # incr = grade, # variable currently not used
-    PetO2 = data$PetO2,
-    PetCO2 = data$PetCO2
+    PetO2 = as.numeric(data$PetO2),
+    PetCO2 = as.numeric(data$PetCO2)
   )
 
   # Write null values in HR as NAs
