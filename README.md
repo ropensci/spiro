@@ -30,8 +30,15 @@ simple tools for data import, processing, summary and visualization.
 Install the current development version from GitHub:
 
 ``` r
-# install.packages("remotes")
+if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
+```
+
+Install the latest version 0.0.1 release by running this code:
+
+``` r
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("smnnlt/spiro@v0.0.1")
 ```
 
 ## Usage
