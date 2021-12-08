@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -39,7 +39,7 @@ gxt_data
 
 In the analysis of gas exchange data, often mean parameters for each performed load step are of interest. To ensure the presence of a metabolic steady state, the end of each step is used for calculations.
 
-```{r summary}
+```{r spiro_summary}
 spiro_summary(gxt_data, interval = 120)
 ```
 
@@ -49,7 +49,7 @@ The length of the computational interval (in seconds) can be modified with the `
 
 For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data with a rolling average.
 
-```{r max}
+```{r spiro_max}
 spiro_max(gxt_data, smooth = 30)
 ```
 The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
@@ -58,7 +58,7 @@ The `smooth` argument sets the length of the interval for the rolling average in
 
 The `spiro` package lets you visualize data from cardiopulmonary exercise testing: With `spiro_plot()` you can display the traditional Wasserman 9-Panel Plot.
 
-```{r plot, fig.width = 10, fig.height = 8}
+```{r spiro_plot, fig.width = 10, fig.height = 8}
 # load example data
 data <- spiro(spiro_example("zan_ramp"), 
                       hr_file = spiro_example("hr_ramp.tcx"))
@@ -68,7 +68,7 @@ spiro_plot(data)
 
 You can individually select and combine panels of the 9-Panel Plot by setting the `which` argument.
 
-```{r plot_select, fig.width = 7, fig.height = 4}
+```{r spiro_plot-select, fig.width = 7, fig.height = 4}
 # Plot only V-Slope (Panel 5) and VO2/VCO2 over time (Panel 3)
 spiro_plot(data, which = c(5,3))
 ```
@@ -77,7 +77,7 @@ Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average over
 
 You can control the appearance of the plots in `spiro_plot()`. Use the `base_size` argument to change the plot base size. Pass other style arguments to `ggplot::theme()` for further customization.
 
-```{r plot_style, fig.width = 10, fig.height = 8}
+```{r spiro_plot-style, fig.width = 10, fig.height = 8}
 # Change base size and 
 spiro_plot(data, base_size = 9, axis.title = ggplot2::element_text(face = "italic", colour = "blue"))
 ```

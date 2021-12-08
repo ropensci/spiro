@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -151,7 +151,7 @@ add_protocol(t, pt)
 
 With `set_protocol()` a protocol can be defined without specifying every single load step. You can paste the pre-defined segment types `pre()`, `wu()`, `const()`and `steps()` into `set_protocol()` in the desired order. The following graph illustrates an example of this practice:
 
-```{r protocol variable, echo=FALSE}
+```{r set_protocol-variables, echo=FALSE}
 ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
 path <- data.frame(
   x = c(0,0.1,0.1,0.3,0.3,0.32,0.32,0.42,0.42,0.44,0.44,0.54,0.54,0.56,0.56,0.66,0.66,0.68,0.68,0.78,0.78,0.8,0.8,0.9,0.9,0.95),
@@ -181,7 +181,7 @@ ggplot() +
   theme_minimal()
 ```
 
-```{r}
+```{r set_protocol}
 set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 ```
 
@@ -189,7 +189,7 @@ set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 
 The `spiro` package calculates parameters relative to body weight. Per default `spiro()` will look for information on body weight in the meta data of the original data file. If for some reason no or the wrong weight is present in the raw data file, `weight` can be manually given as an argument in `spiro()` or with `add_weight`.
 
-```{r}
+```{r add_weight}
 # set body weight as an argument in `spiro()`
 s <- spiro(file, weight = 68.3)
 
@@ -203,7 +203,7 @@ u <- add_weight(t, 68.3)
 
 Some metabolic carts only offer complicated options for connecting them to heart rate monitors. If heart rate data was recorded by another kind of device (e.g. wrist watch), this data can be added within the `spiro()` call or by using `add_hr()`.
 
-```{r hr_add}
+```{r add_hr}
 # get example data file path
 hpath <- spiro_example("hr_ramp.tcx")
 
