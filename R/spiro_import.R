@@ -94,6 +94,13 @@ spiro_import_zan <- function(file) {
     col.names = c("index", cnames, "fan")
   )
 
+  # extract data with metabolic exchange parameters from data.
+  # ZAN raw data files seem to be corrupt in some rare instances, containing
+  # other kinds of data inside the data table. Breath-by-breath data points are
+  # indicated by the prefix 'B' in the 'index' column.
+
+  data <- data[grepl("B[0-9]", data$index), ]
+
   # -- TO DO --
   # import works only for files of German language
 
