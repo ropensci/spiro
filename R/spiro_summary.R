@@ -159,6 +159,7 @@ getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
   # calculate mean values
   df <- data.frame(
     step_number = step_number,
+    duration = nrow(step),
     t(colMeans(stepend, na.rm = TRUE))
   )
 

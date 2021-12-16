@@ -69,28 +69,28 @@ gxt_data <- spiro(file)
 
 spiro_summary(gxt_data)
 #> for pre-measures, interval was set to length of measures (60 seconds)
-#>    step_number load     VO2    VCO2     VE HR PetO2 PetCO2 VO2_rel     RE  RER
-#> 1            0  0.0  500.19  411.74  13.03 NA    NA     NA    7.58     NA 0.82
-#> 2            1  2.0 1860.92 1585.75  39.87 NA    NA     NA   28.20 234.97 0.85
-#> 3            2  2.4 2097.82 1805.27  44.63 NA    NA     NA   31.79 220.73 0.86
-#> 4            3  2.8 2413.01 2122.17  52.63 NA    NA     NA   36.56 217.62 0.88
-#> 5            4  3.2 2710.68 2319.93  57.19 NA    NA     NA   41.07 213.91 0.86
-#> 6            5  3.6 3048.75 2684.87  67.45 NA    NA     NA   46.19 213.86 0.88
-#> 7            6  4.0 3404.02 3026.70  75.91 NA    NA     NA   51.58 214.90 0.89
-#> 8            7  4.4 3724.37 3383.64  88.36 NA    NA     NA   56.43 213.75 0.91
-#> 9            8  4.8 4223.82 3993.55 106.44 NA    NA     NA   64.00 222.21 0.95
-#> 10           9  5.2 4573.91 4488.36 127.54 NA    NA     NA   69.30 222.12 0.98
-#>     CHO   FO
-#> 1  0.27 0.15
-#> 2  1.27 0.46
-#> 3  1.51 0.49
-#> 4  1.95 0.48
-#> 5  1.89 0.65
-#> 6  2.47 0.60
-#> 7  2.90 0.62
-#> 8  3.50 0.56
-#> 9  4.68 0.37
-#> 10 5.82 0.12
+#>    step_number duration load     VO2    VCO2     VE HR PetO2 PetCO2 VO2_rel
+#> 1            0       60  0.0  500.19  411.74  13.03 NA    NA     NA    7.58
+#> 2            1      300  2.0 1860.92 1585.75  39.87 NA    NA     NA   28.20
+#> 3            2      300  2.4 2097.82 1805.27  44.63 NA    NA     NA   31.79
+#> 4            3      300  2.8 2413.01 2122.17  52.63 NA    NA     NA   36.56
+#> 5            4      300  3.2 2710.68 2319.93  57.19 NA    NA     NA   41.07
+#> 6            5      300  3.6 3048.75 2684.87  67.45 NA    NA     NA   46.19
+#> 7            6      300  4.0 3404.02 3026.70  75.91 NA    NA     NA   51.58
+#> 8            7      300  4.4 3724.37 3383.64  88.36 NA    NA     NA   56.43
+#> 9            8      300  4.8 4223.82 3993.55 106.44 NA    NA     NA   64.00
+#> 10           9      300  5.2 4573.91 4488.36 127.54 NA    NA     NA   69.30
+#>        RE  RER  CHO   FO
+#> 1      NA 0.82 0.27 0.15
+#> 2  234.97 0.85 1.27 0.46
+#> 3  220.73 0.86 1.51 0.49
+#> 4  217.62 0.88 1.95 0.48
+#> 5  213.91 0.86 1.89 0.65
+#> 6  213.86 0.88 2.47 0.60
+#> 7  214.90 0.89 2.90 0.62
+#> 8  213.75 0.91 3.50 0.56
+#> 9  222.21 0.95 4.68 0.37
+#> 10 222.12 0.98 5.82 0.12
 
 spiro_plot(gxt_data)
 ```
@@ -105,7 +105,8 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2021). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.1. https://smnnlt.github.io/spiro/
+#>   Testing. R package version 0.0.1.9000.
+#>   https://smnnlt.github.io/spiro/
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -114,7 +115,7 @@ citation("spiro")
 #>     author = {Simon Nolte},
 #>     year = {2021},
 #>     url = {https://smnnlt.github.io/spiro/},
-#>     note = {R package version 0.0.1},
+#>     note = {R package version 0.0.1.9000},
 #>   }
 ```
 
