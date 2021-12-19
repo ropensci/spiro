@@ -39,7 +39,7 @@ add_weight <- function(data, weight = NULL) {
 
   # calculate running economy if applicable
   # check if protocol was a running exercise
-  if (!all(is.null(data$load)) && max(data$load < 30)) {
+  if (!all(is.null(data$load)) && (max(data$load) < 30)) {
     data$RE <- (100 / 6) * (data$VO2_rel / data$load)
     for (i in seq_along(data$RE)) { # result NAs for rest sections
       if (is.na(data$RE[[i]])) {
