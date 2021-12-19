@@ -15,3 +15,8 @@ test_that("spiro_max can control smoothing of heart rate data", {
     TRUE
   )
 })
+
+test_that("different smoothing methods work", {
+  expect_snapshot_output(spiro_max(ramp_data, smooth = 60))
+  expect_snapshot_output(spiro_max(ramp_data, smooth = "60b"))
+})

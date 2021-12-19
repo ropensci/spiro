@@ -47,12 +47,12 @@ The length of the computational interval (in seconds) can be modified with the `
 
 ## Maximal parameter values with `spiro_max()`
 
-For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data with a rolling average.
+For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data.
 
 ```{r spiro_max}
 spiro_max(gxt_data, smooth = 30)
 ```
-The `smooth` argument sets the length of the interval for the rolling average in seconds. Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
+The `smooth` argument controls the interval and method for the data smoothing. Smoothing happens by the calculation of a rolling average either over a fixed time interval (e.g. `smooth = 30` for 30 seconds), or over a fixed number of breaths (e.g. `smooth = "30b"` for 30 breaths). Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
 
 ## Plotting the data
 
