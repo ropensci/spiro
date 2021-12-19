@@ -12,7 +12,10 @@
 #' second. Based on the given load data, the underlying exercise protocol is
 #' guessed and applied to the data. If no load data is available or the protocol
 #' guess turns wrong, you can manually specify the exercise \code{protocol} by
-#' using \code{\link{set_protocol}} or \code{\link{set_protocol_manual}}.
+#' using \code{\link{set_protocol}} or \code{\link{set_protocol_manual}}. If you
+#' want to skip the automated protocol guessing without providing an
+#' alternative, set \code{protocol = NA}. Note that in this case, some functions
+#' relying on load data (such as \code{\link{spiro_summary}}) will not work.
 #'
 #' Additional variables of gas exchange are calculated for further analysis. Per
 #' default the body weight saved in the file's metadata is used for calculating
@@ -42,7 +45,7 @@
 #'   linked to the start of the gas exchange measurement.
 #' @param protocol A \code{data.frame} by \code{\link{set_protocol}} or
 #'   \code{\link{set_protocol_manual}} containing the test protocol. This is
-#'   automatically guessed by default.
+#'   automatically guessed by default. Set to NA to skip protocol guessing.
 #'
 #' @return A \code{data.frame} of the class \code{spiro} with cardiopulmonary
 #'   parameters interpolated to seconds and the corresponding load data.
@@ -100,12 +103,16 @@ spiro <- function(file,
   dt_imported <- spiro_import(file, device = device)
 
   # find or guess an exercise protocol
-  if (!is.null(protocol)) { # use manually specified protocol
-    ptcl <- protocol
-  } else if (all(dt_imported$load == 0)) { # no protocol available
+  if (is.null(protocol)) {
+    if (all(dt_imported$load == 0)) { # protocol guess not possible
+      ptcl <- NULL
+    } else { # guess protocol
+      ptcl <- get_protocol(dt_imported)
+    }
+  } else if (anyNA(protocol)) { # no protocol available
     ptcl <- NULL
-  } else { # guess protocol
-    ptcl <- get_protocol(dt_imported)
+  } else { # use manually specified protocol
+    ptcl <- protocol
   }
 
   # interpolate the data
