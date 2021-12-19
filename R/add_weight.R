@@ -50,5 +50,8 @@ add_weight <- function(data, weight = NULL) {
     }
   }
 
+  # save possible new weight data in the meta attribute
+  attr(data, "info")$weight <- weight
+
   data
 }
