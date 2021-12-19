@@ -102,6 +102,10 @@ spiro <- function(file,
   # import the gas exchange raw data
   dt_imported <- spiro_import(file, device = device)
 
+  # Remove null values caused by measurement errors
+  dt_imported$VO2[which(dt_imported$VO2 == 0)] <- NA
+  dt_imported$VCO2[which(dt_imported$VCO2 == 0)] <- NA
+
   # find or guess an exercise protocol
   if (is.null(protocol)) {
     if (all(dt_imported$load == 0)) { # protocol guess not possible
