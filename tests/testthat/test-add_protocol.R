@@ -9,6 +9,11 @@ p1 <- set_protocol(
   steps(180, 150, 50, 4)
 )
 
+p2 <- set_protocol_manual(
+  duration = c(100,200,500,100),
+  load = c(50,150,250,350)
+)
+
 test_that("protocol guessing works", {
   expect_s3_class(get_protocol(spiro_import(file)), "data.frame")
   expect_snapshot_output(get_protocol(spiro_import(file)))
@@ -20,6 +25,7 @@ test_that("protocol is attributed in spiro()", {
 
 test_that("protocol setting works", {
   expect_snapshot_output(p1)
+  expect_snapshot_output(p2)
 })
 
 test_that("protocol features can be extracted", {
