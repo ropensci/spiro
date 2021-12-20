@@ -58,7 +58,7 @@ based on profile sections.
 set_protocol(pre(60), wu(300, 100), steps(180, 150, 25, 8, 30))
 }
 \seealso{
-\link{set_protocol_manual} for manual protocol design.
+\link{set_protocol_manual} For manual protocol design.
 
 \link{get_protocol} For automated extracting of protocols from raw data.
 }

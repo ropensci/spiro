@@ -138,10 +138,6 @@ get_protocol <- function(data) {
 
 get_features <- function(protocol) {
 
-  # -- TO DO --
-  # rewrite so that it does also work for special protocols (e.g. only a few
-  # protocol steps)
-
   # create empty columns
   protocol$type <- NA
   protocol$code <- NA
@@ -154,9 +150,12 @@ get_features <- function(protocol) {
 
   # check if differences between steps are all equal
   # if first difference is unusual, this suggests that a warm-up is present
-  if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) {
-    protocol$type[min(which(protocol$load != 0))] <- "warm up"
-    protocol$code[min(which(protocol$load != 0))] <- 0.5
+  # this is only done if the protocol contains more than three load steps
+  if (length(d) >= 3) {
+    if (d[[1]] != d[[2]] && d[[2]] == d[[3]]) {
+      protocol$type[min(which(protocol$load != 0))] <- "warm up"
+      protocol$code[min(which(protocol$load != 0))] <- 0.5
+    }
   }
 
   # write load steps and rest
@@ -234,7 +233,7 @@ get_testtype <- function(protocol) {
 #'
 #' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
-#' @seealso [set_protocol_manual] for manual protocol design.
+#' @seealso [set_protocol_manual] For manual protocol design.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #'
 #' @examples
@@ -242,6 +241,10 @@ get_testtype <- function(protocol) {
 #' @export
 set_protocol <- function(...) {
   l <- list(...)
+
+  # select only inputs that resulted in data frames
+  l <- l[which(sapply(l, class) == "data.frame")]
+
   do.call("rbind", l)
 }
 
@@ -249,6 +252,12 @@ set_protocol <- function(...) {
 #' @export
 
 pre <- function(duration) {
+
+  # validate inputs
+  if ((duration <= 0) | !is.numeric(duration)) {
+    stop("pre measures 'duration' must be an integer greater than 0")
+  }
+
   data.frame(
     duration = duration,
     load = 0
@@ -259,6 +268,20 @@ pre <- function(duration) {
 #' @export
 
 wu <- function(duration, load, rest.duration = 0) {
+
+  # validate inputs
+  if ((duration <= 0) | !is.numeric(duration)) {
+    stop("warm up 'duration' must be an integer greater than 0")
+  }
+  if ((load < 0) | !is.numeric(load))  {
+    stop("warm up 'load' must be an integer equal to or greater than 0")
+  }
+  if ((rest.duration < 0) | !is.numeric(rest.duration)) {
+    stop(
+      "warm up 'rest.duration' must be an integer equal to or greater than 0"
+    )
+  }
+
   if (rest.duration == 0) { # no rest after warm up
     p <- NULL
     l <- NULL
@@ -276,6 +299,26 @@ wu <- function(duration, load, rest.duration = 0) {
 #' @export
 
 steps <- function(duration, load, increment, count, rest.duration = 0) {
+
+  # validate inputs
+  if ((duration <= 0) | !is.numeric(duration)) {
+    stop("step 'duration' must be an integer greater than 0")
+  }
+  if ((load < 0) | !is.numeric(load))  {
+    stop("intial step 'load' must be an integer equal to or greater than 0")
+  }
+  if (!is.numeric(increment))  {
+    stop("load step 'increment' must be an integer")
+  }
+  if ((count < 1) | !is.numeric(count)) {
+    stop("step 'count' must be an integer equal to or greater than 1")
+  }
+  count <- round(count)
+  if ((rest.duration < 0) | !is.numeric(rest.duration)) {
+    stop("step 'rest.duration' must be an integer equal to or greater than 0")
+  }
+
+
   rest.load <- 0
   if (rest.duration == 0) {
     rest.load <- NULL
@@ -351,9 +394,18 @@ set_protocol_manual <- function(duration, load = NULL) {
 #' @export
 
 set_protocol_manual.default <- function(duration, load) {
+
+  # validate inputs
   if (length(duration) != length(load)) {
-    stop("duration and load must be vectors of the same length")
+    stop("'duration' and 'load' must be vectors of the same length")
   }
+  if (any(duration <= 0 | !is.numeric(duration))) {
+    stop("'duration' must only contain integers greater than 0")
+  }
+  if (any(load < 0 | !is.numeric(load))) {
+    stop("'load' must only contain integers greater than or equal to 0")
+  }
+
   data.frame(
     duration = duration,
     load = load
@@ -381,6 +433,14 @@ set_protocol_manual.data.frame <- function(duration, load = NULL) {
     )
   } else {
     stop("data.frame must contain columns 'duration' and 'load'")
+  }
+
+  # validate result
+  if (any(out$duration <= 0 | !is.numeric(out$duration))) {
+    stop("'duration' must only contain integers greater than 0")
+  }
+  if (any(out$load < 0 | !is.numeric(out$load))) {
+    stop("'load' must only contain integers greater than or equal to 0")
   }
   out
 }
