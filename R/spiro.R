@@ -108,7 +108,8 @@ spiro <- function(file,
 
   # find or guess an exercise protocol
   if (is.null(protocol)) {
-    if (all(dt_imported$load == 0)) { # protocol guess not possible
+    if (all(dt_imported$load == 0, na.rm = TRUE)) {
+      # protocol guess not possible
       ptcl <- NULL
     } else { # guess protocol
       ptcl <- get_protocol(dt_imported)
