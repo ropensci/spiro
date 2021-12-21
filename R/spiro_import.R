@@ -294,21 +294,33 @@ spiro_import_cosmed <- function(file) {
 #' @return A \code{data.frame} with data. The attribute \code{info} contains
 #'   addition meta-data retrieved from the original file.
 spiro_import_cortex <- function(file) {
-  # read excel file
-  d <- suppressMessages(
-    readxl::read_excel(file, col_names = FALSE)
-  )
+  # read file
+  if (grepl("\\.xml$", file)) { # xml file
+    d <- import_xml(file)
+  } else if (grepl("\\.xls$", file) | grepl("\\.xlsx$", file)) { # excel file
+    d <- as.data.frame(
+      suppressMessages(readxl::read_excel(file, col_names = FALSE))
+    )
+  } else {
+    stop("Cortex raw data file must be in .xml, .xlsx or .xls format.")
+  }
 
   # -- TO DO --
   # create import option for files of English language
 
   # get meta data (German language)
-  name <- get_meta(d, "Name", 3)
-  surname <- get_meta(d, "Vorname", 3)
-  sex <- get_meta(d, "Geschlecht", 3)
-  birthday <- get_meta(d, "Geburtsdatum", 3)
-  height <- get_meta(d, "Gr\u00f6\u00dfe", 3) # special handling for umlaute
-  weight <- get_meta(d, "Gewicht", 3)
+
+  # filter data frame for section with meta data
+  meta_begin <- which(d == "Patient")
+  meta_raw <- d[c(meta_begin:(meta_begin+25)),]
+
+  # extract meta data
+  name <- get_meta(meta_raw, c("Name", "Nachname"))
+  surname <- get_meta(meta_raw, "Vorname")
+  sex <- get_meta(meta_raw, "Geschlecht")
+  birthday <- get_meta(meta_raw, "Geburtsdatum")
+  height <- get_meta(meta_raw, "Gr\u00f6\u00dfe") # special handling for umlaute
+  weight <- get_meta(meta_raw, "Gewicht")
 
   # write data frame for metadata
   info <- data.frame(name,
@@ -320,16 +332,16 @@ spiro_import_cortex <- function(file) {
   )
 
   # get start of data section
-  t_ind <- which(d[, 1] == "t")
+  t_ind <- which(d[, 1] == "h:mm:ss")
 
   # get parameter labels
-  cols <- as.character(d[t_ind, ])
+  cols <- as.character(d[t_ind-1, ])
 
   # get parameter count
   coln <- sum(!is.na(cols))
 
   # get raw data
-  data <- d[(t_ind + 2):nrow(d), 1:coln]
+  data <- d[(t_ind + 1):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
   # handle missing parameters
@@ -340,34 +352,39 @@ spiro_import_cortex <- function(file) {
     data$Steigung <- 0
   }
 
-  # in some cases VCO2 may be missing and thus is recalculated from RER and VO2
-  if (all(names(data) != "V'CO2", na.rm = TRUE)) {
-    data$`V'CO2` <- as.numeric(data$`V'O2`) / as.numeric(data$RER)
-  }
 
-  # checking for different variable naming
-  if (any(names(data) == "V'E (BTPS)", na.rm = TRUE)) {
-    ve_name <- "V'E (BTPS)"
-    vo2_name <- "V'O2 (STPD)"
-  } else {
-    ve_name <- "V'E"
-    vo2_name <- "V'O2"
+  get_data <- function(data, vars) {
+    col_matches <- colnames(data) %in% vars
+    if (any(col_matches)) {
+      # Suppress warning if column content can not be converted to numbers
+      # e.g. if empty cells are indicated by sign such as '-'
+      out <- suppressWarnings(
+        as.numeric(data[, min(which(col_matches))])
+      )
+    } else {
+      out <- NA
+    }
+    out
   }
 
   df <- data.frame(
     # use first column for time independent of name
-    time = to_seconds(data[[1]]),
-    VO2 = as.numeric(data[[vo2_name]]),
-    VCO2 = as.numeric(data$`V'CO2`),
-    RR = as.numeric(data$AF),
-    VT = as.numeric(data$VT),
-    VE = as.numeric(data[[ve_name]]),
-    HR = as.numeric(data$HF),
-    load = as.numeric(data$Steigung),
-    # incr = as.numeric(data$Steigung), # variable currently not used
-    PetO2 = as.numeric(data$PetO2),
-    PetCO2 = as.numeric(data$PetCO2)
+    time = to_seconds(data[["t"]]),
+    VO2 = get_data(data, c("V'O2 (STPD)", "V'O2")),
+    VCO2 = get_data(data, "V'CO2"),
+    RR = get_data(data, "AF"),
+    VT = get_data(data, "VT"),
+    VE = get_data(data, c("V'E (BTPS)", "V'E")),
+    HR = get_data(data, "HF"),
+    # load = as.numeric(data$Steigung),
+    PetO2 = get_data(data, "PetO2"),
+    PetCO2 = get_data(data, "PetCO2")
   )
+
+  # in some cases VCO2 may be missing and thus is recalculated from RER and VO2
+  if (all(is.na(df$VCO2))) {
+    df$VCO2 <- df$VO2 / get_data(data, "RER")
+  }
 
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA
@@ -432,10 +449,10 @@ to_number <- function(chr) {
 #'
 #' @return A character string.
 #' @noRd
-get_meta <- function(data, name, column) {
-  s <- which(data == name)
-  if (any(s, na.rm = TRUE)) {
-    out <- data[[max(s), column]]
+get_meta <- function(data, exprs) {
+  meta_col <- data[which(data[, 1] %in% exprs), -1]
+  if (any(!is.na(meta_col))) {
+    out <- meta_col[[min(which(!is.na(meta_col)))]]
   } else {
     out <- NA
   }
@@ -468,6 +485,10 @@ import_xml <- function(file, short = FALSE) {
   } else {
     n_max <- length(rows)
   }
+
+  # -- TO DO --
+  # this function call is quite slow and should be rewritten
+
   i <- lapply(seq_len(n_max), get_row_data)
 
   # find maximum column number
