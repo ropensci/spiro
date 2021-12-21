@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+  * spiro now supports the import of Cortex xml files
   * add_protocol() and related function now support unusually short protocols and have an improved input validation
   * Created the option to use smoothing in spiro_max() over a number of breaths instead of time interval
   * Added duration column to spiro_summary() output 
