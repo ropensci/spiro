@@ -441,3 +441,41 @@ get_meta <- function(data, name, column) {
   }
   out
 }
+
+#' Import Excel XML to a R data frame
+#'
+#' \code{import_xml()} is a internal helper function to import a spreadsheet in
+#' .xml format.
+#'
+#' @param file A character string, giving the path of a .xml file.
+#' @param short Whether only the first rows of the table should be imported. Set
+#'   this to true to extract features of the file within a fast computing time
+#'   (e.g. when guessing the device type).
+#'
+#' @return A data.frame.
+#' @noRd
+import_xml <- function(file, short = FALSE) {
+  # Get table rows
+  rows <- xml2::xml_find_all(xml2::read_xml(file), "//d1:Table/d1:Row")
+
+  # Get row data
+  get_row_data <- function(row) {
+    xml2::xml_text(xml2::xml_find_all(rows[row], ".//d1:Cell/d1:Data"))
+  }
+  # Get only data for first rows if short argument is chosen
+  if (short) {
+    n_max <- 10
+  } else {
+    n_max <- length(rows)
+  }
+  i <- lapply(seq_len(n_max), get_row_data)
+
+  # find maximum column number
+  col_n <- max(vapply(i, length, numeric(1)))
+
+  # write data from xml table to data frame
+  # empty columns are filled with NAs
+  d <- as.data.frame(do.call(rbind, lapply(i, `[`, seq_len(col_n))))
+
+  d
+}
