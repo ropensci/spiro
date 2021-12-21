@@ -36,7 +36,7 @@ spiro_import <- function(file, device = NULL) {
     zan = spiro_import_zan(file),
     cosmed = spiro_import_cosmed(file),
     cortex = spiro_import_cortex(file),
-    stop("Could not find device type. Please specify the 'type' argument")
+    stop("Could not find device type. Please specify the 'device' argument")
   )
 }
 
@@ -153,9 +153,9 @@ spiro_import_zan <- function(file) {
 #' @return A character string specifying the guessed device.
 
 guess_device <- function(file) {
-  if (grepl("\\.xls", file)) { # Excel file
+  if (grepl("\\.xls$", file) | grepl("\\.xlsx$", file)) { # Excel file
     # Read head of the Excel file
-    head <- readxl::read_excel(file, range = "A1:B4", col_names = c("V1", "V2"))
+    head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
 
     # files from Cosmed devices usually start with a line "ID-Code:"
     if (any(head == "ID code:", na.rm = TRUE) |
@@ -165,9 +165,16 @@ guess_device <- function(file) {
       # -- TO DO --
       # this is currently only working in German language
       # English equivalent is needed
-    } else if (any(head == "Bediener", na.rm = TRUE)) {
+    } else if (any(head == "Stammdaten", na.rm = TRUE)) {
       device <- "cortex"
     } else { # device type not found
+      device <- "none"
+    }
+  } else if (grepl("\\.xml$", file)) { # xml file
+    head <- import_xml(file, short = TRUE)
+    if (any(head == "Stammdaten", na.rm = TRUE)) {
+      device <- "cortex"
+    } else {
       device <- "none"
     }
   } else { # non-Excel file
