@@ -60,7 +60,7 @@ hr_import <- function(hr_file) {
 
   # -- TO DO --
   # check if it works for other types of heart rate data files and rewrite
-  # accrodingly
+  # accordingly
 
   # read XML file
   tcx <- xml2::read_xml(hr_file)

@@ -87,7 +87,7 @@ spiro(file = spiro_example("zan_ramp")) |>
 
 The `spiro` package supports different metabolic carts. The metabolic cart a data file is produced by is usually determined automatically, but can also be set manually in the `spiro()` function. Currently this package supports the following devices:
 
-* **CORTEX** (`"cortex"`): .xlsx or .xls files in German language
+* **CORTEX** (`"cortex"`): .xlsx, .xls or .xml files in German language
 * **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
 
@@ -187,7 +187,7 @@ set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 
 ## Modify body weight {#weight}
 
-The `spiro` package calculates parameters relative to body weight. Per default `spiro()` will look for information on body weight in the meta data of the original data file. If for some reason no or the wrong weight is present in the raw data file, `weight` can be manually given as an argument in `spiro()` or with `add_weight`.
+The `spiro` package calculates parameters relative to body weight. Per default `spiro()` will look for information on body weight in the meta data of the original data file. If for some reason no or the wrong weight is present in the raw data file, `weight` can be manually given as an argument in `spiro()` or with `add_weight()`.
 
 ```{r add_weight}
 # set body weight as an argument in `spiro()`
