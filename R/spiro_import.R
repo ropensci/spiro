@@ -351,22 +351,16 @@ spiro_import_cortex <- function(file) {
   data <- d[(t_ind + 1):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
-  # handle missing parameters
-  if (any(names(data) != "Geschwindigkeit")) {
-    data$Geschwindigkeit <- 0
-  }
-  if (any(names(data) != "Steigung")) {
-    data$Steigung <- 0
-  }
-
-
   get_data <- function(data, vars) {
     col_matches <- colnames(data) %in% vars
     if (any(col_matches)) {
+      # if more than one column matches with input, choose only first matched
+      # column
+      vars_match <- vars[min(which(vars %in% colnames(data)))]
       # Suppress warning if column content can not be converted to numbers
       # e.g. if empty cells are indicated by sign such as '-'
       out <- suppressWarnings(
-        as.numeric(data[, min(which(col_matches))])
+        as.numeric(data[, vars_match])
       )
     } else {
       out <- NA
@@ -383,7 +377,7 @@ spiro_import_cortex <- function(file) {
     VT = get_data(data, "VT"),
     VE = get_data(data, c("V'E (BTPS)", "V'E")),
     HR = get_data(data, "HF"),
-    # load = as.numeric(data$Steigung),
+    load = get_data(data, c("v", "P")),
     PetO2 = get_data(data, "PetO2"),
     PetCO2 = get_data(data, "PetCO2")
   )
