@@ -476,21 +476,12 @@ import_xml <- function(file, short = FALSE) {
   # Get table rows
   rows <- xml2::xml_find_all(xml2::read_xml(file), "//d1:Table/d1:Row")
 
-  # Get row data
-  get_row_data <- function(row) {
-    xml2::xml_text(xml2::xml_find_all(rows[row], ".//d1:Cell/d1:Data"))
-  }
   # Get only data for first rows if short argument is chosen
   if (short) {
-    n_max <- 10
-  } else {
-    n_max <- length(rows)
+    rows <- rows[1:10]
   }
 
-  # -- TO DO --
-  # this function call is quite slow and should be rewritten
-
-  i <- lapply(seq_len(n_max), get_row_data)
+  i <- lapply(lapply(rows, xml2::xml_children), xml2::xml_text)
 
   # find maximum column number
   col_n <- max(vapply(i, length, numeric(1)))
