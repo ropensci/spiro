@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The goal of `spiro` is to enable a fast and standardized workflow with raw data
-from cardiopulmonary exercise testing. The package provides simple tools for
-data import, processing, summary and visualization.
+This R package offers a fast, standardized and reproducible workflow
+for data cardiopulmonary exercise testing. It offers tools for  
+data import, processing, summary and visualization. 
 
 > WARNING: This package is currently under development. At the moment, I
 recommend to use it for demonstration or testing purposes only. When using
@@ -89,6 +89,11 @@ spiro_plot(gxt_data)
 ```{r citation}
 citation("spiro")
 ```
+
+## Acknowledment
+
+The following persons contributed to this package by providing raw data files:
+Daniel Appelhans, Sebastian Mühlenhoff, Adrian Swoboda, Andreas Wagner.
 
 ## Contributing
 

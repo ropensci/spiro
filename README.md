@@ -15,9 +15,9 @@ status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/
 
 ## Overview
 
-The goal of `spiro` is to enable a fast and standardized workflow with
-raw data from cardiopulmonary exercise testing. The package provides
-simple tools for data import, processing, summary and visualization.
+This R package offers a fast, standardized and reproducible workflow for
+data cardiopulmonary exercise testing. It offers tools for  
+data import, processing, summary and visualization.
 
 > WARNING: This package is currently under development. At the moment, I
 > recommend to use it for demonstration or testing purposes only. When
@@ -119,6 +119,12 @@ citation("spiro")
 #>     note = {R package version 0.0.1.9000},
 #>   }
 ```
+
+## Acknowledment
+
+The following persons contributed to this package by providing raw data
+files: Daniel Appelhans, Sebastian Mühlenhoff, Adrian Swoboda, Andreas
+Wagner.
 
 ## Contributing
 
