@@ -14,6 +14,7 @@
 #'   German language)
 #'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, either in English
 #'     or German language)
+#'   \item \strong{Vyntus} (\code{.txt} files in German language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
 #'     names in the form of \code{"EXEDxxx"})
 #' }
@@ -36,6 +37,7 @@ spiro_import <- function(file, device = NULL) {
     zan = spiro_import_zan(file),
     cosmed = spiro_import_cosmed(file),
     cortex = spiro_import_cortex(file),
+    vyntus = spiro_import_vyntus(file),
     stop("Could not find device type. Please specify the 'device' argument")
   )
 }
@@ -181,7 +183,13 @@ guess_device <- function(file) {
     # read the first rows of the file
     head <- utils::read.delim(file, header = FALSE, nrows = 5)
     # files from ZAN devices usually start with a line "[person]"
-    if (any(head == "[person]")) device <- "zan" else device <- "none"
+    if (any(head == "[person]")) {
+      device <- "zan"
+    } else if (any(head == "ID-nummer:")) {
+      device <- "vyntus"
+    } else {
+      device <- "none"
+    }
   }
   device
 }
@@ -351,23 +359,6 @@ spiro_import_cortex <- function(file) {
   data <- d[(t_ind + 1):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
-  get_data <- function(data, vars) {
-    col_matches <- colnames(data) %in% vars
-    if (any(col_matches)) {
-      # if more than one column matches with input, choose only first matched
-      # column
-      vars_match <- vars[min(which(vars %in% colnames(data)))]
-      # Suppress warning if column content can not be converted to numbers
-      # e.g. if empty cells are indicated by sign such as '-'
-      out <- suppressWarnings(
-        as.numeric(data[, vars_match])
-      )
-    } else {
-      out <- NA
-    }
-    out
-  }
-
   df <- data.frame(
     # use first column for time independent of name
     time = to_seconds(data[["t"]]),
@@ -389,6 +380,47 @@ spiro_import_cortex <- function(file) {
 
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA
+
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
+  df
+}
+
+#' Import raw data from Vyntus spiroergometric devices
+#'
+#' \code{spiro_import_vyntus()} retrieves cardiopulmonary data from Vyntus
+#' metabolic cart files.
+#'
+#' @param file A character string, giving the path of the data file.
+#'
+#' @return A \code{data.frame} with data. The attribute \code{info} contains
+#'   addition meta-data retrieved from the original file.
+spiro_import_vyntus <- function(file) {
+  data <- utils::read.delim(file, skip = 2)[-1, ]
+  df <- data.frame(
+    time = to_seconds(data[["Tid"]]),
+    VO2 = get_data(data, "V.O2"),
+    VCO2 = get_data(data, "V.CO2"),
+    RR = get_data(data, "BF"),
+    VT = get_data(data, "VTex"),
+    VE = get_data(data, "V.E"),
+    HR = get_data(data, "HF"),
+    load = get_data(data, "Last"),
+    PetO2 = get_data(data, "PetO2"), # currently not supported
+    PetCO2 = get_data(data, "PetCO2") # currently not supported
+  )
+
+  # Recalculate body weight from relative oxygen uptake data
+  weight <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
+
+  # Write meta data
+  info <- data.frame(name = NA,
+                     surname = NA,
+                     birthday = NA,
+                     sex = NA,
+                     height = NA,
+                     weight = weight
+  )
 
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro", "data.frame") # create spiro class
@@ -491,4 +523,33 @@ import_xml <- function(file, short = FALSE) {
   d <- as.data.frame(do.call(rbind, lapply(i, `[`, seq_len(col_n))))
 
   d
+}
+
+#' Get data from a data frame by name
+#'
+#' \code{get_data()} is a helper function to retrieve data from a matching
+#' column of a data.frame
+#'
+#' @param data A data.frame containing the data
+#' @param vars A character vector. The function tries to match its values with
+#'   the column names of the data.frame in the given order.
+#'
+#' @return A numeric vector. Any characters or empty fields will be coerced to
+#'   NAs.
+#' @noRd
+get_data <- function(data, vars) {
+  col_matches <- colnames(data) %in% vars
+  if (any(col_matches)) {
+    # if more than one column matches with input, choose only first matched
+    # column
+    vars_match <- vars[min(which(vars %in% colnames(data)))]
+    # Suppress warning if column content can not be converted to numbers
+    # e.g. if empty cells are indicated by sign such as '-'
+    out <- suppressWarnings(
+      as.numeric(data[, vars_match])
+    )
+  } else {
+    out <- NA
+  }
+  out
 }
