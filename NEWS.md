@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+  * Improved import for Cosmed files (thanks to Yannick Schwarz)
   * new function: Import of Vyntus files (thanks to Daniel Appelhans)
   * spiro now supports the import of Cortex xml files (thanks to Sebastian Mühlenhoff, Adrian Swoboda & Andreas Wagner)
   * add_protocol() and related function now support unusually short protocols and have an improved input validation

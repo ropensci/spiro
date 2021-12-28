@@ -109,7 +109,7 @@ citation("spiro")
 #>   Testing. R package version 0.0.1.9000.
 #>   https://smnnlt.github.io/spiro/
 #> 
-#> A BibTeX entry for LaTeX users is
+#> Ein BibTeX-Eintrag für LaTeX-Benutzer ist
 #> 
 #>   @Manual{,
 #>     title = {spiro: Manage Data from Cardiopulmonary Exercise Testing},
@@ -123,8 +123,8 @@ citation("spiro")
 ## Acknowledment
 
 The following persons contributed to this package by providing raw data
-files: Daniel Appelhans, Sebastian Mühlenhoff, Adrian Swoboda, Andreas
-Wagner.
+files: Daniel Appelhans, Sebastian Mühlenhoff, Yannick Schwarz, Adrian
+Swoboda, Andreas Wagner.
 
 ## Contributing
 

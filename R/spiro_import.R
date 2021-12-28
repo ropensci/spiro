@@ -155,15 +155,16 @@ spiro_import_zan <- function(file) {
 #' @return A character string specifying the guessed device.
 
 guess_device <- function(file) {
-  if (grepl("\\.xls$", file) | grepl("\\.xlsx$", file)) { # Excel file
+  if (grepl("\\.xls$", file, ignore.case = TRUE) ||
+      grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
     # Read head of the Excel file
     head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
 
-    # files from Cosmed devices usually start with a line "ID-Code:"
-    if (any(head == "ID code:", na.rm = TRUE) |
-      any(head == "ID-Code:", na.rm = TRUE)) {
+    # files from Cosmed devices usually start with a line "ID-Code:" or "ID"
+    if (any(grepl("ID", head))) {
       device <- "cosmed"
-      # files from Cortex devices usually contain a line at the head: "Bediener"
+      # files from Cortex devices usually contain a line at the head:
+      # "Stammdaten"
       # -- TO DO --
       # this is currently only working in German language
       # English equivalent is needed
@@ -172,7 +173,7 @@ guess_device <- function(file) {
     } else { # device type not found
       device <- "none"
     }
-  } else if (grepl("\\.xml$", file)) { # xml file
+  } else if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     head <- import_xml(file, short = TRUE)
     if (any(head == "Stammdaten", na.rm = TRUE)) {
       device <- "cortex"
@@ -210,77 +211,81 @@ spiro_import_cosmed <- function(file) {
     readxl::read_excel(file, range = "A1:B8", col_names = FALSE)
   )
   # write as data frame
-  ldf <- data.frame(t(as.data.frame(tbl[[2]], row.names = tbl[[1]])))
+  tbl <- as.data.frame(tbl)
 
-  # search meta data by names of the desired language
-  if (tbl[[1]][[2]] == "Nachname:") { # for German language
-    name <- "Vorname."
-    surname <- "Nachname."
-    age <- "Alter."
-    sex <- "Geschlecht."
-    height <- "Gr\u00f6\u00dfe..cm.." # special handling for umlaute
-    weight <- "Gewicht..Kg.."
-  } else { # for English language
-    name <- "First.name."
-    surname <- "Last.name."
-    age <- "Age."
-    sex <- "Sex."
-    height <- "Height..cm.."
-    weight <- "Weight..Kg.."
-  }
+  # find meta data
 
-  # find and write meta data
   info <- data.frame(
-    name = ldf[[name]],
-    surname = ldf[[surname]],
-    birthday = ldf[[age]],
-    sex = get_sex(ldf[[sex]]),
-    height = as.numeric(ldf[[height]]),
-    weight = as.numeric(ldf[[weight]])
+    name = get_meta(tbl, c("First name:", "First name", "Vorname:", "Vorname")),
+    surname = get_meta(tbl,
+      c("Last name:", "Last name", "Nachname:", "Nachname")
+    ),
+    birthday = get_meta(tbl, c("Age:", "Age", "Alter:", "Alter")),
+    sex = get_sex(get_meta(tbl, c("Sex:", "Sex", "Geschlecht:", "Geschlecht"))),
+    height = as.numeric(
+      get_meta(tbl,
+        c("Height (cm):", "Height (cm)",
+          "Gr\u00f6\u00dfe (cm):", "Gr\u00f6\u00dfe (cm)")
+      )
+    ),
+    weight = as.numeric(
+      get_meta(tbl,
+        c("Weight (Kg):", "Weight (Kg)", "Gewicht (Kg):", "Gewicht (Kg)")
+      )
+    )
   )
 
   # read main data
-  data <- readxl::read_excel(file, range = readxl::cell_cols(10:50))[-1:-2, ]
-  # convert time to seconds (integer)
-  l <- to_seconds(data$t)
-  # remove rows with no time specified. These might occur at the end of the
-  # file
-  data <- data[l != 0, ]
-
-  # -- TO DO --
-  # rewrite search for speed and grade column
-  # search for power column
-
-  suppressWarnings(
-    if (is.null(data$Speed)) {
-      speed <- rep.int(0, length(l[l != 0]))
-    } else {
-      speed <- as.numeric(data$Speed)
-    }
+  data <- as.data.frame(
+    readxl::read_excel(file, range = readxl::cell_cols(10:50))
   )
 
-  suppressWarnings(
-    if (is.null(data$Grade)) {
-      grade <- rep.int(0, length(l[l != 0]))
-    } else {
-      grade <- as.numeric(data$Grade)
+  # Get unit data and remove rows with data units
+  unit_data <- data[1, ]
+  data <- data[-1:-2, ]
+
+  if (any(colnames(data) == "Speed")) {
+    sp_unit <- unit_data[["Speed"]]
+    load_data <- get_data(data, "Speed")
+    if (sp_unit == "Kmh*10") {
+      load_data <- load_data / 10
     }
-  )
+  } else { # no velocity data available
+    load_data <- get_data(data, "Power")
+  }
+
+  # Check if time data import worked
+  # In some cases the time data may not be correctly imported, due to the
+  # cell-formatting of the time column in Excel.
+  if (!grepl("[0-9][0-9]\\:[0-9][0-9]", data$t[1])) {
+    t <- as.data.frame(
+      suppressWarnings(
+        readxl::read_excel(file,
+          range = readxl::cell_cols(10),
+          col_types = "date"
+        )[-c(1, 2), ]
+      )
+    )
+    data["t"] <- format(as.vector(t), format="%H:%M:%S")
+  }
 
   # write data
   df <- data.frame(
-    time = l[l != 0], # exclude not specified times
-    VO2 = as.numeric(data$VO2),
-    VCO2 = as.numeric(data$VCO2),
-    RR = as.numeric(data$Rf),
-    VT = as.numeric(data$VT),
-    VE = as.numeric(data$VE),
-    HR = as.numeric(data$HR),
-    load = round(speed / 36, 2),
-    # incr = grade, # variable currently not used
-    PetO2 = as.numeric(data$PetO2),
-    PetCO2 = as.numeric(data$PetCO2)
+    time = to_seconds(data[["t"]]),
+    VO2 = get_data(data, "VO2"),
+    VCO2 = get_data(data, "VCO2"),
+    RR = get_data(data, c("Rf", "Af")),
+    VT = get_data(data, "VT"),
+    VE = get_data(data, "VE"),
+    HR = get_data(data, c("HR", "HF")),
+    load = load_data,
+    PetO2 = get_data(data, c("PetO2", "PeO2")),
+    PetCO2 = get_data(data, c("PetCO2", "PeCO2"))
   )
+
+  # remove rows with no time specified. These might occur at the end of the
+  # file
+  df <- df[df$time != 0, ]
 
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA
@@ -310,9 +315,10 @@ spiro_import_cosmed <- function(file) {
 #'   addition meta-data retrieved from the original file.
 spiro_import_cortex <- function(file) {
   # read file
-  if (grepl("\\.xml$", file)) { # xml file
+  if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     d <- import_xml(file)
-  } else if (grepl("\\.xls$", file) | grepl("\\.xlsx$", file)) { # excel file
+  } else if (grepl("\\.xls$", file, ignore.case = TRUE) ||
+             grepl("\\.xlsx$", file, ignore.case = TRUE)) { # excel file
     d <- as.data.frame(
       suppressMessages(readxl::read_excel(file, col_names = FALSE))
     )
@@ -442,12 +448,14 @@ get_sex <- function(chr) {
     m = ,
     "M" = ,
     "m\u00e4nnlich" = ,
+    "M\u00e4nnlich" = ,
     male = "male",
     f = ,
     "F" = ,
     w = ,
     W = ,
     weiblich = ,
+    Weiblich = ,
     female = "female",
     NA
   )
