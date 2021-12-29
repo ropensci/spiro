@@ -62,3 +62,23 @@ to_seconds.internal <- function(time) {
   }
   s
 }
+
+#' Check if data is breath-by-breath
+#'
+#' Internal function to \code{?link{spiro_interpolate}}
+#'
+#' Data is considered as non-breath-by-breath if the mean interval between two
+#' data points exceeds five seconds.
+#'
+#' @param timedata Numeric vectors giving the time data (in seconds)
+#' @return A logical vector, indicating if the data is breath-by-breath data
+#' @noRd
+check_bb <- function(timedata) {
+  m <- mean(diff(timedata))
+  if (m < 5) {
+    out <- TRUE
+  } else {
+    out <- FALSE
+  }
+  out
+}

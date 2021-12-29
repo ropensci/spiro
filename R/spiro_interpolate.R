@@ -26,6 +26,16 @@ spiro_interpolate <- function(data) {
   # rounded).
   data$time <- dupl(data$time)
 
+  # check if data is breath by breath and otherwise display a warning message
+  bb <- check_bb(data$time)
+  if (!bb) {
+    warning(
+      paste0("It seems like your data was not recorded breath-by-breath. ",
+             "Pre-averaged raw data may result in wrong automated protocol ",
+             "guesses and affects the calculation of summary statistics.")
+    )
+  }
+
   # interpolate the data
   yout <- vapply(data[-1], spiro_interpolate.internal,
     FUN.VALUE = numeric(round(max(data$time, na.rm = TRUE))),

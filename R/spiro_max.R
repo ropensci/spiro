@@ -67,6 +67,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # values, the load information from the interpolated data are matched to the
   # breath-by-breath data
   if (b_smooth) {
+
     step_data <- data$step
     weight <- attr(data, "info")$weight
     data <- attr(data, "raw")
@@ -75,6 +76,17 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
     data$step <- 0
     matched_step_data <- step_data[round(data$time, 0)]
     data$step[seq_along(matched_step_data)] <- matched_step_data
+
+    # check if data is breath by breath. If this in the not the case a
+    # breath-averaging is not possible
+    bb <- check_bb(data$time)
+    if (!bb) {
+      stop(
+        paste0("Could not perform breath-averaging. ",
+        "It seems like your data was not recorded breath-by-breath."
+        )
+      )
+    }
 
     # calculate RER and VO2_rel, which are not present in the raw
     # breath-by-breath data

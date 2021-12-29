@@ -81,7 +81,15 @@ spiro(file = spiro_example("zan_ramp")) |>
   add_protocol(protocol) |>
   add_hr(hr_file = spiro_example("hr_ramp.tcx"), hr_offset = 0)
 ```
+### Use breath-by-breath data!
 
+We highly recommended to import only raw breath-by-breath data for several reasons:
+
+ - Prior averaging or interpolation happens outside of R and is therefore a non-reproducible data processing step.
+ - If no data for single breaths is available, some functionality of summary functions (e.g. breath averaging for VO2max determination) is lost.
+ - Prior processing usually leads to data containing less data points, which hinders the automated guessing of exercise protocols based on the available load data.
+ 
+If you use a metabolic carts that measures, but does not output data on a breath-by-breath basis, read the manufacturer's instruction on how to export the raw data in such a way. Data from other systems (mixed chamber) can still be processed with the `spiro`-package, but protocol guesses and summary calculations have to be treated with caution.
 
 ## Supported metabolic carts {#metabolic-carts}
 
@@ -89,10 +97,8 @@ The `spiro` package supports different metabolic carts. The metabolic cart a dat
 
 * **CORTEX** (`"cortex"`): .xlsx, .xls or .xml files in German language
 * **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
-* **VYNTUS** (`"vyntus"`): .txt files (tab-seperated) in German language
+* **VYNTUS** (`"vyntus"`): .txt files (tab-separated) in German language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
-
-It is highly recommended to import only raw breath-by-breath data to analyze all available data and avoid the duplication of interpolation processes.
 
 To only import the data without further processing (such as interpolation) use the function `spiro_import()`:
 

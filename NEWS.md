@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+  * spiro() now checks if the imported raw data is breath-by-breath and displays a warning if this is not the case
   * Improved import for Cosmed files (thanks to Yannick Schwarz)
   * new function: Import of Vyntus files (thanks to Daniel Appelhans)
   * spiro now supports the import of Cortex xml files (thanks to Sebastian Mühlenhoff, Adrian Swoboda & Andreas Wagner)
