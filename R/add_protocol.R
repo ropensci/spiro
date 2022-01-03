@@ -93,33 +93,42 @@ add_protocol <- function(data, protocol) {
 
 get_protocol <- function(data) {
 
-  # get indices for changes in load
-  index <- 1
-  values <- NULL
-  while (index <= nrow(data)) {
-    values <- c(values, index)
-    load <- data$load[[index]] # extract load for specific index
-    vals <- which(data$load != load) # look for different loads
-    rest <- vals[vals > index] # filter for later loads
-    if (length(rest) != 0) {
-      index <- min(vals[vals > index]) # move on to next load change
-    } else {
-      break() # if no further load change occurs in the data
-    }
+  # Round load data before protocol guessing assuming that power data will be
+  # only relevant in steps of 5W and velocity data in steps of .05 m/s or km/h.
+  # This is necessary as load data will sometimes show minor fluctuation, which
+  # should not influence the protocol guessing
+
+  if (max(data$load, na.rm = TRUE) > 30) {
+    # cycling
+    data$load <- round(data$load / 5) * 5
+  } else {
+    # running
+    data$load <- round(data$load * 20) / 20
   }
+
+  # get data indices of load changes
+  values <- c(1, which(diff(data$load) != 0) + 1)
 
   # get time and load for every time point when load changes
   changes <- data[values, c("time", "load")]
 
-  # calculate duration of each load step
-  duration <- rep.int(NA, length(values))
-  for (i in seq_along(values)) {
-    if (i < length(values)) {
-      duration[i] <- changes$time[[i + 1]] - changes$time[[i]]
-    } else { # for last load
-      duration[i] <- max(data$time, na.rm = TRUE) - changes$time[[i]]
-    }
+  # advanced protocol guessing for breath-by-breath data
+  # single data points with unique load values (e.g. acceleration of an
+  # treadmill) are removed from protocol guessing
+
+  if (check_bb(data$time)) {
+    breath_count <- diff(as.numeric(rownames(changes)))
+    last_count <- nrow(data) - as.numeric(rownames(changes)[nrow(changes)])
+    changes$breath_count <- c(breath_count, last_count)
+    changes <- changes[changes$breath_count > 3, ]
+    changes <- changes[c(1, which(diff(changes$load) != 0) + 1), ]
   }
+
+  # calculate duration of each load step
+  duration <- c(
+    diff(changes$time),
+    max(data$time, na.rm = TRUE) - changes$time[nrow(changes)] # last duration
+  )
 
   data.frame(
     duration = round(duration, -1), # round to full 10 seconds
@@ -172,11 +181,13 @@ get_features <- function(protocol) {
   }
   # check whether post measures exist
   # if the load of the last step is less or equal to a third of the previous
-  # step, it is considered as a post measure (rest or cool-down).
-  last_load <- protocol$load[nrow(protocol)]
-  if (last_load <= (1 / 3) * protocol$load[nrow(protocol) - 1]) {
-    protocol$type[nrow(protocol)] <- "post measures"
-    protocol$code[nrow(protocol)] <- -2
+  # step, it is considered as a post measure (rest or cool-down)
+  if (nrow(protocol) > 1) {
+    last_load <- protocol$load[nrow(protocol)]
+    if (last_load <= (1 / 3) * protocol$load[nrow(protocol) - 1]) {
+      protocol$type[nrow(protocol)] <- "post measures"
+      protocol$code[nrow(protocol)] <- -2
+    }
   }
   protocol
 }
@@ -194,7 +205,7 @@ get_features <- function(protocol) {
 #'   \code{"constant"} or \code{"other"}.
 
 get_testtype <- function(protocol) {
-  if (is.null(protocol)) {
+  if (is.null(protocol) || nrow(protocol) == 1) {
     testtype <- "unknown"
   } else {
     # round load increases to prevent non-exact equality
