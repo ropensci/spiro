@@ -274,9 +274,12 @@ spiro_import_cosmed <- function(file) {
     data["t"] <- format(as.vector(t), format = "%H:%M:%S")
   }
 
+  # get time data
+  time_data <- to_seconds(data[["t"]])
+
   # write data
   df <- data.frame(
-    time = to_seconds(data[["t"]]),
+    time = time_data[!is.na(time_data)],
     VO2 = get_data(data, "VO2"),
     VCO2 = get_data(data, "VCO2"),
     RR = get_data(data, c("Rf", "Af")),
@@ -370,9 +373,12 @@ spiro_import_cortex <- function(file) {
   data <- d[(t_ind + 1):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
+  # get time data
+  time_data <- to_seconds(data[["t"]])
+
   df <- data.frame(
     # use first column for time independent of name
-    time = to_seconds(data[["t"]]),
+    time = time_data[!is.na(time_data)],
     VO2 = get_data(data, c("V'O2 (STPD)", "V'O2")),
     VCO2 = get_data(data, "V'CO2"),
     RR = get_data(data, "AF"),
@@ -408,8 +414,12 @@ spiro_import_cortex <- function(file) {
 #'   addition meta-data retrieved from the original file.
 spiro_import_vyntus <- function(file) {
   data <- utils::read.delim(file, skip = 2)[-1, ]
+
+  # get time data
+  time_data <- to_seconds(data[["Tid"]])
+
   df <- data.frame(
-    time = to_seconds(data[["Tid"]]),
+    time = time_data[!is.na(time_data)],
     VO2 = get_data(data, "V.O2"),
     VCO2 = get_data(data, "V.CO2"),
     RR = get_data(data, "BF"),

@@ -60,7 +60,7 @@ to_seconds.internal <- function(time) {
     # for mm:ss
     s <- 60 * time_split[[1]] + time_split[[2]]
   } else {
-    s <- NULL
+    s <- NA
   }
   s
 }
