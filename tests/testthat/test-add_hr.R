@@ -18,4 +18,8 @@ test_that("heart rate data adding works", {
 test_that("heart rate offset works", {
   expect_identical(all(is.na(add_hr(spiro(file), hr_file, 60)$HR[1:60])), TRUE)
   expect_identical(add_hr(spiro(file), hr_file, 60)$HR[61], 127)
+  expect_equal(
+    max(which(!is.na(add_hr(spiro(file), hr_file, -900)$HR))),
+    24
+  )
 })
