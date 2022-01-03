@@ -1,0 +1,1043 @@
+<?xml version="1.0"?>
+<!-- Creation time: 2021.12.21_11.05.47 -->
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="HeadTableTitle">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#82E182" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="HeadTableParameterName">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#D7D7D7" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="HeadTableParameterValue">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="SummaryTableHead">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="SummaryTableParameters">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#D7D7D7" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="SummaryTableUnits">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="SummaryTableValues">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableHead">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableTime">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#D7D7D7" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTablePhases">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="1" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableMarkers">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3210">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#0000FF"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues2018">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#800080"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues4001">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#008000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3110">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0.00"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3106">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#800000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0.0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues2001">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#643200"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0.00"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues2013">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#00AA00"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3109">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#FF0000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0.00"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues4106">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#FF0000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3108">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#0000FF"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0.00"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3311">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#FF8000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3312">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#000080"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues4108">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#FFFF00"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues4101">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#4D4DBC"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="MeasurementDataTableValues3307">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="0"/>
+   </Borders>
+   <Font  ss:FontName="Arial Cyr" x:CharSet="204" ss:Bold="0" ss:Italic="0" ss:Color="#808000"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="MetasoftStudio">
+  <Table>
+   <Column ss:AutoFitWidth="0" ss:Width="120"/>
+   <Column ss:AutoFitWidth="0" ss:Width="85"/>
+   <Column ss:AutoFitWidth="0" ss:Width="120"/>
+   <Column ss:AutoFitWidth="0" ss:Width="120"/>
+   <Row/>
+   <Row/>
+   <Row/>
+   <Row>
+    <Cell ss:StyleID="HeadTableTitle" ss:MergeAcross="1"><Data ss:Type="String">Patient</Data></Cell>
+   </Row>
+   <Row/>
+   <Row>
+    <Cell ss:StyleID="HeadTableTitle" ss:MergeAcross="1"><Data ss:Type="String">Stammdaten</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">ID</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String"></Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Titel</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String"></Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Nachname</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">YYY</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Vorname</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">XXX</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Zweiter Vorname</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String"></Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Geschlecht</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">männlich</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Geburtsdatum</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">11.11.1980</Data></Cell>
+   </Row>
+   <Row/>
+   <Row/>
+   <Row>
+    <Cell ss:StyleID="HeadTableTitle" ss:MergeAcross="1"><Data ss:Type="String">Biologische und Medizinische Daten</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Größe</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">178 cm</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Gewicht</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">74,8kg</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Maske</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">Blau, mittel</Data></Cell>
+   </Row>
+   <Row/>
+   <Row/>
+   <Row/>
+   <Row>
+    <Cell ss:StyleID="HeadTableTitle" ss:MergeAcross="1"><Data ss:Type="String">Test</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Startzeit</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">19.04.2019 02:49</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Dauer</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">0:01:10</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="HeadTableParameterName" ss:MergeAcross="1"><Data ss:Type="String">Spiroergometrie-Gerät</Data></Cell>
+    <Cell ss:StyleID="HeadTableParameterValue" ss:MergeAcross="7"><Data ss:Type="String">MetaLyzer 3B-R3</Data></Cell>
+   </Row>
+   <Row/>
+   <Row/>
+   <Row/>
+   <Row>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Kanal</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Einheit</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Unbelastetes Treten</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Erwärmung</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT1</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT1 % Norm</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT1 % Max</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT2</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT2 % Norm</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">VT2 % Max</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">V'O2peak</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">V'O2peak % Norm</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Norm</Data></Cell>
+     <Cell ss:StyleID="SummaryTableHead"><Data ss:Type="String">Absolute Maximalwerte</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">t</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">mm:ss</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">00:00 - 01:00</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">01:00 - 02:00</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">01:10 - 01:40</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'O2</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">L/min</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,20</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,42</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">2,52</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,45</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'O2/kg</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">ml/min/kg</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">3</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">5</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">31</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">6</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'O2/HF</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">ml</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">4</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">8</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">17</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">9</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">P</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">W</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">50</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">222</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">50</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">HF</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">/min</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">49</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">50</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">147</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">51</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'CO2</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">L/min</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,18</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,38</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,40</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">EUFett</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">kcal/h</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">15</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">38</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">42</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">EUKH</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">kcal/h</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">39</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">75</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">77</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">RER</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,91</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,89</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0,88</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">t-1000</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">mm:ss</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">P</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">W</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">50</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">222</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">50</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">%V’O2peak</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">%</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">CHO</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">g/h</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">9</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">18</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">19</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">Fett</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">g/h</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">2</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">4</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">4</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'O2/v</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">(ml/min)/(m/s)</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">V'O2/P</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">ml/min/W</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">8</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">9</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">BWG</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">%</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">0</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">35</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">33</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="SummaryTableParameters"><Data ss:Type="String">EU</Data></Cell>
+     <Cell ss:StyleID="SummaryTableUnits"><Data ss:Type="String">kcal/h</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">59</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">124</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">71</Data></Cell>
+     <Cell ss:StyleID="SummaryTableValues"><Data ss:Type="String">131</Data></Cell>
+   </Row>
+   <Row/>
+   <Row/>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">t</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">Phase</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">Marker</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'O2/kg</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">HF</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">P</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">RER</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'E</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">VT</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">AF</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'CO2</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">t-1000</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'O2</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">Fett</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">CHO</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'O2/v</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">V'O2/P</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">EU</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">h:mm:ss</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">ml/min/kg</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">/min</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">W</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">L/min</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">L</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">/min</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">L/min</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">mm:ss</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">L/min</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">g/h</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">g/h</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">(ml/min)/(m/s)</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">ml/min/W</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableHead"><Data ss:Type="String">kcal/h</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:09</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">1.46315475551558</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">53</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">1.03359827188768</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">6.54588</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.513</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">12.76</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.120985138144411</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.117052380441247</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">7.75554896926198</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">35.0309447984584</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:15</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">1.6443170382315</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">51</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.984886199500492</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">6.1498</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.634</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">9.7</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.129557212684618</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.13154536305852</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">8.71581168220479</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">39.3683437656289</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:21</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">1.99875895484565</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">49</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.943283976386305</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">6.00613</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.611</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">9.83</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.150831783581163</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.159900716387652</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">0.624323107717604</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">9.07537302576587</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">47.4105401998323</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:26</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">1.86811025890071</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">48</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.904512920563356</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">6.02144</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.496</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">12.14</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.135178389297012</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.149448820712057</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">1.16785799606571</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">7.06026342151306</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">43.8961040932096</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:29</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">1.90969086016279</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">48</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.878710976289459</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">6.34746</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.381</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">16.66</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.134245305611576</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.152775268813023</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">1.59138581646415</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">6.250082951991</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">44.590514194619</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:34</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">2.75308239573644</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">48</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.884403424890412</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">7.908</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.659</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">12</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.194786839983584</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.220246591658915</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.16776414072147</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">9.31801951117164</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">64.3732609720689</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:38</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">3.17765499641599</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">49</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.870826125086604</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">9.05982</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.583</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">15.54</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.221374798991282</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.254212399713279</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.85015006777654</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">9.90802744268122</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">74.0532498454141</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:44</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">3.34635957460116</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">49</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.876460030390066</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">8.9161</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.815</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">10.94</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.234636033156082</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.267708765968093</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.84936319925011</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">10.8041719728298</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">78.0929450928509</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:48</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">2.38748213575023</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">49</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.876151181448234</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">7.06202</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.511</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">13.82</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.167343623513929</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.190998570860018</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.03884582673756</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">7.69383131919823</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">55.7116931238261</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:00:53</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Ruhe</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">3.17921166945752</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">50</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.873281012091005</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">8.74448</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.656</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">13.33</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.222107614748432</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.254336933556602</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.78857985483414</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">10.0660990844411</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">0</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">74.1342943476011</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:01:02</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Erwärmung</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">3.92822280524052</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">49</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">50</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.897587735197746</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">8.80876</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">1.396</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">6.31</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.282073968888638</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.314257824419242</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">2.67522248651858</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">14.3121177800823</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">6.28515648838483</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">92.1477605159793</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:01:06</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Erwärmung</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">5.03811693922709</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">50</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">50</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.884087383643759</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">13.51755</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.969</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">13.95</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.356330849863406</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.403049355138167</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">3.97983567111567</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">17.0206363280522</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">8.06098710276334</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">117.793376868</Data></Cell>
+   </Row>
+   <Row>
+     <Cell ss:StyleID="MeasurementDataTableTime"><Data ss:Type="String">0:01:10</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTablePhases"><Data ss:Type="String">Erwärmung</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableMarkers"><Data ss:Type="String"></Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3210"><Data ss:Type="Number">6.07777405294682</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2018"><Data ss:Type="Number">51</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4001"><Data ss:Type="Number">50</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3110"><Data ss:Type="Number">0.881238177697898</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3106"><Data ss:Type="Number">17.42238</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2001"><Data ss:Type="Number">0.906</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues2013"><Data ss:Type="Number">19.23</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3109"><Data ss:Type="Number">0.428477322470274</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4106"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3108"><Data ss:Type="Number">0.486221924235746</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3311"><Data ss:Type="Number">4.94081741304968</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3312"><Data ss:Type="Number">20.1930261690848</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4108"><Data ss:Type="String">-</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues4101"><Data ss:Type="Number">9.72443848471492</Data></Cell>
+     <Cell ss:StyleID="MeasurementDataTableValues3307"><Data ss:Type="Number">142.001685422027</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>

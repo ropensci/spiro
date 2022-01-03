@@ -4,8 +4,9 @@
 #' \code{spiro} package.
 #'
 #' @param file Name of the file, either "zan_gxt", "zan_ramp" or "hr_ramp.tcx".
-#'   Leave the argument empty to get a vector with the paths of all example
-#'   files.
+#'   Leave the argument empty to get a vector with the paths of all three
+#'   example files. Note that the package contains more example data, which is
+#'   used for internal testing.
 #'
 #' @return A character vector with the absolute file path of the example
 #'   file(s).
@@ -21,6 +22,8 @@ spiro_example <- function(file = NULL) {
   if (is.null(file)) {
     path <- system.file("extdata", package = "spiro")
     out <- list.files(path, full.names = TRUE)
+    # remove examples, which are for internal testing purposes only
+    out <- out[!grepl("\\_test\\.", out)]
   } else {
     out <- system.file("extdata", file, package = "spiro", mustWork = TRUE)
   }
