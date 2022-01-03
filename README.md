@@ -16,8 +16,8 @@ status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/
 ## Overview
 
 This R package offers a fast, standardized and reproducible workflow for
-data cardiopulmonary exercise testing. It offers tools for  
-data import, processing, summary and visualization.
+data from cardiopulmonary exercise testing. It offers tools for data
+import, processing, summary and visualization.
 
 > WARNING: This package is currently under development. At the moment, I
 > recommend to use it for demonstration or testing purposes only. When
@@ -34,11 +34,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
 ```
 
-Install the latest version 0.0.1 release by running this code:
+Install the latest version 0.0.2 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.1")
+remotes::install_github("smnnlt/spiro@v0.0.2")
 ```
 
 ## Usage
@@ -106,7 +106,8 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.2. https://smnnlt.github.io/spiro/
+#>   Testing. R package version 0.0.2.9000. DOI: 10.5281/zenodo.1040727.
+#>   https://smnnlt.github.io/spiro/
 #> 
 #> Ein BibTeX-Eintrag für LaTeX-Benutzer ist
 #> 
@@ -115,7 +116,8 @@ citation("spiro")
 #>     author = {Simon Nolte},
 #>     year = {2022},
 #>     url = {https://smnnlt.github.io/spiro/},
-#>     note = {R package version 0.0.2},
+#>     doi = {10.5281/zenodo.5816170},
+#>     note = {R package version 0.0.2.9000},
 #>   }
 ```
 

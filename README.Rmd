@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This R package offers a fast, standardized and reproducible workflow
-for data cardiopulmonary exercise testing. It offers tools for  
-data import, processing, summary and visualization. 
+This R package offers a fast, standardized and reproducible workflow for data
+from cardiopulmonary exercise testing. It offers tools for data import,
+processing, summary and visualization.
 
 > WARNING: This package is currently under development. At the moment, I
 recommend to use it for demonstration or testing purposes only. When using
@@ -45,11 +45,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
 ```
 
-Install the latest version 0.0.1 release by running this code:
+Install the latest version 0.0.2 release by running this code:
 
 ``` {r install, eval = FALSE}
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.1")
+remotes::install_github("smnnlt/spiro@v0.0.2")
 ```
 
 ## Usage

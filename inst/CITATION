@@ -7,11 +7,13 @@ bibentry(
   author   = person("Simon", "Nolte"),
   year     = 2022,
   url      = "https://smnnlt.github.io/spiro/",
+  doi      = "10.5281/zenodo.5816170",
   note     = note,
   textVersion = paste0(
     "Simon Nolte (2022). ",
     "spiro: Manage Data from Cardiopulmonary Exercise Testing. ",
     "R package version ", version, ". ",
+    "DOI: 10.5281/zenodo.1040727. ",
     "https://smnnlt.github.io/spiro/"
   ),
   header = "To cite spiro in publications use:"
