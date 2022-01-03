@@ -59,6 +59,8 @@ to_seconds.internal <- function(time) {
   } else if (length(time_split) == 2) {
     # for mm:ss
     s <- 60 * time_split[[1]] + time_split[[2]]
+  } else {
+    s <- NULL
   }
   s
 }
