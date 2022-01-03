@@ -120,7 +120,7 @@ citation("spiro")
 #>   }
 ```
 
-## Acknowledment
+## Acknowledgment
 
 The following persons contributed to this package by providing raw data
 files: Daniel Appelhans, Sebastian Mühlenhoff, Yannick Schwarz, Adrian

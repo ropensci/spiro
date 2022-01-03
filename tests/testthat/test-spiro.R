@@ -27,6 +27,3 @@ test_that("heart rate import works within spiro()", {
 test_that("spiro() returnes a warning for non breath-by-breath data", {
   expect_warning(spiro(spiro_example("cosmed_test.xlsx")))
 })
-
-
-

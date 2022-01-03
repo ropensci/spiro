@@ -83,7 +83,10 @@ spiro_summary <- function(data,
       data <- data[data$step != max(data$step), ] # exclude step
       if (!quiet) {
         message(
-          "Last step was excluded from summary calculation due to termination of the test"
+          paste0(
+            "Last step was excluded from summary calculation ",
+            "due to termination of the test"
+          )
         )
       }
     }
@@ -131,14 +134,20 @@ getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
       if (step_number == 0) { # pre measures
         message(
           sprintf(
-            "for pre-measures, interval was set to length of measures (%s seconds)",
+            paste0(
+              "for pre-measures, interval was set to ",
+              "length of measures (%s seconds)"
+            ),
             nrow(step)
           )
         )
       } else if (step_number == 0.5) { # warm up
         message(
           sprintf(
-            "for warm-up measures, interval was set to length of warm-up (%s seconds)",
+            paste0(
+              "for warm-up measures, ",
+              "interval was set to length of warm-up (%s seconds)"
+            ),
             nrow(step)
           )
         )

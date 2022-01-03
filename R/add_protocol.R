@@ -254,7 +254,7 @@ set_protocol <- function(...) {
   l <- list(...)
 
   # select only inputs that resulted in data frames
-  l <- l[which(sapply(l, class) == "data.frame")]
+  l <- l[which(vapply(l, class, character(1)) == "data.frame")]
 
   do.call("rbind", l)
 }
@@ -284,7 +284,7 @@ wu <- function(duration, load, rest.duration = 0) {
   if ((duration <= 0) | !is.numeric(duration)) {
     stop("warm up 'duration' must be an integer greater than 0")
   }
-  if ((load < 0) | !is.numeric(load))  {
+  if ((load < 0) | !is.numeric(load)) {
     stop("warm up 'load' must be an integer equal to or greater than 0")
   }
   if ((rest.duration < 0) | !is.numeric(rest.duration)) {
@@ -315,10 +315,10 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
   if ((duration <= 0) | !is.numeric(duration)) {
     stop("step 'duration' must be an integer greater than 0")
   }
-  if ((load < 0) | !is.numeric(load))  {
+  if ((load < 0) | !is.numeric(load)) {
     stop("intial step 'load' must be an integer equal to or greater than 0")
   }
-  if (!is.numeric(increment))  {
+  if (!is.numeric(increment)) {
     stop("load step 'increment' must be an integer")
   }
   if ((count < 1) | !is.numeric(count)) {

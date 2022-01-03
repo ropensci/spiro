@@ -73,7 +73,7 @@
 #' # use the add_* functions in a pipe
 #' # Note: base R pipe requires R version 4.1 or greater)
 #' \dontrun{
-#'   spiro(file) |>
+#' spiro(file) |>
 #'   add_hr(hr_file = hr_file, hr_offset = 0) |>
 #'   add_weight(68.2)
 #' }

@@ -30,9 +30,11 @@ spiro_interpolate <- function(data) {
   bb <- check_bb(data$time)
   if (!bb) {
     warning(
-      paste0("It seems like your data was not recorded breath-by-breath. ",
-             "Pre-averaged raw data may result in wrong automated protocol ",
-             "guesses and affects the calculation of summary statistics.")
+      paste0(
+        "It seems like your data was not recorded breath-by-breath. ",
+        "Pre-averaged raw data may result in wrong automated protocol ",
+        "guesses and affects the calculation of summary statistics."
+      )
     )
   }
 

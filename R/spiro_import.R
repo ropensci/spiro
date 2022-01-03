@@ -156,7 +156,7 @@ spiro_import_zan <- function(file) {
 
 guess_device <- function(file) {
   if (grepl("\\.xls$", file, ignore.case = TRUE) ||
-      grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
+    grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
     # Read head of the Excel file
     head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
 
@@ -217,19 +217,24 @@ spiro_import_cosmed <- function(file) {
 
   info <- data.frame(
     name = get_meta(tbl, c("First name:", "First name", "Vorname:", "Vorname")),
-    surname = get_meta(tbl,
+    surname = get_meta(
+      tbl,
       c("Last name:", "Last name", "Nachname:", "Nachname")
     ),
     birthday = get_meta(tbl, c("Age:", "Age", "Alter:", "Alter")),
     sex = get_sex(get_meta(tbl, c("Sex:", "Sex", "Geschlecht:", "Geschlecht"))),
     height = as.numeric(
-      get_meta(tbl,
-        c("Height (cm):", "Height (cm)",
-          "Gr\u00f6\u00dfe (cm):", "Gr\u00f6\u00dfe (cm)")
+      get_meta(
+        tbl,
+        c(
+          "Height (cm):", "Height (cm)",
+          "Gr\u00f6\u00dfe (cm):", "Gr\u00f6\u00dfe (cm)"
+        )
       )
     ),
     weight = as.numeric(
-      get_meta(tbl,
+      get_meta(
+        tbl,
         c("Weight (Kg):", "Weight (Kg)", "Gewicht (Kg):", "Gewicht (Kg)")
       )
     )
@@ -266,7 +271,7 @@ spiro_import_cosmed <- function(file) {
         )[-c(1, 2), ]
       )
     )
-    data["t"] <- format(as.vector(t), format="%H:%M:%S")
+    data["t"] <- format(as.vector(t), format = "%H:%M:%S")
   }
 
   # write data
@@ -318,7 +323,7 @@ spiro_import_cortex <- function(file) {
   if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     d <- import_xml(file)
   } else if (grepl("\\.xls$", file, ignore.case = TRUE) ||
-             grepl("\\.xlsx$", file, ignore.case = TRUE)) { # excel file
+    grepl("\\.xlsx$", file, ignore.case = TRUE)) { # excel file
     d <- as.data.frame(
       suppressMessages(readxl::read_excel(file, col_names = FALSE))
     )
@@ -333,7 +338,7 @@ spiro_import_cortex <- function(file) {
 
   # filter data frame for section with meta data
   meta_begin <- which(d == "Patient")
-  meta_raw <- d[c(meta_begin:(meta_begin+25)),]
+  meta_raw <- d[c(meta_begin:(meta_begin + 25)), ]
 
   # extract meta data
   name <- get_meta(meta_raw, c("Name", "Nachname"))
@@ -356,7 +361,7 @@ spiro_import_cortex <- function(file) {
   t_ind <- which(d[, 1] == "h:mm:ss")
 
   # get parameter labels
-  cols <- as.character(d[t_ind-1, ])
+  cols <- as.character(d[t_ind - 1, ])
 
   # get parameter count
   coln <- sum(!is.na(cols))
@@ -420,12 +425,13 @@ spiro_import_vyntus <- function(file) {
   weight <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
 
   # Write meta data
-  info <- data.frame(name = NA,
-                     surname = NA,
-                     birthday = NA,
-                     sex = NA,
-                     height = NA,
-                     weight = weight
+  info <- data.frame(
+    name = NA,
+    surname = NA,
+    birthday = NA,
+    sex = NA,
+    height = NA,
+    weight = weight
   )
 
   attr(df, "info") <- info # write meta data

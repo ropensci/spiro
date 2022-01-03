@@ -10,18 +10,18 @@ p1 <- set_protocol(
 )
 
 p2 <- set_protocol_manual(
-  duration = c(100,200,500,100),
-  load = c(50,150,250,350)
+  duration = c(100, 200, 500, 100),
+  load = c(50, 150, 250, 350)
 )
 
 dtf1 <- data.frame(
-  duration = c(100,200,500,100),
-  load = c(50,150,250,350)
+  duration = c(100, 200, 500, 100),
+  load = c(50, 150, 250, 350)
 )
 
 dtf2 <- data.frame(
-  col1 = c(100,200,500,100),
-  col2 = c(50,150,250,350)
+  col1 = c(100, 200, 500, 100),
+  col2 = c(50, 150, 250, 350)
 )
 
 test_that("protocol guessing works", {
