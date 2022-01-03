@@ -439,8 +439,8 @@ set_protocol_manual.data.frame <- function(duration, load = NULL) {
     # first column will be interpreted as duration, second as load
   } else if (ncol(duration) == 2) {
     out <- data.frame(
-      duration = duration[1, ],
-      load = duration[2, ]
+      duration = duration[, 1],
+      load = duration[, 2]
     )
   } else {
     stop("data.frame must contain columns 'duration' and 'load'")
