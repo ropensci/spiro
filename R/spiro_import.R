@@ -271,15 +271,12 @@ spiro_import_cosmed <- function(file) {
         )[-c(1, 2), ]
       )
     )
-    data["t"] <- format(as.vector(t), format = "%H:%M:%S")
+    data["t"] <- format(as.vector(t)[[1]], format = "%H:%M:%S")
   }
-
-  # get time data
-  time_data <- to_seconds(data[["t"]])
 
   # write data
   df <- data.frame(
-    time = time_data[!is.na(time_data)],
+    time = to_seconds(data[["t"]]),
     VO2 = get_data(data, "VO2"),
     VCO2 = get_data(data, "VCO2"),
     RR = get_data(data, c("Rf", "Af")),
@@ -373,12 +370,8 @@ spiro_import_cortex <- function(file) {
   data <- d[(t_ind + 1):nrow(d), 1:coln]
   names(data) <- cols[1:coln]
 
-  # get time data
-  time_data <- to_seconds(data[["t"]])
-
   df <- data.frame(
-    # use first column for time independent of name
-    time = time_data[!is.na(time_data)],
+    time = to_seconds(data[["t"]]),
     VO2 = get_data(data, c("V'O2 (STPD)", "V'O2")),
     VCO2 = get_data(data, "V'CO2"),
     RR = get_data(data, "AF"),
@@ -415,11 +408,8 @@ spiro_import_cortex <- function(file) {
 spiro_import_vyntus <- function(file) {
   data <- utils::read.delim(file, skip = 2)[-1, ]
 
-  # get time data
-  time_data <- to_seconds(data[["Tid"]])
-
   df <- data.frame(
-    time = time_data[!is.na(time_data)],
+    time = to_seconds(data[["Tid"]]),
     VO2 = get_data(data, "V.O2"),
     VCO2 = get_data(data, "V.CO2"),
     RR = get_data(data, "BF"),
