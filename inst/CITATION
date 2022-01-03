@@ -5,11 +5,11 @@ bibentry(
   bibtype  = "Manual",
   title    = "spiro: Manage Data from Cardiopulmonary Exercise Testing",
   author   = person("Simon", "Nolte"),
-  year     = 2021,
+  year     = 2022,
   url      = "https://smnnlt.github.io/spiro/",
   note     = note,
   textVersion = paste0(
-    "Simon Nolte (2021). ",
+    "Simon Nolte (2022). ",
     "spiro: Manage Data from Cardiopulmonary Exercise Testing. ",
     "R package version ", version, ". ",
     "https://smnnlt.github.io/spiro/"

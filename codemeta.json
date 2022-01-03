@@ -11,13 +11,13 @@
   "relatedLink": "https://smnnlt.github.io/spiro/",
   "issueTracker": "https://github.com/smnnlt/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1.9000",
+  "version": "0.0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "author": [
     {
       "@type": "Person",
@@ -154,13 +154,13 @@
   ],
   "releaseNotes": "https://github.com/smnnlt/spiro/blob/master/NEWS.md",
   "readme": "https://github.com/smnnlt/spiro/blob/main/README.md",
-  "fileSize": "1410.286KB",
+  "fileSize": "1803.728KB",
   "contIntegration": ["https://github.com/smnnlt/spiro/actions", "https://codecov.io/gh/smnnlt/spiro"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2021",
+      "datePublished": "2022",
       "author": [
         {
           "@type": "Person",
@@ -170,7 +170,7 @@
       ],
       "name": "spiro: Manage Data from Cardiopulmonary Exercise Testing",
       "url": "https://smnnlt.github.io/spiro/",
-      "description": "R package version 0.0.1.9000"
+      "description": "R package version 0.0.2"
     }
   ]
 }
