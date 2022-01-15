@@ -5,10 +5,12 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
+[![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
 [![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
 [![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
 <!-- badges: end -->
@@ -19,11 +21,11 @@ This R package offers a fast, standardized and reproducible workflow for
 data from cardiopulmonary exercise testing. It offers tools for data
 import, processing, summary and visualization.
 
-> WARNING: This package is currently under development. At the moment, I
-> recommend to use it for demonstration or testing purposes only. When
-> using `spiro` for scientific analyses, make sure to state the exact
-> package version, as at this stage of development the package’s
-> functions may undergo major changes.
+> WARNING: This package is currently under active development. At the
+> moment, I recommend to use it for demonstration or testing purposes
+> only. When using `spiro` for scientific analyses, make sure to state
+> the exact package version, as at this stage of development the
+> package’s functions may undergo major changes.
 
 ## Installation
 
@@ -93,6 +95,10 @@ spiro_summary(gxt_data)
 #> 9  222.21 0.95 4.68 0.37
 #> 10 222.12 0.98 5.82 0.12
 
+spiro_max(gxt_data)
+#>       VO2    VCO2 VO2_rel     VE  RER HR
+#> 1 4732.28 4640.75    71.7 129.62 1.14 NA
+
 spiro_plot(gxt_data)
 ```
 
@@ -109,7 +115,7 @@ citation("spiro")
 #>   Testing. R package version 0.0.2.9000. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
-#> Ein BibTeX-Eintrag für LaTeX-Benutzer ist
+#> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {spiro: Manage Data from Cardiopulmonary Exercise Testing},
