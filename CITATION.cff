@@ -1,0 +1,191 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.2.0
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "spiro" in publications use:'
+type: software
+license: MIT
+title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
+version: 0.0.2.9000
+doi: 10.5281/zenodo.5816170
+abstract: Import, process, summarize and visualize raw data from metabolic carts.
+authors:
+- family-names: Nolte
+  given-names: Simon
+  email: s.nolte@dshs-koeln.de
+  orcid: https://orcid.org/0000-0003-1643-1860
+preferred-citation:
+  type: manual
+  title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
+  authors:
+  - family-names: Nolte
+    given-names: Simon
+    email: s.nolte@dshs-koeln.de
+    orcid: https://orcid.org/0000-0003-1643-1860
+  year: '2022'
+  url: https://smnnlt.github.io/spiro/
+  doi: 10.5281/zenodo.5816170
+  notes: R package version 0.0.2.9000
+repository-code: https://github.com/smnnlt/spiro
+url: https://smnnlt.github.io/spiro/
+contact:
+- family-names: Nolte
+  given-names: Simon
+  email: s.nolte@dshs-koeln.de
+  orcid: https://orcid.org/0000-0003-1643-1860
+references:
+- type: software
+  title: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Chang
+    given-names: Winston
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@rstudio.com
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Takahashi
+    given-names: Kohske
+  - family-names: Wilke
+    given-names: Claus
+    orcid: https://orcid.org/0000-0002-7470-9261
+  - family-names: Woo
+    given-names: Kara
+    orcid: https://orcid.org/0000-0002-5125-4188
+  - family-names: Yutani
+    given-names: Hiroaki
+    orcid: https://orcid.org/0000-0002-3385-7233
+  - family-names: Dunnington
+    given-names: Dewey
+    orcid: https://orcid.org/0000-0002-9415-4582
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=ggplot2
+- type: software
+  title: 'xml2: Parse XML'
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Ooms
+    given-names: Jeroen
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=xml2
+- type: software
+  title: 'zoo: S3 Infrastructure for Regular and Irregular Time Series (Z''s Ordered
+    Observations)'
+  authors:
+  - family-names: Zeileis
+    given-names: Achim
+    email: Achim.Zeileis@R-project.org
+    orcid: https://orcid.org/0000-0003-0918-3766
+  - family-names: Grothendieck
+    given-names: Gabor
+    email: ggrothendieck@gmail.com
+  - family-names: Ryan
+    given-names: Jeffrey A.
+    email: jeff.a.ryan@gmail.com
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=zoo
+- type: software
+  title: 'readxl: Read Excel Files'
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Bryan
+    given-names: Jennifer
+    email: jenny@rstudio.com
+    orcid: https://orcid.org/0000-0002-6983-2759
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=readxl
+- type: software
+  title: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=knitr
+- type: software
+  title: 'cowplot: Streamlined Plot Theme and Plot Annotations for ''ggplot2'''
+  authors:
+  - family-names: Wilke
+    given-names: Claus O.
+    email: wilke@austin.utexas.edu
+    orcid: https://orcid.org/0000-0002-7470-9261
+  year: '2022'
+  notes: Imports
+  url: https://CRAN.R-project.org/package=cowplot
+- type: software
+  title: 'testthat: Unit Testing for R'
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2022'
+  notes: Suggests
+  url: https://CRAN.R-project.org/package=testthat
+  version: '>= 3.0.0'
+- type: software
+  title: 'rmarkdown: Dynamic Documents for R'
+  authors:
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@rstudio.com
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@rstudio.com
+  - family-names: Luraschi
+    given-names: Javier
+    email: javier@rstudio.com
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@rstudio.com
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@rstudio.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@rstudio.com
+  - family-names: Chang
+    given-names: Winston
+    email: winston@rstudio.com
+  - family-names: Iannone
+    given-names: Richard
+    email: rich@rstudio.com
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2022'
+  notes: Suggests
+  url: https://CRAN.R-project.org/package=rmarkdown
+- type: software
+  title: 'ggborderline: Line Plots that Pop'
+  authors:
+  - family-names: Scott
+    given-names: Jacob
+  year: '2022'
+  notes: Suggests
+  url: https://CRAN.R-project.org/package=ggborderline
