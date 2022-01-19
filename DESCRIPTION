@@ -22,7 +22,8 @@ Imports:
     zoo,
     readxl,
     knitr,
-    cowplot
+    cowplot,
+    digest
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown,

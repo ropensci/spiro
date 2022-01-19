@@ -2061,3 +2061,13 @@
       name surname birthday sex height weight
     1   NA      NA       NA  NA     NA   68.1
 
+# anonymization works
+
+            id weight
+    1 a9ed14c8     66
+
+---
+
+       name surname   birthday  sex height weight
+    1 Simon   Nolte 04.10.1998 male    180     66
+

@@ -4,7 +4,7 @@
 \alias{spiro_import}
 \title{Import raw data from spiroergometric devices}
 \usage{
-spiro_import(file, device = NULL)
+spiro_import(file, device = NULL, anonymize = TRUE)
 }
 \arguments{
 \item{file}{The absolute or relative path of the file that contains the gas
@@ -14,6 +14,9 @@ exchange data.}
 default the device type is guessed by the characteristics of the
 \code{file}. This can be overridden by setting the argument to
 \code{"cortex"}, \code{"cosmed"} or \code{"zan"}.}
+
+\item{anonymize}{Whether meta data should be anonymized during import.
+Defaults to TRUE. See \code{\link{get_id}} for more information.}
 }
 \value{
 A \code{data.frame} with data. The attribute \code{info} contains

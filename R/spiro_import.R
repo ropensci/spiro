@@ -31,15 +31,19 @@
 #' spiro_import(file)
 #' @export
 
-spiro_import <- function(file, device = NULL) {
+spiro_import <- function(file, device = NULL, anonymize = TRUE) {
   if (is.null(device)) device <- guess_device(file)
-  switch(device,
+  out <- switch(device,
     zan = spiro_import_zan(file),
     cosmed = spiro_import_cosmed(file),
     cortex = spiro_import_cortex(file),
     vyntus = spiro_import_vyntus(file),
     stop("Could not find device type. Please specify the 'device' argument")
   )
+  if (anonymize) {
+    attr(out, "info") <- spiro_anonymize(attr(out, "info"))
+  }
+  out
 }
 
 #' Import raw data from ZAN spiroergometric devices
@@ -567,3 +571,74 @@ get_data <- function(data, vars) {
   }
   out
 }
+
+#' Anonymize participants meta data
+#'
+#' \code{spiro_anonymize()} replaces personal information from meta data
+#' imported by an id.
+#'
+#' @param info A data.frame containing meta data, as produced as an attribute by
+#'   the spiro_import_* functions.
+#'
+#' @return A data.frame containing the id and the body weight.
+#' @noRd
+spiro_anonymize <- function(info) {
+  # consider birthday data only if available
+  if (is.na(info$birthday)) {
+    birthday <- NULL
+  } else {
+    birthday <- info$birthday
+  }
+
+  # replace personal information by anonymized id
+  id <- get_id(
+    name = info$name,
+    surname = info$surname,
+    birthday = info$birthday
+  )
+
+  # drop all personal information despite weight data
+  out <- data.frame(
+    id = id,
+    weight = info$weight
+  )
+  out
+}
+
+
+#' Get the anonymization id from personal data
+#'
+#' \code{get_id()} returns the anonymization id corresponding to given personal
+#' data.
+#'
+#' By default, the spiro package anonymizes personal information obtained from
+#' file meta data. The data are saved to the "info" attribute of a spiro() call.
+#' The default anonymization ensures that no personal information is
+#' accidentally revealed, e.g. by sharing spiro outputs as .Rda files.
+#'
+#' While there is no way to directly de-anonymize the data, get_id() allows you
+#' to recreate the ids, when meta data (name, surname and birthday) are known.
+#' Birthday is only used within the id generation if available in the original
+#' raw data.
+#'
+#' To disable the anonymization process during import use spiro(anonymize =
+#' FALSE)
+#'
+#' @param name A character string, containing the participant's name as present
+#'   in the raw data file.
+#' @param surname A character string, containing the participant's surname as
+#'   present in the raw data file.
+#' @param birthday A character string, containing the participant's birthday as
+#'   present in the raw data file. If no birthday data is available in the raw
+#'   data, this is ignored.
+#'
+#' @return A character string, containing the anonymized id.
+#'
+#' @examples
+#' get_id("Jesse", "Owens", "12.09.1913")
+#'
+#' @export
+get_id <- function(name, surname, birthday = NULL) {
+  digest::digest(c(name, surname, birthday), "crc32")
+}
+

@@ -3,6 +3,7 @@ spiro (development version)
 
   * Improved README
   * Fix bug for Cosmed meta data import, reading age instead of birthday
+  * Meta data is now anonymized during import. This can be disabled by using spiro(anonymize = FALSE) (new dependency: digest)
 
 spiro 0.0.2 (2022-01-03)
 ===========================
