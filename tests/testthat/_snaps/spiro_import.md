@@ -2049,7 +2049,7 @@
 ---
 
       name surname birthday  sex height weight
-    1  XXX     YYY       45 male    179   67.1
+    1  XXX     YYY       NA male    179   67.1
 
 ---
 

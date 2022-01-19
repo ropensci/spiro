@@ -2,6 +2,7 @@ spiro (development version)
 ===========================
 
   * Improved README
+  * Fix bug for Cosmed meta data import, reading age instead of birthday
 
 spiro 0.0.2 (2022-01-03)
 ===========================

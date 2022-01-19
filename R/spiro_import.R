@@ -221,7 +221,7 @@ spiro_import_cosmed <- function(file) {
       tbl,
       c("Last name:", "Last name", "Nachname:", "Nachname")
     ),
-    birthday = get_meta(tbl, c("Age:", "Age", "Alter:", "Alter")),
+    birthday = NA, # cosmed files do only display an age, but no birthday column
     sex = get_sex(get_meta(tbl, c("Sex:", "Sex", "Geschlecht:", "Geschlecht"))),
     height = as.numeric(
       get_meta(
