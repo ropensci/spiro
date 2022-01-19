@@ -1,7 +1,7 @@
 spiro (development version)
 ===========================
 
-
+  * Improved README
 
 spiro 0.0.2 (2022-01-03)
 ===========================

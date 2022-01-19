@@ -93,6 +93,12 @@ spiro_plot(gxt_data)
 citation("spiro")
 ```
 
+## Related Work
+
+The [whippr](https://github.com/fmmattioni/whippr) package offers a different
+approach to working with data from cardiopulmonary exercise testing. It
+additionally offers functions for analyzing VO2 kinetics.
+
 ## Acknowledgment
 
 The following persons contributed to this package by providing raw data files:

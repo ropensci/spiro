@@ -115,7 +115,7 @@ citation("spiro")
 #>   Testing. R package version 0.0.2.9000. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
-#> A BibTeX entry for LaTeX users is
+#> Ein BibTeX-Eintrag für LaTeX-Benutzer ist
 #> 
 #>   @Manual{,
 #>     title = {spiro: Manage Data from Cardiopulmonary Exercise Testing},
@@ -126,6 +126,12 @@ citation("spiro")
 #>     note = {R package version 0.0.2.9000},
 #>   }
 ```
+
+## Related Work
+
+The [whippr](https://github.com/fmmattioni/whippr) package offers a
+different approach to working with data from cardiopulmonary exercise
+testing. It additionally offers functions for analyzing VO2 kinetics.
 
 ## Acknowledgment
 
