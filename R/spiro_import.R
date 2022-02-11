@@ -11,9 +11,9 @@
 #' The currently supported metabolic carts are:
 #' \itemize{
 #'   \item \strong{CORTEX} (\code{.xlsx}, \code{.xls} or files \code{.xml} in
+#'   English or German language)
+#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 #'   German language)
-#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, either in English
-#'     or German language)
 #'   \item \strong{Vyntus} (\code{.txt} files in German language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
 #'     names in the form of \code{"EXEDxxx"})
@@ -168,18 +168,23 @@ guess_device <- function(file) {
     if (any(grepl("ID", head))) {
       device <- "cosmed"
       # files from Cortex devices usually contain a line at the head:
-      # "Stammdaten"
-      # -- TO DO --
-      # this is currently only working in German language
-      # English equivalent is needed
-    } else if (any(head == "Stammdaten", na.rm = TRUE)) {
+      # "Administrative Data" or "Stammdaten"
+    } else if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
       device <- "cortex"
     } else { # device type not found
       device <- "none"
     }
   } else if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     head <- import_xml(file, short = TRUE)
-    if (any(head == "Stammdaten", na.rm = TRUE)) {
+    if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
       device <- "cortex"
     } else {
       device <- "none"
@@ -335,22 +340,20 @@ spiro_import_cortex <- function(file) {
     stop("Cortex raw data file must be in .xml, .xlsx or .xls format.")
   }
 
-  # -- TO DO --
-  # create import option for files of English language
-
-  # get meta data (German language)
+  # get meta data
 
   # filter data frame for section with meta data
-  meta_begin <- which(d == "Patient")
+  meta_begin <- which(d == "Patient data" | d == "Patient")
   meta_raw <- d[c(meta_begin:(meta_begin + 25)), ]
 
   # extract meta data
-  name <- get_meta(meta_raw, c("Name", "Nachname"))
-  surname <- get_meta(meta_raw, "Vorname")
-  sex <- get_meta(meta_raw, "Geschlecht")
-  birthday <- get_meta(meta_raw, "Geburtsdatum")
-  height <- get_meta(meta_raw, "Gr\u00f6\u00dfe") # special handling for umlaute
-  weight <- get_meta(meta_raw, "Gewicht")
+  name <- get_meta(meta_raw, c("Last Name", "Name", "Nachname"))
+  surname <- get_meta(meta_raw, c("First Name", "Vorname"))
+  sex <- get_meta(meta_raw, c("Sex", "Geschlecht"))
+  birthday <- get_meta(meta_raw, c("Date of Birth", "Geburtsdatum"))
+  # special handling for umlaute in German files
+  height <- get_meta(meta_raw, c("Height", "Gr\u00f6\u00dfe"))
+  weight <- get_meta(meta_raw, c("Weight", "Gewicht"))
 
   # write data frame for metadata
   info <- data.frame(name,
@@ -378,11 +381,11 @@ spiro_import_cortex <- function(file) {
     time = to_seconds(data[["t"]]),
     VO2 = get_data(data, c("V'O2 (STPD)", "V'O2")),
     VCO2 = get_data(data, "V'CO2"),
-    RR = get_data(data, "AF"),
+    RR = get_data(data, c("AF", "BF")),
     VT = get_data(data, "VT"),
     VE = get_data(data, c("V'E (BTPS)", "V'E")),
-    HR = get_data(data, "HF"),
-    load = get_data(data, c("v", "P")),
+    HR = get_data(data, c("HR", "HF")),
+    load = get_data(data, c("v", "P", "WR")),
     PetO2 = get_data(data, "PetO2"),
     PetCO2 = get_data(data, "PetCO2")
   )
@@ -636,9 +639,7 @@ spiro_anonymize <- function(info) {
 #'
 #' @examples
 #' get_id("Jesse", "Owens", "12.09.1913")
-#'
 #' @export
 get_id <- function(name, surname, birthday = NULL) {
   digest::digest(c(name, surname, birthday), "crc32")
 }
-

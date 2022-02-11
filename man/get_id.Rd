@@ -40,5 +40,4 @@ FALSE)
 }
 \examples{
 get_id("Jesse", "Owens", "12.09.1913")
-
 }

@@ -95,7 +95,7 @@ If you use a metabolic carts that measures, but does not output data on a breath
 
 The `spiro` package supports different metabolic carts. The metabolic cart a data file is produced by is usually determined automatically, but can also be set manually in the `spiro()` function. Currently this package supports the following devices:
 
-* **CORTEX** (`"cortex"`): .xlsx, .xls or .xml files in German language
+* **CORTEX** (`"cortex"`): .xlsx, .xls or .xml files in English or German language
 * **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
 * **VYNTUS** (`"vyntus"`): .txt files (tab-separated) in German language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language

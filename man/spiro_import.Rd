@@ -35,9 +35,9 @@ explicitly stating \code{device}.
 The currently supported metabolic carts are:
 \itemize{
 \item \strong{CORTEX} (\code{.xlsx}, \code{.xls} or files \code{.xml} in
+English or German language)
+\item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 German language)
-\item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, either in English
-or German language)
 \item \strong{Vyntus} (\code{.txt} files in German language)
 \item \strong{ZAN} (\code{.dat} files in German language, usually with
 names in the form of \code{"EXEDxxx"})
