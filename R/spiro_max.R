@@ -98,11 +98,11 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   }
 
   # calculate rolling averages
-  data$VO2_rm <- zoo::rollmean(data$VO2, smooth, fill = NA)
-  data$VCO2_rm <- zoo::rollmean(data$VCO2, smooth, fill = NA)
-  data$VO2_rel_rm <- zoo::rollmean(data$VO2_rel, smooth, fill = NA)
-  data$VE_rm <- zoo::rollmean(data$VE, smooth, fill = NA)
-  data$RER_rm <- zoo::rollmean(data$RER, smooth, fill = NA)
+  data$VO2_rm <- mavg(data$VO2, smooth)
+  data$VCO2_rm <- mavg(data$VCO2, smooth)
+  data$VO2_rel_rm <- mavg(data$VO2_rel, smooth)
+  data$VE_rm <- mavg(data$VE, smooth)
+  data$RER_rm <- mavg(data$RER, smooth)
 
   # Use only data during exercising for calculating maximum values
   # Does not apply to HR, since this can also be achieved shortly after
@@ -127,7 +127,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
     if (hr_smooth) {
       # apply smoothing to heart rate data
       hr_max <- round(
-        max(zoo::rollmean(data$HR, smooth, fill = NA),
+        max(mavg(data$HR, smooth),
           na.rm = TRUE
         )
       )

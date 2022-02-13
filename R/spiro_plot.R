@@ -86,7 +86,7 @@ spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
 #'
 #' @noRd
 spiro_plot_VE <- function(data, smooth = 15, base_size = 13, ...) {
-  data$VE <- zoo::rollmean(data$VE, smooth, fill = NA)
+  data$VE <- mavg(data$VE, smooth)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
@@ -115,11 +115,8 @@ spiro_plot_HR <- function(data, smooth = 15, base_size = 13, ...) {
   # Rewrite null values from heart rate to NAs
   data$HR[which(data$HR == 0)] <- NA
 
-  data$pulse <- sec_factor * zoo::rollmean(data$VO2 / data$HR,
-    smooth,
-    fill = NA
-  )
-  data$HR <- zoo::rollmean(data$HR, smooth, fill = NA)
+  data$pulse <- sec_factor * mavg(data$VO2 / data$HR, smooth)
+  data$HR <- mavg(data$HR, smooth)
 
   d <- data[, c("time", "load", "pulse", "HR")]
   d_long <- stats::reshape(d,
@@ -178,8 +175,8 @@ spiro_plot_VO2 <- function(data, smooth = 15, base_size = 13, ...) {
   d <- data.frame(
     time = data$time,
     load = data$load,
-    VO2_rel = zoo::rollmean(data$VO2_rel, smooth, fill = NA),
-    VCO2_rel = zoo::rollmean(data$VCO2_rel, smooth, fill = NA)
+    VO2_rel = mavg(data$VO2_rel, smooth),
+    VCO2_rel = mavg(data$VCO2_rel, smooth)
   )
 
   # reshape data into long format
@@ -303,11 +300,11 @@ spiro_plot_EQ <- function(data, smooth = 15, base_size = 13, ...) {
   # remove implausible high values before smoothing
   data$EQ_O2 <- 1000 * data$VE / data$VO2
   data$EQ_O2[which(data$EQ_O2 > 100)] <- NA
-  data$EQ_O2 <- zoo::rollmean(data$EQ_O2, smooth, fill = NA)
+  data$EQ_O2 <- mavg(data$EQ_O2, smooth)
 
   data$EQ_CO2 <- 1000 * data$VE / data$VCO2
   data$EQ_CO2[which(data$EQ_CO2 > 100)] <- NA
-  data$EQ_CO2 <- zoo::rollmean(data$EQ_CO2, smooth, fill = NA)
+  data$EQ_CO2 <- mavg(data$EQ_CO2, smooth)
 
   d <- data[, c("time", "load", "EQ_O2", "EQ_CO2")]
   d_long <- stats::reshape(d,
@@ -361,7 +358,7 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = 15, base_size = 13, ...) {
-  data$RER <- zoo::rollmean(data$RER, smooth, fill = NA)
+  data$RER <- mavg(data$RER, smooth)
 
   ggplot2::ggplot(data = data, ggplot2::aes(x = data$time)) +
     list(
@@ -386,8 +383,8 @@ spiro_plot_RER <- function(data, smooth = 15, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_Pet <- function(data, smooth = 15, base_size = 13, ...) {
-  data$PetO2 <- zoo::rollmean(data$PetO2, smooth, fill = NA)
-  data$PetCO2 <- zoo::rollmean(data$PetCO2, smooth, fill = NA)
+  data$PetO2 <- mavg(data$PetO2, smooth)
+  data$PetCO2 <- mavg(data$PetCO2, smooth)
 
   d <- data[, c("time", "load", "PetO2", "PetCO2")]
   d_long <- stats::reshape(d,

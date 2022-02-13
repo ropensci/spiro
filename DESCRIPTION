@@ -19,7 +19,6 @@ RoxygenNote: 7.1.2
 Imports: 
     ggplot2,
     xml2,
-    zoo,
     readxl,
     knitr,
     cowplot,

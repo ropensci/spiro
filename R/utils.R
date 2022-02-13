@@ -82,3 +82,18 @@ check_bb <- function(timedata) {
   }
   out
 }
+
+#' Create a (centred) moving average
+#'
+#' Internal function for \code{\link{spiro_max}} and \code{\link{spiro_plot}}
+#'
+#' @param x A numeric vector on which the moving average should be applied
+#' @param k Length of the interval for the rolling average
+#'
+#' @return A numeric vector of the same length as x. Leading and trailing
+#'   entries are filled with NAs.
+#' @noRd
+mavg <- function(x, k) {
+  series <- stats::filter(x, rep(1 / k, k), sides = 2)
+  as.vector(series)
+}

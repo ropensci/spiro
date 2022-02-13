@@ -5,6 +5,7 @@ spiro (development version)
   * Fix bug for Cosmed meta data import, reading age instead of birthday
   * Meta data is now anonymized during import. This can be disabled by using spiro(anonymize = FALSE) (new dependency: digest)
   * Cortex import now works for files in English language (thanks to Sebastian Mühlenhoff)
+  * Write internal function for moving averages (removes zoo dependency)
 
 spiro 0.0.2 (2022-01-03)
 ===========================
