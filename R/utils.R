@@ -130,16 +130,32 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
       call. = FALSE
     )
   }
+
+  # set filter
   bf <- signal::butter(n, W, "low")
+
+  # handle of internal NAs
+  # internal NAs can not be processed by Butterworth filters. For the zero-lag
+  # method used in this package, leading and trailing NAs can also not be
+  # processed. To overcome these issues all internal NAs will be linearly
+  # interpolated
+
   if (zero_lag) {
     # the signal package currently only contains an old version of the zero-lag
     # filter function `filtfilt()`, which does not minimize end-transients. To
     # overcome this issue this function pads the signal in reverse order before
     # the beginning and at the end of the series.
-    out_pre <- signal::filtfilt(bf, c(rev(x), x, rev(x)))
+    x_ext <- replace_intna(c(rev(x), x, rev(x)))
+    out_pre <- signal::filtfilt(bf, x_ext)
     out <- out_pre[(length(x) + 1):(2 * length(x))]
   } else {
-    out <- signal::filter(bf, x)
+    out <- signal::filter(bf, replace_intna(x))
   }
   as.vector(out)
 }
+
+replace_intna <- function(data) {
+  out <- stats::approx(x = seq_along(data), y = data, xout = seq_along(data))
+  out$y
+}
+
