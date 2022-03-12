@@ -183,6 +183,8 @@ bw_smooth_extract <- function(smooth, matchstring = "f") {
 #'   entries are filled with NAs.
 #' @noRd
 mavg <- function(x, k) {
+  # interpolate internal NAs to have the same NA handling as other filters
+  x <- replace_intna(x, keep_NA_all = TRUE)
   series <- stats::filter(x, rep(1 / k, k), sides = 2)
   as.vector(series)
 }
@@ -255,7 +257,14 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
 #'
 #' Internal function for \code{\link{bw_filter}} in \code{\link{spiro_smooth}}
 #' @noRd
-replace_intna <- function(data) {
+replace_intna <- function(data, keep_NA_all = FALSE) {
+  if (all(is.na(data))) {
+   if (keep_NA_all) {
+     return(data)
+   } else {
+     stop("Could not filter data as it only contains NAs.")
+   }
+  }
   out <- stats::approx(x = seq_along(data), y = data, xout = seq_along(data))
   out$y
 }
