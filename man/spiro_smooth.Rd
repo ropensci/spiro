@@ -38,9 +38,9 @@ provides different filtering methods (time average, breath average, digital
 filters).
 
 The function is vectorized. The input can be either a numeric vectors or a
-list of numeric vectors (typically a data frame). Its functionality is the
-basis for the evaluation of the \code{smooth} argument in
-\code{\link{spiro_max}} and \code{\link{spiro_plot}}.
+data frame. Its functionality is the basis for the evaluation of the
+\code{smooth} argument in \code{\link{spiro_max}} and
+\code{\link{spiro_plot}}.
 }
 \section{Filtering Methods}{
 
