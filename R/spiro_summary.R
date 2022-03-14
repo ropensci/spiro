@@ -99,14 +99,11 @@ spiro_summary <- function(data,
   )
   out_df <- do.call("rbind", out)
 
-  # round values to two decimals
-  out_df[, !colnames(out_df) %in% c("step_number", "load")] <- round(
-    x = out_df[, !colnames(out_df) %in% c("step_number", "load")],
-    digits = 2
-  )
-
   # write calculation interval as attribute (useful for reactive environments)
   attr(out_df, "interval") <- interval
+
+  # assign to spiro class (for separate printing methods)
+  class(out_df) <- c("spiro", "data.frame")
 
   out_df
 }

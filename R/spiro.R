@@ -165,7 +165,7 @@ spiro <- function(file,
 
 calo <- function(data) {
   m <- mapply(FUN = calo.internal, vo2abs = data$VO2, vco2abs = data$VCO2)
-  out <- cbind(data, round(apply(t(m), 2, unlist), 2))
+  out <- cbind(data, apply(t(m), 2, unlist))
 
   # preserve class and attributes
   class(out) <- class(data)
