@@ -17,20 +17,20 @@
 #'   be limited in printing if row number exceed \code{max}.
 #' @param max An integer, setting the maximal number of rows to be not cut to
 #'   \code{min} in printing.
-#' @param round An integer giving the number of decimals to be rounded to.
+#' @param digits An integer giving the number of decimals to be rounded to.
 #' @param ... Passing of additional arguments to \code{knit_print.default()}.
 #'
 #' @importFrom knitr knit_print
 #' @export
 
-knit_print.spiro <- function(x, min = 10, max = 20, round = 2, ...) {
+knit_print.spiro <- function(x, min = 10, max = 20, digits = 2, ...) {
   n <- nrow(x)
   if (n <= max) {
     NextMethod(x, ...)
   } else {
     x <- x[1:min, ]
+    nr <- n - min
+    x[, 4:ncol(x)] <- round(x[, 4:ncol(x)], digits = digits)
+    c(NextMethod(x, ...), sprintf("... with %s more rows", nr))
   }
-  nr <- n - min
-  x[, 4:ncol(x)] <- round(x[, 4:ncol(x)], round)
-  c(NextMethod(x, ...), sprintf("... with %s more rows", nr))
 }

@@ -4,7 +4,7 @@
 \alias{knit_print.spiro}
 \title{Printing spiro data frames in a knitr context}
 \usage{
-\method{knit_print}{spiro}(x, min = 10, max = 20, round = 2, ...)
+\method{knit_print}{spiro}(x, min = 10, max = 20, digits = 2, ...)
 }
 \arguments{
 \item{x}{A \code{data.frame} of the class \code{spiro} to be printed.}
@@ -15,7 +15,7 @@ be limited in printing if row number exceed \code{max}.}
 \item{max}{An integer, setting the maximal number of rows to be not cut to
 \code{min} in printing.}
 
-\item{round}{An integer giving the number of decimals to be rounded to.}
+\item{digits}{An integer giving the number of decimals to be rounded to.}
 
 \item{...}{Passing of additional arguments to \code{knit_print.default()}.}
 }
