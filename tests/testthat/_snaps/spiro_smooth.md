@@ -4003,17 +4003,65 @@
 # Butterworth filter work
 
     [1] 0.001098031 0.006971219 0.022535634 0.051105142 0.093317566 0.148347328
+    attr(,"smooth_method")
+    attr(,"smooth_method")$type
+    [1] "bw"
+    
+    attr(,"smooth_method")$param
+    attr(,"smooth_method")$param$W
+    NULL
+    
+    attr(,"smooth_method")$param$n
+    NULL
+    
+    
 
 ---
 
     [1] 1.796972e-06 1.497925e-05 6.370977e-05 1.904937e-04 4.591268e-04
     [6] 9.542046e-04
+    attr(,"smooth_method")
+    attr(,"smooth_method")$type
+    [1] "bw"
+    
+    attr(,"smooth_method")$param
+    attr(,"smooth_method")$param$W
+    [1] 0.02
+    
+    attr(,"smooth_method")$param$n
+    [1] 4
+    
+    
 
 ---
 
     [1] 1.0949954 1.0439385 0.9833943 0.9144883 0.8385922 0.7572926
+    attr(,"smooth_method")
+    attr(,"smooth_method")$type
+    [1] "bw_zl"
+    
+    attr(,"smooth_method")$param
+    attr(,"smooth_method")$param$W
+    NULL
+    
+    attr(,"smooth_method")$param$n
+    NULL
+    
+    
 
 ---
 
     [1] 0.010464491 0.009214719 0.008034260 0.006929122 0.005904422 0.004964272
+    attr(,"smooth_method")
+    attr(,"smooth_method")$type
+    [1] "bw_zl"
+    
+    attr(,"smooth_method")$param
+    attr(,"smooth_method")$param$W
+    [1] 0.02
+    
+    attr(,"smooth_method")$param$n
+    [1] 4
+    
+    
 
