@@ -4,7 +4,7 @@
 \alias{spiro_plot}
 \title{Plot data from cardiopulmonary exercise data files}
 \usage{
-spiro_plot(data, which = 1:9, smooth = 15, base_size = 13, ...)
+spiro_plot(data, which = 1:9, smooth = "fz", base_size = 13, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro}, as it is
@@ -25,8 +25,10 @@ Plot:
 \item 9: PetO2 and PetCO2 over time
 }}
 
-\item{smooth}{Integer for calculation of a rolling average (in seconds)
-for gas exchange measures.}
+\item{smooth}{Parameter giving the filter methods for smoothing the data.
+Default is \code{fz} for a zero lag Butterworth filter. See
+\code{\link{spiro_smooth}} for more details and other filter methods (e.g.
+time based averages),}
 
 \item{base_size}{An integer controlling the base size of the plots (in pts).}
 

@@ -20,8 +20,10 @@
 #' * 7: VT over VE
 #' * 8: RER over time
 #' * 9: PetO2 and PetCO2 over time
-#' @param smooth Integer for calculation of a rolling average (in seconds)
-#'   for gas exchange measures.
+#' @param smooth Parameter giving the filter methods for smoothing the data.
+#'   Default is \code{fz} for a zero lag Butterworth filter. See
+#'   \code{\link{spiro_smooth}} for more details and other filter methods (e.g.
+#'   time based averages),
 #' @param base_size An integer controlling the base size of the plots (in pts).
 #' @param ... Arguments passed to ggplot2::theme() to modify the appearance of
 #'   the plots.
@@ -42,7 +44,7 @@
 #' spiro_plot(ramp_data, which = 5)
 #' @export
 
-spiro_plot <- function(data, which = 1:9, smooth = 15, base_size = 13, ...) {
+spiro_plot <- function(data, which = 1:9, smooth = "fz", base_size = 13, ...) {
 
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
@@ -77,7 +79,7 @@ spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
 #' Plot ventilation over time
 #'
 #' @noRd
-spiro_plot_VE <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_VE <- function(data, smooth = "fz", base_size = 13, ...) {
   d <- spiro_smooth(data["VE"], smooth = smooth, rawsource = data)
   # use raw breath time data if smoothing method is breath-based
   if (attr(d, "smooth_method")$type == "breath") {
@@ -108,7 +110,7 @@ spiro_plot_VE <- function(data, smooth = 15, base_size = 13, ...) {
 #' Plot heartrate and oxygen pulse over time
 #'
 #' @noRd
-spiro_plot_HR <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
   sec_factor <- 5
 
   # Rewrite null values from heart rate to NAs
@@ -200,7 +202,7 @@ spiro_plot_HR <- function(data, smooth = 15, base_size = 13, ...) {
 #' Plot oxygen uptake, carbon dioxide output and load over time
 #'
 #' @noRd
-spiro_plot_VO2 <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
   yl <- spiro_plot.guess_units(data)
 
   # create data frame with rolling averages
@@ -354,7 +356,7 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #' Plot EQVO2 and EQCO2 over time
 #'
 #' @noRd
-spiro_plot_EQ <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
 
   d <- spiro_smooth(
     data[c("VO2","VCO2","VE")],
@@ -420,7 +422,7 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #' Plot RER over time
 #'
 #' @noRd
-spiro_plot_RER <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
   d <- spiro_smooth(data[c("VO2","VCO2")], smooth = smooth, rawsource = data)
   d$RER <- d$VCO2 / d$VO2
   # use raw breath time data if smoothing method is breath-based
@@ -452,7 +454,7 @@ spiro_plot_RER <- function(data, smooth = 15, base_size = 13, ...) {
 #' Plot PetO2 and PetCO2 over time
 #'
 #' @noRd
-spiro_plot_Pet <- function(data, smooth = 15, base_size = 13, ...) {
+spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
 
   if (!all(is.na(data$PetO2))) {
     d <- spiro_smooth(
