@@ -263,11 +263,11 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
 #' @noRd
 replace_intna <- function(data, keep_NA_all = FALSE) {
   if (all(is.na(data))) {
-   if (keep_NA_all) {
-     return(data)
-   } else {
-     stop("Could not filter data as it only contains NAs.")
-   }
+    if (keep_NA_all) {
+      return(data)
+    } else {
+      stop("Could not filter data as it only contains NAs.")
+    }
   }
   out <- stats::approx(x = seq_along(data), y = data, xout = seq_along(data))
   out$y

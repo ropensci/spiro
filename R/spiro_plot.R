@@ -117,7 +117,7 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
   data$HR[which(data$HR == 0)] <- NA
 
   if (!all(is.na(data$HR))) {
-    d <- spiro_smooth(data[c("VO2","HR")], smooth = smooth, rawsource = data)
+    d <- spiro_smooth(data[c("VO2", "HR")], smooth = smooth, rawsource = data)
     # use raw breath time data if smoothing method is breath-based
     if (attr(d, "smooth_method")$type == "breath") {
       d$t <- attr(data, "raw")$time
@@ -357,9 +357,8 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
-
   d <- spiro_smooth(
-    data[c("VO2","VCO2","VE")],
+    data[c("VO2", "VCO2", "VE")],
     smooth = smooth,
     rawsource = data
   )
@@ -423,7 +422,7 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data[c("VO2","VCO2")], smooth = smooth, rawsource = data)
+  d <- spiro_smooth(data[c("VO2", "VCO2")], smooth = smooth, rawsource = data)
   d$RER <- d$VCO2 / d$VO2
   # use raw breath time data if smoothing method is breath-based
   if (attr(d, "smooth_method")$type == "breath") {
@@ -455,10 +454,9 @@ spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
-
   if (!all(is.na(data$PetO2))) {
     d <- spiro_smooth(
-      data[c("PetO2","PetCO2")],
+      data[c("PetO2", "PetCO2")],
       smooth = smooth,
       rawsource = data
     )

@@ -32,7 +32,6 @@
 #'
 #' # Use an averaging over an interval of 15 breaths
 #' spiro_max(gxt_data, smooth = "15b")
-#'
 #' @export
 
 spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
@@ -63,7 +62,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
         rawsource = data
       )
 
-      # if a breath average is choosen but the raw breath data does not contain
+      # if a breath average is chosen but the raw breath data does not contain
       # HR data this will yield only NAs. In this case the time-based average
       # will be calculated displaying a message.
       if (all(is.na(hr_sm))) {

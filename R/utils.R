@@ -82,4 +82,3 @@ check_bb <- function(timedata) {
   }
   out
 }
-

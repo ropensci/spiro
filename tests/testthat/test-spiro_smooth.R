@@ -1,7 +1,7 @@
 library(spiro)
 
-d1 <- c(5,3,4,1,2,3)
-d2 <- c(2,1,2,3,NA,1)
+d1 <- c(5, 3, 4, 1, 2, 3)
+d2 <- c(2, 1, 2, 3, NA, 1)
 dd <- data.frame(a = d1, b = d2)
 dl <- list(a = d1, b = d2)
 
@@ -54,24 +54,24 @@ test_that("vectorization works", {
 test_that("time averaging works", {
   expect_equal(
     spiro_smooth(d1, 3),
-    c(NA,4,8/3,7/3,2,NA),
+    c(NA, 4, 8 / 3, 7 / 3, 2, NA),
     ignore_attr = "smooth_method"
   )
   expect_equal(
     spiro_smooth(d1, 5),
-    c(NA,NA,3,2.6,NA,NA),
+    c(NA, NA, 3, 2.6, NA, NA),
     ignore_attr = "smooth_method"
   )
   expect_equal(
     spiro_smooth(d2, 3),
-    c(NA,5/3,2,7/3,2,NA),
+    c(NA, 5 / 3, 2, 7 / 3, 2, NA),
     ignore_attr = "smooth_method"
   )
 })
 
 test_that("breath averaging works", {
   expect_snapshot_output(spiro_smooth(s["VO2"], "20b", rawsource = s))
-  expect_snapshot_output(spiro_smooth(s[c("VO2","VCO2")], "5b", rawsource = s))
+  expect_snapshot_output(spiro_smooth(s[c("VO2", "VCO2")], "5b", rawsource = s))
   expect_error(spiro_smooth(s["VO2"], "5b"))
   expect_warning(spiro_smooth(s$VO2, "10b", rawsource = s))
   expect_warning(spiro_smooth(d1, "3b"))
