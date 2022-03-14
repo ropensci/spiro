@@ -56,7 +56,7 @@
 
 spiro_smooth <- function(data, smooth = 30, rawsource = NULL) {
   # get smoothing method
-  method <- smooth_match(smooth)
+  s_method <- smooth_match(smooth)
 
   # if breathe averaging is choosing as the smoothing method, the required data
   # (raw breath data) is usually not in the spiro class data frame but in its
@@ -68,7 +68,7 @@ spiro_smooth <- function(data, smooth = 30, rawsource = NULL) {
   # If another averaging method is used, the rawsource argument will be ignored.
   # Breath averaging on data without the spiro class will behave similar to time
   # averaging (i.e. treating every vector entry as one second/breath).
-  if (method$type == "breath") {
+  if (s_method$type == "breath") {
     if (any(class(data) == "spiro")) {
       if (!any(class(rawsource) == "spiro")) {
         stop(
@@ -98,12 +98,16 @@ spiro_smooth <- function(data, smooth = 30, rawsource = NULL) {
       X = data,
       FUN = spiro_smooth.internal,
       FUN.VALUE = numeric(nrow(data)),
-      method = method
+      method = s_method
     )
     out <- as.data.frame(out)
   } else {
-    out <- spiro_smooth.internal(x = data, method = method)
+    out <- spiro_smooth.internal(x = data, method = s_method)
   }
+
+  # return smoothing method as attribute
+  attr(out, "smooth_method") <- s_method
+
   out
 }
 
