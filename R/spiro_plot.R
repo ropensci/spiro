@@ -247,7 +247,7 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
     ggplot2::geom_area(
       data = tl_data,
       ggplot2::aes_(x = tl_data$time, y = tl_data$load * yl[[1]]),
-      colour = "black", alpha = 0.5, position = "identity"
+      fill = "black", alpha = 0.2, position = "identity"
     ) +
     list(
       if (!requireNamespace("ggborderline", quietly = TRUE)) {
@@ -396,6 +396,7 @@ spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
       }
     ) +
     ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
+    ggplot2::scale_y_continuous(limits = function(x) c(x[[1]] - 5, x[[2]])) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
 }
@@ -539,22 +540,17 @@ spiro_plot.guess_units <- function(data) {
 #' @noRd
 theme_spiro <- function(base_size = 13,
                         panel.grid.minor.x = ggplot2::element_blank(),
-                        legend.position = c(0.02, 0.98),
-                        legend.background = ggplot2::element_rect(
-                          colour = NA,
-                          fill = ggplot2::alpha("white", 0.9)
-                        ),
-                        legend.justification = c(0, 1),
                         legend.title = ggplot2::element_blank(),
+                        legend.position = c(1, 0),
+                        legend.justification = c(1, 0),
                         ...) {
   list(
     ggplot2::theme_minimal(base_size = base_size),
     ggplot2::theme(
       panel.grid.minor.x = panel.grid.minor.x,
-      legend.position = legend.position,
-      legend.background = legend.background,
-      legend.justification = legend.justification,
       legend.title = legend.title,
+      legend.position = legend.position,
+      legend.justification = legend.justification,
       ...
     )
   )

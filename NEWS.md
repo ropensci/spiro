@@ -8,6 +8,7 @@ spiro (development version)
   * Write internal function for moving averages (removes zoo dependency)
   * the package now provides different filters for data smoothing (time-based, breath-based, Butterworth) in spiro_max() and spiro_plot(). spiro_plot() now uses a zero-lag Butterworth filter als default smoothing method.
   * Create a print method for spiro objects to print rounded data
+  * Improved plotting
 
 spiro 0.0.2 (2022-01-03)
 ===========================
