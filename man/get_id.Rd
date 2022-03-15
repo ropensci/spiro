@@ -30,7 +30,7 @@ file meta data. The data are saved to the "info" attribute of a spiro() call.
 The default anonymization ensures that no personal information is
 accidentally revealed, e.g. by sharing spiro outputs as .Rda files.
 
-While there is no way to directly de-anonymize the data, get_id() allows you
+While there is no way to directly deanonymize the data, get_id() allows you
 to recreate the ids, when meta data (name, surname and birthday) are known.
 Birthday is only used within the id generation if available in the original
 raw data.

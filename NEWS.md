@@ -6,7 +6,7 @@ spiro (development version)
   * Meta data is now anonymized during import. This can be disabled by using spiro(anonymize = FALSE) (new dependency: digest)
   * Cortex import now works for files in English language (thanks to Sebastian Mühlenhoff)
   * Write internal function for moving averages (removes zoo dependency)
-  * the package now provides different filters for data smoothing (time-based, breath-based, Butterworth) in spiro_max() and spiro_plot(). spiro_plot() now uses a zero-lag Butterworth filter als default smoothing method.
+  * the package now provides different filters for data smoothing (time-based, breath-based, Butterworth) in spiro_max() and spiro_plot(). spiro_plot() now uses a zero-lag Butterworth filter as default smoothing method.
   * Create a print method for spiro objects to print rounded data
   * Improved plotting
 

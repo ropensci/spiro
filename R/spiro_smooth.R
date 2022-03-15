@@ -160,7 +160,9 @@ smooth_match <- function(smooth) {
         )
       )
     } else if (smooth < 1) {
-      stop("'smooth' must be greater or equal to 1 for time and breath averages")
+      stop(
+        "'smooth' must be greater or equal to 1 for time and breath averages"
+      )
     }
   }
 

@@ -44,5 +44,4 @@ spiro_max(gxt_data, smooth = 15)
 
 # Use an averaging over an interval of 15 breaths
 spiro_max(gxt_data, smooth = "15b")
-
 }

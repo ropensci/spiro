@@ -29,5 +29,6 @@ test_that("input is validated", {
   expect_snapshot_error(spiro_summary(ramp_data, quiet = 1))
   expect_snapshot_error(spiro_summary(ramp_data, exclude = "a"))
   expect_snapshot_error(
-    spiro_summary(spiro(spiro_example("zan_gxt"), protocol = NA)))
+    spiro_summary(spiro(spiro_example("zan_gxt"), protocol = NA))
+  )
 })
