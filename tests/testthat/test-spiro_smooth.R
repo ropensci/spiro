@@ -88,3 +88,8 @@ test_that("Butterworth filter work", {
   expect_snapshot_output(spiro_smooth(d1, "fz"))
   expect_snapshot_output(spiro_smooth(d2, "0.02fz4"))
 })
+
+test_that("input is validated", {
+  expect_snapshot_error(spiro_smooth(d1, "0b"))
+  expect_snapshot_error(spiro_smooth(d1, "50k"))
+})

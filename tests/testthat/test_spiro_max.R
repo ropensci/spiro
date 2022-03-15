@@ -14,6 +14,8 @@ test_that("spiro_max can control smoothing of heart rate data", {
     spiro_max(ramp_data_hr)$HR > spiro_max(ramp_data_hr, hr_smooth = TRUE)$HR,
     TRUE
   )
+  expect_message(spiro_max(ramp_data_hr, smooth = "15b", hr_smooth = TRUE))
+  expect_error(spiro_max(ramp_data_hr, hr_smooth = 10))
 })
 
 test_that("different smoothing methods work", {

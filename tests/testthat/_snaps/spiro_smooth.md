@@ -4065,3 +4065,11 @@
     
     
 
+# input is validated
+
+    'smooth' must be greater or equal to 1 for time and breath averages
+
+---
+
+    'smooth' argument is not valid. View ?spiro_smooth for valid smooth arguments
+
