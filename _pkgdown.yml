@@ -28,6 +28,7 @@ reference:
   - starts_with("spiro_import")
   - guess_device
   - spiro_interpolate
+  - get_id
 - title: "Dealing with exercise protocols"
 - contents:
   - matches("protocol")
@@ -37,6 +38,10 @@ reference:
 - contents:
   - add_hr
   - starts_with("hr")
+- title: "Data Filtering"
+- contents:
+  - spiro_smooth
+  - bw_filter
 - title: "Summarizing"
 - contents:
   - spiro_summary
@@ -49,3 +54,4 @@ reference:
   - spiro-package
   - spiro_example
   - knit_print.spiro
+  - print.spiro
