@@ -19,13 +19,14 @@ RoxygenNote: 7.1.2
 Imports: 
     ggplot2,
     xml2,
-    zoo,
     readxl,
     knitr,
-    cowplot
+    cowplot,
+    digest
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown,
-    ggborderline
+    ggborderline,
+    signal
 VignetteBuilder: knitr
 Config/testthat/edition: 3

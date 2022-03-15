@@ -10,7 +10,8 @@ spiro(
   weight = NULL,
   hr_file = NULL,
   hr_offset = 0,
-  protocol = NULL
+  protocol = NULL,
+  anonymize = TRUE
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ linked to the start of the gas exchange measurement.}
 \item{protocol}{A \code{data.frame} by \code{\link{set_protocol}} or
 \code{\link{set_protocol_manual}} containing the test protocol. This is
 automatically guessed by default. Set to NA to skip protocol guessing.}
+
+\item{anonymize}{Whether meta data should be anonymized during import.
+Defaults to TRUE. See \code{\link{get_id}} for more information.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro} with cardiopulmonary

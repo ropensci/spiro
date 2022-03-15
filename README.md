@@ -96,8 +96,8 @@ spiro_summary(gxt_data)
 #> 10 222.12 0.98 5.82 0.12
 
 spiro_max(gxt_data)
-#>       VO2    VCO2 VO2_rel     VE  RER HR
-#> 1 4732.28 4640.75    71.7 129.62 1.14 NA
+#>       VO2    VCO2     VE VO2_rel HR
+#> 1 4732.28 4640.75 129.62    71.7 NA
 
 spiro_plot(gxt_data)
 ```
@@ -115,7 +115,7 @@ citation("spiro")
 #>   Testing. R package version 0.0.2.9000. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
-#> Ein BibTeX-Eintrag für LaTeX-Benutzer ist
+#> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {spiro: Manage Data from Cardiopulmonary Exercise Testing},

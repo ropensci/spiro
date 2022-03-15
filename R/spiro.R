@@ -46,6 +46,8 @@
 #' @param protocol A \code{data.frame} by \code{\link{set_protocol}} or
 #'   \code{\link{set_protocol_manual}} containing the test protocol. This is
 #'   automatically guessed by default. Set to NA to skip protocol guessing.
+#' @param anonymize Whether meta data should be anonymized during import.
+#'   Defaults to TRUE. See \code{\link{get_id}} for more information.
 #'
 #' @return A \code{data.frame} of the class \code{spiro} with cardiopulmonary
 #'   parameters interpolated to seconds and the corresponding load data.
@@ -84,7 +86,8 @@ spiro <- function(file,
                   weight = NULL,
                   hr_file = NULL,
                   hr_offset = 0,
-                  protocol = NULL) {
+                  protocol = NULL,
+                  anonymize = TRUE) {
 
   # validate inputs
   if (!is.null(weight)) {
@@ -99,8 +102,12 @@ spiro <- function(file,
     stop("'hr_offset' must be a numeric value")
   }
 
+  if (!is.logical(anonymize)) {
+    stop("'anonymize' must be either TRUE or FALSE")
+  }
+
   # import the gas exchange raw data
-  dt_imported <- spiro_import(file, device = device)
+  dt_imported <- spiro_import(file, device = device, anonymize = anonymize)
 
   # Remove null values caused by measurement errors
   dt_imported$VO2[which(dt_imported$VO2 == 0)] <- NA
@@ -158,7 +165,7 @@ spiro <- function(file,
 
 calo <- function(data) {
   m <- mapply(FUN = calo.internal, vo2abs = data$VO2, vco2abs = data$VCO2)
-  out <- cbind(data, round(apply(t(m), 2, unlist), 2))
+  out <- cbind(data, apply(t(m), 2, unlist))
 
   # preserve class and attributes
   class(out) <- class(data)

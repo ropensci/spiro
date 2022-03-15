@@ -11,9 +11,9 @@
 #' The currently supported metabolic carts are:
 #' \itemize{
 #'   \item \strong{CORTEX} (\code{.xlsx}, \code{.xls} or files \code{.xml} in
+#'   English or German language)
+#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 #'   German language)
-#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, either in English
-#'     or German language)
 #'   \item \strong{Vyntus} (\code{.txt} files in German language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
 #'     names in the form of \code{"EXEDxxx"})
@@ -31,15 +31,19 @@
 #' spiro_import(file)
 #' @export
 
-spiro_import <- function(file, device = NULL) {
+spiro_import <- function(file, device = NULL, anonymize = TRUE) {
   if (is.null(device)) device <- guess_device(file)
-  switch(device,
+  out <- switch(device,
     zan = spiro_import_zan(file),
     cosmed = spiro_import_cosmed(file),
     cortex = spiro_import_cortex(file),
     vyntus = spiro_import_vyntus(file),
     stop("Could not find device type. Please specify the 'device' argument")
   )
+  if (anonymize) {
+    attr(out, "info") <- spiro_anonymize(attr(out, "info"))
+  }
+  out
 }
 
 #' Import raw data from ZAN spiroergometric devices
@@ -164,18 +168,23 @@ guess_device <- function(file) {
     if (any(grepl("ID", head))) {
       device <- "cosmed"
       # files from Cortex devices usually contain a line at the head:
-      # "Stammdaten"
-      # -- TO DO --
-      # this is currently only working in German language
-      # English equivalent is needed
-    } else if (any(head == "Stammdaten", na.rm = TRUE)) {
+      # "Administrative Data" or "Stammdaten"
+    } else if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
       device <- "cortex"
     } else { # device type not found
       device <- "none"
     }
   } else if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     head <- import_xml(file, short = TRUE)
-    if (any(head == "Stammdaten", na.rm = TRUE)) {
+    if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
       device <- "cortex"
     } else {
       device <- "none"
@@ -221,7 +230,7 @@ spiro_import_cosmed <- function(file) {
       tbl,
       c("Last name:", "Last name", "Nachname:", "Nachname")
     ),
-    birthday = get_meta(tbl, c("Age:", "Age", "Alter:", "Alter")),
+    birthday = NA, # cosmed files do only display an age, but no birthday column
     sex = get_sex(get_meta(tbl, c("Sex:", "Sex", "Geschlecht:", "Geschlecht"))),
     height = as.numeric(
       get_meta(
@@ -331,22 +340,20 @@ spiro_import_cortex <- function(file) {
     stop("Cortex raw data file must be in .xml, .xlsx or .xls format.")
   }
 
-  # -- TO DO --
-  # create import option for files of English language
-
-  # get meta data (German language)
+  # get meta data
 
   # filter data frame for section with meta data
-  meta_begin <- which(d == "Patient")
+  meta_begin <- which(d == "Patient data" | d == "Patient")
   meta_raw <- d[c(meta_begin:(meta_begin + 25)), ]
 
   # extract meta data
-  name <- get_meta(meta_raw, c("Name", "Nachname"))
-  surname <- get_meta(meta_raw, "Vorname")
-  sex <- get_meta(meta_raw, "Geschlecht")
-  birthday <- get_meta(meta_raw, "Geburtsdatum")
-  height <- get_meta(meta_raw, "Gr\u00f6\u00dfe") # special handling for umlaute
-  weight <- get_meta(meta_raw, "Gewicht")
+  name <- get_meta(meta_raw, c("Last Name", "Name", "Nachname"))
+  surname <- get_meta(meta_raw, c("First Name", "Vorname"))
+  sex <- get_meta(meta_raw, c("Sex", "Geschlecht"))
+  birthday <- get_meta(meta_raw, c("Date of Birth", "Geburtsdatum"))
+  # special handling for umlaute in German files
+  height <- get_meta(meta_raw, c("Height", "Gr\u00f6\u00dfe"))
+  weight <- get_meta(meta_raw, c("Weight", "Gewicht"))
 
   # write data frame for metadata
   info <- data.frame(name,
@@ -374,11 +381,11 @@ spiro_import_cortex <- function(file) {
     time = to_seconds(data[["t"]]),
     VO2 = get_data(data, c("V'O2 (STPD)", "V'O2")),
     VCO2 = get_data(data, "V'CO2"),
-    RR = get_data(data, "AF"),
+    RR = get_data(data, c("AF", "BF")),
     VT = get_data(data, "VT"),
     VE = get_data(data, c("V'E (BTPS)", "V'E")),
-    HR = get_data(data, "HF"),
-    load = get_data(data, c("v", "P")),
+    HR = get_data(data, c("HR", "HF")),
+    load = get_data(data, c("v", "P", "WR")),
     PetO2 = get_data(data, "PetO2"),
     PetCO2 = get_data(data, "PetCO2")
   )
@@ -563,7 +570,76 @@ get_data <- function(data, vars) {
       as.numeric(data[, vars_match])
     )
   } else {
-    out <- NA
+    out <- as.numeric(NA)
   }
   out
+}
+
+#' Anonymize participants meta data
+#'
+#' \code{spiro_anonymize()} replaces personal information from meta data
+#' imported by an id.
+#'
+#' @param info A data.frame containing meta data, as produced as an attribute by
+#'   the spiro_import_* functions.
+#'
+#' @return A data.frame containing the id and the body weight.
+#' @noRd
+spiro_anonymize <- function(info) {
+  # consider birthday data only if available
+  if (is.na(info$birthday)) {
+    birthday <- NULL
+  } else {
+    birthday <- info$birthday
+  }
+
+  # replace personal information by anonymized id
+  id <- get_id(
+    name = info$name,
+    surname = info$surname,
+    birthday = info$birthday
+  )
+
+  # drop all personal information despite weight data
+  out <- data.frame(
+    id = id,
+    weight = info$weight
+  )
+  out
+}
+
+
+#' Get the anonymization id from personal data
+#'
+#' \code{get_id()} returns the anonymization id corresponding to given personal
+#' data.
+#'
+#' By default, the spiro package anonymizes personal information obtained from
+#' file meta data. The data are saved to the "info" attribute of a spiro() call.
+#' The default anonymization ensures that no personal information is
+#' accidentally revealed, e.g. by sharing spiro outputs as .Rda files.
+#'
+#' While there is no way to directly deanonymize the data, get_id() allows you
+#' to recreate the ids, when meta data (name, surname and birthday) are known.
+#' Birthday is only used within the id generation if available in the original
+#' raw data.
+#'
+#' To disable the anonymization process during import use spiro(anonymize =
+#' FALSE)
+#'
+#' @param name A character string, containing the participant's name as present
+#'   in the raw data file.
+#' @param surname A character string, containing the participant's surname as
+#'   present in the raw data file.
+#' @param birthday A character string, containing the participant's birthday as
+#'   present in the raw data file. If no birthday data is available in the raw
+#'   data, this is ignored.
+#'
+#' @return A character string, containing the anonymized id.
+#'
+#' @examples
+#' get_id("Jesse", "Owens", "12.09.1913")
+#' @export
+get_id <- function(name, surname, birthday = NULL) {
+  digest::digest(c(name, surname, birthday), "crc32")
 }
