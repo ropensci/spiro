@@ -570,7 +570,7 @@ get_data <- function(data, vars) {
       as.numeric(data[, vars_match])
     )
   } else {
-    out <- NA
+    out <- as.numeric(NA)
   }
   out
 }
