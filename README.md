@@ -36,11 +36,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
 ```
 
-Install the latest version 0.0.2 release by running this code:
+Install the latest version 0.0.3 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.2")
+remotes::install_github("smnnlt/spiro@v0.0.3")
 ```
 
 ## Usage
