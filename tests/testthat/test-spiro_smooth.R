@@ -60,7 +60,8 @@ test_that("breath averaging works", {
 })
 
 test_that("Butterworth filter work", {
-  expect_snapshot_output(spiro_smooth(s, "f"))
+  # this snapshot lead to rounding errors based on the machine run
+  expect_snapshot_output(round(spiro_smooth(s, "f"), 4))
   expect_snapshot_output(spiro_smooth(s, "0.02f4", c("VO2", "VE")))
   expect_warning(spiro_smooth(s, "fz", "RER"))
   expect_error(spiro_smooth(s, "0.02fz4", c("VCO2", "VO3")))
