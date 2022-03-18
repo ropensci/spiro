@@ -1,7 +1,7 @@
 spiro (development version)
 ===========================
 
-
+  * Fix bug in Cortex import assigning wrong units in some cases
 
 spiro 0.0.3 (2022-03-15)
 ===========================
