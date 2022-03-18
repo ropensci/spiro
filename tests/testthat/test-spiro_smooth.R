@@ -1,6 +1,7 @@
 library(spiro)
 
 s <- spiro(spiro_example("zan_gxt"))
+nbb <- suppressWarnings(spiro(spiro_example("cosmed_test.xlsx")))
 
 test_that("smooth argument is correctly matched", {
   expect_identical(smooth_match(40), list(type = "time", param = 40))
@@ -67,7 +68,15 @@ test_that("Butterworth filter work", {
   expect_error(spiro_smooth(s, "0.02fz4", c("VCO2", "VO3")))
 })
 
+test_that("Non breath-by-breath data is detected", {
+  expect_snapshot_warning(spiro_smooth(nbb, "2b", "VO2"))
+  expect_snapshot_error(
+    suppressWarnings(spiro_smooth(nbb, "2b", c("VO2", "RERER")))
+  )
+})
+
 test_that("input is validated", {
+  expect_snapshot_error(spiro_smooth("abc"))
   expect_snapshot_error(spiro_smooth(s, "0b"))
   expect_snapshot_error(spiro_smooth(s, "50k"))
 })

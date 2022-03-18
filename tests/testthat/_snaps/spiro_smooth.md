@@ -17038,7 +17038,19 @@
     1996 4.534260e+03 1.284324e+02
     1997 4.530645e+03 1.284730e+02
 
+# Non breath-by-breath data is detected
+
+    Raw data is not breath-by-breath. Uses interpolated data instead.
+
+---
+
+    Could not find columns name(s) 'RERER' in interpolated data
+
 # input is validated
+
+    'data' must be a spiro data frame (the output of a spiro() call)
+
+---
 
     'smooth' must be greater or equal to 1 for time and breath averages
 
