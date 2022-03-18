@@ -1,10 +1,5 @@
 library(spiro)
 
-d1 <- c(5, 3, 4, 1, 2, 3)
-d2 <- c(2, 1, 2, 3, NA, 1)
-dd <- data.frame(a = d1, b = d2)
-dl <- list(a = d1, b = d2)
-
 s <- spiro(spiro_example("zan_gxt"))
 
 test_that("smooth argument is correctly matched", {
@@ -46,50 +41,32 @@ test_that("smooth argument is correctly matched", {
   )
 })
 
-test_that("vectorization works", {
-  expect_type(spiro_smooth(d1, 3), "double")
-  expect_s3_class(spiro_smooth(dd, 3), "data.frame")
-})
-
 test_that("time averaging works", {
-  expect_equal(
-    spiro_smooth(d1, 3),
-    c(NA, 4, 8 / 3, 7 / 3, 2, NA),
-    ignore_attr = "smooth_method"
-  )
-  expect_equal(
-    spiro_smooth(d1, 5),
-    c(NA, NA, 3, 2.6, NA, NA),
-    ignore_attr = "smooth_method"
-  )
-  expect_equal(
-    spiro_smooth(d2, 3),
-    c(NA, 5 / 3, 2, 7 / 3, 2, NA),
-    ignore_attr = "smooth_method"
-  )
+  expect_snapshot_output(spiro_smooth(s))
+  expect_snapshot_output(spiro_smooth(s, columns = c("VO2", "RER")))
+  expect_error(spiro_smooth(s, columns = c("RR", "CVO2")))
 })
 
 test_that("breath averaging works", {
-  expect_snapshot_output(spiro_smooth(s["VO2"], "20b", rawsource = s))
-  expect_snapshot_output(spiro_smooth(s[c("VO2", "VCO2")], "5b", rawsource = s))
-  expect_error(spiro_smooth(s["VO2"], "5b"))
-  expect_warning(spiro_smooth(s$VO2, "10b", rawsource = s))
-  expect_warning(spiro_smooth(d1, "3b"))
+  expect_snapshot_output(spiro_smooth(s, "20b"))
+  expect_snapshot_output(spiro_smooth(s, "20b", columns = c("VO2", "VCO2")))
+  expect_warning(spiro_smooth(s, "10b", columns = c("VO2", "RER")))
+  expect_error(spiro_smooth(s, "40b", c("VE", "SSF")))
   expect_equal(
-    suppressWarnings(spiro_smooth(d1, "3b")),
-    spiro_smooth(d1, 3),
+    suppressWarnings(spiro_smooth(s, "3b", "RER")),
+    spiro_smooth(s, 3, "RER"),
     ignore_attr = "smooth_method"
   )
 })
 
 test_that("Butterworth filter work", {
-  expect_snapshot_output(spiro_smooth(d1, "f"))
-  expect_snapshot_output(spiro_smooth(d2, "0.02f4"))
-  expect_snapshot_output(spiro_smooth(d1, "fz"))
-  expect_snapshot_output(spiro_smooth(d2, "0.02fz4"))
+  expect_snapshot_output(spiro_smooth(s, "f"))
+  expect_snapshot_output(spiro_smooth(s, "0.02f4", c("VO2", "VE")))
+  expect_warning(spiro_smooth(s, "fz", "RER"))
+  expect_error(spiro_smooth(s, "0.02fz4", c("VCO2", "VO3")))
 })
 
 test_that("input is validated", {
-  expect_snapshot_error(spiro_smooth(d1, "0b"))
-  expect_snapshot_error(spiro_smooth(d1, "50k"))
+  expect_snapshot_error(spiro_smooth(s, "0b"))
+  expect_snapshot_error(spiro_smooth(s, "50k"))
 })

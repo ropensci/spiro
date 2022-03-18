@@ -80,9 +80,9 @@ spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
 #'
 #' @noRd
 spiro_plot_VE <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data["VE"], smooth = smooth, rawsource = data)
+  d <- spiro_smooth(data, smooth = smooth, columns = "VE")
   # use raw breath time data if smoothing method is breath-based
-  if (attr(d, "smooth_method")$type == "breath") {
+  if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
   } else {
     d$t <- data$time
@@ -117,30 +117,28 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
   data$HR[which(data$HR == 0)] <- NA
 
   if (!all(is.na(data$HR))) {
-    d <- spiro_smooth(data[c("VO2", "HR")], smooth = smooth, rawsource = data)
+    d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "HR"))
     # use raw breath time data if smoothing method is breath-based
-    if (attr(d, "smooth_method")$type == "breath") {
+    if (nrow(attr(data, "raw")) == nrow(d)) {
       d$t <- attr(data, "raw")$time
     } else {
       d$t <- data$time
     }
 
-    # if a breath average is chosen but the raw breath data does not contain
+    # if a breath-based average is chosen but the raw breath data does not contain
     # HR data this will yield only NAs. In this case the time-based average
     # will be calculated displaying a message.
     if (all(is.na(d$HR))) {
       hr <- spiro_smooth(
-        data = data["HR"],
-        smooth = attr(d, "smooth_method")$param,
-        rawsource = data
+        data = data,
+        smooth = smooth,
+        columns = c("HR","RER"),
+        quiet = TRUE
       )
       # scale heart rate data to
       d$HR <- stats::approx(seq_along(hr$HR), hr$HR, xout = d$t)$y
       message(
-        paste0(
-          "For heart rate values, time-based smoothing was used instead of",
-          " breath-based."
-        )
+          "For heart rate data, smoothing was based on interpolated values."
       )
     }
   } else {
@@ -206,7 +204,7 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
   yl <- spiro_plot.guess_units(data)
 
   # create data frame with rolling averages
-  v_smooth <- spiro_smooth(data[c("VO2", "VCO2")], smooth, data)
+  v_smooth <- spiro_smooth(data, smooth, c("VO2", "VCO2"))
   weight <- attr(data, "info")$weight
 
   tl_data <- data.frame(
@@ -215,7 +213,7 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
   )
 
   # use raw breath time data if smoothing method is breath-based
-  if (attr(v_smooth, "smooth_method")$type == "breath") {
+  if (nrow(attr(data, "raw")) == nrow(v_smooth)) {
     t_data <- attr(data, "raw")$time
   } else {
     t_data <- data$time
@@ -357,15 +355,12 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(
-    data[c("VO2", "VCO2", "VE")],
-    smooth = smooth,
-    rawsource = data
-  )
+  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
+
   d$EQ_O2 <- 1000 * d$VE / d$VO2
   d$EQ_CO2 <- 1000 * d$VE / d$VCO2
   # use raw breath time data if smoothing method is breath-based
-  if (attr(d, "smooth_method")$type == "breath") {
+  if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
   } else {
     d$t <- data$time
@@ -423,10 +418,10 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data[c("VO2", "VCO2")], smooth = smooth, rawsource = data)
+  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
   d$RER <- d$VCO2 / d$VO2
   # use raw breath time data if smoothing method is breath-based
-  if (attr(d, "smooth_method")$type == "breath") {
+  if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
   } else {
     d$t <- data$time
@@ -456,13 +451,10 @@ spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
 #' @noRd
 spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
   if (!all(is.na(data$PetO2))) {
-    d <- spiro_smooth(
-      data[c("PetO2", "PetCO2")],
-      smooth = smooth,
-      rawsource = data
-    )
+    d <- spiro_smooth(data, smooth = smooth, columns = c("PetO2", "PetCO2"))
+
     # use raw breath time data if smoothing method is breath-based
-    if (attr(d, "smooth_method")$type == "breath") {
+    if (nrow(attr(data, "raw")) == nrow(d)) {
       d$t <- attr(data, "raw")$time
     } else {
       d$t <- data$time

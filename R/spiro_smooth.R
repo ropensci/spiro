@@ -10,10 +10,8 @@
 #' provides different filtering methods (time average, breath average, digital
 #' filters).
 #'
-#' The function is vectorized. The input can be either a numeric vectors or a
-#' data frame. Its functionality is the basis for the evaluation of the
-#' \code{smooth} argument in \code{\link{spiro_max}} and
-#' \code{\link{spiro_plot}}.
+#' Breath-based and digital filters will be applied on the raw breath-by-breath
+#' data. Time-based averages will be conducted on the interpolated data.
 #'
 #' @section Filtering Methods:
 #' \describe{
@@ -23,10 +21,7 @@
 #'     calculation interval in seconds.}
 #'   \item{Breath-Based Average (e.g. \code{smooth = "15b"})}{A (centered)
 #'     moving average over a defined number of breaths. The integer before the
-#'     letter 'b' defines the number of breaths for the calculation interval.
-#'     Note that when using a breath-based average, an object of class
-#'     \code{spiro} containing the raw breath data as the \code{raw} attribute
-#'     has to be set as the \code{rawsource} argument.}
+#'     letter 'b' defines the number of breaths for the calculation interval.}
 #'   \item{Butterworth filter (e.g. \code{smooth = "0.04f3"})}{A digital
 #'     Butterworth filter (with lag). The number before the letter 'f' defines
 #'     the low-pass cut-off frequency, the number after gives the order of the
@@ -38,72 +33,44 @@
 #'     details.}
 #' }
 #'
-#' @param data A numeric vector or data frame with numeric vectors as columns.
-#'   Usually (a subset of) the output of \code{\link{spiro}}.
+#' @param data A data frame of the class \code{spiro}. Usually the output of
+#'   the \code{\link{spiro} function}.
 #' @param smooth An integer or character string specifying the smoothing
 #'   strategy and parameters. Default is \code{30}, which means the applied
 #'   filter is a 30-second moving average. See the section
 #'   \strong{'Filtering Methods'} for more details.
-#' @param rawsource A data frame of the class \code{spiro} (as given by the
-#'   \code{\link{spiro}} function) as additional data source for raw breath
-#'   data, when this is not included in the \code{data} argument. This argument
-#'   is only needed when a breath-based moving average is used as filtering
-#'   method.
+#' @param columns A character vector of the data columns that should be
+#'   filtered. By default the filtering applies to all data column of
+#'   \code{data} (besides load, time and step).
+#' @param quiet Whether warning message should be suppressed. Default is FALSE.
 #'
-#' @return A numeric vector (if input was a vector) or a data frame (if input
-#'   was a data frame or a list of vectors) of the same length as the input
+#' @return A data frame
 #' @export
 
-spiro_smooth <- function(data, smooth = 30, rawsource = NULL) {
+spiro_smooth <- function(data, smooth = 30, columns = NULL, quiet = FALSE) {
+  # check that data argument is a spiro data.frame
+  if (!any(class(data) == "spiro")) {
+    stop("'data' must be a spiro data frame (the output of a spiro() call)")
+  }
+
   # get smoothing method
   s_method <- smooth_match(smooth)
+  # get smoothing data
+  s_data <- get_smooth_data(
+    data = data,
+    columns = columns,
+    s_method = s_method,
+    quiet = quiet
+  )
 
-  # if breathe averaging is choosing as the smoothing method, the required data
-  # (raw breath data) is usually not in the spiro class data frame but in its
-  # attributes. Thus when when using a subset of the spiro data frame as the
-  # 'data' argument in spiro_smooth() the information is missing.
-  # To be able to calculate breath averages the orginal spiro data frame has to
-  # be given as the additional rawsource argument. The functions matches the raw
-  # data to the given 'data' argument, which requires named vectors/data frames.
-  # If another averaging method is used, the rawsource argument will be ignored.
-  # Breath averaging on data without the spiro class will behave similar to time
-  # averaging (i.e. treating every vector entry as one second/breath).
-  if (s_method$type == "breath") {
-    if (any(class(data) == "spiro")) {
-      if (!any(class(rawsource) == "spiro")) {
-        stop(
-          paste0(
-            "When using breath averages, give a spiro data frame as the ",
-            "'rawsource' arguments to spiro_smooth()"
-          ),
-          call. = FALSE
-        )
-      }
-      data <- attr(rawsource, "raw")[names(data)]
-    } else {
-      warning(
-        paste0(
-          "When applied to an object not of class 'spiro' ",
-          "breath-averaging will return the same results as time averaging"
-        ),
-        call. = FALSE
-      )
-    }
-  }
-
-  # spiro_smooth is a vectorized function. It works for either single vectors or
-  # data.frames, where the columns are numeric vectors.
-  if (any(class(data) == "data.frame")) {
-    out <- vapply(
-      X = data,
-      FUN = spiro_smooth.internal,
-      FUN.VALUE = numeric(nrow(data)),
-      method = s_method
-    )
-    out <- as.data.frame(out)
-  } else {
-    out <- spiro_smooth.internal(x = data, method = s_method)
-  }
+  # vectorizes filter over all columns of the data frame
+  out <- vapply(
+    X = s_data,
+    FUN = spiro_smooth.internal,
+    FUN.VALUE = numeric(nrow(s_data)),
+    method = s_method
+  )
+  out <- as.data.frame(out)
 
   # return smoothing method as attribute
   attr(out, "smooth_method") <- s_method
@@ -189,8 +156,12 @@ bw_smooth_extract <- function(smooth, matchstring = "f") {
 #'   entries are filled with NAs.
 #' @noRd
 mavg <- function(x, k) {
+  # return NA vector if input is only NAs
+  if (all(is.na(x))) {
+    return(x)
+  }
   # interpolate internal NAs to have the same NA handling as other filters
-  x <- replace_intna(x, keep_NA_all = TRUE)
+  x <- replace_intna(x)
   series <- stats::filter(x, rep(1 / k, k), sides = 2)
   as.vector(series)
 }
@@ -228,6 +199,11 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
     )
   }
 
+  # return NA vector if input is only NAs
+  if (all(is.na(x))) {
+    return(x)
+  }
+
   # Use default values when arguments are NULL (passed by other functions such
   # as spiro_smooth)
   if (is.null(n)) n <- 3
@@ -255,6 +231,12 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
     out <- out_pre[(length(x) + 1):(2 * length(x))]
   } else {
     out <- signal::filter(bf, replace_intna(x))
+    # in some instances the filter length varies (this is currently not
+    # predictable for me). To prevent errors, missing vector entries will be
+    # filled with NAs
+    if (length(out) < length(x)) {
+      out <- c(out, rep.int(NA, length(x) - length(out)))
+    }
   }
   as.vector(out)
 }
@@ -263,14 +245,102 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
 #'
 #' Internal function for \code{\link{bw_filter}} in \code{\link{spiro_smooth}}
 #' @noRd
-replace_intna <- function(data, keep_NA_all = FALSE) {
-  if (all(is.na(data))) {
-    if (keep_NA_all) {
-      return(data)
-    } else {
-      stop("Could not filter data as it only contains NAs.")
-    }
-  }
+replace_intna <- function(data) {
   out <- stats::approx(x = seq_along(data), y = data, xout = seq_along(data))
   out$y
+}
+
+#' Get the right data for smoothing
+#'
+#' Internal function for \code{\link{spiro_smooth}}.
+#' @noRd
+get_smooth_data <- function(data, columns, s_method, quiet = FALSE) {
+  # breath based and digital filter methods are per default applied on the raw
+  # breath-by-breath data
+  if (s_method$type != "time") {
+    # get raw data
+    rawdata <- attr(data, "raw")
+    if (check_bb(rawdata$time)) { # raw data is breath-by-breath
+      if (is.null(columns)) {
+        # use all columns (besides time and load) if columns argument is empty
+        columns <- names(rawdata)[!names(rawdata) %in% c("time", "load")]
+      }
+      if (all(columns %in% names(rawdata))) {
+        data <- rawdata[columns]
+      } else {
+        # default to interpolated data if column names are present in it, but
+        # not in raw data
+        if (all(columns %in% names(data))) {
+          data <- data[columns]
+          w <- get_wrongcol_string(data = rawdata, columns = columns)
+          if (!quiet) {
+            warning(
+              paste0(
+                "Could not find column name(s) ",
+                w,
+                " in raw data. Uses interpolated data for smoothing instead."
+              ),
+              call. = FALSE
+            )
+          }
+        } else {
+          w <- get_wrongcol_string(data = data, columns = columns)
+          stop(
+            paste0(
+              "Could not find columns name(s) ",
+              w,
+              " in raw or interpolated data"
+            ),
+            call. = FALSE
+          )
+        }
+      }
+    } else { # raw data is not breath-by-breath
+      if (!quiet) {
+        warning(
+          "Raw data is not breath-by-breath. Uses interpolated data instead.",
+          call. = FALSE
+        )
+      }
+      if (is.null(columns)) {
+        columns <- names(data)[!names(data) %in% c("time", "load", "step")]
+      }
+      if (all(columns %in% names(data))) {
+        data <- data[columns]
+      } else {
+        w <- get_wrongcol_string(data = data, columns = columns)
+        stop(
+          paste0("Could not find columns name(s) ", w, " in interpolated data"),
+          call. = FALSE
+        )
+      }
+    }
+  } else {
+    # use all columns (besides time,load and step) if columns argument is empty
+    if (is.null(columns)) {
+      columns <- names(data)[!names(data) %in% c("time", "load", "step")]
+    }
+    if (all(columns %in% names(data))) {
+      data <- data[columns]
+    } else {
+      # wrong column names(s)
+      w <- get_wrongcol_string(data = data, columns = columns)
+      stop(
+        paste0("Could not find columns name(s) ", w, " in data"),
+        call. = FALSE
+      )
+    }
+  }
+  data
+}
+
+#' Get a string for wrong column names
+#'
+#' Internal function for messages and errors in \code{\link{spiro_smooth}}.
+#' @noRd
+get_wrongcol_string <- function(data, columns) {
+  # determine wrong column names
+  w <- columns[!columns %in% names(data)]
+  out <- paste0("'", w, "'", collapse = ", ")
+  out
 }

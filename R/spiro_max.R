@@ -43,9 +43,9 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
 
   # apply smoothing filter
   filt <- spiro_smooth(
-    data = data[c("VO2", "VCO2", "VE")],
+    data = data,
     smooth = smooth,
-    rawsource = data
+    columns = c("VO2", "VCO2", "VE")
   )
 
   # calculate maximum values
@@ -57,9 +57,9 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
     if (hr_smooth) {
       # apply smoothing to heart rate data
       hr_sm <- spiro_smooth(
-        data = data["HR"],
+        data = data,
         smooth = smooth,
-        rawsource = data
+        columns = "HR"
       )
 
       # if a breath average is chosen but the raw breath data does not contain
@@ -67,9 +67,9 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
       # will be calculated displaying a message.
       if (all(is.na(hr_sm))) {
         hr_sm <- spiro_smooth(
-          data = data["HR"],
+          data = data,
           smooth = attr(filt, "smooth_method")$param,
-          rawsource = data
+          columns = "HR"
         )
         message(
           paste0(

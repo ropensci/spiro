@@ -4,26 +4,25 @@
 \alias{spiro_smooth}
 \title{Apply a smoothing filter to data from cardiopulmonary exercise testing.}
 \usage{
-spiro_smooth(data, smooth = 30, rawsource = NULL)
+spiro_smooth(data, smooth = 30, columns = NULL, quiet = FALSE)
 }
 \arguments{
-\item{data}{A numeric vector or data frame with numeric vectors as columns.
-Usually (a subset of) the output of \code{\link{spiro}}.}
+\item{data}{A data frame of the class \code{spiro}. Usually the output of
+the \code{\link{spiro} function}.}
 
 \item{smooth}{An integer or character string specifying the smoothing
 strategy and parameters. Default is \code{30}, which means the applied
 filter is a 30-second moving average. See the section
 \strong{'Filtering Methods'} for more details.}
 
-\item{rawsource}{A data frame of the class \code{spiro} (as given by the
-\code{\link{spiro}} function) as additional data source for raw breath
-data, when this is not included in the \code{data} argument. This argument
-is only needed when a breath-based moving average is used as filtering
-method.}
+\item{columns}{A character vector of the data columns that should be
+filtered. By default the filtering applies to all data column of
+\code{data} (besides load, time and step).}
+
+\item{quiet}{Whether warning message should be suppressed. Default is FALSE.}
 }
 \value{
-A numeric vector (if input was a vector) or a data frame (if input
-was a data frame or a list of vectors) of the same length as the input
+A data frame
 }
 \description{
 Filter vectors and data frames with moving averages and digital filters.
@@ -37,10 +36,8 @@ gas exchange data, it is often helpful to filter the raw data. This function
 provides different filtering methods (time average, breath average, digital
 filters).
 
-The function is vectorized. The input can be either a numeric vectors or a
-data frame. Its functionality is the basis for the evaluation of the
-\code{smooth} argument in \code{\link{spiro_max}} and
-\code{\link{spiro_plot}}.
+Breath-based and digital filters will be applied on the raw breath-by-breath
+data. Time-based averages will be conducted on the interpolated data.
 }
 \section{Filtering Methods}{
 
@@ -51,10 +48,7 @@ as a character (e.g. \code{smooth = "30"}) and defines the length of the
 calculation interval in seconds.}
 \item{Breath-Based Average (e.g. \code{smooth = "15b"})}{A (centered)
 moving average over a defined number of breaths. The integer before the
-letter 'b' defines the number of breaths for the calculation interval.
-Note that when using a breath-based average, an object of class
-\code{spiro} containing the raw breath data as the \code{raw} attribute
-has to be set as the \code{rawsource} argument.}
+letter 'b' defines the number of breaths for the calculation interval.}
 \item{Butterworth filter (e.g. \code{smooth = "0.04f3"})}{A digital
 Butterworth filter (with lag). The number before the letter 'f' defines
 the low-pass cut-off frequency, the number after gives the order of the
