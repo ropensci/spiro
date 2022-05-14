@@ -462,21 +462,23 @@ spiro_import_vyntus <- function(file) {
 #' @return A factor level, either \code{male} or \code{female}.
 #' @noRd
 get_sex <- function(chr) {
-  sex <- switch(chr,
-    m = ,
-    "M" = ,
-    "m\u00e4nnlich" = ,
-    "M\u00e4nnlich" = ,
-    male = "male",
-    f = ,
-    "F" = ,
-    w = ,
-    W = ,
-    weiblich = ,
-    Weiblich = ,
-    female = "female",
-    NA
-  )
+  if (grepl("nnlich", chr)) { # handling to avoid umlaut in mannlich
+    sex <- "male"
+  } else {
+    sex <- switch(chr,
+                  m = ,
+                  "M" = ,
+                  male = "male",
+                  f = ,
+                  "F" = ,
+                  w = ,
+                  W = ,
+                  weiblich = ,
+                  Weiblich = ,
+                  female = "female",
+                  NA
+    )
+  }
   if (is.null(sex)) sex <- NA
   out <- factor(sex, levels = c("female", "male", "diverse"))
   out
