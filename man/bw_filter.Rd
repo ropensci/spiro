@@ -2,7 +2,7 @@
 % Please edit documentation in R/spiro_smooth.R
 \name{bw_filter}
 \alias{bw_filter}
-\title{Smooth data with a (zero-lag) Butterworth filter}
+\title{Smooth data with a (zero-phase) Butterworth filter}
 \usage{
 bw_filter(x, n = 3, W = 0.04, zero_lag = TRUE)
 }
@@ -13,7 +13,7 @@ bw_filter(x, n = 3, W = 0.04, zero_lag = TRUE)
 
 \item{W}{Low-pass cut-off frequency of the filter, defaults to 0.04}
 
-\item{zero_lag}{Whether a zero lag (forwards-backwards) filter should be
+\item{zero_lag}{Whether a zero phase (forwards-backwards) filter should be
 applied.}
 }
 \value{

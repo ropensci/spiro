@@ -13,7 +13,7 @@ exchange data.}
 \item{device}{A character string, specifying the device for measurement. By
 default the device type is guessed by the characteristics of the
 \code{file}. This can be overridden by setting the argument to
-\code{"cortex"}, \code{"cosmed"} or \code{"zan"}.}
+\code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.}
 
 \item{anonymize}{Whether meta data should be anonymized during import.
 Defaults to TRUE. See \code{\link{get_id}} for more information.}

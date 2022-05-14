@@ -21,7 +21,7 @@ exchange data.}
 \item{device}{A character string, specifying the device for measurement. By
 default the device type is guessed by the characteristics of the
 \code{file}. This can be overridden by setting the argument to
-\code{"cortex"}, \code{"cosmed"} or \code{"zan"}.}
+\code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.}
 
 \item{weight}{Numeric value for participant's body weight, if the default
 value saved in the \code{file} should be overridden.}

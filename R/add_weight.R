@@ -11,8 +11,9 @@
 #'
 #' For running protocols, running economy (RE) is calculated.
 #'
-#' @param data A \code{data.frame} containing the exercise test data.
 #' @param weight A numeric value to manually set the participant's body weight.
+#'
+#' @inheritParams spiro_max
 #'
 #' @return A \code{data.frame} of the class \code{spiro} containing the
 #'   cardiopulmonary exercise testing data including variables relative to body

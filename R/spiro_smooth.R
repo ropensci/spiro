@@ -166,7 +166,7 @@ mavg <- function(x, k) {
   as.vector(series)
 }
 
-#' Smooth data with a (zero-lag) Butterworth filter
+#' Smooth data with a (zero-phase) Butterworth filter
 #'
 #' Internal function for \code{\link{spiro_smooth}}.
 #'
@@ -185,19 +185,11 @@ mavg <- function(x, k) {
 #' @param x A numeric vector on which the digital filter should be applied
 #' @param n Order of the Butterworth filter, defaults to 3
 #' @param W Low-pass cut-off frequency of the filter, defaults to 0.04
-#' @param zero_lag Whether a zero lag (forwards-backwards) filter should be
+#' @param zero_lag Whether a zero phase (forwards-backwards) filter should be
 #'   applied.
 #'
 #' @return A numeric vector of the same length as x.
 bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
-  if (!requireNamespace("signal", quietly = TRUE)) {
-    stop(paste0(
-      "For digital filtering, the package 'signal' must be installed. ",
-      "Run 'install.packages('signal')' in your console."
-    ),
-    call. = FALSE
-    )
-  }
 
   # return NA vector if input is only NAs
   if (all(is.na(x))) {
@@ -213,7 +205,7 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
   bf <- signal::butter(n, W, "low")
 
   # handle of internal NAs
-  # internal NAs can not be processed by Butterworth filters. For the zero-lag
+  # internal NAs can not be processed by Butterworth filters. For the zero-phase
   # method used in this package, leading and trailing NAs can also not be
   # processed. To overcome these issues all internal NAs will be linearly
   # interpolated
@@ -222,10 +214,11 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
     # the signal package currently only contains an old version of the zero-lag
     # filter function `filtfilt()`, which does not minimize end-transients. To
     # overcome this issue this function pads the signal in reverse order before
-    # the beginning and at the end of the series.
+    # the beginning and at the end of the series. This is equal to the
+    # even padtype in Python's scipy.signal.filtfilt()
     x_ext <- replace_intna(c(rev(x), x, rev(x)))
     # Remaining leading or trailing NAs should be now irrelevant to the filter
-    # procedure, but need to be replaces to make signal::filtfilt work
+    # procedure, but need to be replaces to make signal::filtfilt() work
     x_ext[which(is.na(x_ext))] <- 0
     out_pre <- signal::filtfilt(bf, x_ext)
     out <- out_pre[(length(x) + 1):(2 * length(x))]

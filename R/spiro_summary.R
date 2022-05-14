@@ -10,10 +10,10 @@
 #' If the interval exceeds the duration of any step, a message will be
 #' displayed. If the interval exceeds the duration of all steps, it will be
 #' reset to the duration of the longest step. You can silence all messages by
-#' setting `quiet = TRUE`.
+#' setting \code{quiet = TRUE}.
 #'
-#' When setting `exclude = TRUE` the function will check whether the last load
-#' step was terminated early. If this was the case, the step will not be
+#' When setting \code{exclude = TRUE} the function will check whether the last
+#' load step was terminated early. If this was the case, the step will not be
 #' displayed in the summary.
 #'
 #' @param data A \code{data.frame} of the class \code{spiro_*}, as it is

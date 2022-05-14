@@ -45,11 +45,21 @@ remotes::install_github("smnnlt/spiro@v0.0.3")
 
 ## Usage
 
+Main functions:
+
 -   Use `spiro()` to automatically import and process raw data from
     cardiopulmonary exercise testing.
 -   Use `spiro_summary()` and `spiro_max()` for a stepwise summary or
     the calculation of maximum parameter values.
 -   Use `spiro_plot()` to visualize the data.
+
+Further functionality:
+
+-   Add external heart rate data from a .tcx file.
+-   Automated guessing or manual setting of exercise protocols.
+-   Different data filtering strategies for VO<sub>2max</sub>
+    determination (moving time averages, moving breath averages,
+    Butterworth filters)
 
 #### Metabolic Carts
 

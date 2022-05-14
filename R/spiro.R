@@ -35,7 +35,7 @@
 #' @param device A character string, specifying the device for measurement. By
 #'   default the device type is guessed by the characteristics of the
 #'   \code{file}. This can be overridden by setting the argument to
-#'   \code{"cortex"}, \code{"cosmed"} or \code{"zan"}.
+#'   \code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.
 #' @param weight Numeric value for participant's body weight, if the default
 #'   value saved in the \code{file} should be overridden.
 #' @param hr_file The absolute or relative path of a \code{*tcx} file that
@@ -154,7 +154,7 @@ spiro <- function(file,
 
 #' Calculate calometric values from gas exchange data
 #'
-#' Internal function to \code{?link{spiro_add}}
+#' Internal function to \code{\link{spiro}}
 #'
 #' Calculates the rates of carbohydrate and fat oxidation (in grams per minute)
 #' from oxygen uptake and carbon-dioxide output data using the formula from

@@ -7,8 +7,8 @@
 add_hr(data, hr_file, hr_offset = 0)
 }
 \arguments{
-\item{data}{A \code{data.frame} containing spiroergometric data interpolated
-to every second.}
+\item{data}{A \code{data.frame} of the class \code{spiro} containing the gas
+exchange data. Usually the output of a \code{\link{spiro}} call.}
 
 \item{hr_file}{The absolute or relative path of a \code{*tcx} file that
 contains additional heart rate data.}

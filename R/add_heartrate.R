@@ -6,8 +6,9 @@
 #' Heart rate data will be imported from a \code{.tcx} file. After interpolating
 #' the data to full seconds, it is then matched to the imported data.
 #'
-#' @param data A \code{data.frame} containing spiroergometric data interpolated
-#'   to every second.
+#' @param data A \code{data.frame} of the class \code{spiro} containing the gas
+#'   exchange data. Usually the output of a \code{\link{spiro}} call.
+#'
 #' @inheritParams spiro
 #'
 #' @return A \code{data.frame} containing the spiroergometric and heart rate

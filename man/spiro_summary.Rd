@@ -37,8 +37,8 @@ displayed. If the interval exceeds the duration of all steps, it will be
 reset to the duration of the longest step. You can silence all messages by
 setting \code{quiet = TRUE}.
 
-When setting \code{exclude = TRUE} the function will check whether the last load
-step was terminated early. If this was the case, the step will not be
+When setting \code{exclude = TRUE} the function will check whether the last
+load step was terminated early. If this was the case, the step will not be
 displayed in the summary.
 }
 \examples{

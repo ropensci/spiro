@@ -8,7 +8,8 @@ exercise testing data}
 add_weight(data, weight = NULL)
 }
 \arguments{
-\item{data}{A \code{data.frame} containing the exercise test data.}
+\item{data}{A \code{data.frame} of the class \code{spiro} containing the gas
+exchange data. Usually the output of a \code{\link{spiro}} call.}
 
 \item{weight}{A numeric value to manually set the participant's body weight.}
 }

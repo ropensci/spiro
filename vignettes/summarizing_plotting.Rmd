@@ -47,12 +47,12 @@ The length of the computational interval (in seconds) can be modified with the `
 
 ## Maximal parameter values with `spiro_max()`
 
-For some types of exercise tests it may be preferable to get maximal values of the measured parameters. `spiro_max()` calculates these after smoothing the data.
+For some types of exercise tests it may be preferable to get maximal values of the measured parameters (e.g., the maximum oxygen uptake VO~2max~). `spiro_max()` calculates these after smoothing the data.
 
 ```{r spiro_max}
 spiro_max(gxt_data, smooth = 30)
 ```
-The `smooth` argument controls the interval and method for the data smoothing. Smoothing happens by the calculation of a rolling average either over a fixed time interval (e.g. `smooth = 30` for 30 seconds), or over a fixed number of breaths (e.g. `smooth = "30b"` for 30 breaths). Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
+The `smooth` argument controls the interval and method for the data smoothing. Different smoothing methods are available: Moving averages over fixed time intervals (e.g. `smooth = 30` for 30 seconds), moving averages over a fixed number of breaths (e.g. `smooth = "30b"` for 30 breaths) or digital filters (e.g. `smooth = "0.04fz3"` for a third-order zero-phase low-pass Butterworth filter with a cut-off frequency of 0.04 Hz). Per default the smoothing will not apply to the heart rate values, but you can enable this behavior with `hr_smooth = TRUE`.
 
 ## Plotting the data
 
@@ -73,11 +73,11 @@ You can individually select and combine panels of the 9-Panel Plot by setting th
 spiro_plot(data, which = c(5,3))
 ```
 
-Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average over an interval set in the `smooth` argument. The other panels (4,5,7) use the initial raw data for visualization. 
+Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average over an interval set in the `smooth` argument. The other panels (4,5,7) use the raw breath-by-breath data for visualization. 
 
 You can control the appearance of the plots in `spiro_plot()`. Use the `base_size` argument to change the plot base size. Pass other style arguments to `ggplot::theme()` for further customization.
 
 ```{r spiro_plot-style, fig.width = 10, fig.height = 8, message = FALSE}
-# Change base size and 
+# Change base size and axis label font
 spiro_plot(data, base_size = 9, axis.title = ggplot2::element_text(face = "italic", colour = "blue"))
 ```
