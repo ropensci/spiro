@@ -22,11 +22,11 @@ Imports:
     readxl,
     knitr,
     cowplot,
-    digest
+    digest,
+    signal
 Suggests: 
     testthat (>= 3.0.0),
     rmarkdown,
-    ggborderline,
-    signal
+    ggborderline
 VignetteBuilder: knitr
 Config/testthat/edition: 3

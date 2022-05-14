@@ -5,6 +5,7 @@ spiro (development version)
   * Fix bug in Butterworth filter leading to errors in rare cases
   * Rewritten spiro_smooth() function has now different arguments. Digital filter now work with the original raw data if possible (and not with the interpolated data).
   * spiro_max() output now also includes RERmax
+  * Fix bug: 'signal' is now a hard dependency
 
 spiro 0.0.3 (2022-03-15)
 ===========================
