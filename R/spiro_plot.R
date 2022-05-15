@@ -125,20 +125,20 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
       d$t <- data$time
     }
 
-    # if a breath-based average is chosen but the raw breath data does not contain
-    # HR data this will yield only NAs. In this case the time-based average
-    # will be calculated displaying a message.
+    # if a breath-based average is chosen but the raw breath data does not
+    # contain HR data this will yield only NAs. In this case the time-based
+    # average will be calculated displaying a message.
     if (all(is.na(d$HR))) {
       hr <- spiro_smooth(
         data = data,
         smooth = smooth,
-        columns = c("HR","RER"),
+        columns = c("HR", "RER"),
         quiet = TRUE
       )
       # scale heart rate data to
       d$HR <- stats::approx(seq_along(hr$HR), hr$HR, xout = d$t)$y
       message(
-          "For heart rate data, smoothing was based on interpolated values."
+        "For heart rate data, smoothing was based on interpolated values."
       )
     }
   } else {

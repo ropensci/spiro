@@ -466,17 +466,17 @@ get_sex <- function(chr) {
     sex <- "male"
   } else {
     sex <- switch(chr,
-                  m = ,
-                  "M" = ,
-                  male = "male",
-                  f = ,
-                  "F" = ,
-                  w = ,
-                  W = ,
-                  weiblich = ,
-                  Weiblich = ,
-                  female = "female",
-                  NA
+      m = ,
+      "M" = ,
+      male = "male",
+      f = ,
+      "F" = ,
+      w = ,
+      W = ,
+      weiblich = ,
+      Weiblich = ,
+      female = "female",
+      NA
     )
   }
   if (is.null(sex)) sex <- NA
@@ -604,7 +604,7 @@ spiro_anonymize <- function(info) {
   id <- get_id(
     name = info$name,
     surname = info$surname,
-    birthday = info$birthday
+    birthday = birthday
   )
 
   # drop all personal information despite weight data
