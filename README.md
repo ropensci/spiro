@@ -36,11 +36,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
 ```
 
-Install the latest version 0.0.3 release by running this code:
+Install the latest version 0.0.4 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.3")
+remotes::install_github("smnnlt/spiro@v0.0.4")
 ```
 
 ## Usage
@@ -106,8 +106,8 @@ spiro_summary(gxt_data)
 #> 10 222.12 0.98 5.82 0.12
 
 spiro_max(gxt_data)
-#>       VO2    VCO2     VE VO2_rel HR
-#> 1 4732.28 4640.75 129.62    71.7 NA
+#>       VO2    VCO2     VE VO2_rel  RER HR
+#> 1 4732.28 4640.75 129.62    71.7 0.99 NA
 
 spiro_plot(gxt_data)
 ```
@@ -122,7 +122,7 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.3.9000. DOI: 10.5281/zenodo.1040727.
+#>   Testing. R package version 0.0.4. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -133,7 +133,7 @@ citation("spiro")
 #>     year = {2022},
 #>     url = {https://smnnlt.github.io/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
-#>     note = {R package version 0.0.3.9000},
+#>     note = {R package version 0.0.4},
 #>   }
 ```
 

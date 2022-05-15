@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.1
+# CITATION file created with {cffr} R package, v0.2.2
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,7 +8,7 @@ message: 'To cite package "spiro" in publications use:'
 type: software
 license: MIT
 title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
-version: 0.0.3.9000
+version: 0.0.4
 doi: 10.5281/zenodo.5816170
 abstract: Import, process, summarize and visualize raw data from metabolic carts.
 authors:
@@ -27,7 +27,7 @@ preferred-citation:
   year: '2022'
   url: https://smnnlt.github.io/spiro/
   doi: 10.5281/zenodo.5816170
-  notes: R package version 0.0.3
+  notes: R package version 0.0.4
 repository-code: https://github.com/smnnlt/spiro
 url: https://smnnlt.github.io/spiro/
 contact:
@@ -176,6 +176,21 @@ references:
   year: '2022'
   url: https://CRAN.R-project.org/package=digest
 - type: software
+  title: signal
+  abstract: 'signal: Signal Processing'
+  notes: Imports
+  authors:
+  - family-names: Ligges
+    given-names: Uwe
+    email: ligges@statistik.tu-dortmund.de
+  - family-names: Short
+    given-names: Tom
+    email: tshort@eprisolutions.com
+  - family-names: Kienzle
+    given-names: Paul
+  year: '2022'
+  url: https://CRAN.R-project.org/package=signal
+- type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
   notes: Suggests
@@ -234,18 +249,3 @@ references:
     given-names: Jacob
   year: '2022'
   url: https://CRAN.R-project.org/package=ggborderline
-- type: software
-  title: signal
-  abstract: 'signal: Signal Processing'
-  notes: Suggests
-  authors:
-  - family-names: Ligges
-    given-names: Uwe
-    email: ligges@statistik.tu-dortmund.de
-  - family-names: Short
-    given-names: Tom
-    email: tshort@eprisolutions.com
-  - family-names: Kienzle
-    given-names: Paul
-  year: '2022'
-  url: https://CRAN.R-project.org/package=signal

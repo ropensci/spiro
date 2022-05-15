@@ -1,12 +1,20 @@
-spiro (development version)
+spiro 0.0.4 (2022-05-15)
 ===========================
 
+### MINOR IMPROVEMENTS
+
+  * spiro_smooth() was rewritten and got new arguments. Digital filters in spiro_smooth() now work with the original raw data if possible (and not with the interpolated data).
+  * spiro_max() output now also includes RERmax
+  
+### BUG FIXES
+  
+  * 'signal' is now a hard dependency
   * Fix bug in Cortex import assigning wrong units in some cases
   * Fix bug in Butterworth filter leading to errors in rare cases
-  * Rewritten spiro_smooth() function has now different arguments. Digital filter now work with the original raw data if possible (and not with the interpolated data).
-  * spiro_max() output now also includes RERmax
-  * Fix bug: 'signal' is now a hard dependency
-  * Improved README, vignettes and documentation
+  
+### DOCUMENTATION FIXES
+
+  * Improved README, vignettes and documentations
 
 spiro 0.0.3 (2022-03-15)
 ===========================
