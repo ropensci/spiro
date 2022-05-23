@@ -37,6 +37,10 @@ recommend to use it for demonstration or testing purposes only. When using
 as at this stage of development the package's functions may undergo major
 changes.
 
+## Background
+
+Measuring gas exchange during physical exercise is a common procedure in sports science and medicine. It allows to assess the functional limit of the cardiovascular system, evaluate the success of training interventions, and diagnose cardio-respiratory diseases. The measuring devices of cardiopulmonary exercise testing --- so-called metabolic carts --- output their data in different formats. Moreover, measured breath-by-breath data is noisy and requires post-processing. This package standardizes the import and processing of raw data from different metabolic carts.
+
 ## Installation
 
 Install the current development version from GitHub:
@@ -77,6 +81,8 @@ The following metabolic carts are currently supported by `spiro`:
 * Cosmed
 * Vyntus
 * ZAN
+
+Support for further metabolic carts is planned for future releases.
 
 ## Example
 
