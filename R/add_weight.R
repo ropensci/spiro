@@ -26,8 +26,16 @@
 #' add_weight(s, weight = 65.3)
 #' @export
 add_weight <- function(data, weight = NULL) {
-  # find weight in meta data if not specified
-  if (is.null(weight)) weight <- attr(data, "info")$weight
+
+  if (!is.null(weight)) {
+    if (!is.numeric(weight)) {
+      stop("'weight' must be a numeric value")
+    } else if (weight <= 0) {
+      stop("'weight' must be greater than 0")
+    }
+  } else {
+    weight <- attr(data, "info")$weight
+  }
 
   # no weight found
   if (is.na(weight)) {

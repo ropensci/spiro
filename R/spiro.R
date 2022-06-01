@@ -89,19 +89,6 @@ spiro <- function(file,
                   protocol = NULL,
                   anonymize = TRUE) {
 
-  # validate inputs
-  if (!is.null(weight)) {
-    if (!is.numeric(weight)) {
-      stop("'weight' must be a numeric value")
-    } else if (weight <= 0) {
-      stop("'weight' must be greater than 0")
-    }
-  }
-
-  if (!is.null(hr_file) && !is.numeric(hr_offset)) {
-    stop("'hr_offset' must be a numeric value")
-  }
-
   if (!is.logical(anonymize)) {
     stop("'anonymize' must be either TRUE or FALSE")
   }

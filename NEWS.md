@@ -1,6 +1,8 @@
 spiro (development version)
 ===========================
 
+  * Improved input validation
+
 
 spiro 0.0.4 (2022-05-15)
 ===========================
