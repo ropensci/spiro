@@ -15,9 +15,9 @@ test_that("protocol attribute set to NA stops protocol guessing", {
   expect_null(attr(spiro(file, protocol = NA), "protocol"))
 })
 
-test_that("weight argument is numeric and positive", {
-  expect_error(spiro(file, weight = "sixty"))
-  expect_error(spiro(file, weight = -100))
+test_that("bodymass argument is numeric and positive", {
+  expect_error(spiro(file, bodymass = "sixty"))
+  expect_error(spiro(file, bodymass = -100))
 })
 
 test_that("heart rate import works within spiro()", {

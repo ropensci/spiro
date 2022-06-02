@@ -2,6 +2,7 @@ spiro (development version)
 ===========================
 
   * Improved input validation
+  * Rename add_weight() to add_bodymass() and rename weight argument in spiro()
 
 
 spiro 0.0.4 (2022-05-15)

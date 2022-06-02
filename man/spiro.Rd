@@ -7,7 +7,7 @@
 spiro(
   file,
   device = NULL,
-  weight = NULL,
+  bodymass = NULL,
   hr_file = NULL,
   hr_offset = 0,
   protocol = NULL,
@@ -23,7 +23,7 @@ default the device type is guessed by the characteristics of the
 \code{file}. This can be overridden by setting the argument to
 \code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.}
 
-\item{weight}{Numeric value for participant's body weight, if the default
+\item{bodymass}{Numeric value for participant's body mass, if the default
 value saved in the \code{file} should be overridden.}
 
 \item{hr_file}{The absolute or relative path of a \code{*tcx} file that
@@ -69,13 +69,13 @@ alternative, set \code{protocol = NA}. Note that in this case, some functions
 relying on load data (such as \code{\link{spiro_summary}}) will not work.
 
 Additional variables of gas exchange are calculated for further analysis. Per
-default the body weight saved in the file's metadata is used for calculating
-relative measures. It is possible to supply \code{weight} manually to the
+default the body mass saved in the file's metadata is used for calculating
+relative measures. It is possible to supply \code{bodymass} manually to the
 function, overriding that value.
 
-Protocols, heart rate data and weight information can also be given in a
+Protocols, heart rate data and body mass information can also be given in a
 piping coding style using the functions \code{\link{add_protocol}},
-\code{\link{add_hr}} and \code{\link{add_weight}} (see examples).
+\code{\link{add_hr}} and \code{\link{add_bodymass}} (see examples).
 
 After processing, you may summarize the resulting data frame with
 \code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
@@ -101,6 +101,6 @@ spiro(oxy_file, hr_file = hr_file)
 \dontrun{
 spiro(file) |>
   add_hr(hr_file = hr_file, hr_offset = 0) |>
-  add_weight(68.2)
+  add_bodymass(68.2)
 }
 }

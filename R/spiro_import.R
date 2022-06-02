@@ -79,7 +79,7 @@ spiro_import_zan <- function(file) {
     birthday = meta_df$geburtstag,
     sex = get_sex(meta_df$geschlecht),
     height = as.numeric(meta_df$groesse),
-    weight = as.numeric(meta_df$gewicht)
+    bodymass = as.numeric(meta_df$gewicht)
   )
   # Replace missing values with NAs
   info <- replace(info, which(info == ""), NA)
@@ -241,7 +241,7 @@ spiro_import_cosmed <- function(file) {
         )
       )
     ),
-    weight = as.numeric(
+    bodymass = as.numeric(
       get_meta(
         tbl,
         c("Weight (Kg):", "Weight (Kg)", "Gewicht (Kg):", "Gewicht (Kg)")
@@ -304,11 +304,11 @@ spiro_import_cosmed <- function(file) {
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA
 
-  # rare special case if weight has been deleted from meta data. Recalculates
-  # weight based on relative oxygen uptake present in raw data
-  if (is.na(info$weight)) {
-    info$weight <- round(
-      # used first data value to recalculate weight
+  # rare special case if body mass has been deleted from meta data. Recalculates
+  # body mass based on relative oxygen uptake present in raw data
+  if (is.na(info$bodymass)) {
+    info$bodymass <- round(
+      # used first data value to recalculate body mass
       as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]), 1
     )
   }
@@ -353,7 +353,7 @@ spiro_import_cortex <- function(file) {
   birthday <- get_meta(meta_raw, c("Date of Birth", "Geburtsdatum"))
   # special handling for umlaute in German files
   height <- get_meta(meta_raw, c("Height", "Gr\u00f6\u00dfe"))
-  weight <- get_meta(meta_raw, c("Weight", "Gewicht"))
+  bodymass <- get_meta(meta_raw, c("Weight", "Gewicht"))
 
   # write data frame for metadata
   info <- data.frame(name,
@@ -361,7 +361,7 @@ spiro_import_cortex <- function(file) {
     birthday,
     sex = get_sex(sex),
     height = to_number(height),
-    weight = to_number(weight)
+    bodymass = to_number(bodymass)
   )
 
   # get start of data section
@@ -433,8 +433,8 @@ spiro_import_vyntus <- function(file) {
     PetCO2 = get_data(data, "PetCO2") # currently not supported
   )
 
-  # Recalculate body weight from relative oxygen uptake data
-  weight <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
+  # Recalculate body mass from relative oxygen uptake data
+  bodymass <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
 
   # Write meta data
   info <- data.frame(
@@ -443,7 +443,7 @@ spiro_import_vyntus <- function(file) {
     birthday = NA,
     sex = NA,
     height = NA,
-    weight = weight
+    bodymass = bodymass
   )
 
   attr(df, "info") <- info # write meta data
@@ -590,7 +590,7 @@ get_data <- function(data, vars) {
 #' @param info A data.frame containing meta data, as produced as an attribute by
 #'   the spiro_import_* functions.
 #'
-#' @return A data.frame containing the id and the body weight.
+#' @return A data.frame containing the id and the body mass.
 #' @noRd
 spiro_anonymize <- function(info) {
   # consider birthday data only if available
@@ -607,10 +607,10 @@ spiro_anonymize <- function(info) {
     birthday = birthday
   )
 
-  # drop all personal information despite weight data
+  # drop all personal information despite body mass data
   out <- data.frame(
     id = id,
-    weight = info$weight
+    bodymass = info$bodymass
   )
   out
 }

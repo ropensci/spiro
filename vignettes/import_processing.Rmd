@@ -77,7 +77,7 @@ protocol <- set_protocol(
 )
 
 spiro(file = spiro_example("zan_ramp")) |>
-  add_weight(weight = 63.4) |>
+  add_bodymass(bodymass = 63.4) |>
   add_protocol(protocol) |>
   add_hr(hr_file = spiro_example("hr_ramp.tcx"), hr_offset = 0)
 ```
@@ -192,17 +192,17 @@ ggplot() +
 set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
 ```
 
-## Modify body weight {#weight}
+## Modify body mass {#bodymass}
 
-The `spiro` package calculates parameters relative to body weight. Per default `spiro()` will look for information on body weight in the meta data of the original data file. If for some reason no or the wrong weight is present in the raw data file, `weight` can be manually given as an argument in `spiro()` or with `add_weight()`.
+The `spiro` package calculates parameters relative to body mass. Per default `spiro()` will look for information on body mass in the meta data of the original data file. If for some reason no or the wrong body mass is present in the raw data file, `bodymass` can be manually given as an argument in `spiro()` or with `add_bodymass()`.
 
 ```{r add_weight}
-# set body weight as an argument in `spiro()`
-s <- spiro(file, weight = 68.3)
+# set body mass as an argument in `spiro()`
+s <- spiro(file, bodymass = 68.3)
 
-# set body weight using `add_weight()`
+# set body mass using `add_weight()`
 t <- spiro(file) 
-u <- add_weight(t, 68.3)
+u <- add_bodymass(t, 68.3)
 
 ```
 

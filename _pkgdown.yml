@@ -24,7 +24,7 @@ reference:
 - title: "General data import and processing"
 - contents:
   - spiro
-  - add_weight
+  - add_bodymass
   - starts_with("spiro_import")
   - guess_device
   - spiro_interpolate

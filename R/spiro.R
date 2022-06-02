@@ -18,13 +18,13 @@
 #' relying on load data (such as \code{\link{spiro_summary}}) will not work.
 #'
 #' Additional variables of gas exchange are calculated for further analysis. Per
-#' default the body weight saved in the file's metadata is used for calculating
-#' relative measures. It is possible to supply \code{weight} manually to the
+#' default the body mass saved in the file's metadata is used for calculating
+#' relative measures. It is possible to supply \code{bodymass} manually to the
 #' function, overriding that value.
 #'
-#' Protocols, heart rate data and weight information can also be given in a
+#' Protocols, heart rate data and body mass information can also be given in a
 #' piping coding style using the functions \code{\link{add_protocol}},
-#' \code{\link{add_hr}} and \code{\link{add_weight}} (see examples).
+#' \code{\link{add_hr}} and \code{\link{add_bodymass}} (see examples).
 #'
 #' After processing, you may summarize the resulting data frame with
 #' \code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
@@ -36,7 +36,7 @@
 #'   default the device type is guessed by the characteristics of the
 #'   \code{file}. This can be overridden by setting the argument to
 #'   \code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.
-#' @param weight Numeric value for participant's body weight, if the default
+#' @param bodymass Numeric value for participant's body mass, if the default
 #'   value saved in the \code{file} should be overridden.
 #' @param hr_file The absolute or relative path of a \code{*tcx} file that
 #'   contains additional heart rate data.
@@ -77,13 +77,13 @@
 #' \dontrun{
 #' spiro(file) |>
 #'   add_hr(hr_file = hr_file, hr_offset = 0) |>
-#'   add_weight(68.2)
+#'   add_bodymass(68.2)
 #' }
 #' @export
 
 spiro <- function(file,
                   device = NULL,
-                  weight = NULL,
+                  bodymass = NULL,
                   hr_file = NULL,
                   hr_offset = 0,
                   protocol = NULL,
@@ -120,8 +120,8 @@ spiro <- function(file,
   # add a protocol
   dt_ptcl <- add_protocol(data = dt_ipol, protocol = ptcl)
 
-  # add data calculated from body weight
-  dt_out <- add_weight(data = dt_ptcl, weight = weight)
+  # add data calculated from body mass
+  dt_out <- add_bodymass(data = dt_ptcl, bodymass = bodymass)
 
   # calculate additional variables
   dt_out$RER <- dt_out$VCO2 / dt_out$VO2

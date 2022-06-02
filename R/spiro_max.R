@@ -59,7 +59,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
 
   # calculate maximum values
   maxs <- vapply(filt, max, numeric(1), na.rm = TRUE)
-  maxs["VO2_rel"] <- maxs["VO2"] / attr(data, "info")$weight
+  maxs["VO2_rel"] <- maxs["VO2"] / attr(data, "info")$bodymass
 
   # Calculating the RERmax is more difficult:
   # Measurements during or directly after rest and cool-down phases may result

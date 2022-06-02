@@ -2043,31 +2043,31 @@
 
 # meta data is imported
 
-       name surname   birthday  sex height weight
-    1 Simon   Nolte 04.10.1998 male    180     66
+       name surname   birthday  sex height bodymass
+    1 Simon   Nolte 04.10.1998 male    180       66
 
 ---
 
-      name surname birthday  sex height weight
-    1  XXX     YYY       NA male    179   67.1
+      name surname birthday  sex height bodymass
+    1  XXX     YYY       NA male    179     67.1
 
 ---
 
-      name surname   birthday  sex height weight
-    1  YYY     XXX 11.11.1980 male    178   74.8
+      name surname   birthday  sex height bodymass
+    1  YYY     XXX 11.11.1980 male    178     74.8
 
 ---
 
-      name surname birthday sex height weight
-    1   NA      NA       NA  NA     NA   68.1
+      name surname birthday sex height bodymass
+    1   NA      NA       NA  NA     NA     68.1
 
 # anonymization works
 
-            id weight
-    1 a9ed14c8     66
+            id bodymass
+    1 a9ed14c8       66
 
 ---
 
-       name surname   birthday  sex height weight
-    1 Simon   Nolte 04.10.1998 male    180     66
+       name surname   birthday  sex height bodymass
+    1 Simon   Nolte 04.10.1998 male    180       66
 
