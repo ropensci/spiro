@@ -151,6 +151,10 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
 
   d$pulse <- sec_factor * d$VO2 / d$HR
 
+  # find and handle time duplicates
+  # in some rare cases raw time data may contain duplicates
+  d$t <- dupl(d$t)
+
   d_long <- stats::reshape(d,
     direction = "long",
     varying = c("pulse", "HR"),
@@ -205,7 +209,7 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 
   # create data frame with rolling averages
   v_smooth <- spiro_smooth(data, smooth, c("VO2", "VCO2"))
-  weight <- attr(data, "info")$weight
+  bodymass <- attr(data, "info")$bodymass
 
   tl_data <- data.frame(
     time = data$time,
@@ -222,9 +226,13 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
   # create data frame with smoothed data
   v_data <- data.frame(
     time = t_data,
-    VO2_rel = v_smooth$VO2 / weight,
-    VCO2_rel = v_smooth$VCO2 / weight
+    VO2_rel = v_smooth$VO2 / bodymass,
+    VCO2_rel = v_smooth$VCO2 / bodymass
   )
+
+  # find and handle time duplicates
+  # in some rare cases raw time data may contain duplicates
+  v_data$time <- dupl(v_data$time)
 
   # reshape data into long format
   v_data_long <- stats::reshape(v_data,
@@ -318,6 +326,10 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
   raw$VCO2 <- raw$VCO2 / 20
   raw <- raw[, c("time", "HR", "VO2", "VCO2")]
 
+  # find and handle time duplicates
+  # in some rare cases raw time data may contain duplicates
+  raw$time <- dupl(raw$time)
+
   raw_long <- stats::reshape(raw,
     direction = "long",
     varying = c("HR", "VCO2"),
@@ -365,6 +377,10 @@ spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
   } else {
     d$t <- data$time
   }
+
+  # find and handle time duplicates
+  # in some rare cases raw time data may contain duplicates
+  d$t <- dupl(d$t)
 
   d_long <- stats::reshape(d,
     direction = "long",
@@ -467,6 +483,10 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
       PetCO2 = as.numeric(NA)
     )
   }
+
+  # find and handle time duplicates
+  # in some rare cases raw time data may contain duplicates
+  d$time <- dupl(d$time)
 
   d_long <- stats::reshape(d,
     direction = "long",
