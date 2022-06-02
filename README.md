@@ -165,12 +165,5 @@ Swoboda, Andreas Wagner.
 
 ## Contributing
 
-If you encounter a bug or want to request new features, please [submit
-an issue](https://github.com/smnnlt/spiro/issues). To have your device
-type of metabolic cart supported by this package, consider writing me a
-message with example data files. If you are familiar with writing R
-code, feel free to submit pull requests.
-
-Please note that this package is released with a [Contributor Code of
-Conduct](https://smnnlt.github.io/spiro/CODE_OF_CONDUCT.html). By
-contributing to `spiro`, you agree to abide by its terms.
+If you consider contributing to this package, read the
+[CONTRIBUTING.md](https://github.com/smnnlt/spiro/blob/main/.github/CONTRIBUTING.md).
