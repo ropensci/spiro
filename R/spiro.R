@@ -88,7 +88,6 @@ spiro <- function(file,
                   hr_offset = 0,
                   protocol = NULL,
                   anonymize = TRUE) {
-
   if (!is.logical(anonymize)) {
     stop("'anonymize' must be either TRUE or FALSE")
   }

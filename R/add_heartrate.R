@@ -27,7 +27,6 @@
 #' @export
 
 add_hr <- function(data, hr_file, hr_offset = 0) {
-
   if (!is.numeric(hr_offset)) {
     stop("'hr_offset' must be a numeric value")
   }

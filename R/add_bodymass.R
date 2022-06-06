@@ -26,7 +26,6 @@
 #' add_bodymass(s, bodymass = 65.3)
 #' @export
 add_bodymass <- function(data, bodymass = NULL) {
-
   if (!is.null(bodymass)) {
     if (!is.numeric(bodymass)) {
       stop("'bodymass' must be a numeric value")

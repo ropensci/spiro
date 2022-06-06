@@ -248,7 +248,6 @@ replace_intna <- function(data) {
 #' Internal function for \code{\link{spiro_smooth}}.
 #' @noRd
 get_smooth_data <- function(data, columns, s_method, quiet = FALSE) {
-
   if (!is.logical(quiet)) {
     stop("'quiet' must be either TRUE or FALSE")
   }
