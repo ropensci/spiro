@@ -66,7 +66,7 @@ spiro(file)
 
 ### Options for data processing {#options}
 
-You can control the exercise protocol, the calculation of parameters related to body weight and the adding of heart rate data with the arguments of `spiro()` or with the helper functions `add_protocol`, `add_weight()` and `add_hr()` within a piping syntax:
+You can control the exercise protocol, the calculation of parameters related to body weight and the adding of heart rate data with the arguments of `spiro()` or with the helper functions `add_protocol()`, `add_weight()` and `add_hr()` within a piping syntax:
 
 ```{r piping, eval = FALSE}
 # Note: The Base R pipe requires R version 4.1 or greater
@@ -87,10 +87,10 @@ spiro(file = spiro_example("zan_ramp")) |>
 We highly recommended to import only raw breath-by-breath data for several reasons:
 
  - Prior averaging or interpolation happens outside of R and is therefore a non-reproducible data processing step.
- - If no data for single breaths is available, some functionality is lost (e.g. breath-based averaging for VO2max determination).
+ - If no data for single breaths is available, some functionality of the package is lost (e.g. breath-based averaging for VO_2max_ determination).
  - Prior processing usually leads to data containing less data points, which hinders the automated guessing of exercise protocols based on the available load data.
  
-If you use a metabolic cart that measures, but does not output data on a breath-by-breath basis, read the manufacturer's instruction on how to export the raw data in such a way. Data from other systems (e.g., mixed chamber) can still be processed with the `spiro`-package, but protocol guesses and summary calculations have to be treated with caution.
+If you use a metabolic cart that measures, but does not output data on a breath-by-breath basis, read the manufacturer's instructions on how to export the raw data in such a way. Data from other systems (e.g., most mixing chamber metabolic carts) can still be processed with the `spiro`-package, but protocol guesses and summary calculations have to be treated with caution.
 
 ## Supported metabolic carts {#metabolic-carts}
 

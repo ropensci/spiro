@@ -60,8 +60,7 @@ The `spiro` package lets you visualize data from cardiopulmonary exercise testin
 
 ```{r spiro_plot, fig.width = 10, fig.height = 8, message = FALSE}
 # load example data
-data <- spiro(spiro_example("zan_ramp"), 
-                      hr_file = spiro_example("hr_ramp.tcx"))
+data <- spiro(spiro_example("zan_ramp"), hr_file = spiro_example("hr_ramp.tcx"))
 
 spiro_plot(data)
 ```
@@ -73,11 +72,15 @@ You can individually select and combine panels of the 9-Panel Plot by setting th
 spiro_plot(data, which = c(5,3))
 ```
 
-Data over time (Panel 1,2,3,6,8,9) will be displayed as a smoothing average over an interval set in the `smooth` argument. The other panels (4,5,7) use the raw breath-by-breath data for visualization. 
+Data over time (Panel 1,2,3,6,8,9) will be displayed smoothed, as determined via the `smooth` argument. The other panels (4,5,7) use the raw breath-by-breath data for visualization. 
 
 You can control the appearance of the plots in `spiro_plot()`. Use the `base_size` argument to change the plot base size. Pass other style arguments to `ggplot::theme()` for further customization.
 
 ```{r spiro_plot-style, fig.width = 10, fig.height = 8, message = FALSE}
 # Change base size and axis label font
-spiro_plot(data, base_size = 9, axis.title = ggplot2::element_text(face = "italic", colour = "blue"))
+spiro_plot(
+  data, 
+  base_size = 9, 
+  axis.title = ggplot2::element_text(face = "italic", colour = "blue")
+)
 ```
