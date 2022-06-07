@@ -48,11 +48,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("smnnlt/spiro")
 ```
 
-Install the latest version 0.0.4 release by running this code:
+Install the latest version 0.0.5 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.4")
+remotes::install_github("smnnlt/spiro@v0.0.5")
 ```
 
 ## Usage
@@ -136,7 +136,7 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.4. DOI: 10.5281/zenodo.1040727.
+#>   Testing. R package version 0.0.5. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -147,7 +147,7 @@ citation("spiro")
 #>     year = {2022},
 #>     url = {https://smnnlt.github.io/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
-#>     note = {R package version 0.0.4},
+#>     note = {R package version 0.0.5},
 #>   }
 ```
 

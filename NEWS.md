@@ -1,10 +1,19 @@
-spiro (development version)
+spiro 0.0.5 (2022-06-07)
 ===========================
 
+### MINOR IMPROVEMENTS
+
+  * Rename add_weight() to add_bodymass() and rename 'weight' argument in spiro() to 'bodymass'
   * Improved input validation
-  * Rename add_weight() to add_bodymass() and rename weight argument in spiro()
+
+### BUG FIXES 
+
   * Fix bug in spiro_plot() when raw data contained time duplicates
+
+### DOCUMENTATION FIXES
+
   * New contributing guidelines
+  * New 'Background' section in README
 
 
 spiro 0.0.4 (2022-05-15)

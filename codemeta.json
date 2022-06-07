@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/smnnlt/spiro",
   "issueTracker": "https://github.com/smnnlt/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.4.9000",
+  "version": "0.0.5",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -159,7 +159,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2732.736KB",
+  "fileSize": "2734.534KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -174,13 +174,9 @@
       "name": "spiro: Manage Data from Cardiopulmonary Exercise Testing",
       "identifier": "10.5281/zenodo.5816170",
       "url": "https://smnnlt.github.io/spiro/",
-      "description": "R package version 0.0.4",
+      "description": "R package version 0.0.5",
       "@id": "https://doi.org/10.5281/zenodo.5816170",
       "sameAs": "https://doi.org/10.5281/zenodo.5816170"
     }
-  ],
-  "releaseNotes": "https://github.com/smnnlt/spiro/blob/master/NEWS.md",
-  "readme": "https://github.com/smnnlt/spiro/blob/main/README.md",
-  "contIntegration": ["https://github.com/smnnlt/spiro/actions", "https://codecov.io/gh/smnnlt/spiro"],
-  "developmentStatus": "https://www.repostatus.org/#wip"
+  ]
 }
