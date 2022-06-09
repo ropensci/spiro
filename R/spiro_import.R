@@ -51,10 +51,7 @@ spiro_import <- function(file, device = NULL, anonymize = TRUE) {
 #' \code{spiro_import_zan()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
 #'
-#' @param file A character string, giving the path of the data file.
-#'
-#' @return A \code{data.frame} with data. The attribute \code{info} contains
-#'   addition meta-data retrieved from the original file.
+#' @noRd
 spiro_import_zan <- function(file) {
 
   # find indices for document structure
@@ -154,10 +151,7 @@ spiro_import_zan <- function(file) {
 #' the characteristics of a raw data file. To get information on supported
 #' devices visit \code{\link{spiro_import}}.
 #'
-#' @param file A character string, giving the path of the data file.
-#'
-#' @return A character string specifying the guessed device.
-
+#' @noRd
 guess_device <- function(file) {
   if (grepl("\\.xls$", file, ignore.case = TRUE) ||
     grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
@@ -209,10 +203,7 @@ guess_device <- function(file) {
 #' \code{spiro_import_cosmed()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
 #'
-#' @param file A character string, giving the path of the data file.
-#'
-#' @return A \code{data.frame} with data. The attribute \code{info} contains
-#'   addition meta-data retrieved from the original file.
+#' @noRd
 spiro_import_cosmed <- function(file) {
 
   # read meta data
@@ -323,10 +314,7 @@ spiro_import_cosmed <- function(file) {
 #' \code{spiro_import_cortex()} retrieves cardiopulmonary data from cortex
 #' metabolic cart files.
 #'
-#' @param file A character string, giving the path of the data file.
-#'
-#' @return A \code{data.frame} with data. The attribute \code{info} contains
-#'   addition meta-data retrieved from the original file.
+#' @noRd
 spiro_import_cortex <- function(file) {
   # read file
   if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
@@ -413,10 +401,7 @@ spiro_import_cortex <- function(file) {
 #' \code{spiro_import_vyntus()} retrieves cardiopulmonary data from Vyntus
 #' metabolic cart files.
 #'
-#' @param file A character string, giving the path of the data file.
-#'
-#' @return A \code{data.frame} with data. The attribute \code{info} contains
-#'   addition meta-data retrieved from the original file.
+#' @noRd
 spiro_import_vyntus <- function(file) {
   data <- utils::read.delim(file, skip = 2)[-1, ]
 

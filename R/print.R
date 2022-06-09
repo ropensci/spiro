@@ -6,6 +6,11 @@
 #' @param digits An integer giving the number of decimals to be rounded to.
 #' @param ... Passing of additional arguments to \code{print.data.frame()}.
 #'
+#' @examples
+#' # Get example data
+#' s <- spiro(spiro_example("zan_gxt"))
+#'
+#' print(s)
 #' @export
 print.spiro <- function(x, digits = 2, ...) {
   x <- round(x, digits = digits)

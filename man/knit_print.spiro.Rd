@@ -33,3 +33,9 @@ This function provides a method for \code{data.frame}s of the class
 exceeds \code{max}. The number of hidden data rows will be printed below the
 \code{data.frame}.
 }
+\examples{
+# Get example data
+s <- spiro(spiro_example("zan_gxt"))
+
+knitr::knit_print(s)
+}

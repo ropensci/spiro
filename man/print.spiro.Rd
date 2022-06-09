@@ -16,3 +16,9 @@
 \description{
 Printing method for spiro objects that rounds output to two decimals.
 }
+\examples{
+# Get example data
+s <- spiro(spiro_example("zan_gxt"))
+
+print(s)
+}

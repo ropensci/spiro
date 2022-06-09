@@ -35,3 +35,9 @@ this procedure removes any time lag it changes the magnitude of the filtering
 response, i.e. the resulting filter has not the same properties (order and
 cut-off frequency) as a single filter has.
 }
+\examples{
+# Get VO2 data from example file
+vo2_vector <- spiro(spiro_example("zan_gxt"))$VO2
+
+bw_filter(vo2_vector)
+}

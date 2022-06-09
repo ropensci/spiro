@@ -14,11 +14,7 @@
 #' Note that the applied linear interpolation will have a minor effect of
 #' smoothing on the data.
 #'
-#' @param data A \code{data.frame} containing the imported raw data. It is
-#'   highly recommended to contain breath-by-breath data to avoid applying
-#'   multiple interpolations on the original data.
-#'
-#' @return A \code{data.frame} with data interpolated to every second.
+#' @noRd
 spiro_interpolate <- function(data) {
 
   # find and handle duplicates

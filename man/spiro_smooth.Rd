@@ -61,3 +61,13 @@ details.}
 }
 }
 
+\examples{
+# Get example data
+file <- spiro_example("zan_gxt")
+d <- spiro(file)
+
+spiro_smooth(d, 30)
+
+# filter only the VO2 column with a zero-phase Butterworth filter
+spiro_smooth(d, "0.04fz3", columns = "VO2")
+}

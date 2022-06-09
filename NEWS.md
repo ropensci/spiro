@@ -1,7 +1,7 @@
 spiro (development version)
 ===========================
 
-
+  * Add examples to function documentation
 
 
 spiro 0.0.5 (2022-06-07)

@@ -141,10 +141,7 @@ get_protocol <- function(data) {
 #' \code{get_features()} adds characteristic features to the load steps of
 #' an exercise testing protocol.
 #'
-#' @param protocol A \code{data.frame} containing the raw protocol as given by
-#'   \code{\link{get_protocol}}, \code{\link{set_protocol}} or
-#'   \code{\link{set_protocol_manual}}.
-
+#' @noRd
 get_features <- function(protocol) {
 
   # create empty columns
@@ -198,11 +195,7 @@ get_features <- function(protocol) {
 #' \code{get_testtype()} guesses which type of testing protocol a exercise test
 #' used.
 #'
-#' @param protocol A \code{data.frame} containing the test protocol with
-#'   features, as given by \code{\link{get_features}}.
-#'
-#' @return A character, either \code{"incremental"}, \code{"ramp"},
-#'   \code{"constant"} or \code{"other"}.
+#' @noRd
 
 get_testtype <- function(protocol) {
   if (is.null(protocol) || nrow(protocol) == 1) {

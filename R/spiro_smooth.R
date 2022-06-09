@@ -45,6 +45,16 @@
 #' @param quiet Whether warning message should be suppressed. Default is FALSE.
 #'
 #' @return A data frame
+#'
+#' @examples
+#' # Get example data
+#' file <- spiro_example("zan_gxt")
+#' d <- spiro(file)
+#'
+#' spiro_smooth(d, 30)
+#'
+#' # filter only the VO2 column with a zero-phase Butterworth filter
+#' spiro_smooth(d, "0.04fz3", columns = "VO2")
 #' @export
 
 spiro_smooth <- function(data, smooth = 30, columns = NULL, quiet = FALSE) {
@@ -189,6 +199,12 @@ mavg <- function(x, k) {
 #'   applied.
 #'
 #' @return A numeric vector of the same length as x.
+#' @examples
+#' # Get VO2 data from example file
+#' vo2_vector <- spiro(spiro_example("zan_gxt"))$VO2
+#'
+#' bw_filter(vo2_vector)
+#' @export
 bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
 
   # return NA vector if input is only NAs
