@@ -38,6 +38,7 @@ reference:
 - title: "Working with protocols"
 - contents:
   - add_protocol
+  - get_protocol
   - set_protocol_manual
   - set_protocol
   - starts_with("pt_")
