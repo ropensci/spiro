@@ -25,23 +25,22 @@ reference:
 - contents:
   - spiro
   - add_bodymass
-  - starts_with("spiro_import")
-  - guess_device
-  - spiro_interpolate
-  - get_id
-- title: "Dealing with exercise protocols"
-- contents:
-  - matches("protocol")
-  - get_testtype
-  - get_features
+  - spiro_import
+  - get_anonid
 - title: "Working with additional heart rate data"
 - contents:
   - add_hr
   - starts_with("hr")
-- title: "Data Filtering"
+- title: "Data filtering"
 - contents:
   - spiro_smooth
   - bw_filter
+- title: "Working with protocols"
+- contents:
+  - add_protocol
+  - set_protocol_manual
+  - set_protocol
+  - starts_with("pt_")
 - title: "Summarizing"
 - contents:
   - spiro_summary

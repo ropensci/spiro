@@ -33,10 +33,10 @@ test_that("meta data is imported", {
 test_that("anonymization works", {
   expect_snapshot_output(attr(spiro_import(file), "info"))
   expect_snapshot_output(attr(spiro_import(file, anonymize = FALSE), "info"))
-  expect_equal(get_id("Jesse", "Owens", "12.09.1913"), "e09d4015")
-  expect_equal(get_id("Jesse", "Owens"), "15a358c3")
+  expect_equal(get_anonid("Jesse", "Owens", "12.09.1913"), "e09d4015")
+  expect_equal(get_anonid("Jesse", "Owens"), "15a358c3")
   expect_equal(
     attr(spiro_import(file), "info")$id,
-    get_id("Simon", "Nolte", "04.10.1998")
+    get_anonid("Simon", "Nolte", "04.10.1998")
   )
 })

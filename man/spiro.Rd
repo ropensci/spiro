@@ -38,7 +38,7 @@ linked to the start of the gas exchange measurement.}
 automatically guessed by default. Set to NA to skip protocol guessing.}
 
 \item{anonymize}{Whether meta data should be anonymized during import.
-Defaults to TRUE. See \code{\link{get_id}} for more information.}
+Defaults to TRUE. See \code{\link{get_anonid}} for more information.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro} with cardiopulmonary

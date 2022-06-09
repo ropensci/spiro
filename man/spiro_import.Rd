@@ -16,7 +16,7 @@ default the device type is guessed by the characteristics of the
 \code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.}
 
 \item{anonymize}{Whether meta data should be anonymized during import.
-Defaults to TRUE. See \code{\link{get_id}} for more information.}
+Defaults to TRUE. See \code{\link{get_anonid}} for more information.}
 }
 \value{
 A \code{data.frame} with data. The attribute \code{info} contains

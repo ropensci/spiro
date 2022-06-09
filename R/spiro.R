@@ -47,7 +47,7 @@
 #'   \code{\link{set_protocol_manual}} containing the test protocol. This is
 #'   automatically guessed by default. Set to NA to skip protocol guessing.
 #' @param anonymize Whether meta data should be anonymized during import.
-#'   Defaults to TRUE. See \code{\link{get_id}} for more information.
+#'   Defaults to TRUE. See \code{\link{get_anonid}} for more information.
 #'
 #' @return A \code{data.frame} of the class \code{spiro} with cardiopulmonary
 #'   parameters interpolated to seconds and the corresponding load data.
