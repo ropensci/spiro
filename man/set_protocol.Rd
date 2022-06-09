@@ -2,26 +2,26 @@
 % Please edit documentation in R/add_protocol.R
 \name{set_protocol}
 \alias{set_protocol}
-\alias{pre}
-\alias{wu}
-\alias{steps}
-\alias{const}
+\alias{pt_pre}
+\alias{pt_wu}
+\alias{pt_steps}
+\alias{pt_const}
 \title{Setting an exercise testing profile}
 \usage{
 set_protocol(...)
 
-pre(duration)
+pt_pre(duration)
 
-wu(duration, load, rest.duration = 0)
+pt_wu(duration, load, rest.duration = 0)
 
-steps(duration, load, increment, count, rest.duration = 0)
+pt_steps(duration, load, increment, count, rest.duration = 0)
 
-const(duration, load, count, rest.duration = 0)
+pt_const(duration, load, count, rest.duration = 0)
 }
 \arguments{
 \item{...}{Functions related to sections of the load profile, such as
-\code{pre}, \code{wu}, \code{const} or \code{step}. Sections will be
-evaluated in the order they are entered.}
+\code{pt_pre}, \code{pt_wu}, \code{pt_const} or \code{pt_step}. Sections
+will be evaluated in the order they are entered.}
 
 \item{duration}{A number, giving the duration of the test section or
 a single load within the test section (in seconds).}
@@ -45,17 +45,17 @@ based on profile sections.
 }
 \section{Functions}{
 \itemize{
-\item \code{pre}: Add pre-measures to a load protocol
+\item \code{pt_pre}: Add pre-measures to a load protocol
 
-\item \code{wu}: Add a warm up to a load protocol
+\item \code{pt_wu}: Add a warm up to a load protocol
 
-\item \code{steps}: Add a stepwise load protocol
+\item \code{pt_steps}: Add a stepwise load protocol
 
-\item \code{const}: Add a constant load protocol
+\item \code{pt_const}: Add a constant load protocol
 }}
 
 \examples{
-set_protocol(pre(60), wu(300, 100), steps(180, 150, 25, 8, 30))
+set_protocol(pt_pre(60), pt_wu(300, 100), pt_steps(180, 150, 25, 8, 30))
 }
 \seealso{
 \link{set_protocol_manual} For manual protocol design.

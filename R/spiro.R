@@ -64,7 +64,8 @@
 #' spiro(file)
 #'
 #' # import with user-defined test profile
-#' spiro(file, protocol = set_protocol(pre(60), steps(300, 2, 0.4, 9, 30)))
+#' p <- set_protocol(pt_pre(60), pt_steps(300, 2, 0.4, 9, 30))
+#' spiro(file, protocol = p)
 #'
 #' # import with additional heart rate data
 #' oxy_file <- spiro_example("zan_ramp")

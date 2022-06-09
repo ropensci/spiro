@@ -16,7 +16,7 @@
 #' file <- spiro_example("zan_gxt")
 #'
 #' s <- spiro(file)
-#' add_protocol(s, set_protocol(pre(60), steps(300, 50, 50, 7, 30)))
+#' add_protocol(s, set_protocol(pt_pre(60), pt_steps(300, 50, 50, 7, 30)))
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [set_protocol_manual] for manual protocol design.
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
@@ -224,8 +224,8 @@ get_testtype <- function(protocol) {
 #' based on profile sections.
 #'
 #' @param ... Functions related to sections of the load profile, such as
-#'   \code{pre}, \code{wu}, \code{const} or \code{step}. Sections will be
-#'   evaluated in the order they are entered.
+#'   \code{pt_pre}, \code{pt_wu}, \code{pt_const} or \code{pt_step}. Sections
+#'   will be evaluated in the order they are entered.
 #' @param duration A number, giving the duration of the test section or
 #'   a single load within the test section (in seconds).
 #' @param rest.duration A number, specifying the duration of (each) rest (in
@@ -241,7 +241,7 @@ get_testtype <- function(protocol) {
 #' @seealso [get_protocol] For automated extracting of protocols from raw data.
 #'
 #' @examples
-#' set_protocol(pre(60), wu(300, 100), steps(180, 150, 25, 8, 30))
+#' set_protocol(pt_pre(60), pt_wu(300, 100), pt_steps(180, 150, 25, 8, 30))
 #' @export
 set_protocol <- function(...) {
   l <- list(...)
@@ -255,7 +255,7 @@ set_protocol <- function(...) {
 #' @describeIn set_protocol Add pre-measures to a load protocol
 #' @export
 
-pre <- function(duration) {
+pt_pre <- function(duration) {
 
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
@@ -271,7 +271,7 @@ pre <- function(duration) {
 #' @describeIn set_protocol Add a warm up to a load protocol
 #' @export
 
-wu <- function(duration, load, rest.duration = 0) {
+pt_wu <- function(duration, load, rest.duration = 0) {
 
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
@@ -302,7 +302,7 @@ wu <- function(duration, load, rest.duration = 0) {
 #' @describeIn set_protocol Add a stepwise load protocol
 #' @export
 
-steps <- function(duration, load, increment, count, rest.duration = 0) {
+pt_steps <- function(duration, load, increment, count, rest.duration = 0) {
 
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
@@ -350,8 +350,8 @@ steps <- function(duration, load, increment, count, rest.duration = 0) {
 #' @describeIn set_protocol Add a constant load protocol
 #' @export
 
-const <- function(duration, load, count, rest.duration = 0) {
-  steps(
+pt_const <- function(duration, load, count, rest.duration = 0) {
+  pt_steps(
     duration = duration,
     load = load,
     increment = 0,

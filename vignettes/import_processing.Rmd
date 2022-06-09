@@ -72,8 +72,8 @@ You can control the exercise protocol, the calculation of parameters related to 
 # Note: The Base R pipe requires R version 4.1 or greater
 
 protocol <- set_protocol(
-  wu(duration = 120, load = 50),
-  steps(duration = 30, load = 100, increment = 20, count = 24)
+  pt_wu(duration = 120, load = 50),
+  pt_steps(duration = 30, load = 100, increment = 20, count = 24)
 )
 
 spiro(file = spiro_example("zan_ramp")) |>
@@ -156,7 +156,7 @@ t <- spiro(file)
 add_protocol(t, pt)
 ```
 
-With `set_protocol()` a protocol can be defined without specifying every single load step. You can paste the pre-defined segment types `pre()`, `wu()`, `const()`and `steps()` into `set_protocol()` in the desired order. The following graph illustrates an example of this practice:
+With `set_protocol()` a protocol can be defined without specifying every single load step. You can paste the pre-defined segment types `pt_pre()`, `pt_wu()`, `pt_const()` and `pt_steps()` into `set_protocol()` in the desired order. The following graph illustrates an example of this practice:
 
 ```{r set_protocol-variables, echo=FALSE}
 ar2 <- arrow(length = unit(0.1, "inches"), type = "closed", ends = "both")
@@ -171,12 +171,12 @@ path <- data.frame(
 ggplot() +
   geom_segment(aes(x = 0, xend = 0.95, y = 0, yend = 0),colour = "grey", size = 1) +
   geom_path(aes(x = x, y = y, colour = type), data = path, size = 1, group = TRUE, show.legend = FALSE) +
-  annotate("text", x = c(0.03,0.05,0.05,0.05,0.03), y = c(0.97,0.90,0.83,0.76,0.69), 
+  annotate("text", x = c(0.03,0.05,0.05,0.05,0.03), y = c(0.98,0.91,0.84,0.77,0.70), 
            label = c(
              "set_protocol(",
-             "pre(duration),",
-             "wu(duration, load, rest),",
-             "steps(duration, load, increment, count, rest)",
+             "pt_pre(duration),",
+             "pt_wu(duration, load, rest),",
+             "pt_steps(duration, load, increment, count, rest)",
               ")"), 
            hjust = "left", vjust = "top",
            colour = c("black", "#d55e00", "#009e73", dsblue, "black"),
@@ -189,7 +189,7 @@ ggplot() +
 ```
 
 ```{r set_protocol}
-set_protocol(pre(60), wu(300,80), steps(180,100,25,6,30))
+set_protocol(pt_pre(60), pt_wu(300,80), pt_steps(180,100,25,6,30))
 ```
 
 ## Modify body mass {#bodymass}

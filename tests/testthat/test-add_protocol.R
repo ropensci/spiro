@@ -3,10 +3,10 @@ library(spiro)
 file <- spiro_example("zan_gxt")
 
 p1 <- set_protocol(
-  pre(60),
-  wu(60, 50),
-  const(60, 100, 3),
-  steps(180, 150, 50, 4)
+  pt_pre(60),
+  pt_wu(60, 50),
+  pt_const(60, 100, 3),
+  pt_steps(180, 150, 50, 4)
 )
 
 p2 <- set_protocol_manual(

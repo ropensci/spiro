@@ -2,6 +2,7 @@ spiro (development version)
 ===========================
 
   * Add examples to function documentation
+  * Rename helper functions for manual exercise protocol setting with the prefix pt_*
 
 
 spiro 0.0.5 (2022-06-07)
