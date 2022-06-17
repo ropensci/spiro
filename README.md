@@ -13,6 +13,8 @@ status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/
 [![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
 [![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
 [![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci/software-review/issues/541)
 <!-- badges: end -->
 
 ## Overview
@@ -136,7 +138,7 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.5. DOI: 10.5281/zenodo.1040727.
+#>   Testing. R package version 0.0.5.9000. DOI: 10.5281/zenodo.1040727.
 #>   https://smnnlt.github.io/spiro/
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -147,7 +149,7 @@ citation("spiro")
 #>     year = {2022},
 #>     url = {https://smnnlt.github.io/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
-#>     note = {R package version 0.0.5},
+#>     note = {R package version 0.0.5.9000},
 #>   }
 ```
 

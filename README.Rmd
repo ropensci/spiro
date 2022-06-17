@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
 [![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
 [![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci/software-review/issues/541)
 <!-- badges: end -->
 
 ## Overview
