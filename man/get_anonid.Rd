@@ -21,8 +21,8 @@ data, this is ignored.}
 A character string, containing the anonymized id.
 }
 \description{
-\code{get_anonid()} returns the anonymization id corresponding to given personal
-data.
+\code{get_anonid()} returns the anonymization id corresponding to given
+personal data.
 }
 \details{
 By default, the spiro package anonymizes personal information obtained from

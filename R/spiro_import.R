@@ -603,8 +603,8 @@ spiro_anonymize <- function(info) {
 
 #' Get the anonymization id from personal data
 #'
-#' \code{get_anonid()} returns the anonymization id corresponding to given personal
-#' data.
+#' \code{get_anonid()} returns the anonymization id corresponding to given
+#' personal data.
 #'
 #' By default, the spiro package anonymizes personal information obtained from
 #' file meta data. The data are saved to the "info" attribute of a spiro() call.
