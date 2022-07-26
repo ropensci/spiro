@@ -4,7 +4,14 @@
 \alias{spiro_plot}
 \title{Plot data from cardiopulmonary exercise data files}
 \usage{
-spiro_plot(data, which = 1:9, smooth = "fz", base_size = 13, ...)
+spiro_plot(
+  data,
+  which = 1:9,
+  smooth = "fz",
+  base_size = 13,
+  grid_args = list(),
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} of the class \code{spiro} containing the gas
@@ -32,6 +39,9 @@ time based averages),}
 
 \item{base_size}{An integer controlling the base size of the plots (in pts).}
 
+\item{grid_args}{A list of arguments passed to cowplot::plot_grid() to modify
+the arrangement of the plots}
+
 \item{...}{Arguments passed to ggplot2::theme() to modify the appearance of
 the plots.}
 }
@@ -53,9 +63,17 @@ ramp_data <- spiro(
   hr_file = spiro_example("hr_ramp.tcx")
 )
 
-# Diplay the traditional Wasserman 9-Panel Plot
+# Display the traditional Wasserman 9-Panel Plot
 spiro_plot(ramp_data)
 
 # Display selected panels, here V-Slope
 spiro_plot(ramp_data, which = 5)
+
+# Modify the arrangement of plots by passing arguments to
+# cowplot::plot_grid() via the grid_args argument
+spiro_plot(ramp_data, which = c(4, 5, 6, 8), grid_args = list(nrow = 1))
+
+# Modify the appearance of plots by passing arguments to ggplot2::theme() via
+# the ... argument
+spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
 }

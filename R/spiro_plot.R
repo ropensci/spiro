@@ -23,6 +23,8 @@
 #'   \code{\link{spiro_smooth}} for more details and other filter methods (e.g.
 #'   time based averages),
 #' @param base_size An integer controlling the base size of the plots (in pts).
+#' @param grid_args A list of arguments passed to cowplot::plot_grid() to modify
+#'   the arrangement of the plots
 #' @param ... Arguments passed to ggplot2::theme() to modify the appearance of
 #'   the plots.
 #'
@@ -37,18 +39,35 @@
 #'   hr_file = spiro_example("hr_ramp.tcx")
 #' )
 #'
-#' # Diplay the traditional Wasserman 9-Panel Plot
+#' # Display the traditional Wasserman 9-Panel Plot
 #' spiro_plot(ramp_data)
 #'
 #' # Display selected panels, here V-Slope
 #' spiro_plot(ramp_data, which = 5)
+#'
+#' # Modify the arrangement of plots by passing arguments to
+#' # cowplot::plot_grid() via the grid_args argument
+#' spiro_plot(ramp_data, which = c(4, 5, 6, 8), grid_args = list(nrow = 1))
+#'
+#' # Modify the appearance of plots by passing arguments to ggplot2::theme() via
+#' # the ... argument
+#' spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
 #' @export
 
-spiro_plot <- function(data, which = 1:9, smooth = "fz", base_size = 13, ...) {
+spiro_plot <- function(data,
+                       which = 1:9,
+                       smooth = "fz",
+                       base_size = 13,
+                       grid_args = list(),
+                       ...) {
 
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
+  }
+  # input validation for `grid_args` argument
+  if (!is.list(grid_args)) {
+    stop("'grid_args' must be a list")
   }
 
   l <- lapply(which, spiro_plot.internal,
@@ -57,7 +76,8 @@ spiro_plot <- function(data, which = 1:9, smooth = "fz", base_size = 13, ...) {
     base_size = base_size,
     ...
   )
-  cowplot::plot_grid(plotlist = l)
+  grid_args$plotlist <- l
+  do.call(cowplot::plot_grid, args = grid_args)
 }
 
 spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
