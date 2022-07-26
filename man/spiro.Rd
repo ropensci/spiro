@@ -85,17 +85,20 @@ After processing, you may summarize the resulting data frame with
 # get example file
 file <- spiro_example("zan_gxt")
 
-spiro(file)
+out <- spiro(file)
+head(out)
 
 # import with user-defined test profile
 p <- set_protocol(pt_pre(60), pt_steps(300, 2, 0.4, 9, 30))
-spiro(file, protocol = p)
+out2 <- spiro(file, protocol = p)
+head(out2)
 
 # import with additional heart rate data
 oxy_file <- spiro_example("zan_ramp")
 hr_file <- spiro_example("hr_ramp.tcx")
 
-spiro(oxy_file, hr_file = hr_file)
+out3 <- spiro(oxy_file, hr_file = hr_file)
+head(out3)
 
 # use the add_* functions in a pipe
 # Note: base R pipe requires R version 4.1 or greater)

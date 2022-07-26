@@ -23,7 +23,8 @@
 #' oxy_data <- spiro(oxy_file)
 #'
 #' # Add heart rate data
-#' add_hr(oxy_data, hr_file)
+#' out <- add_hr(oxy_data, hr_file)
+#' head(out)
 #' @export
 
 add_hr <- function(data, hr_file, hr_offset = 0) {

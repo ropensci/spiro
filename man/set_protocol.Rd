@@ -45,15 +45,15 @@ based on profile sections.
 }
 \section{Functions}{
 \itemize{
-\item \code{pt_pre}: Add pre-measures to a load protocol
+\item \code{pt_pre()}: Add pre-measures to a load protocol
 
-\item \code{pt_wu}: Add a warm up to a load protocol
+\item \code{pt_wu()}: Add a warm up to a load protocol
 
-\item \code{pt_steps}: Add a stepwise load protocol
+\item \code{pt_steps()}: Add a stepwise load protocol
 
-\item \code{pt_const}: Add a constant load protocol
+\item \code{pt_const()}: Add a constant load protocol
+
 }}
-
 \examples{
 set_protocol(pt_pre(60), pt_wu(300, 100), pt_steps(180, 150, 25, 8, 30))
 }

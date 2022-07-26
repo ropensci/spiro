@@ -20,5 +20,6 @@ Printing method for spiro objects that rounds output to two decimals.
 # Get example data
 s <- spiro(spiro_example("zan_gxt"))
 
-print(s)
+out <- print(s)
+head(out)
 }

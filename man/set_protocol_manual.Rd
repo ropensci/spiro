@@ -29,13 +29,13 @@ for an exercise test.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: Default method when duration and load are
+\item \code{set_protocol_manual(default)}: Default method when duration and load are
 given separately
 
-\item \code{data.frame}: Method for data frames with a duration and a
+\item \code{set_protocol_manual(data.frame)}: Method for data frames with a duration and a
 load column
-}}
 
+}}
 \examples{
 set_protocol_manual(
   duration = c(300, 120, 300, 60, 300),

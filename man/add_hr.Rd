@@ -38,5 +38,6 @@ hr_file <- spiro_example("hr_ramp.tcx")
 oxy_data <- spiro(oxy_file)
 
 # Add heart rate data
-add_hr(oxy_data, hr_file)
+out <- add_hr(oxy_data, hr_file)
+head(out)
 }
