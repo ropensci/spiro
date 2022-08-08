@@ -39,5 +39,6 @@ cut-off frequency) as a single filter has.
 # Get VO2 data from example file
 vo2_vector <- spiro(spiro_example("zan_gxt"))$VO2
 
-bw_filter(vo2_vector)
+out <- bw_filter(vo2_vector)
+head(out, n = 20)
 }

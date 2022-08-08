@@ -66,8 +66,10 @@ details.}
 file <- spiro_example("zan_gxt")
 d <- spiro(file)
 
-spiro_smooth(d, 30)
+out <- spiro_smooth(d, 30)
+head(out)
 
 # filter only the VO2 column with a zero-phase Butterworth filter
-spiro_smooth(d, "0.04fz3", columns = "VO2")
+out2 <- spiro_smooth(d, "0.04fz3", columns = "VO2")
+head(out2)
 }

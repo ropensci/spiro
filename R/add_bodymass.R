@@ -23,7 +23,8 @@
 #' file <- spiro_example("zan_gxt")
 #'
 #' s <- spiro(file)
-#' add_bodymass(s, bodymass = 65.3)
+#' out <- add_bodymass(s, bodymass = 65.3)
+#' head(out)
 #' @export
 add_bodymass <- function(data, bodymass = NULL) {
   if (!is.null(bodymass)) {

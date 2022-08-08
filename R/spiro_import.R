@@ -28,7 +28,8 @@
 #' # Get example data
 #' file <- spiro_example("zan_gxt")
 #'
-#' spiro_import(file)
+#' out <- spiro_import(file)
+#' head(out)
 #' @export
 
 spiro_import <- function(file, device = NULL, anonymize = TRUE) {

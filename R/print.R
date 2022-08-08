@@ -10,7 +10,8 @@
 #' # Get example data
 #' s <- spiro(spiro_example("zan_gxt"))
 #'
-#' print(s)
+#' out <- print(s)
+#' head(out)
 #' @export
 print.spiro <- function(x, digits = 2, ...) {
   x <- round(x, digits = digits)

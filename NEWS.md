@@ -4,6 +4,8 @@ spiro (development version)
   * Add examples to function documentation
   * Rename helper functions for manual exercise protocol setting with the prefix pt_*
   * Rename get_id() to get_anonid()
+  * Examples in documentation show only truncated output via a head() call
+  * Allow customizations of plot arrangement in spiro_plot()
 
 
 spiro 0.0.5 (2022-06-07)

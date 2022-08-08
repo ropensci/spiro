@@ -47,5 +47,6 @@ names in the form of \code{"EXEDxxx"})
 # Get example data
 file <- spiro_example("zan_gxt")
 
-spiro_import(file)
+out <- spiro_import(file)
+head(out)
 }

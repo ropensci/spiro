@@ -64,9 +64,9 @@ Main functions:
 
 * Use `spiro()` to automatically import and process raw data from
   cardiopulmonary exercise testing.
-* Use `spiro_summary()` and `spiro_max()` for a stepwise summary or the 
-  calculation of maximum parameter values.
-* Use `spiro_plot()` to visualize the data.
+* Use `spiro_summary()`  for a summary of cardiopulmonary parameters (e.g., relative oxygen uptake, respiratory quotient, heart rate, ...) for each load step.
+* Use `spiro_max()` to calculate maximum parameter values (e.g., VO2max).
+* Use `spiro_plot()` to visualize the data as a modifiable Wassermann 9-Panel Plot.
 
 Further functionality:
 
@@ -93,12 +93,16 @@ library(spiro)
 # get data path for example
 file <- spiro_example("zan_gxt")
 
+# import and process the raw data
 gxt_data <- spiro(file)
 
+# summary of parameters by load step
 spiro_summary(gxt_data)
 
+# maximum values
 spiro_max(gxt_data)
 
+# Wassermann 9-Panel Plot
 spiro_plot(gxt_data)
 ```
 

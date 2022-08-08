@@ -35,5 +35,6 @@ For running protocols, running economy (RE) is calculated.
 file <- spiro_example("zan_gxt")
 
 s <- spiro(file)
-add_bodymass(s, bodymass = 65.3)
+out <- add_bodymass(s, bodymass = 65.3)
+head(out)
 }

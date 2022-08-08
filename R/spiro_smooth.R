@@ -51,10 +51,12 @@
 #' file <- spiro_example("zan_gxt")
 #' d <- spiro(file)
 #'
-#' spiro_smooth(d, 30)
+#' out <- spiro_smooth(d, 30)
+#' head(out)
 #'
 #' # filter only the VO2 column with a zero-phase Butterworth filter
-#' spiro_smooth(d, "0.04fz3", columns = "VO2")
+#' out2 <- spiro_smooth(d, "0.04fz3", columns = "VO2")
+#' head(out2)
 #' @export
 
 spiro_smooth <- function(data, smooth = 30, columns = NULL, quiet = FALSE) {
@@ -203,7 +205,8 @@ mavg <- function(x, k) {
 #' # Get VO2 data from example file
 #' vo2_vector <- spiro(spiro_example("zan_gxt"))$VO2
 #'
-#' bw_filter(vo2_vector)
+#' out <- bw_filter(vo2_vector)
+#' head(out, n = 20)
 #' @export
 bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
 
