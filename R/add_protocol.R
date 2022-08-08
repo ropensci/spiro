@@ -16,7 +16,10 @@
 #' file <- spiro_example("zan_gxt")
 #'
 #' s <- spiro(file)
-#' out <- add_protocol(s, set_protocol(pt_pre(60), pt_steps(300, 50, 50, 7, 30)))
+#' out <- add_protocol(
+#'   s,
+#'   set_protocol(pt_pre(60), pt_steps(300, 50, 50, 7, 30))
+#' )
 #' head(out)
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [set_protocol_manual] for manual protocol design.
