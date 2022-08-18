@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 Different measuring devices and analysis software lead to opaque results in measuring gas exchange parameters. To make exercise science more transparent and reproducible, the `spiro` package offers a standardized workflow for data from metabolic carts.
 
-This vignette provides you information on how to summarize and plot data [previously imported and processed](https://smnnlt.github.io/spiro/articles/import_processing.html) by `spiro()`.
+This vignette provides you information on how to summarize and plot data [previously imported and processed](https://docs.ropensci.org/spiro/articles/import_processing.html) by `spiro()`.
 
 #### Load the data
 

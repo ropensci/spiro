@@ -6,7 +6,7 @@ bibentry(
   title    = "spiro: Manage Data from Cardiopulmonary Exercise Testing",
   author   = person("Simon", "Nolte"),
   year     = 2022,
-  url      = "https://smnnlt.github.io/spiro/",
+  url      = "https://docs.ropensci.org/spiro/",
   doi      = "10.5281/zenodo.5816170",
   note     = note,
   textVersion = paste0(

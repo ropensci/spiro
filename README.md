@@ -155,7 +155,7 @@ citation("spiro")
 #>     title = {spiro: Manage Data from Cardiopulmonary Exercise Testing},
 #>     author = {Simon Nolte},
 #>     year = {2022},
-#>     url = {https://smnnlt.github.io/spiro/},
+#>     url = {https://docs.ropensci.org/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
 #>     note = {R package version 0.0.5.9000},
 #>   }

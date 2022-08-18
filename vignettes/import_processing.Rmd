@@ -32,7 +32,7 @@ This vignette provides information on how the `spiro` package imports and proces
 
 ## Import and processing with `spiro()` {#spiro-function}
 
-The `spiro` package makes import and processing of cardiopulmonary data easy: The `spiro()` function does all that work for you. You just need to paste the path of a file with raw data from cardiopulmonary exercise testing to the function. This will return a `data.frame` containing all relevant data for each second of testing, ready for [summarizing or plotting](https://smnnlt.github.io/spiro/articles/summarising_plotting.html).
+The `spiro` package makes import and processing of cardiopulmonary data easy: The `spiro()` function does all that work for you. You just need to paste the path of a file with raw data from cardiopulmonary exercise testing to the function. This will return a `data.frame` containing all relevant data for each second of testing, ready for [summarizing or plotting](https://docs.ropensci.org/spiro/articles/summarizing_plotting.html).
 
 ```{r setup}
 library(spiro)

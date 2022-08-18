@@ -4,7 +4,7 @@
 
 [repo]: https://github.com/ropensci/spiro
 [issues]: https://github.com/ropensci/spiro/issues
-[website]: https://smnnlt.github.io/spiro/
+[website]: https://docs.ropensci.org/spiro/
 [email]: mailto:s.nolte@dshs-koeln.de
 
 ## Code of conduct

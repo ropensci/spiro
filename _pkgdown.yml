@@ -1,4 +1,4 @@
-url: https://smnnlt.github.io/spiro
+url: https://docs.ropensci.org/spiro/
 
 template:
   bootstrap: 5
@@ -18,7 +18,7 @@ navbar:
       href: news/index.html
   right:
     - icon: fab fa-github fa-lg
-      href: https://github.com/smnnlt/spiro
+      href: https://docs.ropensci.org/spiro/
 
 reference:
 - title: "General data import and processing"

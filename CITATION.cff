@@ -29,7 +29,7 @@ preferred-citation:
   doi: 10.5281/zenodo.5816170
   notes: R package version 0.0.5.9000
 repository-code: https://github.com/ropensci/spiro
-url: https://smnnlt.github.io/spiro/
+url: https://docs.ropensci.org/spiro/
 contact:
 - family-names: Nolte
   given-names: Simon
