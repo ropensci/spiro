@@ -176,4 +176,7 @@ Swoboda, Andreas Wagner.
 ## Contributing
 
 If you consider contributing to this package, read the
-[CONTRIBUTING.md](https://github.com/smnnlt/spiro/blob/main/.github/CONTRIBUTING.md).
+[CONTRIBUTING.md](https://github.com/ropensci/spiro/blob/main/.github/CONTRIBUTING.md).
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.

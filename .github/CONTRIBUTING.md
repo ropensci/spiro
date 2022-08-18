@@ -2,16 +2,14 @@
 
 <!-- This CONTRIBUTING.md is inspired by  https://gist.github.com/peterdesmet/e90a1b0dc17af6c12daf6e8b2f044e7c -->
 
-[repo]: https://github.com/smnnlt/spiro
-[issues]: https://github.com/smnnlt/spiro/issues
+[repo]: https://github.com/ropensci/spiro
+[issues]: https://github.com/ropensci/spiro/issues
 [website]: https://smnnlt.github.io/spiro/
 [email]: mailto:s.nolte@dshs-koeln.de
 
 ## Code of conduct
 
-Please note that this package is released with a [Contributor Code of
-Conduct](https://smnnlt.github.io/spiro/CODE_OF_CONDUCT.html). By contributing
-to the package, you agree to abide by its terms.
+Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 ## How you can contribute
 
