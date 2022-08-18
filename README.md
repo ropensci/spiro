@@ -11,7 +11,7 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![CRAN
 status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
 [![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
-[![R-CMD-check](https://github.com/smnnlt/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/smnnlt/spiro/actions)
+[![R-CMD-check](https://github.com/ropensci/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/spiro/actions)
 [![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci/software-review/issues/541)
@@ -47,14 +47,14 @@ Install the current development version from GitHub:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro")
+remotes::install_github("ropensci/spiro")
 ```
 
 Install the latest version 0.0.5 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("smnnlt/spiro@v0.0.5")
+remotes::install_github("ropensci/spiro@v0.0.5")
 ```
 
 ## Usage

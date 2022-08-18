@@ -28,7 +28,7 @@ preferred-citation:
   url: https://smnnlt.github.io/spiro/
   doi: 10.5281/zenodo.5816170
   notes: R package version 0.0.5.9000
-repository-code: https://github.com/smnnlt/spiro
+repository-code: https://github.com/ropensci/spiro
 url: https://smnnlt.github.io/spiro/
 contact:
 - family-names: Nolte

@@ -5,8 +5,8 @@
   "description": "Import, process, summarize and visualize raw data from metabolic carts.",
   "name": "spiro: Manage Data from Cardiopulmonary Exercise Testing",
   "relatedLink": "https://smnnlt.github.io/spiro/",
-  "codeRepository": "https://github.com/smnnlt/spiro",
-  "issueTracker": "https://github.com/smnnlt/spiro/issues",
+  "codeRepository": "https://github.com/ropensci/spiro",
+  "issueTracker": "https://github.com/ropensci/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.0.5.9000",
   "programmingLanguage": {
@@ -159,7 +159,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2728.968KB",
+  "fileSize": "2739.171KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
