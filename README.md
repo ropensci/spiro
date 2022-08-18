@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
 [![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
@@ -22,12 +22,6 @@ Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci
 This R package offers a fast, standardized and reproducible workflow for
 data from cardiopulmonary exercise testing. It offers tools for data
 import, processing, summary and visualization.
-
-> WARNING: This package is currently under active development. At the
-> moment, I recommend to use it for demonstration or testing purposes
-> only. When using `spiro` for scientific analyses, make sure to state
-> the exact package version, as at this stage of development the
-> package’s functions may undergo major changes.
 
 ## Background
 
@@ -50,11 +44,11 @@ if (!require(remotes)) install.packages("remotes")
 remotes::install_github("ropensci/spiro")
 ```
 
-Install the latest version 0.0.5 release by running this code:
+Install the latest version 0.1.0 release by running this code:
 
 ``` r
 if (!require(remotes)) install.packages("remotes")
-remotes::install_github("ropensci/spiro@v0.0.5")
+remotes::install_github("ropensci/spiro@v0.1.0")
 ```
 
 ## Usage
@@ -146,8 +140,8 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.0.5.9000. DOI: 10.5281/zenodo.1040727.
-#>   https://smnnlt.github.io/spiro/
+#>   Testing. R package version 0.1.0. DOI: 10.5281/zenodo.1040727.
+#>   https://docs.ropensci.org/spiro
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -157,7 +151,7 @@ citation("spiro")
 #>     year = {2022},
 #>     url = {https://docs.ropensci.org/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
-#>     note = {R package version 0.0.5.9000},
+#>     note = {R package version 0.1.0},
 #>   }
 ```
 

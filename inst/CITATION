@@ -14,7 +14,7 @@ bibentry(
     "spiro: Manage Data from Cardiopulmonary Exercise Testing. ",
     "R package version ", version, ". ",
     "DOI: 10.5281/zenodo.1040727. ",
-    "https://smnnlt.github.io/spiro/"
+    "https://docs.ropensci.org/spiro"
   ),
   header = "To cite spiro in publications use:"
 )

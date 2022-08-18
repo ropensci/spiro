@@ -1,11 +1,17 @@
-spiro (development version)
+spiro 0.1.0 (2022-08-18)
 ===========================
 
-  * Add examples to function documentation
-  * Rename helper functions for manual exercise protocol setting with the prefix pt_*
-  * Rename get_id() to get_anonid()
-  * Examples in documentation show only truncated output via a head() call
-  * Allow customizations of plot arrangement in spiro_plot()
+First stable release. Reflects changes in response to the rOpenSci peer-review process. The repository has been transferred to the rOpenSci organization.
+
+### MINOR IMPROVEMENTS
+
+   * Rename helper functions for exercise protocol setting. pre(), wu(), steps(), const() are now termed pt_pre(), pt_wu(), pt_steps(), pt_const().
+   * Rename get_id() to get_anonid()
+   * Allow customization of plot arrangement in spiro_plot()
+
+### DOCUMENTATION FIXES
+
+  * Add more examples to function documentation
 
 
 spiro 0.0.5 (2022-06-07)
