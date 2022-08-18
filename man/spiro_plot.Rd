@@ -57,6 +57,7 @@ This function provides a shortcut for visualizing spiroergometric data from
 \code{\link{spiro}} with the help of \code{ggplot2}.
 }
 \examples{
+\dontrun{
 # Import and process example data
 ramp_data <- spiro(
   file = spiro_example("zan_ramp"),
@@ -76,4 +77,5 @@ spiro_plot(ramp_data, which = c(4, 5, 6, 8), grid_args = list(nrow = 1))
 # Modify the appearance of plots by passing arguments to ggplot2::theme() via
 # the ... argument
 spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
+}
 }

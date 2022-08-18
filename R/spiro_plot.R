@@ -33,6 +33,7 @@
 #' @return A ggplot object.
 #'
 #' @examples
+#' \dontrun{
 #' # Import and process example data
 #' ramp_data <- spiro(
 #'   file = spiro_example("zan_ramp"),
@@ -52,6 +53,7 @@
 #' # Modify the appearance of plots by passing arguments to ggplot2::theme() via
 #' # the ... argument
 #' spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
+#' }
 #' @export
 
 spiro_plot <- function(data,
