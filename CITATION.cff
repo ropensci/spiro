@@ -25,7 +25,7 @@ preferred-citation:
     email: s.nolte@dshs-koeln.de
     orcid: https://orcid.org/0000-0003-1643-1860
   year: '2022'
-  url: https://smnnlt.github.io/spiro/
+  url: https://docs.ropensci.org/spiro/
   doi: 10.5281/zenodo.5816170
   notes: R package version 0.0.5.9000
 repository-code: https://github.com/ropensci/spiro

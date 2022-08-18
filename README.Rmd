@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
 [![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
 [![R-CMD-check](https://github.com/ropensci/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/spiro/actions)
-[![codecov](https://codecov.io/gh/smnnlt/spiro/branch/main/graph/badge.svg)](https://codecov.io/gh/smnnlt/spiro)
+[![codecov](https://codecov.io/gh/ropensci/spiro/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/spiro)
 [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci/software-review/issues/541)
 <!-- badges: end -->
 
