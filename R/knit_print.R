@@ -20,6 +20,8 @@
 #' @param digits An integer giving the number of decimals to be rounded to.
 #' @param ... Passing of additional arguments to \code{knit_print.default()}.
 #'
+#' @return The function prints its argument and returns it invisibly.
+#'
 #' @examples
 #' # Get example data
 #' s <- spiro(spiro_example("zan_gxt"))

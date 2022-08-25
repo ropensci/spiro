@@ -19,6 +19,9 @@ be limited in printing if row number exceed \code{max}.}
 
 \item{...}{Passing of additional arguments to \code{knit_print.default()}.}
 }
+\value{
+The function prints its argument and returns it invisibly.
+}
 \description{
 \code{knit_print.spiro()} provides a method for printing \code{data.frames}
 from \code{\link{spiro}} within \code{knitr}.

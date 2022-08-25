@@ -1,11 +1,13 @@
 Andreas
 Appelhans
+Astorino
 Butterworth
 CHO
 CMD
 COSMED
 Cosmed
 DOI
+Dwyer
 EQVCO
 EQVO
 EXED
@@ -25,7 +27,6 @@ VE
 VO
 VYNTUS
 Vyntus
-WIP
 Wasserman
 Yannick
 ZAN
@@ -41,6 +42,7 @@ const
 cowplot
 dat
 deanonymize
+doi
 et
 ggplot
 gxt

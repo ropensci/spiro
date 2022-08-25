@@ -57,7 +57,7 @@ This function provides a shortcut for visualizing spiroergometric data from
 \code{\link{spiro}} with the help of \code{ggplot2}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Import and process example data
 ramp_data <- spiro(
   file = spiro_example("zan_ramp"),

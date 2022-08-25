@@ -1,3 +1,11 @@
+spiro 0.1.1 (2022-08-25)
+===========================
+
+### DOCUMENTATION FIXES
+
+  * Fixes to prepare CRAN release
+
+
 spiro 0.1.0 (2022-08-18)
 ===========================
 

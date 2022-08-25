@@ -13,6 +13,9 @@
 
 \item{...}{Passing of additional arguments to \code{print.data.frame()}.}
 }
+\value{
+The function prints its argument and returns it invisibly.
+}
 \description{
 Printing method for spiro objects that rounds output to two decimals.
 }

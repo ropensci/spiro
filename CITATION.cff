@@ -8,9 +8,11 @@ message: 'To cite package "spiro" in publications use:'
 type: software
 license: MIT
 title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
-version: 0.1.0
+version: 0.1.1
 doi: 10.5281/zenodo.5816170
 abstract: Import, process, summarize and visualize raw data from metabolic carts.
+  See Robergs, Dwyer, and Astorino (2010) <doi:10.2165/11319670-000000000-00000> for
+  more details on data processing.
 authors:
 - family-names: Nolte
   given-names: Simon

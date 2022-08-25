@@ -1,6 +1,6 @@
 Package: spiro
 Title: Manage Data from Cardiopulmonary Exercise Testing
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     c(
       person(given = "Simon",
@@ -18,7 +18,7 @@ Authors@R:
         comment = "reviewed the package (v. 0.0.5) for rOpenSci, see <https://github.com/ropensci/software-review/issues/541>")
     )
 Description: Import, process, summarize and visualize raw data from 
-    metabolic carts.
+    metabolic carts. See Robergs, Dwyer, and Astorino (2010) <doi:10.2165/11319670-000000000-00000> for more details on data processing. 
 License: MIT + file LICENSE
 URL: https://github.com/ropensci/spiro, https://docs.ropensci.org/spiro/
 BugReports: https://github.com/ropensci/spiro/issues
