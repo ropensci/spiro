@@ -38,18 +38,17 @@ Measuring gas exchange during physical exercise is a common procedure in sports 
 
 ## Installation
 
-Install the current development version from GitHub:
+Install `spiro` from CRAN:
+
+``` {r install, eval = FALSE}
+install.packages("spiro")
+```
+
+Install the current development version of `spiro` from GitHub:
 
 ``` {r install-dev, eval = FALSE}
 if (!require(remotes)) install.packages("remotes")
 remotes::install_github("ropensci/spiro")
-```
-
-Install the latest version 0.1.0 release by running this code:
-
-``` {r install, eval = FALSE}
-if (!require(remotes)) install.packages("remotes")
-remotes::install_github("ropensci/spiro@v0.1.0")
 ```
 
 ## Usage
