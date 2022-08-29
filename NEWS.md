@@ -1,5 +1,11 @@
+spiro (development version)
+===========================
+
+
 spiro 0.1.1 (2022-08-25)
 ===========================
+
+First CRAN release.
 
 ### DOCUMENTATION FIXES
 

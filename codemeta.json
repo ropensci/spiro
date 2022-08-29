@@ -4,17 +4,23 @@
   "identifier": "spiro",
   "description": "Import, process, summarize and visualize raw data from metabolic carts. See Robergs, Dwyer, and Astorino (2010) <doi:10.2165/11319670-000000000-00000> for more details on data processing. ",
   "name": "spiro: Manage Data from Cardiopulmonary Exercise Testing",
-  "relatedLink": "https://docs.ropensci.org/spiro/",
+  "relatedLink": ["https://docs.ropensci.org/spiro/", "https://CRAN.R-project.org/package=spiro"],
   "codeRepository": "https://github.com/ropensci/spiro",
   "issueTracker": "https://github.com/ropensci/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.1",
+  "version": "0.1.1.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.2.0 (2022-04-22 ucrt)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -159,7 +165,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2739.566KB",
+  "fileSize": "2739.633KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -174,7 +180,7 @@
       "name": "spiro: Manage Data from Cardiopulmonary Exercise Testing",
       "identifier": "10.5281/zenodo.5816170",
       "url": "https://docs.ropensci.org/spiro/",
-      "description": "R package version 0.1.0",
+      "description": "R package version 0.1.1",
       "@id": "https://doi.org/10.5281/zenodo.5816170",
       "sameAs": "https://doi.org/10.5281/zenodo.5816170"
     }
