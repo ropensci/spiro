@@ -493,13 +493,13 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
 
     # use raw breath time data if smoothing method is breath-based
     if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$t <- attr(data, "raw")$time
+      d$time <- attr(data, "raw")$time
     } else {
-      d$t <- data$time
+      d$time <- data$time
     }
   } else {
     d <- data.frame(
-      t = data$time,
+      time = data$time,
       # returns error if NAs are interpreted as logical
       PetO2 = as.numeric(NA),
       PetCO2 = as.numeric(NA)
@@ -514,7 +514,7 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
     direction = "long",
     varying = c("PetO2", "PetCO2"),
     v.names = "value",
-    idvar = c("t"),
+    idvar = c("time"),
     times = c("PetO2", "PetCO2"),
     timevar = "measure"
   )
@@ -523,7 +523,7 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
     labels = c("PetO2 (mmHG)", "PetCO2 (mmHg)")
   )
 
-  ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
+  ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     list(
       if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(
