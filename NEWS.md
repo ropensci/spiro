@@ -4,6 +4,7 @@ spiro (development version)
 * Fix bug in spiro_plot() when PET data was available and time raw data contained duplicates
 * Fix bug in spiro_max() for RERmax calculation when data contained a long period without gas exchange measurements at the end
 * Improve detection of post exercise measurements during automated exercise protocol detection
+* Add support for Vyntus files in French
 
 spiro 0.1.1 (2022-08-25)
 ===========================

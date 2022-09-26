@@ -38,7 +38,7 @@ The currently supported metabolic carts are:
 English or German language)
 \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 German language)
-\item \strong{Vyntus} (\code{.txt} files in German language)
+\item \strong{Vyntus} (\code{.txt} files in German or French language)
 \item \strong{ZAN} (\code{.dat} files in German language, usually with
 names in the form of \code{"EXEDxxx"})
 }
