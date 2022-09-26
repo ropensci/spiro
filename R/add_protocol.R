@@ -28,7 +28,6 @@
 
 add_protocol <- function(data, protocol) {
 
-
   # attach the protocol to the data frame
   if (is.null(protocol)) { # no protocol given
     add <- data.frame(
@@ -181,11 +180,12 @@ get_features <- function(protocol) {
     }
   }
   # check whether post measures exist
-  # if the load of the last step is less or equal to a third of the previous
-  # step, it is considered as a post measure (rest or cool-down)
+  # if the load of the last step is less or equal to a third of the last
+  # previous step with load, it is considered a post measure (rest or cool-down)
   if (nrow(protocol) > 1) {
     last_load <- protocol$load[nrow(protocol)]
-    if (last_load <= (1 / 3) * protocol$load[nrow(protocol) - 1]) {
+    cut_load <- protocol$load[protocol$load[-nrow(protocol)] != 0]
+    if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
       protocol$type[nrow(protocol)] <- "post measures"
       protocol$code[nrow(protocol)] <- -2
     }
