@@ -389,10 +389,21 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
+  # use calculated EQ data for smoothing if measurement method is not
+  # breath-by-breath
+  if (check_bb(attr(data, "raw")$time)) {
+    d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
+    d$EQ_O2 <- 1000 * d$VE / d$VO2
+    d$EQ_CO2 <- 1000 * d$VE / d$VCO2
+  } else {
+    data$EQ_O2 <- 1000 * data$VE / data$VO2
+    data$EQ_CO2 <- 1000 * data$VE / data$VCO2
+    d <- spiro_smooth(data, smooth = smooth, columns = c("EQ_O2", "EQ_CO2"))
+    # Remove implausible values
+    d$EQ_O2[which(d$EQ_O2 > 50 | d$EQ_O2 < 10)] <- NA
+    d$EQ_CO2[which(d$EQ_CO2 > 50 | d$EQ_CO2 < 10)] <- NA
+  }
 
-  d$EQ_O2 <- 1000 * d$VE / d$VO2
-  d$EQ_CO2 <- 1000 * d$VE / d$VCO2
   # use raw breath time data if smoothing method is breath-based
   if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
@@ -456,8 +467,15 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
-  d$RER <- d$VCO2 / d$VO2
+  # use calculated RER data for smoothing if measurement method is not
+  # breath-by-breath
+  if (check_bb(attr(data, "raw")$time)) {
+    d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
+    d$RER <- d$VCO2 / d$VO2
+  } else {
+    d <- spiro_smooth(data, smooth = smooth, columns = "RER")
+  }
+
   # use raw breath time data if smoothing method is breath-based
   if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
