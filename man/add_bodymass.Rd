@@ -11,7 +11,9 @@ add_bodymass(data, bodymass = NULL)
 \item{data}{A \code{data.frame} of the class \code{spiro} containing the gas
 exchange data. Usually the output of a \code{\link{spiro}} call.}
 
-\item{bodymass}{A numeric value to manually set the participant's body mass.}
+\item{bodymass}{A numeric value to manually set the participant's body mass.
+Defaults to NULL to use bodymass data from the file's meta data. Set to NA
+to ignore the meta data without setting a new body mass.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro} containing the
