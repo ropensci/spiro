@@ -6,6 +6,7 @@ spiro (development version)
 * Improve detection of post exercise measurements during automated exercise protocol detection
 * Add support for Vyntus files in French
 * Improve plotting of none breath-by-breath data
+* Improve NA handling in spiro_smooth() for zero-lag Butterworth filters
 
 spiro 0.1.1 (2022-08-25)
 ===========================
