@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+* Add last.duration argument in pt_steps() and pt_const()
 * Fix bug in spiro_plot() when PET data was available and time raw data contained duplicates
 * Fix bug in spiro_max() for RERmax calculation when data contained a long period without gas exchange measurements at the end
 * Improve detection of post exercise measurements during automated exercise protocol detection

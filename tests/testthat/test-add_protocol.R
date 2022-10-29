@@ -47,3 +47,13 @@ test_that("protocol features can be extracted", {
     c("pre measures", "warm up", rep.int("load", 7))
   )
 })
+
+test_that("last.load argument works", {
+  expect_identical(
+    pt_steps(30, 100, 50, 3, 10, 20),
+    data.frame(
+      duration = c(30, 10, 30, 10, 20),
+      load = c(100, 0, 150, 0, 200)
+    )
+  )
+})
