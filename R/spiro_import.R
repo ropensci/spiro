@@ -54,7 +54,6 @@ spiro_import <- function(file, device = NULL, anonymize = TRUE) {
 #'
 #' @noRd
 spiro_import_zan <- function(file) {
-
   # find indices for document structure
   rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
   meta_imin <- which(rawdata == "[person]") # meta data
@@ -206,7 +205,6 @@ guess_device <- function(file) {
 #'
 #' @noRd
 spiro_import_cosmed <- function(file) {
-
   # read meta data
   tbl <- suppressMessages(
     readxl::read_excel(file, range = "A1:B8", col_names = FALSE)

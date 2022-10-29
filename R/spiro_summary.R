@@ -39,7 +39,6 @@ spiro_summary <- function(data,
                           interval = 120,
                           quiet = FALSE,
                           exclude = FALSE) {
-
   # step wise summary only works when load step are available
   protocol <- attr(data, "protocol")
   if (is.null(protocol)) {
@@ -115,7 +114,6 @@ spiro_summary <- function(data,
 #'
 #' @noRd
 getstepmeans <- function(step_number, data, interval = 30, quiet = FALSE) {
-
   # filter data for desired step number and delete unneeded columns
   step <- data[
     data$step == step_number,

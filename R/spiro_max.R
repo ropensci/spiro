@@ -44,7 +44,6 @@
 #' @export
 
 spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
-
   # validate hr_smooth input
   if (!is.logical(hr_smooth)) {
     stop("'hr_smooth' must be either TRUE or FALSE")

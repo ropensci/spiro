@@ -62,7 +62,6 @@ spiro_plot <- function(data,
                        base_size = 13,
                        grid_args = list(),
                        ...) {
-
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
