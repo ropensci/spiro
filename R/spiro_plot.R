@@ -235,7 +235,8 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 
   tl_data <- data.frame(
     time = data$time,
-    load = data$load
+    load = data$load,
+    load_scaled = data$load * yl[[1]]
   )
 
   # use raw breath time data if smoothing method is breath-based
@@ -273,8 +274,8 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 
   ggplot2::ggplot(NULL) +
     ggplot2::geom_area(
-      data = tl_data,
-      ggplot2::aes_(x = tl_data$time, y = tl_data$load * yl[[1]]),
+      data = NULL,
+      ggplot2::aes(x = tl_data$time, y = tl_data$load_scaled),
       fill = "black", alpha = 0.2, position = "identity"
     ) +
     list(
