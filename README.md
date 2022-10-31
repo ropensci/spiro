@@ -163,8 +163,9 @@ testing. It additionally offers functions for analyzing VO2 kinetics.
 ## Acknowledgment
 
 The following persons contributed to this package by providing raw data
-files: Daniel Appelhans, Sebastian Mühlenhoff, Yannick Schwarz, Adrian
-Swoboda, Andreas Wagner.
+files, reviewing code and/or suggesting features: Daniel Appelhans,
+James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon,
+Yannick Schwarz, Adrian Swoboda, Andreas Wagner.
 
 ## Contributing
 

@@ -5,7 +5,7 @@ spiro (development version)
 * Fix bug in spiro_plot() when PET data was available and time raw data contained duplicates
 * Fix bug in spiro_max() for RERmax calculation when data contained a long period without gas exchange measurements at the end
 * Improve detection of post exercise measurements during automated exercise protocol detection
-* Add support for Vyntus files in French
+* Add support for Vyntus files in French (thanks to Virgile Lecoultre)
 * Improve plotting of none breath-by-breath data
 * Improve NA handling in spiro_smooth() for zero-lag Butterworth filters
 * Allow import of files with missing body mass data without setting a new body mass.
