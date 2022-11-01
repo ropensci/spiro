@@ -12,6 +12,8 @@
 #' For running protocols, running economy (RE) is calculated.
 #'
 #' @param bodymass A numeric value to manually set the participant's body mass.
+#'   Defaults to NULL to use bodymass data from the file's meta data. Set to NA
+#'   to ignore the meta data without setting a new body mass.
 #'
 #' @inheritParams spiro_max
 #'
@@ -27,7 +29,7 @@
 #' head(out)
 #' @export
 add_bodymass <- function(data, bodymass = NULL) {
-  if (!is.null(bodymass)) {
+  if (!is.null(bodymass) & !anyNA(bodymass)) {
     if (!is.numeric(bodymass)) {
       stop("'bodymass' must be a numeric value")
     } else if (bodymass <= 0) {
@@ -37,9 +39,9 @@ add_bodymass <- function(data, bodymass = NULL) {
     bodymass <- attr(data, "info")$bodymass
   }
 
-  # no bodymass found
+  # no body mass found
   if (is.na(bodymass)) {
-    stop("No 'bodymass' specified")
+    warning("No 'bodymass' data available", call. = FALSE)
   }
 
   # calculate data relative to body bodymass
@@ -59,7 +61,7 @@ add_bodymass <- function(data, bodymass = NULL) {
     }
   }
 
-  # save possible new bodymass data in the meta attribute
+  # save possible new body mass data in the meta attribute
   attr(data, "info")$bodymass <- bodymass
 
   data

@@ -62,7 +62,6 @@ spiro_plot <- function(data,
                        base_size = 13,
                        grid_args = list(),
                        ...) {
-
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
@@ -235,7 +234,8 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 
   tl_data <- data.frame(
     time = data$time,
-    load = data$load
+    load = data$load,
+    load_scaled = data$load * yl[[1]]
   )
 
   # use raw breath time data if smoothing method is breath-based
@@ -273,8 +273,8 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 
   ggplot2::ggplot(NULL) +
     ggplot2::geom_area(
-      data = tl_data,
-      ggplot2::aes_(x = tl_data$time, y = tl_data$load * yl[[1]]),
+      data = NULL,
+      ggplot2::aes(x = tl_data$time, y = tl_data$load_scaled),
       fill = "black", alpha = 0.2, position = "identity"
     ) +
     list(
@@ -389,10 +389,21 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
+  # use calculated EQ data for smoothing if measurement method is not
+  # breath-by-breath
+  if (check_bb(attr(data, "raw")$time)) {
+    d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
+    d$EQ_O2 <- 1000 * d$VE / d$VO2
+    d$EQ_CO2 <- 1000 * d$VE / d$VCO2
+  } else {
+    data$EQ_O2 <- 1000 * data$VE / data$VO2
+    data$EQ_CO2 <- 1000 * data$VE / data$VCO2
+    d <- spiro_smooth(data, smooth = smooth, columns = c("EQ_O2", "EQ_CO2"))
+    # Remove implausible values
+    d$EQ_O2[which(d$EQ_O2 > 50 | d$EQ_O2 < 10)] <- NA
+    d$EQ_CO2[which(d$EQ_CO2 > 50 | d$EQ_CO2 < 10)] <- NA
+  }
 
-  d$EQ_O2 <- 1000 * d$VE / d$VO2
-  d$EQ_CO2 <- 1000 * d$VE / d$VCO2
   # use raw breath time data if smoothing method is breath-based
   if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
@@ -456,8 +467,15 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #'
 #' @noRd
 spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
-  d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
-  d$RER <- d$VCO2 / d$VO2
+  # use calculated RER data for smoothing if measurement method is not
+  # breath-by-breath
+  if (check_bb(attr(data, "raw")$time)) {
+    d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
+    d$RER <- d$VCO2 / d$VO2
+  } else {
+    d <- spiro_smooth(data, smooth = smooth, columns = "RER")
+  }
+
   # use raw breath time data if smoothing method is breath-based
   if (nrow(attr(data, "raw")) == nrow(d)) {
     d$t <- attr(data, "raw")$time
@@ -493,13 +511,13 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
 
     # use raw breath time data if smoothing method is breath-based
     if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$t <- attr(data, "raw")$time
+      d$time <- attr(data, "raw")$time
     } else {
-      d$t <- data$time
+      d$time <- data$time
     }
   } else {
     d <- data.frame(
-      t = data$time,
+      time = data$time,
       # returns error if NAs are interpreted as logical
       PetO2 = as.numeric(NA),
       PetCO2 = as.numeric(NA)
@@ -514,7 +532,7 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
     direction = "long",
     varying = c("PetO2", "PetCO2"),
     v.names = "value",
-    idvar = c("t"),
+    idvar = c("time"),
     times = c("PetO2", "PetCO2"),
     timevar = "measure"
   )
@@ -523,7 +541,7 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
     labels = c("PetO2 (mmHG)", "PetCO2 (mmHg)")
   )
 
-  ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
+  ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     list(
       if (!requireNamespace("ggborderline", quietly = TRUE)) {
         ggplot2::geom_line(

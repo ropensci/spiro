@@ -14,9 +14,16 @@ pt_pre(duration)
 
 pt_wu(duration, load, rest.duration = 0)
 
-pt_steps(duration, load, increment, count, rest.duration = 0)
+pt_steps(
+  duration,
+  load,
+  increment,
+  count,
+  rest.duration = 0,
+  last.duration = NULL
+)
 
-pt_const(duration, load, count, rest.duration = 0)
+pt_const(duration, load, count, rest.duration = 0, last.duration = NULL)
 }
 \arguments{
 \item{...}{Functions related to sections of the load profile, such as
@@ -35,6 +42,9 @@ seconds).}
 and the following load step.}
 
 \item{count}{An integer for the number of load sections.}
+
+\item{last.duration}{A number, giving the duration of the last load step (in
+seconds).}
 }
 \value{
 A \code{data.frame} with the duration and load of each protocol step.

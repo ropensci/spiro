@@ -209,7 +209,6 @@ mavg <- function(x, k) {
 #' head(out, n = 20)
 #' @export
 bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
-
   # return NA vector if input is only NAs
   if (all(is.na(x))) {
     return(x)
@@ -241,6 +240,8 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
     x_ext[which(is.na(x_ext))] <- 0
     out_pre <- signal::filtfilt(bf, x_ext)
     out <- out_pre[(length(x) + 1):(2 * length(x))]
+    # Re-insert NAs
+    out[which(is.na(x))] <- NA
   } else {
     out <- signal::filter(bf, replace_intna(x))
     # in some instances the filter length varies (this is currently not

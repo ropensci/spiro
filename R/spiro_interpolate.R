@@ -16,7 +16,6 @@
 #'
 #' @noRd
 spiro_interpolate <- function(data) {
-
   # find and handle duplicates
   # in some rare cases time data may contain duplicates (e.g. when time was
   # rounded).
@@ -56,7 +55,6 @@ spiro_interpolate <- function(data) {
 #' @param y,x Numeric vectors giving the data to be interpolate
 #' @noRd
 spiro_interpolate.internal <- function(y, x) {
-
   # simple linear interpolation based on time data
   if (all(is.na(y))) {
     dfinter <- rep.int(NA, round(max(x, na.rm = TRUE)))

@@ -44,7 +44,6 @@
 #' @export
 
 spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
-
   # validate hr_smooth input
   if (!is.logical(hr_smooth)) {
     stop("'hr_smooth' must be either TRUE or FALSE")
@@ -71,7 +70,7 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   } else {
     filt$t <- data$time
   }
-  # exclude cool-down or post-exercise rest
+  # exclude cool-down or post-exercise rest (only if protocol is available)
   if (any(data$step > 0)) {
     t_end <- max(which(data$step > 0), na.rm = TRUE)
     filt <- filt[filt$t <= t_end, ]
@@ -79,6 +78,8 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # only evaluate last 10 percent of exercise time
   t_total <- max(filt$t)
   filt_cut <- filt[filt$t >= 0.9 * t_total, ]
+  # remove time filter if no measurements are available during this period
+  if (all(is.na(filt_cut$VO2))) filt_cut <- filt
   filt_cut$RER <- filt_cut$VCO2 / filt_cut$VO2
   maxs["RER"] <- max(filt_cut$RER, na.rm = TRUE)
 

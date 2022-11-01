@@ -61,7 +61,6 @@ add_hr <- function(data, hr_file, hr_offset = 0) {
 }
 
 hr_import <- function(hr_file) {
-
   # currently working for Garmin .tcx files
 
   # -- TO DO --

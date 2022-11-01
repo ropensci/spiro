@@ -98,7 +98,7 @@ The `spiro` package supports different metabolic carts. The metabolic cart a dat
 
 * **CORTEX** (`"cortex"`): .xlsx, .xls or .xml files in English or German language
 * **COSMED** (`"cosmed"`): .xlsx or .xls files in English or German language
-* **VYNTUS** (`"vyntus"`): .txt files (tab-separated) in German language
+* **VYNTUS** (`"vyntus"`): .txt files (tab-separated) in German or French language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
 
 To only import the raw data without further processing (such as interpolation, exercise protocol guessing,...) use the function `spiro_import()`:

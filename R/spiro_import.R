@@ -14,9 +14,9 @@
 #'   English or German language)
 #'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 #'   German language)
-#'   \item \strong{Vyntus} (\code{.txt} files in German language)
+#'   \item \strong{Vyntus} (\code{.txt} files in German or French language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
-#'     names in the form of \code{"EXEDxxx"})
+#'   names in the form of \code{"EXEDxxx"})
 #' }
 #'
 #' @inheritParams spiro
@@ -54,7 +54,6 @@ spiro_import <- function(file, device = NULL, anonymize = TRUE) {
 #'
 #' @noRd
 spiro_import_zan <- function(file) {
-
   # find indices for document structure
   rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
   meta_imin <- which(rawdata == "[person]") # meta data
@@ -190,7 +189,7 @@ guess_device <- function(file) {
     # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) {
       device <- "zan"
-    } else if (any(head == "ID-nummer:")) {
+    } else if (any(head == "Tid" | head == "Temps")) {
       device <- "vyntus"
     } else {
       device <- "none"
@@ -206,7 +205,6 @@ guess_device <- function(file) {
 #'
 #' @noRd
 spiro_import_cosmed <- function(file) {
-
   # read meta data
   tbl <- suppressMessages(
     readxl::read_excel(file, range = "A1:B8", col_names = FALSE)
@@ -404,23 +402,35 @@ spiro_import_cortex <- function(file) {
 #'
 #' @noRd
 spiro_import_vyntus <- function(file) {
-  data <- utils::read.delim(file, skip = 2)[-1, ]
+  # get head of file to find column names and start of data
+  head <- utils::read.delim(file, header = FALSE, nrows = 10)
+
+  colstart <- which(head == "Tid" | head == "Temps", arr.ind = TRUE)
+
+  data <- utils::read.delim(file, skip = colstart[[1]] - 1)[-1, ]
 
   df <- data.frame(
-    time = to_seconds(data[["Tid"]]),
+    time = to_seconds(get_data(data, c("Tid", "Temps"), as_numeric = FALSE)),
     VO2 = get_data(data, "V.O2"),
     VCO2 = get_data(data, "V.CO2"),
-    RR = get_data(data, "BF"),
+    RR = get_data(data, c("BF", "FR")),
     VT = get_data(data, "VTex"),
-    VE = get_data(data, "V.E"),
-    HR = get_data(data, "HF"),
-    load = get_data(data, "Last"),
-    PetO2 = get_data(data, "PetO2"), # currently not supported
-    PetCO2 = get_data(data, "PetCO2") # currently not supported
+    VE = get_data(data, c("V.E", "VeSTPD")),
+    HR = get_data(data, c("HF", "FC")),
+    load = get_data(data, c("Last", "Vitesse", "Watt")),
+    PetO2 = get_data(data, "PETO2") * 7.50062, # convert from kPa to mmHg
+    PetCO2 = get_data(data, "PETCO2") * 7.50062 # convert from kPa to mmHg
   )
 
-  # Recalculate body mass from relative oxygen uptake data
-  bodymass <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
+  # use power data if velocity data is empty
+  if (all(df$load == 0, na.rm = TRUE)) df$load <- get_data(data, c("Watt"))
+
+  # Recalculate body mass from relative oxygen uptake data (if given)
+  if (any(colnames(data) == "V.O2.kg")) {
+    bodymass <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
+  } else {
+    bodymass <- NA
+  }
 
   # Write meta data
   info <- data.frame(
@@ -551,7 +561,7 @@ import_xml <- function(file, short = FALSE) {
 #' @return A numeric vector. Any characters or empty fields will be coerced to
 #'   NAs.
 #' @noRd
-get_data <- function(data, vars) {
+get_data <- function(data, vars, as_numeric = TRUE) {
   col_matches <- colnames(data) %in% vars
   if (any(col_matches)) {
     # if more than one column matches with input, choose only first matched
@@ -560,10 +570,10 @@ get_data <- function(data, vars) {
     # Suppress warning if column content can not be converted to numbers
     # e.g. if empty cells are indicated by sign such as '-'
     out <- suppressWarnings(
-      as.numeric(data[, vars_match])
+      if (as_numeric) as.numeric(data[, vars_match]) else data[, vars_match]
     )
   } else {
-    out <- as.numeric(NA)
+    out <- if (as_numeric) as.numeric(NA) else NA
   }
   out
 }

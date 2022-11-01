@@ -27,8 +27,6 @@
 #' @export
 
 add_protocol <- function(data, protocol) {
-
-
   # attach the protocol to the data frame
   if (is.null(protocol)) { # no protocol given
     add <- data.frame(
@@ -96,7 +94,6 @@ add_protocol <- function(data, protocol) {
 #' @export
 
 get_protocol <- function(data) {
-
   # Round load data before protocol guessing assuming that power data will be
   # only relevant in steps of 5W and velocity data in steps of .05 m/s or km/h.
   # This is necessary as load data will sometimes show minor fluctuation, which
@@ -147,7 +144,6 @@ get_protocol <- function(data) {
 #'
 #' @noRd
 get_features <- function(protocol) {
-
   # create empty columns
   protocol$type <- NA
   protocol$code <- NA
@@ -181,11 +177,12 @@ get_features <- function(protocol) {
     }
   }
   # check whether post measures exist
-  # if the load of the last step is less or equal to a third of the previous
-  # step, it is considered as a post measure (rest or cool-down)
+  # if the load of the last step is less or equal to a third of the last
+  # previous step with load, it is considered a post measure (rest or cool-down)
   if (nrow(protocol) > 1) {
     last_load <- protocol$load[nrow(protocol)]
-    if (last_load <= (1 / 3) * protocol$load[nrow(protocol) - 1]) {
+    cut_load <- protocol$load[protocol$load[-nrow(protocol)] != 0]
+    if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
       protocol$type[nrow(protocol)] <- "post measures"
       protocol$code[nrow(protocol)] <- -2
     }
@@ -238,6 +235,8 @@ get_testtype <- function(protocol) {
 #' @param increment A number, giving the difference in load between the current
 #'   and the following load step.
 #' @param count An integer for the number of load sections.
+#' @param last.duration A number, giving the duration of the last load step (in
+#' seconds).
 #'
 #' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
@@ -260,7 +259,6 @@ set_protocol <- function(...) {
 #' @export
 
 pt_pre <- function(duration) {
-
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
     stop("pre measures 'duration' must be an integer greater than 0")
@@ -276,7 +274,6 @@ pt_pre <- function(duration) {
 #' @export
 
 pt_wu <- function(duration, load, rest.duration = 0) {
-
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
     stop("warm up 'duration' must be an integer greater than 0")
@@ -306,8 +303,12 @@ pt_wu <- function(duration, load, rest.duration = 0) {
 #' @describeIn set_protocol Add a stepwise load protocol
 #' @export
 
-pt_steps <- function(duration, load, increment, count, rest.duration = 0) {
-
+pt_steps <- function(duration,
+                     load,
+                     increment,
+                     count,
+                     rest.duration = 0,
+                     last.duration = NULL) {
   # validate inputs
   if ((duration <= 0) | !is.numeric(duration)) {
     stop("step 'duration' must be an integer greater than 0")
@@ -325,7 +326,13 @@ pt_steps <- function(duration, load, increment, count, rest.duration = 0) {
   if ((rest.duration < 0) | !is.numeric(rest.duration)) {
     stop("step 'rest.duration' must be an integer equal to or greater than 0")
   }
-
+  if (!is.null(last.duration)) {
+    if ((last.duration <= 0) | !is.numeric(last.duration)) {
+      stop(
+        "last step duration 'last.duration' must be an integer greater than 1"
+      )
+    }
+  }
 
   rest.load <- 0
   if (rest.duration == 0) {
@@ -344,6 +351,12 @@ pt_steps <- function(duration, load, increment, count, rest.duration = 0) {
     l <- l + increment
     i <- i + 1
   }
+
+  # change last load duration if necessary
+  if (!is.null(last.duration)) {
+    ds[max(which(ls != 0))] <- last.duration
+  }
+
   d <- data.frame(
     duration = ds,
     load = ls
@@ -354,13 +367,18 @@ pt_steps <- function(duration, load, increment, count, rest.duration = 0) {
 #' @describeIn set_protocol Add a constant load protocol
 #' @export
 
-pt_const <- function(duration, load, count, rest.duration = 0) {
+pt_const <- function(duration,
+                     load,
+                     count,
+                     rest.duration = 0,
+                     last.duration = NULL) {
   pt_steps(
     duration = duration,
     load = load,
     increment = 0,
     count = count,
-    rest.duration = rest.duration
+    rest.duration = rest.duration,
+    last.duration = last.duration
   )
 }
 
@@ -402,7 +420,6 @@ set_protocol_manual <- function(duration, load = NULL) {
 #' @export
 
 set_protocol_manual.default <- function(duration, load) {
-
   # validate inputs
   if (length(duration) != length(load)) {
     stop("'duration' and 'load' must be vectors of the same length")
@@ -425,7 +442,6 @@ set_protocol_manual.default <- function(duration, load) {
 #' @export
 
 set_protocol_manual.data.frame <- function(duration, load = NULL) {
-
   # check if data frame has columns names 'duration' and 'load'
   if (any(names(duration) == "duration") && any(names(duration) == "load")) {
     out <- data.frame(
