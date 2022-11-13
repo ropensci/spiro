@@ -1,15 +1,23 @@
-spiro (development version)
+spiro 0.1.2 (2022-11-13)
 ===========================
 
-* Add last.duration argument in pt_steps() and pt_const()
-* Fix bug in spiro_plot() when PET data was available and time raw data contained duplicates
-* Fix bug in spiro_max() for RERmax calculation when data contained a long period without gas exchange measurements at the end
-* Improve detection of post exercise measurements during automated exercise protocol detection
+### NEW FEATURES
+
 * Add support for Vyntus files in French (thanks to Virgile Lecoultre)
+
+### MINOR IMPROVEMENTS
+
+* Add last.duration argument in pt_steps() and pt_const()
+* Allow import of files with missing body mass data without setting a new body mass
+* Improve detection of post exercise measurements during automated exercise protocol detection
 * Improve plotting of none breath-by-breath data
 * Improve NA handling in spiro_smooth() for zero-lag Butterworth filters
-* Allow import of files with missing body mass data without setting a new body mass.
 * Update spiro_plot() to recent changes in ggplot2 version 3.4.0
+
+### BUG FIXES
+
+* Fix bug in spiro_plot() when PET data was available and raw time data contained duplicates
+* Fix bug in spiro_max() for RERmax calculation when data contained a long period without gas exchange measurements at the end
 
 spiro 0.1.1 (2022-08-25)
 ===========================
