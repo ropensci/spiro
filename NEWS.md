@@ -9,6 +9,7 @@ spiro (development version)
 * Improve plotting of none breath-by-breath data
 * Improve NA handling in spiro_smooth() for zero-lag Butterworth filters
 * Allow import of files with missing body mass data without setting a new body mass.
+* Update spiro_plot() to recent changes in ggplot2 version 3.4.0
 
 spiro 0.1.1 (2022-08-25)
 ===========================

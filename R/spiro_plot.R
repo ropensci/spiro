@@ -113,17 +113,7 @@ spiro_plot_VE <- function(data, smooth = "fz", base_size = 13, ...) {
     data = d,
     ggplot2::aes(x = d$t, y = d$VE, colour = "VE (l/min)")
   ) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          size = 1, na.rm = TRUE
-        )
-      }
-    ) +
+    plot_lines() +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
@@ -190,18 +180,8 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
   )
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      }
+    plot_lines(
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
     ) +
     ggplot2::scale_colour_manual(values = c("red", "pink")) +
     list(
@@ -277,28 +257,13 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
       ggplot2::aes(x = tl_data$time, y = tl_data$load_scaled),
       fill = "black", alpha = 0.2, position = "identity"
     ) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          data = v_data_long,
-          ggplot2::aes(
-            x = v_data_long$time,
-            y = v_data_long$value,
-            colour = v_data_long$measure
-          ),
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          data = v_data_long,
-          ggplot2::aes(
-            x = v_data_long$time,
-            y = v_data_long$value,
-            colour = v_data_long$measure
-          ),
-          size = 1, na.rm = TRUE
-        )
-      }
+    plot_lines(
+      data = v_data_long,
+      mapping = ggplot2::aes(
+        x = v_data_long$time,
+        y = v_data_long$value,
+        colour = v_data_long$measure
+      )
     ) +
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis(~ . / yl[[1]],
@@ -426,18 +391,8 @@ spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
   d_long$measure <- factor(d_long$measure, levels = c("EQ_O2", "EQ_CO2"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      }
+    plot_lines(
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
     ) +
     ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
     ggplot2::scale_y_continuous(limits = function(x) c(x[[1]] - 5, x[[2]])) +
@@ -484,19 +439,7 @@ spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
   }
 
   ggplot2::ggplot(data = d, ggplot2::aes(x = d$t)) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          ggplot2::aes(y = d$RER, colour = "RER"),
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          ggplot2::aes(y = d$RER, colour = "RER"),
-          size = 1, na.rm = TRUE
-        )
-      }
-    ) +
+    plot_lines(mapping = ggplot2::aes(y = d$RER, colour = "RER")) +
     ggplot2::scale_colour_manual(values = "#003300") +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
@@ -542,18 +485,8 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
   )
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
-    list(
-      if (!requireNamespace("ggborderline", quietly = TRUE)) {
-        ggplot2::geom_line(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      } else {
-        ggborderline::geom_borderline(
-          ggplot2::aes(y = d_long$value, colour = d_long$measure),
-          size = 1, na.rm = TRUE
-        )
-      }
+    plot_lines(
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
     ) +
     ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
     ggplot2::scale_y_continuous(limits = c(0, 150)) +
@@ -605,5 +538,58 @@ theme_spiro <- function(base_size = 13,
       legend.justification = legend.justification,
       ...
     )
+  )
+}
+
+#' Plot lines in spiro_plot() functions depending on ggborderline availability
+#' and ggplot2 version
+#'
+#' Uses the ggborderline package if available to plot lines. Use the linewidth
+#' aesthetic for ggplot2 version >= 3.4 and size aesthetic for older versions
+#'
+#' @param data Passed to ggplot2::geom_line() or ggborderline::geom_borderline()
+#' @param mapping Passed to ggplot2::geom_line() or
+#'   ggborderline::geom_borderline()
+#' @param linewidth Passed as linewidth or size depending on the available
+#'   ggplot2 version. Defaults to 1.
+#' @param na.rm Passed to ggplot2::geom_line() or
+#'   ggborderline::geom_borderline(). Defaults to TRUE.
+#'
+#' @noRd
+plot_lines <- function(data = NULL, mapping = NULL, linewidth = 1, na.rm = TRUE) {
+  list(
+    if (!requireNamespace("ggborderline", quietly = TRUE)) {
+      if (utils::packageVersion("ggplot2") >= 3.4) {
+        ggplot2::geom_line(
+          data = data,
+          mapping = mapping,
+          linewidth = linewidth,
+          na.rm = na.rm
+        )
+      } else {
+        ggplot2::geom_line(
+          data = data,
+          mapping = mapping,
+          size = linewidth,
+          na.rm = na.rm
+        )
+      }
+    } else {
+      if (utils::packageVersion("ggplot2") >= 3.4) {
+        ggborderline::geom_borderline(
+          data = data,
+          mapping = mapping,
+          linewidth = linewidth,
+          na.rm = na.rm
+        )
+      } else {
+        ggborderline::geom_borderline(
+          data = data,
+          mapping = mapping,
+          size = linewidth,
+          na.rm = na.rm
+        )
+      }
+    }
   )
 }
