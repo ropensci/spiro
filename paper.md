@@ -21,14 +21,28 @@ Measuring gas exchange during physical exercise is a common procedure in sports 
 
 # Statement of need
 
-Data from cardiopulmonary exercise testing can be processed with different methods [@robergs2010]. Different processing strategies can influence key parameters calculated from the measurements, such as the maximum oxygen uptake [@martin-rincon2019]. This can in turn bias the evaluation of clinical conditions and intervention studies [@johnson1998; @martin-rincon2020]. The `spiro` package provides easy tools to compare and standardize processing methods for cardiopulmonary exercise testing.
+Data from cardiopulmonary exercise testing can be processed with different methods [@robergs2010]. Different processing strategies influence key parameters calculated from the measurements, such as the maximum oxygen uptake [@martin-rincon2019]. This can in turn bias the evaluation of clinical conditions and intervention studies [@johnson1998; @martin-rincon2020]. The `spiro` package provides easy tools to compare and standardize processing methods for cardiopulmonary exercise testing.
 
-In face of the 'replication crisis' in science, calls for more transparent research practices have reached the sports and exercise science community [@caldwell2020]. Transparent research in exercise science requires the sharing of analysis data and code [@borg2020]. In the sub-field of of exercise physiology, the `spiro` package now provides the open-source infrastructure to generate analysis code for cardiopulmonary exercise testing. When shared, this ultimately allows any researcher to reproduce study results.
+In face of the 'replication crisis' in science, calls for more transparent research practices have reached the sports and exercise science community [@caldwell2020]. Transparent research in exercise science requires the sharing of analysis data and code [@borg2020]. In the field of exercise physiology, the `spiro` package now provides the open-source infrastructure to generate analysis code for cardiopulmonary exercise testing. When shared, this ultimately allows any researcher to reproduce study results.
 
 The `spiro` package allows to process large amounts of data sets in considerably short time. Having accumulated large data sets from cardiopulmonary exercise testing, researchers can identify physiological patterns using techniques from machine or deep learning [@zignoli2019]. Together with packages for functional programming (e.g. `purrr` [@henry2020]) the `spiro` package can pre-process data before applying such advanced analysis algorithms.
 
+# Features
+
+## Import & Processing
+
+The spiro package in its current version 0.1.1 allows the import of files from Cortex, Cosmed, Vyntus, and ZAN devices. The `spiro()` function provides a unified interface for automated import and processing. This includes the retrieval of participant meta data and automated guessing of the exercise protocol. This information can be changed by the helper functions `add_bodymass()` and `add_protocol()` . The `add_heartrate()` function allows to synchronize external heart rate data files.
+
+## Summarizing
+
+Two options for data summary are available: `spiro_summary()` calculates mean parameters over a defined time span at the end of each load step. This is a common procedure when evaluating graded incremental exercise tests. `spiro_max()` can calculate maximum parameters, such as the maximum oxygen uptake, which is often assessed during ramp tests. The function offers different methods for data filtering, such as moving time averages, moving breath averages, and digital filters.
+
+## Visualization
+
+Users can generate a Wasserman 9-Panel-Plot using `spiro_plot()` (see Figure 1 for an example). The function allows to extract and reorder single panels of the plot and support different data filtering methods.
+
 # Acknowledgements
 
-Thanks...
+The following persons contributed to this package by providing raw data files, reviewing code and/or suggesting features: Daniel Appelhans, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon, Yannick Schwarz, Adrian Swoboda, Andreas Wagner.
 
 # References
