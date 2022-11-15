@@ -8,7 +8,7 @@ message: 'To cite package "spiro" in publications use:'
 type: software
 license: MIT
 title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
-version: 0.1.2
+version: 0.1.2.9000
 doi: 10.5281/zenodo.5816170
 abstract: Import, process, summarize and visualize raw data from metabolic carts.
   See Robergs, Dwyer, and Astorino (2010) <doi:10.2165/11319670-000000000-00000> for
@@ -29,7 +29,7 @@ preferred-citation:
   year: '2022'
   url: https://docs.ropensci.org/spiro/
   doi: 10.5281/zenodo.5816170
-  notes: R package version 0.1.2
+  notes: R package version 0.1.2.9000
 repository: https://CRAN.R-project.org/package=spiro
 repository-code: https://github.com/ropensci/spiro
 url: https://docs.ropensci.org/spiro/

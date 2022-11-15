@@ -54,32 +54,32 @@ remotes::install_github("ropensci/spiro")
 
 Main functions:
 
--   Use `spiro()` to automatically import and process raw data from
-    cardiopulmonary exercise testing.
--   Use `spiro_summary()` for a summary of cardiopulmonary parameters
-    (e.g., relative oxygen uptake, respiratory quotient, heart rate, …)
-    for each load step.
--   Use `spiro_max()` to calculate maximum parameter values (e.g.,
-    VO2max).
--   Use `spiro_plot()` to visualize the data as a modifiable Wassermann
-    9-Panel Plot.
+- Use `spiro()` to automatically import and process raw data from
+  cardiopulmonary exercise testing.
+- Use `spiro_summary()` for a summary of cardiopulmonary parameters
+  (e.g., relative oxygen uptake, respiratory quotient, heart rate, …)
+  for each load step.
+- Use `spiro_max()` to calculate maximum parameter values (e.g.,
+  VO2max).
+- Use `spiro_plot()` to visualize the data as a modifiable Wassermann
+  9-Panel Plot.
 
 Further functionality:
 
--   Add external heart rate data from a .tcx file.
--   Automated guessing or manual setting of exercise protocols.
--   Different data filtering strategies for VO<sub>2max</sub>
-    determination (moving time averages, moving breath averages,
-    Butterworth filters)
+- Add external heart rate data from a .tcx file.
+- Automated guessing or manual setting of exercise protocols.
+- Different data filtering strategies for VO<sub>2max</sub>
+  determination (moving time averages, moving breath averages,
+  Butterworth filters)
 
 #### Metabolic Carts
 
 The following metabolic carts are currently supported by `spiro`:
 
--   Cortex
--   Cosmed
--   Vyntus
--   ZAN
+- Cortex
+- Cosmed
+- Vyntus
+- ZAN
 
 Support for further metabolic carts is planned for future releases.
 
@@ -139,7 +139,7 @@ citation("spiro")
 #> To cite spiro in publications use:
 #> 
 #>   Simon Nolte (2022). spiro: Manage Data from Cardiopulmonary Exercise
-#>   Testing. R package version 0.1.1. DOI: 10.5281/zenodo.1040727.
+#>   Testing. R package version 0.1.2. DOI: 10.5281/zenodo.1040727.
 #>   https://docs.ropensci.org/spiro
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -150,7 +150,7 @@ citation("spiro")
 #>     year = {2022},
 #>     url = {https://docs.ropensci.org/spiro/},
 #>     doi = {10.5281/zenodo.5816170},
-#>     note = {R package version 0.1.1},
+#>     note = {R package version 0.1.2},
 #>   }
 ```
 
