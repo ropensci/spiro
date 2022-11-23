@@ -352,7 +352,9 @@ spiro_import_cortex <- function(file) {
   )
 
   # get start of data section
-  t_ind <- which(d[, 1] == "h:mm:ss")
+  t_ind <- which(
+    d[, 1] == "h:mm:ss" | d[, 1] == "h:mm:ss,ms" | d[, 1] == "h:mm:ss.ms"
+  )
 
   # get parameter labels
   cols <- as.character(d[t_ind - 1, ])
@@ -377,15 +379,15 @@ spiro_import_cortex <- function(file) {
     PetCO2 = get_data(data, "PetCO2")
   )
 
-  # correct units
-  # VO2 and VCO2 might sometimes be given in l/min instead of ml/min
-  if (max(df$VO2, na.rm = TRUE) < 100) df$VO2 <- df$VO2 * 1000
-  if (max(df$VCO2, na.rm = TRUE) < 100) df$VCO2 <- df$VCO2 * 1000
-
   # in some cases VCO2 may be missing and thus is recalculated from RER and VO2
   if (all(is.na(df$VCO2))) {
     df$VCO2 <- df$VO2 / get_data(data, "RER")
   }
+
+  # correct units
+  # VO2 and VCO2 might sometimes be given in l/min instead of ml/min
+  if (max(df$VO2, na.rm = TRUE) < 100) df$VO2 <- df$VO2 * 1000
+  if (max(df$VCO2, na.rm = TRUE) < 100) df$VCO2 <- df$VCO2 * 1000
 
   # Write null values in HR as NAs
   df$HR[which(df$HR == 0)] <- NA

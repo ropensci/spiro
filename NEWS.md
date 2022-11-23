@@ -1,7 +1,7 @@
 spiro (development version)
 ===========================
 
-
+* Fix bug in Cortex import when time data contained milliseconds
 
 spiro 0.1.2 (2022-11-13)
 ===========================
