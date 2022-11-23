@@ -208,7 +208,7 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
 spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
   yl <- spiro_plot.guess_units(data)
 
-  # create data frame with rolling averages
+  # create data frame with smoothed values
   v_smooth <- spiro_smooth(data, smooth, c("VO2", "VCO2"))
   bodymass <- attr(data, "info")$bodymass
 
@@ -265,10 +265,14 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
         colour = v_data_long$measure
       )
     ) +
-    ggplot2::scale_y_continuous(
-      sec.axis = ggplot2::sec_axis(~ . / yl[[1]],
-        name = yl[[2]]
-      )
+    list(
+      if (!all(tl_data$load_scaled == 0)) {
+        ggplot2::scale_y_continuous(
+          sec.axis = ggplot2::sec_axis(~ . / yl[[1]], name = yl[[2]])
+        )
+      } else {
+        NULL
+      }
     ) +
     ggplot2::scale_color_manual(values = c("#c00000", "#0053a4")) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +

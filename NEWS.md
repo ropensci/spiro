@@ -2,6 +2,7 @@ spiro (development version)
 ===========================
 
 * Fix bug in Cortex import when time data contained milliseconds
+* Remove secondary load axis in spiro_plot(which = 3), when no load data is available
 
 spiro 0.1.2 (2022-11-13)
 ===========================
