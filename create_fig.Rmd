@@ -1,0 +1,17 @@
+---
+output: github_document
+---
+
+### Create Figure 1 for the paper.md document of the JOSS submission
+
+```{r}
+library(spiro)
+
+p <- spiro_example("zan_gxt") |>
+  spiro() |>
+  add_hr("inst/extdata/hr_gxt.tcx", hr_offset = 85) |>
+  spiro_plot()
+
+ggplot2::ggsave("Fig1.png", p, width = 9, height = 7, dpi = 600, bg = "white")
+```
+
