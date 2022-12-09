@@ -1,5 +1,3 @@
-library(spiro)
-
 file <- spiro_example("zan_gxt")
 
 p1 <- set_protocol(

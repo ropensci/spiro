@@ -1,10 +1,8 @@
-library(spiro)
-
 file <- spiro_example("zan_gxt")
 wfile <- spiro_example("hr_ramp.tcx")
-cosmed_file <- spiro_example("cosmed_test.xlsx")
-cortex_file <- spiro_example("cortex_test.xml")
-vyntus_file <- spiro_example("vyntus_test.txt")
+cosmed_file <- test_path("testdata/cosmed.xlsx")
+cortex_file <- test_path("testdata/cortex.xml")
+vyntus_file <- test_path("testdata/vyntus.txt")
 
 test_that("device guess turns right", {
   expect_match(spiro:::guess_device(file), "zan")

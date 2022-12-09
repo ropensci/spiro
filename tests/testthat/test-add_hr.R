@@ -1,5 +1,3 @@
-library(spiro)
-
 hr_file <- spiro_example("hr_ramp.tcx")
 file <- spiro_example("zan_ramp")
 

@@ -74,13 +74,29 @@ spiro_plot(data, which = c(5,3))
 
 Data over time (Panel 1,2,3,6,8,9) will be displayed smoothed, as determined via the `smooth` argument. The other panels (4,5,7) use the raw breath-by-breath data for visualization. 
 
-You can control the appearance of the plots in `spiro_plot()`. Use the `base_size` argument to change the plot base size. Pass other style arguments to `ggplot::theme()` for further customization.
+You can control the appearance of the plots in `spiro_plot()`. Use the `style_args` argument to control the size and color of points and lines.
 
-```{r spiro_plot-style, fig.width = 10, fig.height = 8, message = FALSE}
+```{r spiro_plot-style-1, fig.width = 10, fig.height = 8, message = FALSE}
+# Change size of points, width of lines and color of VO2 points/lines
+spiro_plot(
+  data, 
+  style_args = list(
+    size = 0.6,
+    linewidth = 1.5,
+    color_VO2 = "black"
+  )
+)
+```
+
+Use the `base_size` argument to change the plot base size. You can pass other style arguments to `ggplot::theme()` via the `style_args` argument for further customization.
+
+```{r spiro_plot-style-2, fig.width = 10, fig.height = 8, message = FALSE}
 # Change base size and axis label font
 spiro_plot(
   data, 
   base_size = 9, 
-  axis.title = ggplot2::element_text(face = "italic", colour = "blue")
+  style_args = list(
+    axis.title = ggplot2::element_text(face = "italic", colour = "blue")
+  )
 )
 ```

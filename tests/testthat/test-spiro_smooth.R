@@ -1,7 +1,5 @@
-library(spiro)
-
 s <- spiro(spiro_example("zan_gxt"))
-nbb <- suppressWarnings(spiro(spiro_example("cosmed_test.xlsx")))
+nbb <- suppressWarnings(spiro(test_path("testdata/cosmed.xlsx")))
 
 test_that("smooth argument is correctly matched", {
   expect_identical(smooth_match(40), list(type = "time", param = 40))

@@ -36,6 +36,7 @@ Imports:
     signal
 Suggests: 
     testthat (>= 3.0.0),
+    vdiffr,
     rmarkdown,
     ggborderline
 VignetteBuilder: knitr
