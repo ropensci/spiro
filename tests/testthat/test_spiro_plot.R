@@ -14,4 +14,6 @@ test_that("visualization works", {
 
 test_that("input is validated", {
   expect_snapshot_error(spiro_plot(data, which = 20))
+  expect_snapshot_error(spiro_plot(data, style_args = "nolist"))
+  expect_snapshot_error(spiro_plot(data, grid_args = "nolist"))
 })
