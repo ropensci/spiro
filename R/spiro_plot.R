@@ -6,6 +6,31 @@
 #' This function provides a shortcut for visualizing spiroergometric data from
 #' \code{\link{spiro}} with the help of \code{ggplot2}.
 #'
+#' ## Customization
+#' There are three ways to customize the appearance of plots in
+#' \code{spiro_plot}. First, you can control the color and size of points and
+#' lines with the \code{style_args} argument. For a list of available arguments
+#' that should be passed in form of a list, see below. Second, you can change
+#' the appearance of axis and plot elements (e.g, axis titles, panel lines) by
+#' passing arguments over to \code{ggplot2::theme()} via the \code{style_args}
+#' argument. Third, you can modify the arrangement of plots by the \code{which}
+#' argument and customize the arrangement by passing arguments to
+#' \code{cowplot::plot_grid()} via the \code{grid_args} argument.
+#'
+#' ### Style arguments
+#' \describe{
+#'   \item{\code{size = 2.5}}{Defines the size of all points}
+#'   \item{\code{linewidth = 1}}{Defines the width of all lines}
+#'   \item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
+#'     \code{color_VE = "#003300"}, \code{color_VT = "grey30"},
+#'     \code{color_RER = "#003300"}, \code{color_HR = "red"},
+#'     \code{color_pulse = "pink"}
+#'   }{Define the color of lines and points in the following plot panels: VO2
+#'     (panel 3,6,9), VCO2 (3,4,5,6,9), VE (1), VT (7), RER (8), HR (2,5),
+#'     pulse (2)}
+#'   \item{Additional arguments}{Are passed to \code{ggplot2::theme()}}
+#' }
+#'
 #' @param which A numeric integer setting the plot panels to be displayed. The
 #'   panels are numbered in the order of the traditional Wasserman 9-Panel
 #'   Plot:
@@ -21,12 +46,14 @@
 #' @param smooth Parameter giving the filter methods for smoothing the data.
 #'   Default is \code{fz} for a zero phase Butterworth filter. See
 #'   \code{\link{spiro_smooth}} for more details and other filter methods (e.g.
-#'   time based averages),
+#'   time based averages)
 #' @param base_size An integer controlling the base size of the plots (in pts).
-#' @param grid_args A list of arguments passed to cowplot::plot_grid() to modify
-#'   the arrangement of the plots
-#' @param ... Arguments passed to ggplot2::theme() to modify the appearance of
-#'   the plots.
+#' @param style_args A list of arguments controlling the color and size of lines
+#'   and points. See the section \strong{'Customization'} for possible
+#'   arguments. Additional arguments are passed to ggplot2::theme() to modify
+#'   the appearance of the plots.
+#' @param grid_args A list of arguments passed to \code{cowplot::plot_grid()} to
+#'   modify the arrangement of the plots
 #'
 #' @inheritParams spiro_max
 #'
@@ -50,9 +77,14 @@
 #' # cowplot::plot_grid() via the grid_args argument
 #' spiro_plot(ramp_data, which = c(4, 5, 6, 8), grid_args = list(nrow = 1))
 #'
+#' # Modify the appearance of plots using the style_args argument
+#' spiro_plot(ramp_data, style_args = list(size = 0.3, color_VCO2 = "black"))
+#'
 #' # Modify the appearance of plots by passing arguments to ggplot2::theme() via
-#' # the ... argument
-#' spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
+#' # the style_args argument
+#' spiro_plot(ramp_data,
+#'   style_args = list(axis.title.x = ggplot2::element_text(colour = "green"))
+#' )
 #' }
 #' @export
 
@@ -60,8 +92,8 @@ spiro_plot <- function(data,
                        which = 1:9,
                        smooth = "fz",
                        base_size = 13,
-                       grid_args = list(),
-                       ...) {
+                       style_args = list(),
+                       grid_args = list()) {
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
@@ -70,28 +102,94 @@ spiro_plot <- function(data,
   if (!is.list(grid_args)) {
     stop("'grid_args' must be a list")
   }
+  # input validation for `style_args` argument
+  if (!is.list(style_args)) {
+    stop("'style_args' must be a list")
+  }
 
-  l <- lapply(which, spiro_plot.internal,
-    data = data,
-    smooth = smooth,
-    base_size = base_size,
-    ...
-  )
+  style_args$data <- data
+  style_args$smooth <- smooth
+  style_args$base_size <- base_size
+
+  l <- lapply(which, run_spiro_plot, args = style_args)
   grid_args$plotlist <- l
   do.call(cowplot::plot_grid, args = grid_args)
 }
 
-spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
+run_spiro_plot <- function(which, args) {
+  args$which <- which
+  do.call(spiro_plot.internal, args = args)
+}
+
+spiro_plot.internal <- function(which,
+                                data,
+                                smooth,
+                                base_size = 15,
+                                linewidth = 1,
+                                size = 2.5,
+                                color_VO2 = "#c00000",
+                                color_VCO2 = "#0053a4",
+                                color_VE = "#003300",
+                                color_VT = "grey30",
+                                color_RER = "#003300",
+                                color_HR = "red",
+                                color_pulse = "pink",
+                                ...) {
   p <- switch(which,
-    `1` = spiro_plot_VE(data, smooth, base_size = base_size, ...),
-    `2` = spiro_plot_HR(data, smooth, base_size = base_size, ...),
-    `3` = spiro_plot_VO2(data, smooth, base_size = base_size, ...),
-    `4` = spiro_plot_EQCO2(data, base_size = base_size, ...),
-    `5` = spiro_plot_vslope(data, base_size = base_size, ...),
-    `6` = spiro_plot_EQ(data, smooth, base_size = base_size, ...),
-    `7` = spiro_plot_vent(data, base_size = base_size, ...),
-    `8` = spiro_plot_RER(data, smooth, base_size = base_size, ...),
-    `9` = spiro_plot_Pet(data, smooth, base_size = base_size, ...)
+    `1` = spiro_plot_VE(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_VE = color_VE,
+      ...
+    ),
+    `2` = spiro_plot_HR(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_HR = color_HR, color_pulse = color_pulse,
+      ...
+    ),
+    `3` = spiro_plot_VO2(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
+      ...
+    ),
+    `4` = spiro_plot_EQCO2(
+      data,
+      base_size = base_size,
+      size = size, color_VCO2 = color_VCO2,
+      ...
+    ),
+    `5` = spiro_plot_vslope(
+      data,
+      base_size = base_size,
+      size = size, color_HR = color_HR, color_VCO2 = color_VCO2,
+      ...
+    ),
+    `6` = spiro_plot_EQ(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
+      ...
+    ),
+    `7` = spiro_plot_vent(
+      data,
+      base_size = base_size,
+      size = size, color_VT = color_VT,
+      ...
+    ),
+    `8` = spiro_plot_RER(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_RER = color_RER,
+      ...
+    ),
+    `9` = spiro_plot_Pet(
+      data, smooth,
+      base_size = base_size,
+      linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
+      ...
+    )
   )
   p
 }
@@ -100,7 +198,12 @@ spiro_plot.internal <- function(which, data, smooth, base_size = 15, ...) {
 #' Plot ventilation over time
 #'
 #' @noRd
-spiro_plot_VE <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_VE <- function(data,
+                          smooth = "fz",
+                          base_size = 13,
+                          linewidth = 1,
+                          color_VE = "#003300",
+                          ...) {
   d <- spiro_smooth(data, smooth = smooth, columns = "VE")
   # use raw breath time data if smoothing method is breath-based
   if (nrow(attr(data, "raw")) == nrow(d)) {
@@ -113,15 +216,21 @@ spiro_plot_VE <- function(data, smooth = "fz", base_size = 13, ...) {
     data = d,
     ggplot2::aes(x = d$t, y = d$VE, colour = "VE (l/min)")
   ) +
-    plot_lines() +
-    ggplot2::scale_colour_manual(values = "#003300") +
+    plot_lines(linewidth = linewidth) +
+    ggplot2::scale_colour_manual(values = color_VE) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
 }
 #' Plot heartrate and oxygen pulse over time
 #'
 #' @noRd
-spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_HR <- function(data,
+                          smooth = "fz",
+                          base_size = 13,
+                          linewidth = 1,
+                          color_HR = "red",
+                          color_pulse = "pink",
+                          ...) {
   sec_factor <- 5
 
   # Rewrite null values from heart rate to NAs
@@ -181,9 +290,10 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
     plot_lines(
-      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
+      linewidth = linewidth
     ) +
-    ggplot2::scale_colour_manual(values = c("red", "pink")) +
+    ggplot2::scale_colour_manual(values = c(color_HR, color_pulse)) +
     list(
       # create a second y-axis only if data values are available as ggplot2
       # returns an error if sec_axis() is applied to all NAs
@@ -205,7 +315,13 @@ spiro_plot_HR <- function(data, smooth = "fz", base_size = 13, ...) {
 #' Plot oxygen uptake, carbon dioxide output and load over time
 #'
 #' @noRd
-spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_VO2 <- function(data,
+                           smooth = "fz",
+                           base_size = 13,
+                           linewidth = 1,
+                           color_VO2 = "#c00000",
+                           color_VCO2 = "#0053a4",
+                           ...) {
   yl <- spiro_plot.guess_units(data)
 
   # create data frame with smoothed values
@@ -263,7 +379,8 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
         x = v_data_long$time,
         y = v_data_long$value,
         colour = v_data_long$measure
-      )
+      ),
+      linewidth = linewidth
     ) +
     list(
       if (!all(tl_data$load_scaled == 0)) {
@@ -274,7 +391,7 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
         NULL
       }
     ) +
-    ggplot2::scale_color_manual(values = c("#c00000", "#0053a4")) +
+    ggplot2::scale_color_manual(values = c(color_VO2, color_VCO2)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
 }
@@ -282,16 +399,20 @@ spiro_plot_VO2 <- function(data, smooth = "fz", base_size = 13, ...) {
 #' Plot VCO2 vs. VE
 #'
 #' @noRd
-spiro_plot_EQCO2 <- function(data, base_size = 13, ...) {
+spiro_plot_EQCO2 <- function(data,
+                             base_size = 13,
+                             size = 2.5,
+                             color_VCO2 = "#0053a4",
+                             ...) {
   raw <- attr(data, "raw")
   # bring VCO2 data into desired unit (l/min)
   raw$VCO2 <- raw$VCO2 / 1000
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VCO2, y = raw$VE)) +
     ggplot2::geom_point(
-      size = 2.5,
+      size = size,
       shape = 21,
-      fill = "#0053a4",
+      fill = color_VCO2,
       colour = "white",
       na.rm = TRUE
     ) +
@@ -302,7 +423,12 @@ spiro_plot_EQCO2 <- function(data, base_size = 13, ...) {
 #' Plot V-Slope graph
 #'
 #' @noRd
-spiro_plot_vslope <- function(data, base_size = 13, ...) {
+spiro_plot_vslope <- function(data,
+                              base_size = 13,
+                              size = 2.5,
+                              color_HR = "red",
+                              color_VCO2 = "#0053a4",
+                              ...) {
   raw <- attr(data, "raw")
   # remove rows without time stamp
   raw <- raw[!is.na(raw$time), ]
@@ -343,12 +469,12 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
     )
   ) +
     ggplot2::geom_point(
-      size = 2.5,
+      size = size,
       shape = 21,
       colour = "white",
       na.rm = TRUE
     ) +
-    ggplot2::scale_fill_manual(values = c("red", "#0053a4")) +
+    ggplot2::scale_fill_manual(values = c(color_HR, color_VCO2)) +
     ggplot2::scale_y_continuous(sec.axis = ggplot2::sec_axis(~ . / 50)) +
     ggplot2::labs(x = "VO2 (l/min)", y = NULL) +
     theme_spiro(base_size, ...)
@@ -357,7 +483,13 @@ spiro_plot_vslope <- function(data, base_size = 13, ...) {
 #' Plot EQVO2 and EQCO2 over time
 #'
 #' @noRd
-spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_EQ <- function(data,
+                          smooth = "fz",
+                          base_size = 13,
+                          linewidth = 1,
+                          color_VO2 = "#c00000",
+                          color_VCO2 = "#0053a4",
+                          ...) {
   # use calculated EQ data for smoothing if measurement method is not
   # breath-by-breath
   if (check_bb(attr(data, "raw")$time)) {
@@ -396,9 +528,10 @@ spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
     plot_lines(
-      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
+      linewidth = linewidth
     ) +
-    ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
+    ggplot2::scale_colour_manual(values = c(color_VO2, color_VCO2)) +
     ggplot2::scale_y_continuous(limits = function(x) c(x[[1]] - 5, x[[2]])) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
@@ -407,14 +540,18 @@ spiro_plot_EQ <- function(data, smooth = "fz", base_size = 13, ...) {
 #' Plot VE vs. RR
 #'
 #' @noRd
-spiro_plot_vent <- function(data, base_size = 13, ...) {
+spiro_plot_vent <- function(data,
+                            base_size = 13,
+                            size = 2.5,
+                            color_VT = "grey30",
+                            ...) {
   raw <- attr(data, "raw")
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VE, y = raw$VT)) +
     ggplot2::geom_point(
-      size = 2.5,
+      size = size,
       shape = 21,
-      fill = "grey30",
+      fill = color_VT,
       colour = "white",
       na.rm = TRUE
     ) +
@@ -425,7 +562,12 @@ spiro_plot_vent <- function(data, base_size = 13, ...) {
 #' Plot RER over time
 #'
 #' @noRd
-spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_RER <- function(data,
+                           smooth = "fz",
+                           base_size = 13,
+                           linewidth = 1,
+                           color_RER = "#003300",
+                           ...) {
   # use calculated RER data for smoothing if measurement method is not
   # breath-by-breath
   if (check_bb(attr(data, "raw")$time)) {
@@ -443,8 +585,11 @@ spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
   }
 
   ggplot2::ggplot(data = d, ggplot2::aes(x = d$t)) +
-    plot_lines(mapping = ggplot2::aes(y = d$RER, colour = "RER")) +
-    ggplot2::scale_colour_manual(values = "#003300") +
+    plot_lines(
+      mapping = ggplot2::aes(y = d$RER, colour = "RER"),
+      linewidth = linewidth
+    ) +
+    ggplot2::scale_colour_manual(values = color_RER) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
 }
@@ -452,7 +597,13 @@ spiro_plot_RER <- function(data, smooth = "fz", base_size = 13, ...) {
 #' Plot PetO2 and PetCO2 over time
 #'
 #' @noRd
-spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
+spiro_plot_Pet <- function(data,
+                           smooth = "fz",
+                           base_size = 13,
+                           linewidth = linewidth,
+                           color_VO2 = "#c00000",
+                           color_VCO2 = "#0053a4",
+                           ...) {
   if (!all(is.na(data$PetO2))) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("PetO2", "PetCO2"))
 
@@ -490,9 +641,10 @@ spiro_plot_Pet <- function(data, smooth = "fz", base_size = 13, ...) {
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
     plot_lines(
-      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure)
+      mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
+      linewidth = linewidth
     ) +
-    ggplot2::scale_colour_manual(values = c("#c00000", "#0053a4")) +
+    ggplot2::scale_colour_manual(values = c(color_VO2, color_VCO2)) +
     ggplot2::scale_y_continuous(limits = c(0, 150)) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
     theme_spiro(base_size, ...)
@@ -560,7 +712,10 @@ theme_spiro <- function(base_size = 13,
 #'   ggborderline::geom_borderline(). Defaults to TRUE.
 #'
 #' @noRd
-plot_lines <- function(data = NULL, mapping = NULL, linewidth = 1, na.rm = TRUE) {
+plot_lines <- function(data = NULL,
+                       mapping = NULL,
+                       linewidth = 1,
+                       na.rm = TRUE) {
   list(
     if (!requireNamespace("ggborderline", quietly = TRUE)) {
       if (utils::packageVersion("ggplot2") >= 3.4) {

@@ -9,8 +9,8 @@ spiro_plot(
   which = 1:9,
   smooth = "fz",
   base_size = 13,
-  grid_args = list(),
-  ...
+  style_args = list(),
+  grid_args = list()
 )
 }
 \arguments{
@@ -35,15 +35,17 @@ Plot:
 \item{smooth}{Parameter giving the filter methods for smoothing the data.
 Default is \code{fz} for a zero phase Butterworth filter. See
 \code{\link{spiro_smooth}} for more details and other filter methods (e.g.
-time based averages),}
+time based averages)}
 
 \item{base_size}{An integer controlling the base size of the plots (in pts).}
 
-\item{grid_args}{A list of arguments passed to cowplot::plot_grid() to modify
-the arrangement of the plots}
+\item{style_args}{A list of arguments controlling the color and size of lines
+and points. See the section \strong{'Customization'} for possible
+arguments. Additional arguments are passed to ggplot2::theme() to modify
+the appearance of the plots.}
 
-\item{...}{Arguments passed to ggplot2::theme() to modify the appearance of
-the plots.}
+\item{grid_args}{A list of arguments passed to \code{cowplot::plot_grid()} to
+modify the arrangement of the plots}
 }
 \value{
 A ggplot object.
@@ -55,6 +57,34 @@ data from cardiopulmonary exercise testing.
 \details{
 This function provides a shortcut for visualizing spiroergometric data from
 \code{\link{spiro}} with the help of \code{ggplot2}.
+\subsection{Customization}{
+
+There are three ways to customize the appearance of plots in
+\code{spiro_plot}. First, you can control the color and size of points and
+lines with the \code{style_args} argument. For a list of available arguments
+that should be passed in form of a list, see below. Second, you can change
+the appearance of axis and plot elements (e.g, axis titles, panel lines) by
+passing arguments over to \code{ggplot2::theme()} via the \code{style_args}
+argument. Third, you can modify the arrangement of plots by the \code{which}
+argument and customize the arrangement by passing arguments to
+\code{cowplot::plot_grid()} via the \code{grid_args} argument.
+\subsection{Style arguments}{
+
+\describe{
+\item{\code{size = 2.5}}{Defines the size of all points}
+\item{\code{linewidth = 1}}{Defines the width of all lines}
+\item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
+\code{color_VE = "#003300"}, \code{color_VT = "grey30"},
+\code{color_RER = "#003300"}, \code{color_HR = "red"},
+\code{color_pulse = "pink"}
+}{Define the color of lines and points in the following plot panels: VO2
+(panel 3,6,9), VCO2 (3,4,5,6,9), VE (1), VT (7), RER (8), HR (2,5),
+pulse (2)}
+\item{Additional arguments}{Are passed to \code{ggplot2::theme()}}
+}
+}
+
+}
 }
 \examples{
 \donttest{
@@ -74,8 +104,13 @@ spiro_plot(ramp_data, which = 5)
 # cowplot::plot_grid() via the grid_args argument
 spiro_plot(ramp_data, which = c(4, 5, 6, 8), grid_args = list(nrow = 1))
 
+# Modify the appearance of plots using the style_args argument
+spiro_plot(ramp_data, style_args = list(size = 0.3, color_VCO2 = "black"))
+
 # Modify the appearance of plots by passing arguments to ggplot2::theme() via
-# the ... argument
-spiro_plot(ramp_data, axis.title.y = ggplot2::element_text(colour = "green"))
+# the style_args argument
+spiro_plot(ramp_data,
+  style_args = list(axis.title.x = ggplot2::element_text(colour = "green"))
+)
 }
 }
