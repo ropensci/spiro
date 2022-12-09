@@ -1,5 +1,3 @@
-library(spiro)
-
 data <- spiro(spiro_example("zan_ramp"))
 data_hr <- add_hr(data, spiro_example("hr_ramp.tcx"))
 p <- spiro_plot(data, smooth = 15)

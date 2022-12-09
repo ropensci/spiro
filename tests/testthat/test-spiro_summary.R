@@ -1,5 +1,3 @@
-library(spiro)
-
 gxt_data <- spiro(spiro_example("zan_gxt"))
 ramp_data <- spiro(spiro_example("zan_ramp"))
 

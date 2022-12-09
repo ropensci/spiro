@@ -1,5 +1,3 @@
-library(spiro)
-
 test_that("spiro_example returns file path", {
   expect_type(spiro_example("zan_gxt"), "character")
 })
