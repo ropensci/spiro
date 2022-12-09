@@ -5,6 +5,7 @@ spiro (development version)
 * Remove secondary load axis in spiro_plot(which = 3), when no load data is available
 * New customization options for spiro_plot(). It is now possible to control the size and color of points and lines using the style_args argument.
 * Documentation and vignette updated to changes in spiro_plot()
+* Updated testing infrastructure (new soft dependency 'vdiffr' for snapshot testing of spiro_plot() output)
 
 spiro 0.1.2 (2022-11-13)
 ===========================
