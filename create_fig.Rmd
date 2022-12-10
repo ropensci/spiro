@@ -5,12 +5,15 @@ output: github_document
 ### Create Figure 1 for the paper.md document of the JOSS submission
 
 ```{r}
+# The current development version (0.1.2.9000) of the spiro package is required
+# to create this plot. Download it via:
+# remotes::install_github("ropensci/spiro@3c06df9")
 library(spiro)
 
 p <- spiro_example("zan_gxt") |>
   spiro() |>
   add_hr("inst/extdata/hr_gxt.tcx", hr_offset = 85) |>
-  spiro_plot()
+  spiro_plot(style_args = list(size = 1.7))
 
 ggplot2::ggsave("Fig1.png", p, width = 9, height = 7, dpi = 600, bg = "white")
 ```
