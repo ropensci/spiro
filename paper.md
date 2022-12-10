@@ -46,6 +46,6 @@ Users can generate a Wasserman 9-Panel-Plot using `spiro_plot()` (see the exampl
 # Acknowledgements
 
 The following persons contributed to this package by providing raw data files, reviewing code and/or suggesting features:
-Daniel Appelhans, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon, Anton Schiffer, Yannick Max Schwarz, Adrian Swoboda, Andreas Wagner.
+Daniel Appelhans, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon, Oliver Jan Quittmann, Anton Schiffer, Yannick Max Schwarz, Adrian Swoboda, Andreas Wagner.
 
 # References
