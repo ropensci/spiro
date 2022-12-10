@@ -71,7 +71,7 @@ argument and customize the arrangement by passing arguments to
 \subsection{Style arguments}{
 
 \describe{
-\item{\code{size = 2.5}}{Defines the size of all points}
+\item{\code{size = 2}}{Defines the size of all points}
 \item{\code{linewidth = 1}}{Defines the width of all lines}
 \item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
 \code{color_VE = "#003300"}, \code{color_VT = "grey30"},

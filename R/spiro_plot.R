@@ -19,7 +19,7 @@
 #'
 #' ### Style arguments
 #' \describe{
-#'   \item{\code{size = 2.5}}{Defines the size of all points}
+#'   \item{\code{size = 2}}{Defines the size of all points}
 #'   \item{\code{linewidth = 1}}{Defines the width of all lines}
 #'   \item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
 #'     \code{color_VE = "#003300"}, \code{color_VT = "grey30"},
@@ -126,7 +126,7 @@ spiro_plot.internal <- function(which,
                                 smooth,
                                 base_size = 15,
                                 linewidth = 1,
-                                size = 2.5,
+                                size = 2,
                                 color_VO2 = "#c00000",
                                 color_VCO2 = "#0053a4",
                                 color_VE = "#003300",
@@ -401,7 +401,7 @@ spiro_plot_VO2 <- function(data,
 #' @noRd
 spiro_plot_EQCO2 <- function(data,
                              base_size = 13,
-                             size = 2.5,
+                             size = 2,
                              color_VCO2 = "#0053a4",
                              ...) {
   raw <- attr(data, "raw")
@@ -425,7 +425,7 @@ spiro_plot_EQCO2 <- function(data,
 #' @noRd
 spiro_plot_vslope <- function(data,
                               base_size = 13,
-                              size = 2.5,
+                              size = 2,
                               color_HR = "red",
                               color_VCO2 = "#0053a4",
                               ...) {
@@ -542,7 +542,7 @@ spiro_plot_EQ <- function(data,
 #' @noRd
 spiro_plot_vent <- function(data,
                             base_size = 13,
-                            size = 2.5,
+                            size = 2,
                             color_VT = "grey30",
                             ...) {
   raw <- attr(data, "raw")
