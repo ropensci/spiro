@@ -7,6 +7,7 @@ spiro (development version)
 * Documentation and vignette updated to changes in spiro_plot()
 * Updated testing infrastructure (new soft dependency 'vdiffr' for snapshot testing of spiro_plot() output)
 * Change default point size in spiro_plot()
+* Improved Vyntus import for German language
 
 spiro 0.1.2 (2022-11-13)
 ===========================

@@ -14,7 +14,8 @@
 #'   English or German language)
 #'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 #'   German language)
-#'   \item \strong{Vyntus} (\code{.txt} files in German or French language)
+#'   \item \strong{Vyntus} (\code{.txt} files in French, German or Norwegian
+#'   language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
 #'   names in the form of \code{"EXEDxxx"})
 #' }
@@ -186,10 +187,13 @@ guess_device <- function(file) {
   } else { # non-Excel file
     # read the first rows of the file
     head <- utils::read.delim(file, header = FALSE, nrows = 5)
+    # remove leading or trailing white spaces that may occur in some Vyntus
+    # files
+    head <- apply(head, 2, trimws)
     # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) {
       device <- "zan"
-    } else if (any(head == "Tid" | head == "Temps")) {
+    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit")) {
       device <- "vyntus"
     } else {
       device <- "none"
@@ -407,31 +411,56 @@ spiro_import_vyntus <- function(file) {
   # get head of file to find column names and start of data
   head <- utils::read.delim(file, header = FALSE, nrows = 10)
 
-  colstart <- which(head == "Tid" | head == "Temps", arr.ind = TRUE)
+  # sometimes the files will contain leading or trailing whitespaces
+  # complicating the character matching. These are removed first.
+  head_rm <- as.data.frame(apply(head, 2, trimws))
+
+  colstart <- which(
+    head_rm == "Tid" | head_rm == "Temps" | head_rm == "Zeit",
+    arr.ind = TRUE
+  )
 
   data <- utils::read.delim(file, skip = colstart[[1]] - 1)[-1, ]
+  # remove whitespaces
+  data <- as.data.frame(apply(data, 2, trimws))
+  # remove first row if it containes empty values
+  if (data[1, 1] == "") data <- data[-1, ]
+  # convert all but the time column to numbers (i.e replace comma as decimal
+  # mark if necessary and set missing values (`-`) to NA)
+  data_mod <- as.data.frame(cbind(data[, 1], apply(data[, -1], 2, to_number)))
+  colnames(data_mod)[1] <- colnames(data)[1]
 
   df <- data.frame(
-    time = to_seconds(get_data(data, c("Tid", "Temps"), as_numeric = FALSE)),
-    VO2 = get_data(data, "V.O2"),
-    VCO2 = get_data(data, "V.CO2"),
-    RR = get_data(data, c("BF", "FR")),
-    VT = get_data(data, "VTex"),
-    VE = get_data(data, c("V.E", "VeSTPD")),
-    HR = get_data(data, c("HF", "FC")),
-    load = get_data(data, c("Last", "Vitesse", "Watt")),
-    PetO2 = get_data(data, "PETO2") * 7.50062, # convert from kPa to mmHg
-    PetCO2 = get_data(data, "PETCO2") * 7.50062 # convert from kPa to mmHg
+    time = to_seconds(
+      get_data(data_mod, c("Tid", "Temps", "Zeit"), as_numeric = FALSE)
+    ),
+    VO2 = get_data(data_mod, "V.O2"),
+    VCO2 = get_data(data_mod, "V.CO2"),
+    RR = get_data(data_mod, c("BF", "FR")),
+    VT = get_data(data_mod, "VTex"),
+    VE = get_data(data_mod, c("V.E", "VeSTPD")),
+    HR = get_data(data_mod, c("HF", "FC")),
+    load = get_data(data_mod, c("Last", "Vitesse", "Watt")),
+    PetO2 = get_data(data_mod, "PETO2") * 7.50062, # convert from kPa to mmHg
+    PetCO2 = get_data(data_mod, "PETCO2") * 7.50062 # convert from kPa to mmHg
   )
 
   # use power data if velocity data is empty
-  if (all(df$load == 0, na.rm = TRUE)) df$load <- get_data(data, c("Watt"))
+  if (all(df$load == 0, na.rm = TRUE)) df$load <- get_data(data_mod, c("Watt"))
 
   # Recalculate body mass from relative oxygen uptake data (if given)
-  if (any(colnames(data) == "V.O2.kg")) {
-    bodymass <- round(mean(df$VO2 / get_data(data, "V.O2.kg"), na.rm = TRUE), 1)
+  if (any(colnames(data_mod) == "V.O2.kg" | colnames(data_mod) == "VO2.kg")) {
+    bodymass <- round(
+      mean(df$VO2 / get_data(data_mod, c("V.O2.kg", "VO2.kg")), na.rm = TRUE),
+      1
+    )
   } else {
     bodymass <- NA
+  }
+
+  # Recalculate VE from EqO2 if necessary and possible
+  if (all(is.na(df$VE)) & any(colnames(data_mod) == "EqO2")) {
+    df$VE <- get_data(data_mod, "EqO2") * df$VO2 / 1000
   }
 
   # Write meta data
