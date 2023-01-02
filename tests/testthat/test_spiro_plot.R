@@ -2,6 +2,7 @@ data <- spiro(spiro_example("zan_ramp"))
 data_hr <- add_hr(data, spiro_example("hr_ramp.tcx"))
 
 p <- spiro_plot(data)
+p_vertline <- spiro_plot(data, vert_lines = TRUE)
 pt <- spiro_plot(data, smooth = 15)
 pb <- spiro_plot(data, smooth = "15b")
 phr <- spiro_plot(data_hr, smooth = "15b")
@@ -24,6 +25,7 @@ test_that("input is validated", {
   expect_snapshot_error(spiro_plot(data, which = 20))
   expect_snapshot_error(spiro_plot(data, style_args = "nolist"))
   expect_snapshot_error(spiro_plot(data, grid_args = "nolist"))
+  expect_snapshot_error(spiro_plot(data, vert_lines = 2))
 })
 
 test_that("visualization works", {
@@ -31,6 +33,7 @@ test_that("visualization works", {
   vdiffr::expect_doppelganger("tsmooth", pt)
   vdiffr::expect_doppelganger("bsmooth", pb)
   vdiffr::expect_doppelganger("hr", phr)
+  vdiffr::expect_doppelganger("vertline", p_vertline)
 })
 
 test_that("customization works", {

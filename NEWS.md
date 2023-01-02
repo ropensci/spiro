@@ -8,6 +8,7 @@ spiro (development version)
 * Updated testing infrastructure (new soft dependency 'vdiffr' for snapshot testing of spiro_plot() output)
 * Change default point size in spiro_plot()
 * Improved Vyntus import for German language
+* Add option to display vertical lines in spiro_plot() at the start of warm-up, first load and last load.
 
 spiro 0.1.2 (2022-11-13)
 ===========================
