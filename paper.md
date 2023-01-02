@@ -11,13 +11,13 @@ authors:
 affiliations:
  - name: German Sport University Cologne, Institute of Movement and Neurosciences
    index: 1
-date: 04 December 2022
+date: 02 January 2023
 bibliography: paper.bib
 ---
 
 # Summary
 
-Measuring gas exchange during physical exercise is a common procedure in sports science and medicine. It allows to assess the functional limit of the cardiovascular system, evaluate the success of training interventions, and diagnose cardio-respiratory diseases. The measuring devices of cardiopulmonary exercise testing --- so-called metabolic carts --- output their data in different formats. Moreover, measured breath-by-breath data is noisy and requires post-processing. The `spiro` package standardizes the import and processing of raw data from different metabolic carts.
+Measuring gas exchange during physical exercise is a common procedure in sports science and medicine. It allows to assess the functional limit of the cardiovascular system, evaluate the success of training interventions, and diagnose cardio-respiratory diseases. The measuring devices of cardiopulmonary exercise testing --- so-called metabolic carts --- output their data in different formats. Moreover, measured breath-by-breath data is inherently noisy and requires post-processing. The `spiro` package standardizes the import and processing of raw data from different metabolic carts.
 
 # Statement of need
 
@@ -45,7 +45,6 @@ Users can generate a Wasserman 9-Panel-Plot using `spiro_plot()` (see the exampl
 
 # Acknowledgements
 
-The following persons contributed to this package by providing raw data files, reviewing code and/or suggesting features:
-Daniel Appelhans, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon, Oliver Jan Quittmann, Anton Schiffer, Yannick Max Schwarz, Adrian Swoboda, Andreas Wagner.
+The following persons contributed to this package by providing raw data files, reviewing code and/or suggesting features: Daniel Appelhans, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon, Oliver Jan Quittmann, Anton Schiffer, Yannick Max Schwarz, Adrian Swoboda, Andreas Wagner.
 
 # References
