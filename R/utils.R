@@ -1,20 +1,30 @@
-#' Handle time duplicates before interpolation
+#' Handle time duplicates before interpolation or plotting
 #'
+#' Removes duplicates from a vector, by replacing them by nearby values.
 #' Internal function to \code{\link{spiro_interpolate}} and
-#' \code{\link{hr_interpolate}}
+#' \code{\link{hr_interpolate}}. Also used for \code{\link{spiro_plot}} when the
+#' `smooth` argument works with the raw data.
 #'
-#' To ensure that any time duplicates in a dataset will still be correctly
-#' interpolated, the existing duplicates are slightly separated.
+#' Duplicates will usually only occur when data is measured breath-by-breath (or
+#' in irregular time intervals for heart rate data) and is rounded to seconds.
+#' In such cases it may happen that data rows end to have the same time stamp.
+#' This causes problems in interpolation or reshaping for plotting.
 #'
-#' @param values Numeric vector to check for duplicates
+#' @param values Numeric vector
+#' @return A numeric vector with replaced duplicated values
 #' @noRd
 dupl <- function(values) {
   d <- anyDuplicated(values)
   if (d != 0) {
-    ds <- which(duplicated(values))
-    for (di in ds) {
-      values[[di - 1]] <- (values[[di - 1]] - 0.1)
-      values[[di]] <- (values[[di]] + 0.1)
+    # find each duplicate
+    ds <- unique(values[duplicated(values)])
+    for (i in ds) {
+      n <- sum(values == i) # number of same duplicate
+      # calculate replacement values
+      val_pre <- seq(-0.5, 0.5, length.out = n + 2)
+      val_repl <- val_pre[-c(1, length(val_pre))]
+      # replace duplicated values
+      values[values == i] <- values[values == i] + val_repl
     }
   }
   values

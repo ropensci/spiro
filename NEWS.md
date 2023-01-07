@@ -9,6 +9,7 @@ spiro (development version)
 * Change default point size in spiro_plot()
 * Improved Vyntus import for German language
 * Add option to display vertical lines in spiro_plot() at the start of warm-up, first load and last load.
+* Fix rare bug when in the time data an identical value was present more than three times.
 
 spiro 0.1.2 (2022-11-13)
 ===========================
