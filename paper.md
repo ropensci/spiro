@@ -9,9 +9,9 @@ authors:
     affiliation: 1
     corresponding: true
 affiliations:
- - name: German Sport University Cologne, Institute of Movement and Neurosciences
+ - name: Institute of Movement and Neurosciences, German Sport University Cologne, Cologne, Germany
    index: 1
-date: 02 January 2023
+date: 21 January 2023
 bibliography: paper.bib
 ---
 
