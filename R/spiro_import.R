@@ -159,17 +159,17 @@ guess_device <- function(file) {
     # Read head of the Excel file
     head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
 
-    # files from Cosmed devices usually start with a line "ID-Code:" or "ID"
-    if (any(grepl("ID", head))) {
-      device <- "cosmed"
-      # files from Cortex devices usually contain a line at the head:
-      # "Administrative Data" or "Stammdaten"
-    } else if (any(
+    # files from Cortex devices usually contain a line at the head:
+    # "Administrative Data" or "Stammdaten"
+    if (any(
       head == "Administrative Data" | head == "Stammdaten",
       na.rm = TRUE
     )
     ) {
       device <- "cortex"
+      # files from Cosmed devices usually start with a line "ID-Code:" or "ID"
+    } else if (any(grepl("ID", head))) {
+      device <- "cosmed"
     } else { # device type not found
       device <- "none"
     }
