@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+* Fix bug in import when raw time data contained invalid values (e.g. when the content of a row, but not the row itself was deleted in the excel raw data file)
 * deprecated spiro_import(), as its name led to confusion that this might be the general import function, which is spiro(). Use spiro_raw() instead.
 * new function spiro_raw() to access or import raw data only. This is a wrapper around attr(data, "raw") for spiro objects and replaces spiro_import() for raw data files.
 * Updated citation information (A software paper for the spiro package was accepted by the Journal of Open Source Software).

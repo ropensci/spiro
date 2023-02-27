@@ -39,6 +39,13 @@ spiro_get <- function(file, device = NULL, anonymize = TRUE) {
   if (anonymize) {
     attr(out, "info") <- spiro_anonymize(attr(out, "info"))
   }
+
+  # Remove null values caused by measurement errors
+  out$VO2[which(out$VO2 == 0)] <- NA
+  out$VCO2[which(out$VCO2 == 0)] <- NA
+  # Remove rows with empty time data
+  out <- out[which(!is.na(out$time)), ]
+
   out
 }
 
