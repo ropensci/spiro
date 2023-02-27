@@ -1,6 +1,8 @@
 spiro (development version)
 ===========================
 
+* Updated citation information (A software paper for the spiro package was accepted by the Journal of Open Source Software).
+* Fix bug in device detection when cortex files contained a header with an id field
 * Fix bug in Cortex import when time data contained milliseconds
 * Remove secondary load axis in spiro_plot(which = 3), when no load data is available
 * New customization options for spiro_plot(). It is now possible to control the size and color of points and lines using the style_args argument.
