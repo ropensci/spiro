@@ -1,6 +1,8 @@
 spiro (development version)
 ===========================
 
+* deprecated spiro_import(), as its name led to confusion that this might be the general import function, which is spiro(). Use spiro_raw() instead.
+* new function spiro_raw() to access or import raw data only. This is a wrapper around attr(data, "raw") for spiro objects and replaces spiro_import() for raw data files.
 * Updated citation information (A software paper for the spiro package was accepted by the Journal of Open Source Software).
 * Fix bug in device detection when cortex files contained a header with an id field
 * Fix bug in Cortex import when time data contained milliseconds

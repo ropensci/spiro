@@ -1,12 +1,40 @@
-#' Process raw data from metabolic carts/spiroergometric measures
+#' Import and process raw data from metabolic carts/spiroergometric measures
 #'
 #' \code{spiro()} wraps multiple functions to import and process raw data from
 #' metabolic carts into a \code{data.frame}.
 #'
 #' This function performs multiple operations on raw data from metabolic carts.
 #' It imports the raw data from a file, which might be complemented by an
-#' additional \code{.tcx} file with heart rate data. For details of data import
-#' and supported file types visit \code{\link{spiro_import}}.
+#' additional \code{.tcx} file with heart rate data.
+#'
+#' After using this function, you may summarize the resulting data frame with
+#' \code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
+#' \code{\link{spiro_plot}}.
+#'
+#' @section Import:
+#'
+#' Different metabolic carts yield different output formats for their data. By
+#' default, this function will guess the used device based on the
+#' characteristics of the given file. This behavior can be overridden by
+#' explicitly stating \code{device}.
+#'
+#' The currently supported metabolic carts are:
+#' \itemize{
+#'   \item \strong{CORTEX} (\code{.xlsx}, \code{.xls} or files \code{.xml} in
+#'   English or German language)
+#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
+#'   German language)
+#'   \item \strong{Vyntus} (\code{.txt} files in French, German or Norwegian
+#'   language)
+#'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
+#'   names in the form of \code{"EXEDxxx"})
+#' }
+#'
+#' The spiro function can import personal meta data (name, sex, birthday, ...).
+#' By default this data is anonymized with \code{anonymize = TRUE}, see
+#' \code{\link{get_anonid}} for more information.
+#'
+#' @section Processing:
 #'
 #' Breath-by-breath data is linearly interpolated to get data points for every
 #' second. Based on the given load data, the underlying exercise protocol is
@@ -25,10 +53,6 @@
 #' Protocols, heart rate data and body mass information can also be given in a
 #' piping coding style using the functions \code{\link{add_protocol}},
 #' \code{\link{add_hr}} and \code{\link{add_bodymass}} (see examples).
-#'
-#' After processing, you may summarize the resulting data frame with
-#' \code{\link{spiro_summary}} and \code{\link{spiro_max}}, or plot it with
-#' \code{\link{spiro_plot}}.
 #'
 #' @param file The absolute or relative path of the file that contains the gas
 #'   exchange data.
@@ -54,8 +78,9 @@
 #'
 #'   The attribute \code{"protocol"} provides additional information on the
 #'   underlying testing protocol. The attribute \code{"info"} contains
-#'   additional meta-data from the original raw file. The attribute \code{"raw"}
-#'   gives the imported raw data (without interpolation).
+#'   additional meta data from the original raw file. The attribute \code{"raw"}
+#'   gives the imported raw data (without interpolation, similar to calling
+#'   \code{\link{spiro_raw}}).
 #'
 #' @examples
 #' # get example file
@@ -97,7 +122,7 @@ spiro <- function(file,
   }
 
   # import the gas exchange raw data
-  dt_imported <- spiro_import(file, device = device, anonymize = anonymize)
+  dt_imported <- spiro_get(file, device = device, anonymize = anonymize)
 
   # Remove null values caused by measurement errors
   dt_imported$VO2[which(dt_imported$VO2 == 0)] <- NA

@@ -217,8 +217,8 @@ spiro_plot_VE <- function(data,
                           ...) {
   d <- spiro_smooth(data, smooth = smooth, columns = "VE")
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
@@ -252,8 +252,8 @@ spiro_plot_HR <- function(data,
   if (!all(is.na(data$HR))) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "HR"))
     # use raw breath time data if smoothing method is breath-based
-    if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$t <- attr(data, "raw")$time
+    if (nrow(spiro_raw(data)) == nrow(d)) {
+      d$t <- spiro_raw(data)$time
     } else {
       d$t <- data$time
     }
@@ -350,8 +350,8 @@ spiro_plot_VO2 <- function(data,
   )
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(v_smooth)) {
-    t_data <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(v_smooth)) {
+    t_data <- spiro_raw(data)$time
   } else {
     t_data <- data$time
   }
@@ -420,7 +420,7 @@ spiro_plot_EQCO2 <- function(data,
                              size = 2,
                              color_VCO2 = "#0053a4",
                              ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
   # bring VCO2 data into desired unit (l/min)
   raw$VCO2 <- raw$VCO2 / 1000
 
@@ -445,7 +445,7 @@ spiro_plot_vslope <- function(data,
                               color_HR = "red",
                               color_VCO2 = "#0053a4",
                               ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
   # remove rows without time stamp
   raw <- raw[!is.na(raw$time), ]
 
@@ -509,7 +509,7 @@ spiro_plot_EQ <- function(data,
                           ...) {
   # use calculated EQ data for smoothing if measurement method is not
   # breath-by-breath
-  if (check_bb(attr(data, "raw")$time)) {
+  if (check_bb(spiro_raw(data)$time)) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
     d$EQ_O2 <- 1000 * d$VE / d$VO2
     d$EQ_CO2 <- 1000 * d$VE / d$VCO2
@@ -523,8 +523,8 @@ spiro_plot_EQ <- function(data,
   }
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
@@ -563,7 +563,7 @@ spiro_plot_vent <- function(data,
                             size = 2,
                             color_VT = "grey30",
                             ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VE, y = raw$VT)) +
     ggplot2::geom_point(
@@ -589,7 +589,7 @@ spiro_plot_RER <- function(data,
                            ...) {
   # use calculated RER data for smoothing if measurement method is not
   # breath-by-breath
-  if (check_bb(attr(data, "raw")$time)) {
+  if (check_bb(spiro_raw(data)$time)) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
     d$RER <- d$VCO2 / d$VO2
   } else {
@@ -597,8 +597,8 @@ spiro_plot_RER <- function(data,
   }
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
@@ -629,8 +629,8 @@ spiro_plot_Pet <- function(data,
     d <- spiro_smooth(data, smooth = smooth, columns = c("PetO2", "PetCO2"))
 
     # use raw breath time data if smoothing method is breath-based
-    if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$time <- attr(data, "raw")$time
+    if (nrow(spiro_raw(data)) == nrow(d)) {
+      d$time <- spiro_raw(data)$time
     } else {
       d$time <- data$time
     }

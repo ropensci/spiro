@@ -23,8 +23,8 @@ dtf2 <- data.frame(
 )
 
 test_that("protocol guessing works", {
-  expect_s3_class(get_protocol(spiro_import(file)), "data.frame")
-  expect_snapshot_output(get_protocol(spiro_import(file)))
+  expect_s3_class(get_protocol(spiro_raw(file)), "data.frame")
+  expect_snapshot_output(get_protocol(spiro_raw(file)))
 })
 
 test_that("protocol is attributed in spiro()", {

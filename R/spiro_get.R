@@ -1,45 +1,39 @@
-#' Import raw data from spiroergometric devices
+#' Import raw data from spiroergometric devices (deprecated)
 #'
-#' \code{spiro_import()} retrieves cardiopulmonary data from various types of
-#' metabolic cart files.
-#'
-#' Different metabolic carts yield different output formats for their data. By
-#' default, this function will guess the used device based on the
-#' characteristics of the given file. This behavior can be overridden by
-#' explicitly stating \code{device}.
-#'
-#' The currently supported metabolic carts are:
-#' \itemize{
-#'   \item \strong{CORTEX} (\code{.xlsx}, \code{.xls} or files \code{.xml} in
-#'   English or German language)
-#'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
-#'   German language)
-#'   \item \strong{Vyntus} (\code{.txt} files in French, German or Norwegian
-#'   language)
-#'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
-#'   names in the form of \code{"EXEDxxx"})
-#' }
+#' This function has been deprecated as of package version \code{0.2.0}. It will
+#' be removed in the next version release. Please use \code{\link{spiro}} for
+#' automated import and processing or \code{\link{spiro_raw}} to import only raw
+#' data.
 #'
 #' @inheritParams spiro
-#'
-#' @return A \code{data.frame} with data. The attribute \code{info} contains
-#'   addition meta-data retrieved from the original file.
-#'
-#' @examples
-#' # Get example data
-#' file <- spiro_example("zan_gxt")
-#'
-#' out <- spiro_import(file)
-#' head(out)
 #' @export
 
 spiro_import <- function(file, device = NULL, anonymize = TRUE) {
+  .Deprecated(
+    new = "spiro_raw",
+    msg =
+      paste0(
+        "'spiro_import' is deprecated and will be removed in the next package ",
+        "release. Use 'spiro' for automated import and processing or ",
+        "'spiro_raw' to import only raw data."
+      )
+  )
+  spiro_raw(data = file, device = device, anonymize = anonymize)
+}
+
+#' Import raw data from spiroergometric devices
+#'
+#' Internal function to import raw data from metabolic cart files
+#'
+#' @noRd
+
+spiro_get <- function(file, device = NULL, anonymize = TRUE) {
   if (is.null(device)) device <- guess_device(file)
   out <- switch(device,
-    zan = spiro_import_zan(file),
-    cosmed = spiro_import_cosmed(file),
-    cortex = spiro_import_cortex(file),
-    vyntus = spiro_import_vyntus(file),
+    zan = spiro_get_zan(file),
+    cosmed = spiro_get_cosmed(file),
+    cortex = spiro_get_cortex(file),
+    vyntus = spiro_get_vyntus(file),
     stop("Could not find device type. Please specify the 'device' argument")
   )
   if (anonymize) {
@@ -50,11 +44,11 @@ spiro_import <- function(file, device = NULL, anonymize = TRUE) {
 
 #' Import raw data from ZAN spiroergometric devices
 #'
-#' \code{spiro_import_zan()} retrieves cardiopulmonary data from ZAN
+#' \code{spiro_get_zan()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
 #'
 #' @noRd
-spiro_import_zan <- function(file) {
+spiro_get_zan <- function(file) {
   # find indices for document structure
   rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
   meta_imin <- which(rawdata == "[person]") # meta data
@@ -150,7 +144,7 @@ spiro_import_zan <- function(file) {
 #'
 #' \code{guess_device()} guesses the device type of a metabolic cart based on
 #' the characteristics of a raw data file. To get information on supported
-#' devices visit \code{\link{spiro_import}}.
+#' devices visit \code{\link{spiro}}.
 #'
 #' @noRd
 guess_device <- function(file) {
@@ -204,11 +198,11 @@ guess_device <- function(file) {
 
 #' Import raw data from COSMED spiroergometric devices
 #'
-#' \code{spiro_import_cosmed()} retrieves cardiopulmonary data from ZAN
+#' \code{spiro_get_cosmed()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
 #'
 #' @noRd
-spiro_import_cosmed <- function(file) {
+spiro_get_cosmed <- function(file) {
   # read meta data
   tbl <- suppressMessages(
     readxl::read_excel(file, range = "A1:B8", col_names = FALSE)
@@ -314,11 +308,11 @@ spiro_import_cosmed <- function(file) {
 
 #' Import raw data from Cortex spiroergometric devices
 #'
-#' \code{spiro_import_cortex()} retrieves cardiopulmonary data from cortex
+#' \code{spiro_get_cortex()} retrieves cardiopulmonary data from cortex
 #' metabolic cart files.
 #'
 #' @noRd
-spiro_import_cortex <- function(file) {
+spiro_get_cortex <- function(file) {
   # read file
   if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
     d <- import_xml(file)
@@ -403,11 +397,11 @@ spiro_import_cortex <- function(file) {
 
 #' Import raw data from Vyntus spiroergometric devices
 #'
-#' \code{spiro_import_vyntus()} retrieves cardiopulmonary data from Vyntus
+#' \code{spiro_get_vyntus()} retrieves cardiopulmonary data from Vyntus
 #' metabolic cart files.
 #'
 #' @noRd
-spiro_import_vyntus <- function(file) {
+spiro_get_vyntus <- function(file) {
   # get head of file to find column names and start of data
   head <- utils::read.delim(file, header = FALSE, nrows = 10)
 
@@ -615,7 +609,7 @@ get_data <- function(data, vars, as_numeric = TRUE) {
 #' imported by an id.
 #'
 #' @param info A data.frame containing meta data, as produced as an attribute by
-#'   the spiro_import_* functions.
+#'   the spiro_get_* functions.
 #'
 #' @return A data.frame containing the id and the body mass.
 #' @noRd

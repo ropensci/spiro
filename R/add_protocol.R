@@ -88,7 +88,7 @@ add_protocol <- function(data, protocol) {
 #'
 #' @examples
 #' # Import example data
-#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+#' raw_data <- spiro_raw(data = spiro_example("zan_gxt"))
 #'
 #' get_protocol(raw_data)
 #' @export

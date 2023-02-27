@@ -276,7 +276,7 @@ get_smooth_data <- function(data, columns, s_method, quiet = FALSE) {
   # breath-by-breath data
   if (s_method$type != "time") {
     # get raw data
-    rawdata <- attr(data, "raw")
+    rawdata <- spiro_raw(data)
     if (check_bb(rawdata$time)) { # raw data is breath-by-breath
       if (is.null(columns)) {
         # use all columns (besides time and load) if columns argument is empty

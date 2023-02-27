@@ -101,17 +101,17 @@ The `spiro` package supports different metabolic carts. The metabolic cart a dat
 * **VYNTUS** (`"vyntus"`): .txt files (tab-separated) in French, German or Norwegian language
 * **ZAN** (`"zan"`): .dat files, usually with the name "EXED*" in German language
 
-To only import the raw data without further processing (such as interpolation, exercise protocol guessing,...) use the function `spiro_import()`:
+To only import the raw data without further processing (such as interpolation, exercise protocol guessing,...) use the function `spiro_raw()`:
 
-```{r import}
-spiro_import(file, device = NULL)
+```{r raw}
+spiro_raw(file, device = NULL, anonymize = TRUE)
 ```
 
-Alternatively you can access the raw data after a `spiro()` call by extracting the `"raw"` attribute of the result.
+Alternatively you can also access the raw data after a `spiro()` call.
 
-```{r attr, eval=FALSE}
+```{r raw2, eval=FALSE}
 s <- spiro(file)
-attr(s,"raw")
+spiro_raw(s)
 ```
 
 ## Exercise protocols {#protocols}

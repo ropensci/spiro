@@ -65,8 +65,8 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # in RER values higher than the peak during exercise. RERmax is determined as
   # the maximum value of smoothed RER data during the last 10 percent of
   # exercise time excluding rest and cool-down intervals.
-  if (nrow(attr(data, "raw")) == nrow(filt)) {
-    filt$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(filt)) {
+    filt$t <- spiro_raw(data)$time
   } else {
     filt$t <- data$time
   }
