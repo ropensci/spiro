@@ -182,9 +182,13 @@ get_features <- function(protocol) {
   if (nrow(protocol) > 1) {
     last_load <- protocol$load[nrow(protocol)]
     cut_load <- protocol$load[protocol$load[-nrow(protocol)] != 0]
-    if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
-      protocol$type[nrow(protocol)] <- "post measures"
-      protocol$code[nrow(protocol)] <- -2
+    # evaluate post measures only if measures with load are available before the
+    # last load step
+    if (any(isTRUE(cut_load))) {
+      if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
+        protocol$type[nrow(protocol)] <- "post measures"
+        protocol$code[nrow(protocol)] <- -2
+      }
     }
   }
   protocol
