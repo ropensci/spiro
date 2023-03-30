@@ -40,6 +40,7 @@ anonymize
 anonymized
 anonymizes
 args
+attr
 bodymass
 codecov
 const
@@ -56,9 +57,8 @@ pre
 pts
 rOpenSci
 spiroergometric
-spiroergometry
 tcx
-timespan
+vdiffr
 whippr
 wu
 xls
