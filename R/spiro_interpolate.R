@@ -1,15 +1,15 @@
 #' Interpolate spiroergometric data
 #'
 #' \code{spiro_interpolate()} linearly interpolates data from exercise testing
-#' to seconds.
+#' to full seconds.
 #'
-#' As spiroergometric data is usually recorded breath-by-breath it comprises
+#' As gas exchange data is usually recorded breath-by-breath it comprises
 #' different time intervals. For further calculations, a interpolation to every
-#' second of the measurement is beneficial.
+#' second of the measurement may be beneficial.
 #'
-#' If there a duplicates in the time values (mostly due to rounding or imprecise
-#' time measurements) both values will be slightly separated to keep all
-#' information for the interpolation.
+#' If there are duplicates in the time values (mostly due to rounding or
+#' imprecise time measurements) these values will be slightly separated to keep
+#' all information for the interpolation.
 #'
 #' Note that the applied linear interpolation will have a minor effect of
 #' smoothing on the data.

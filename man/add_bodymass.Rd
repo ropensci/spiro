@@ -12,25 +12,22 @@ add_bodymass(data, bodymass = NULL)
 exchange data. Usually the output of a \code{\link{spiro}} call.}
 
 \item{bodymass}{A numeric value to manually set the participant's body mass.
-Defaults to NULL to use bodymass data from the file's meta data. Set to NA
+Defaults to NULL to use body mass data from the file's meta data. Set to NA
 to ignore the meta data without setting a new body mass.}
 }
 \value{
 A \code{data.frame} of the class \code{spiro} containing the
-cardiopulmonary exercise testing data including variables relative to body
+cardiopulmonary exercise testing data including variables related to body
 mass.
 }
 \description{
-\code{add_bodymass()} amplifies existing spiroergometric data by the
-calculation of body mass-related variables.
+\code{add_bodymass()} adds body mass-related variables to processed gas
+exchange data.
 }
 \details{
-Based on the participant's body mass relative oxygen uptake (VO2_rel) and
-carbon dioxide (VCO2_rel) output are calculated. \code{bodymass} will be
-received from the original file's meta data, but can be manually overridden,
-e.g. if the value in the meta data is incorrect or rounded.
-
-For running protocols, running economy (RE) is calculated.
+Based on an individual's body mass, relative oxygen uptake (VO2_rel) and
+carbon dioxide output (VCO2_rel) are calculated. For running protocols,
+running economy (RE) is calculated.
 }
 \examples{
 # get example file

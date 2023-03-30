@@ -2,20 +2,21 @@
 % Please edit documentation in R/add_protocol.R
 \name{get_protocol}
 \alias{get_protocol}
-\title{Guess a test protocol from a corresponding exercise testing dataset}
+\title{Guess a test protocol from a corresponding exercise testing data set}
 \usage{
 get_protocol(data)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the exercise testing data. It is
-highly recommend to parse non-interpolated breath-by-breath data.}
+highly recommend to parse non-interpolated breath-by-breath data or
+processed data with a very short interpolating/averaging interval.}
 }
 \value{
 A \code{data.frame} with the duration and load of each protocol step.
 }
 \description{
-\code{get_protocol()} gets the underlying test protocol based on given
-load data.
+\code{get_protocol()} gets the underlying test protocol based on given load
+data.
 }
 \examples{
 # Import example data

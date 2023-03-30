@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_heartrate.R
 \name{add_hr}
 \alias{add_hr}
-\title{Import and apply heart rate data to cardiopulmonary exercise testing data}
+\title{Import and add heart rate data to cardiopulmonary exercise testing data}
 \usage{
 add_hr(data, hr_file, hr_offset = 0)
 }
@@ -15,19 +15,22 @@ contains additional heart rate data.}
 
 \item{hr_offset}{An integer, corresponding to the temporal offset of the
 heart-rate file. By default the start of the heart rate measurement is
-linked to the start of the gas exchange measurement.}
+linked to the start of the gas exchange measurement. A positive value
+means, that the heart rate measurement started after the begin of the gas
+exchange measurements; a negative value means it started before.}
 }
 \value{
-A \code{data.frame} containing the spiroergometric and heart rate
-data.
+A \code{data.frame} of the class \code{spiro} containing the
+cardiopulmonary exercise testing data including heart rate data.
 }
 \description{
-\code{add_hr()} imports an additional file containing heart rate data and
-adds it to an existing spiroergometric data file.
+\code{add_hr()} imports an external file containing heart rate data and adds
+it to an existing gas exchange data file.
 }
 \details{
 Heart rate data will be imported from a \code{.tcx} file. After interpolating
-the data to full seconds, it is then matched to the imported data.
+the data to full seconds, it is then matched to the imported gas exchange
+data.
 }
 \examples{
 # Get example data

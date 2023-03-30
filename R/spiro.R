@@ -16,7 +16,7 @@
 #' Different metabolic carts yield different output formats for their data. By
 #' default, this function will guess the used device based on the
 #' characteristics of the given file. This behavior can be overridden by
-#' explicitly stating \code{device}.
+#' explicitly stating the \code{device} argument.
 #'
 #' The currently supported metabolic carts are:
 #' \itemize{
@@ -37,17 +37,18 @@
 #' @section Processing:
 #'
 #' Breath-by-breath data is linearly interpolated to get data points for every
-#' second. Based on the given load data, the underlying exercise protocol is
-#' guessed and applied to the data. If no load data is available or the protocol
-#' guess turns wrong, you can manually specify the exercise \code{protocol} by
-#' using \code{\link{set_protocol}} or \code{\link{set_protocol_manual}}. If you
-#' want to skip the automated protocol guessing without providing an
-#' alternative, set \code{protocol = NA}. Note that in this case, some functions
-#' relying on load data (such as \code{\link{spiro_summary}}) will not work.
+#' full second. Based on the given load data, the underlying exercise protocol
+#' is guessed and applied to the data. If no load data is available or the
+#' protocol guess turns wrong, you can manually specify the exercise
+#' \code{protocol} by using \code{\link{set_protocol}} or
+#' \code{\link{set_protocol_manual}}. If you want to skip the automated protocol
+#' guessing without providing an alternative, set \code{protocol = NA}. Note
+#' that in this case, some functions relying on load data (such as
+#' \code{\link{spiro_summary}}) will not work.
 #'
 #' Additional variables of gas exchange are calculated for further analysis. Per
 #' default the body mass saved in the file's metadata is used for calculating
-#' relative measures. It is possible to supply \code{bodymass} manually to the
+#' relative measures. It is possible to specify \code{bodymass} manually to the
 #' function, overriding that value.
 #'
 #' Protocols, heart rate data and body mass information can also be given in a
@@ -60,13 +61,15 @@
 #'   default the device type is guessed by the characteristics of the
 #'   \code{file}. This can be overridden by setting the argument to
 #'   \code{"cortex"}, \code{"cosmed"}, \code{"vyntus"} or \code{"zan"}.
-#' @param bodymass Numeric value for participant's body mass, if the default
+#' @param bodymass Numeric value for the individual's body mass, if the default
 #'   value saved in the \code{file} should be overridden.
 #' @param hr_file The absolute or relative path of a \code{*tcx} file that
 #'   contains additional heart rate data.
 #' @param hr_offset An integer, corresponding to the temporal offset of the
 #'   heart-rate file. By default the start of the heart rate measurement is
-#'   linked to the start of the gas exchange measurement.
+#'   linked to the start of the gas exchange measurement. A positive value
+#'   means, that the heart rate measurement started after the begin of the gas
+#'   exchange measurements; a negative value means it started before.
 #' @param protocol A \code{data.frame} by \code{\link{set_protocol}} or
 #'   \code{\link{set_protocol_manual}} containing the test protocol. This is
 #'   automatically guessed by default. Set to NA to skip protocol guessing.
@@ -78,9 +81,9 @@
 #'
 #'   The attribute \code{"protocol"} provides additional information on the
 #'   underlying testing protocol. The attribute \code{"info"} contains
-#'   additional meta data from the original raw file. The attribute \code{"raw"}
-#'   gives the imported raw data (without interpolation, similar to calling
-#'   \code{\link{spiro_raw}}).
+#'   additional meta data from the original raw data file. The attribute
+#'   \code{"raw"} gives the imported raw data (without interpolation, similar to
+#'   calling \code{\link{spiro_raw}}).
 #'
 #' @examples
 #' # get example file

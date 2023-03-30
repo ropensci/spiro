@@ -35,8 +35,8 @@ you to recreate the ids, when meta data (name, surname and birthday) are
 known. Birthday is only used within the id generation if available in the
 original raw data.
 
-To disable the anonymization process during import use spiro(anonymize =
-FALSE)
+To disable the anonymization process during import use \code{spiro(anonymize =
+FALSE)}
 }
 \examples{
 get_anonid("Jesse", "Owens", "12.09.1913")

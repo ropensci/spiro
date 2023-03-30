@@ -29,11 +29,11 @@ al. (2010) proposes a third order Butterworth filter with a low-pass cut-off
 frequency of 0.04 for filtering VO2 data.
 
 It should be noted that Butterworth filter comprise a time lag. A method to
-create a data series with zero lag is to subsequently apply two Butterworth
-filters in forward and reverse direction (forward-backwards filtering). While
-this procedure removes any time lag it changes the magnitude of the filtering
-response, i.e. the resulting filter has not the same properties (order and
-cut-off frequency) as a single filter has.
+create a time series with zero lag is to subsequently apply two Butterworth
+filters in forward and reverse direction (forwards-backwards filtering).
+While this procedure removes any time lag it changes the magnitude of the
+filtering response, i.e. the resulting filter has not the same properties
+(order and cut-off frequency) as a single filter.
 }
 \examples{
 # Get VO2 data from example file

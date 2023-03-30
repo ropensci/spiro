@@ -37,10 +37,11 @@ metabolic cart files, or from objects previously imported and processed with
 \details{
 The default way of importing data into the spiro package is using the
 \code{\link{spiro}} function. Besides importing this will perform further
-processing steps such as interpolating of data or calculation of more
-variables. But in some cases the original raw data may be preferable compared
-to the processed raw data. \code{spiro_raw} can either retrieve the raw data
-from an already imported data set or from a new raw data file.
+processing steps such as the interpolation of data or the calculation of
+additional variables. But in some cases the original raw data may be
+preferable compared to the processed raw data. \code{spiro_raw} can either
+retrieve the raw data from an already imported data set or from a new raw
+data file.
 }
 \section{Methods (by class)}{
 \itemize{

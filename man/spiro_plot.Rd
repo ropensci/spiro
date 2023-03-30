@@ -46,7 +46,7 @@ arguments. Additional arguments are passed to ggplot2::theme() to modify
 the appearance of the plots.}
 
 \item{grid_args}{A list of arguments passed to \code{cowplot::plot_grid()} to
-modify the arrangement of the plots}
+modify the arrangement of the plots.}
 
 \item{vert_lines}{Whether vertical lines should be displayed at the
 time points of the first warm-up load, first load, and last load.
@@ -56,12 +56,12 @@ Defaults to FALSE.}
 A ggplot object.
 }
 \description{
-\code{spiro_plot()} returns a \code{ggplot2} graph visualizing
-data from cardiopulmonary exercise testing.
+\code{spiro_plot()} returns a \code{ggplot2} graph visualizing data from
+cardiopulmonary exercise testing.
 }
 \details{
-This function provides a shortcut for visualizing spiroergometric data from
-\code{\link{spiro}} with the help of \code{ggplot2}.
+This function provides a shortcut for visualizing data from metabolic carts
+processed by the \code{\link{spiro}} function.
 \subsection{Customization}{
 
 There are three ways to customize the appearance of plots in

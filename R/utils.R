@@ -7,8 +7,8 @@
 #'
 #' Duplicates will usually only occur when data is measured breath-by-breath (or
 #' in irregular time intervals for heart rate data) and is rounded to seconds.
-#' In such cases it may happen that data rows end to have the same time stamp.
-#' This causes problems in interpolation or reshaping for plotting.
+#' In such cases it may happen that data rows end up having the same time
+#' stamps. This causes problems in data interpolation or reshaping.
 #'
 #' @param values Numeric vector
 #' @return A numeric vector with replaced duplicated values
@@ -79,7 +79,7 @@ to_seconds.internal <- function(time) {
 
 #' Check if data is breath-by-breath
 #'
-#' Internal function to \code{?link{spiro_interpolate}}
+#' Internal function to various other functions of the package.
 #'
 #' Data is considered as non-breath-by-breath if the mean interval between two
 #' data points exceeds five seconds.

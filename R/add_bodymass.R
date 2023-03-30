@@ -1,24 +1,21 @@
 #' Calculate additional variables related to body mass for cardiopulmonary
 #' exercise testing data
 #'
-#' \code{add_bodymass()} amplifies existing spiroergometric data by the
-#' calculation of body mass-related variables.
+#' \code{add_bodymass()} adds body mass-related variables to processed gas
+#' exchange data.
 #'
-#' Based on the participant's body mass relative oxygen uptake (VO2_rel) and
-#' carbon dioxide (VCO2_rel) output are calculated. \code{bodymass} will be
-#' received from the original file's meta data, but can be manually overridden,
-#' e.g. if the value in the meta data is incorrect or rounded.
-#'
-#' For running protocols, running economy (RE) is calculated.
+#' Based on an individual's body mass, relative oxygen uptake (VO2_rel) and
+#' carbon dioxide output (VCO2_rel) are calculated. For running protocols,
+#' running economy (RE) is calculated.
 #'
 #' @param bodymass A numeric value to manually set the participant's body mass.
-#'   Defaults to NULL to use bodymass data from the file's meta data. Set to NA
+#'   Defaults to NULL to use body mass data from the file's meta data. Set to NA
 #'   to ignore the meta data without setting a new body mass.
 #'
 #' @inheritParams spiro_max
 #'
 #' @return A \code{data.frame} of the class \code{spiro} containing the
-#'   cardiopulmonary exercise testing data including variables relative to body
+#'   cardiopulmonary exercise testing data including variables related to body
 #'   mass.
 #' @examples
 #' # get example file
@@ -30,8 +27,8 @@
 #' @export
 add_bodymass <- function(data, bodymass = NULL) {
   if (!is.null(bodymass) & !anyNA(bodymass)) {
-    if (!is.numeric(bodymass)) {
-      stop("'bodymass' must be a numeric value")
+    if (!is.numeric(bodymass) | length(bodymass) != 1) {
+      stop("'bodymass' must be a single numeric value")
     } else if (bodymass <= 0) {
       stop("'bodymass' must be greater than 0")
     }

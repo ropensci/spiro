@@ -1,10 +1,10 @@
 #' Plot data from cardiopulmonary exercise data files
 #'
-#' \code{spiro_plot()} returns a \code{ggplot2} graph visualizing
-#' data from cardiopulmonary exercise testing.
+#' \code{spiro_plot()} returns a \code{ggplot2} graph visualizing data from
+#' cardiopulmonary exercise testing.
 #'
-#' This function provides a shortcut for visualizing spiroergometric data from
-#' \code{\link{spiro}} with the help of \code{ggplot2}.
+#' This function provides a shortcut for visualizing data from metabolic carts
+#' processed by the \code{\link{spiro}} function.
 #'
 #' ## Customization
 #' There are three ways to customize the appearance of plots in
@@ -56,7 +56,7 @@
 #'   arguments. Additional arguments are passed to ggplot2::theme() to modify
 #'   the appearance of the plots.
 #' @param grid_args A list of arguments passed to \code{cowplot::plot_grid()} to
-#'   modify the arrangement of the plots
+#'   modify the arrangement of the plots.
 #'
 #' @inheritParams spiro_max
 #'
@@ -696,7 +696,6 @@ spiro_plot.guess_units <- function(data) {
 
 #' Internal ggplot2 theme for spiro plots
 #'
-#'
 #' @param base_size An integer, giving the base size for the theme.
 #' @param ... Arguments passed to ggplot2::theme()
 #'
@@ -723,7 +722,7 @@ theme_spiro <- function(base_size = 13,
 #' and ggplot2 version
 #'
 #' Uses the ggborderline package if available to plot lines. Use the linewidth
-#' aesthetic for ggplot2 version >= 3.4 and size aesthetic for older versions
+#' aesthetic for ggplot2 version >= 3.4 and size aesthetic for older versions.
 #'
 #' @param data Passed to ggplot2::geom_line() or ggborderline::geom_borderline()
 #' @param mapping Passed to ggplot2::geom_line() or

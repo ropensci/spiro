@@ -30,29 +30,29 @@ Provides the data filtering for \code{\link{spiro_max}} and
 \code{\link{spiro_plot}}.
 }
 \details{
-Raw data from cardiopulmonary is usually noisy due to measurement errors and
+Raw data from cardiopulmonary is usually noisy due to measurement error and
 biological breath-to-breath variability. When processing or visualizing the
 gas exchange data, it is often helpful to filter the raw data. This function
 provides different filtering methods (time average, breath average, digital
 filters).
 
 Breath-based and digital filters will be applied on the raw breath-by-breath
-data. Time-based averages will be conducted on the interpolated data.
+data. Time-based averages will be used on the interpolated data.
 }
 \section{Filtering Methods}{
 
 \describe{
 \item{Time-Based Average (e.g. \code{smooth = 30})}{A (centered) moving
-average over a defined timespan. The number can be given as an integer or
-as a character (e.g. \code{smooth = "30"}) and defines the length of the
-calculation interval in seconds.}
+average over a defined time span. The number can be given as an integer
+or as a character (e.g. \code{smooth = "30"}) and defines the length of
+the calculation interval in seconds.}
 \item{Breath-Based Average (e.g. \code{smooth = "15b"})}{A (centered)
 moving average over a defined number of breaths. The integer before the
 letter 'b' defines the number of breaths for the calculation interval.}
 \item{Butterworth filter (e.g. \code{smooth = "0.04f3"})}{A digital
 Butterworth filter (with lag). The number before the letter 'f' defines
-the low-pass cut-off frequency, the number after gives the order of the
-filter. See \code{\link{bw_filter}} for more details.}
+the low-pass cut-off frequency, the number after the letter 'f' gives the
+order of the filter. See \code{\link{bw_filter}} for more details.}
 \item{Zero-lag Butterworth filter (e.g. \code{smooth = "0.04fz3"})}{A
 digital forwards-backwards Butterworth filter (without lag). The number
 before the letter 'f' defines the low-pass cut-off frequency, the number

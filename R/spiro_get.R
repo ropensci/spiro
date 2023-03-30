@@ -14,16 +14,16 @@ spiro_import <- function(file, device = NULL, anonymize = TRUE) {
     msg =
       paste0(
         "'spiro_import' is deprecated and will be removed in the next package ",
-        "release. Use 'spiro' for automated import and processing or ",
-        "'spiro_raw' to import only raw data."
+        "release. Use 'spiro()' for automated import and processing or ",
+        "'spiro_raw()' to import only raw data."
       )
   )
   spiro_raw(data = file, device = device, anonymize = anonymize)
 }
 
-#' Import raw data from spiroergometric devices
+#' Import raw data from metabolic carts
 #'
-#' Internal function to import raw data from metabolic cart files
+#' Internal function to import raw gas exchange data from metabolic cart files.
 #'
 #' @noRd
 
@@ -49,7 +49,63 @@ spiro_get <- function(file, device = NULL, anonymize = TRUE) {
   out
 }
 
-#' Import raw data from ZAN spiroergometric devices
+#' Guess the device used for a cardiopulmonary measurement
+#'
+#' \code{guess_device()} guesses the device type of a metabolic cart based on
+#' the characteristics of a raw data file. To get information on supported
+#' devices visit \code{\link{spiro}}.
+#'
+#' @noRd
+guess_device <- function(file) {
+  if (grepl("\\.xls$", file, ignore.case = TRUE) ||
+      grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
+    # Read head of the Excel file
+    head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
+
+    # files from Cortex devices usually contain a line at the head:
+    # "Administrative Data" or "Stammdaten"
+    if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
+      device <- "cortex"
+      # files from Cosmed devices usually start with a line "ID-Code:" or "ID"
+    } else if (any(grepl("ID", head))) {
+      device <- "cosmed"
+    } else { # device type not found
+      device <- "none"
+    }
+  } else if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
+    head <- import_xml(file, short = TRUE)
+    if (any(
+      head == "Administrative Data" | head == "Stammdaten",
+      na.rm = TRUE
+    )
+    ) {
+      device <- "cortex"
+    } else {
+      device <- "none"
+    }
+  } else { # non-Excel file
+    # read the first rows of the file
+    head <- utils::read.delim(file, header = FALSE, nrows = 5)
+    # remove leading or trailing white spaces that may occur in some Vyntus
+    # files
+    head <- apply(head, 2, trimws)
+    # files from ZAN devices usually start with a line "[person]"
+    if (any(head == "[person]")) {
+      device <- "zan"
+    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit")) {
+      device <- "vyntus"
+    } else {
+      device <- "none"
+    }
+  }
+  device
+}
+
+#' Import raw data from ZAN metabolic carts
 #'
 #' \code{spiro_get_zan()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
@@ -147,63 +203,7 @@ spiro_get_zan <- function(file) {
   df
 }
 
-#' Guess the device used for a cardiopulmonary measurement
-#'
-#' \code{guess_device()} guesses the device type of a metabolic cart based on
-#' the characteristics of a raw data file. To get information on supported
-#' devices visit \code{\link{spiro}}.
-#'
-#' @noRd
-guess_device <- function(file) {
-  if (grepl("\\.xls$", file, ignore.case = TRUE) ||
-    grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
-    # Read head of the Excel file
-    head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
-
-    # files from Cortex devices usually contain a line at the head:
-    # "Administrative Data" or "Stammdaten"
-    if (any(
-      head == "Administrative Data" | head == "Stammdaten",
-      na.rm = TRUE
-    )
-    ) {
-      device <- "cortex"
-      # files from Cosmed devices usually start with a line "ID-Code:" or "ID"
-    } else if (any(grepl("ID", head))) {
-      device <- "cosmed"
-    } else { # device type not found
-      device <- "none"
-    }
-  } else if (grepl("\\.xml$", file, ignore.case = TRUE)) { # xml file
-    head <- import_xml(file, short = TRUE)
-    if (any(
-      head == "Administrative Data" | head == "Stammdaten",
-      na.rm = TRUE
-    )
-    ) {
-      device <- "cortex"
-    } else {
-      device <- "none"
-    }
-  } else { # non-Excel file
-    # read the first rows of the file
-    head <- utils::read.delim(file, header = FALSE, nrows = 5)
-    # remove leading or trailing white spaces that may occur in some Vyntus
-    # files
-    head <- apply(head, 2, trimws)
-    # files from ZAN devices usually start with a line "[person]"
-    if (any(head == "[person]")) {
-      device <- "zan"
-    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit")) {
-      device <- "vyntus"
-    } else {
-      device <- "none"
-    }
-  }
-  device
-}
-
-#' Import raw data from COSMED spiroergometric devices
+#' Import raw data from COSMED metabolic carts
 #'
 #' \code{spiro_get_cosmed()} retrieves cardiopulmonary data from ZAN
 #' metabolic cart files.
@@ -313,7 +313,7 @@ spiro_get_cosmed <- function(file) {
   df
 }
 
-#' Import raw data from Cortex spiroergometric devices
+#' Import raw data from Cortex metabolic carts
 #'
 #' \code{spiro_get_cortex()} retrieves cardiopulmonary data from cortex
 #' metabolic cart files.
@@ -347,7 +347,7 @@ spiro_get_cortex <- function(file) {
   height <- get_meta(meta_raw, c("Height", "Gr\u00f6\u00dfe"))
   bodymass <- get_meta(meta_raw, c("Weight", "Gewicht"))
 
-  # write data frame for metadata
+  # write data frame for meta data
   info <- data.frame(name,
     surname,
     birthday,
@@ -402,7 +402,7 @@ spiro_get_cortex <- function(file) {
   df
 }
 
-#' Import raw data from Vyntus spiroergometric devices
+#' Import raw data from Vyntus metabolic carts
 #'
 #' \code{spiro_get_vyntus()} retrieves cardiopulmonary data from Vyntus
 #' metabolic cart files.
@@ -482,12 +482,12 @@ spiro_get_vyntus <- function(file) {
 #' Convert sex to factor level
 #'
 #' \code{get_sex()} is a helper function to retrieve the correct sex from file
-#' metadata.
+#' meta data.
 #'
-#' @param chr A character string containing information on the participant's sex
-#'   as specified in the raw data file metadata.
+#' @param chr A character string containing information on the individuals's sex
+#'   as specified in the raw data file meta data.
 #'
-#' @return A factor level, either \code{male} or \code{female}.
+#' @return A factor level, either \code{male}, \code{female} or \code{diverse}.
 #' @noRd
 get_sex <- function(chr) {
   if (grepl("nnlich", chr)) { # handling to avoid umlaut in mannlich
@@ -531,8 +531,8 @@ to_number <- function(chr) {
 #' \code{get_meta()} is a helper function to retrieve information in the same
 #' data row as a given expression.
 #'
-#' @param data A data.frame containing the data
-#' @param name An expression. The metadata's name which has to be searched for.
+#' @param data A \code{data.frame} containing the data
+#' @param name An expression. The parameter name which has to be searched for.
 #' @param column A numeric value, specifying the column from which the data
 #'   should be taken
 #'
@@ -550,7 +550,7 @@ get_meta <- function(data, exprs) {
 
 #' Import Excel XML to a R data frame
 #'
-#' \code{import_xml()} is a internal helper function to import a spreadsheet in
+#' \code{import_xml()} is an internal helper function to import a spreadsheet in
 #' .xml format.
 #'
 #' @param file A character string, giving the path of a .xml file.
@@ -615,8 +615,8 @@ get_data <- function(data, vars, as_numeric = TRUE) {
 #' \code{spiro_anonymize()} replaces personal information from meta data
 #' imported by an id.
 #'
-#' @param info A data.frame containing meta data, as produced as an attribute by
-#'   the spiro_get_* functions.
+#' @param info A \code{data.frame} containing meta data, as produced as an
+#'   attribute by the spiro_get_* functions.
 #'
 #' @return A data.frame containing the id and the body mass.
 #' @noRd
@@ -659,8 +659,8 @@ spiro_anonymize <- function(info) {
 #' known. Birthday is only used within the id generation if available in the
 #' original raw data.
 #'
-#' To disable the anonymization process during import use spiro(anonymize =
-#' FALSE)
+#' To disable the anonymization process during import use \code{spiro(anonymize =
+#' FALSE)}
 #'
 #' @param name A character string, containing the participant's name as present
 #'   in the raw data file.
