@@ -659,8 +659,8 @@ spiro_anonymize <- function(info) {
 #' known. Birthday is only used within the id generation if available in the
 #' original raw data.
 #'
-#' To disable the anonymization process during import use \code{spiro(anonymize =
-#' FALSE)}
+#' To disable the anonymization process during import use
+#' \code{spiro(anonymize = FALSE)}
 #'
 #' @param name A character string, containing the participant's name as present
 #'   in the raw data file.

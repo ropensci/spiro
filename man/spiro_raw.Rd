@@ -13,9 +13,9 @@ spiro_raw(data, device = NULL, anonymize = TRUE)
 \method{spiro_raw}{spiro}(data, device = NULL, anonymize = TRUE)
 }
 \arguments{
-\item{data}{Either the absolute or relative path of the file that contains the
-gas exchange data, or a data frame of the class \code{spiro}, usually the
-output of the \code{\link{spiro}} function.}
+\item{data}{Either the absolute or relative path of the file that contains
+the gas exchange data, or a data frame of the class \code{spiro}, usually
+the output of the \code{\link{spiro}} function.}
 
 \item{device}{A character string, specifying the device for measurement. By
 default the device type is guessed by the characteristics of the

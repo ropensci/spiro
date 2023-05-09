@@ -12,9 +12,9 @@
 #' retrieve the raw data from an already imported data set or from a new raw
 #' data file.
 #'
-#' @param data Either the absolute or relative path of the file that contains the
-#'   gas exchange data, or a data frame of the class \code{spiro}, usually the
-#'   output of the \code{\link{spiro}} function.
+#' @param data Either the absolute or relative path of the file that contains
+#'   the gas exchange data, or a data frame of the class \code{spiro}, usually
+#'   the output of the \code{\link{spiro}} function.
 #' @inheritParams spiro
 #'
 #' @return A \code{data.frame} with data. The attribute \code{info} contains

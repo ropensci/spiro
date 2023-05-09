@@ -138,7 +138,7 @@ citation("spiro")
 #> 
 #> To cite spiro in publications use:
 #> 
-#>   Simon Nolte (2022). spiro: An R package for analyzing data from
+#>   Simon Nolte (2023). spiro: An R package for analyzing data from
 #>   cardiopulmonary exercise testing. Journal of Open Source Software,
 #>   8(81), 5089, https://doi.org/10.21105/joss.05089
 #> 
