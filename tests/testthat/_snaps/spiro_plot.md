@@ -10,3 +10,7 @@
 
     'grid_args' must be a list
 
+---
+
+    'vert_lines' must be either TRUE or FALSE
+

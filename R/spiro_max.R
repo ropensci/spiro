@@ -4,19 +4,21 @@
 #' parameters of an exercise test.
 #'
 #' Before calculating the maximum values, the raw data is smoothed. Default
-#' smoothing method is a 30-second rolling average. See the smooth argument in
-#' \code{\link{spiro_smooth}} for more options, such as breath-based averages or
-#' digital filtering.
+#' smoothing method is a 30-second rolling average. See the \code{smooth}
+#' argument in \code{\link{spiro_smooth}} for more options, such as breath-based
+#' averages or digital filtering.
 #'
-#' Parameters calculated are the maximum oxygen uptake (absolute and relative),
-#' carbon dioxide output, minute ventilation, respiratory exchange ratio (RER),
-#' and heart rate. The maximum value are defined as the highest single data
-#' values after the smoothing. For the maximum RER a different algorithm is
-#' used, as the RER during and after rest may exceed the peak value during
-#' exercise. Therefore only values during the last ten percent of the exercise
-#' time are considered for the RERmax determination. The RERmax calculation
-#' works best for data from tests without rest intervals (e.g., ramp tests) and
-#' with attached load protocol data.
+#' Parameters calculated are the maxima of oxygen uptake (absolute and
+#' relative), carbon dioxide output, minute ventilation, respiratory exchange
+#' ratio (RER), and heart rate. The maximum values are defined as the highest
+#' single data values after the smoothing.
+#'
+#' For the maximum RER a different algorithm is used, as the RER during and
+#' after rest may exceed the peak value during exercise. Therefore only values
+#' during the last ten percent of the exercise time are considered for the
+#' RERmax determination. The RERmax calculation works best for data from tests
+#' without rest intervals (e.g., ramp tests) and with attached load protocol
+#' data.
 #'
 #' @param data A \code{data.frame} of the class \code{spiro} containing the gas
 #'   exchange data. Usually the output of a \code{\link{spiro}} call.
@@ -65,8 +67,8 @@ spiro_max <- function(data, smooth = 30, hr_smooth = FALSE) {
   # in RER values higher than the peak during exercise. RERmax is determined as
   # the maximum value of smoothed RER data during the last 10 percent of
   # exercise time excluding rest and cool-down intervals.
-  if (nrow(attr(data, "raw")) == nrow(filt)) {
-    filt$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(filt)) {
+    filt$t <- spiro_raw(data)$time
   } else {
     filt$t <- data$time
   }

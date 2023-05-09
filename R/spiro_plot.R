@@ -1,10 +1,10 @@
 #' Plot data from cardiopulmonary exercise data files
 #'
-#' \code{spiro_plot()} returns a \code{ggplot2} graph visualizing
-#' data from cardiopulmonary exercise testing.
+#' \code{spiro_plot()} returns a \code{ggplot2} graph visualizing data from
+#' cardiopulmonary exercise testing.
 #'
-#' This function provides a shortcut for visualizing spiroergometric data from
-#' \code{\link{spiro}} with the help of \code{ggplot2}.
+#' This function provides a shortcut for visualizing data from metabolic carts
+#' processed by the \code{\link{spiro}} function.
 #'
 #' ## Customization
 #' There are three ways to customize the appearance of plots in
@@ -19,7 +19,7 @@
 #'
 #' ### Style arguments
 #' \describe{
-#'   \item{\code{size = 2.5}}{Defines the size of all points}
+#'   \item{\code{size = 2}}{Defines the size of all points}
 #'   \item{\code{linewidth = 1}}{Defines the width of all lines}
 #'   \item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
 #'     \code{color_VE = "#003300"}, \code{color_VT = "grey30"},
@@ -47,13 +47,16 @@
 #'   Default is \code{fz} for a zero phase Butterworth filter. See
 #'   \code{\link{spiro_smooth}} for more details and other filter methods (e.g.
 #'   time based averages)
+#' @param vert_lines Whether vertical lines should be displayed at the
+#'   time points of the first warm-up load, first load, and last load.
+#'   Defaults to FALSE.
 #' @param base_size An integer controlling the base size of the plots (in pts).
 #' @param style_args A list of arguments controlling the color and size of lines
 #'   and points. See the section \strong{'Customization'} for possible
 #'   arguments. Additional arguments are passed to ggplot2::theme() to modify
 #'   the appearance of the plots.
 #' @param grid_args A list of arguments passed to \code{cowplot::plot_grid()} to
-#'   modify the arrangement of the plots
+#'   modify the arrangement of the plots.
 #'
 #' @inheritParams spiro_max
 #'
@@ -93,7 +96,8 @@ spiro_plot <- function(data,
                        smooth = "fz",
                        base_size = 13,
                        style_args = list(),
-                       grid_args = list()) {
+                       grid_args = list(),
+                       vert_lines = FALSE) {
   # input validation for `which` argument
   if (!is.numeric(which) || !all(which %in% 1:9)) {
     stop("'which' must be a numeric vector containing integers between 1 and 9")
@@ -106,10 +110,15 @@ spiro_plot <- function(data,
   if (!is.list(style_args)) {
     stop("'style_args' must be a list")
   }
+  # input validation for `vert_lines` argument
+  if (!is.logical(vert_lines)) {
+    stop("'vert_lines' must be either TRUE or FALSE")
+  }
 
   style_args$data <- data
   style_args$smooth <- smooth
   style_args$base_size <- base_size
+  style_args$vert_lines <- vert_lines
 
   l <- lapply(which, run_spiro_plot, args = style_args)
   grid_args$plotlist <- l
@@ -126,7 +135,7 @@ spiro_plot.internal <- function(which,
                                 smooth,
                                 base_size = 15,
                                 linewidth = 1,
-                                size = 2.5,
+                                size = 2,
                                 color_VO2 = "#c00000",
                                 color_VCO2 = "#0053a4",
                                 color_VE = "#003300",
@@ -134,23 +143,24 @@ spiro_plot.internal <- function(which,
                                 color_RER = "#003300",
                                 color_HR = "red",
                                 color_pulse = "pink",
+                                vert_lines = FALSE,
                                 ...) {
   p <- switch(which,
     `1` = spiro_plot_VE(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_VE = color_VE,
       ...
     ),
     `2` = spiro_plot_HR(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_HR = color_HR, color_pulse = color_pulse,
       ...
     ),
     `3` = spiro_plot_VO2(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
       ...
     ),
@@ -168,7 +178,7 @@ spiro_plot.internal <- function(which,
     ),
     `6` = spiro_plot_EQ(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
       ...
     ),
@@ -180,13 +190,13 @@ spiro_plot.internal <- function(which,
     ),
     `8` = spiro_plot_RER(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_RER = color_RER,
       ...
     ),
     `9` = spiro_plot_Pet(
       data, smooth,
-      base_size = base_size,
+      base_size = base_size, vert_lines = vert_lines,
       linewidth = linewidth, color_VO2 = color_VO2, color_VCO2 = color_VCO2,
       ...
     )
@@ -203,11 +213,12 @@ spiro_plot_VE <- function(data,
                           base_size = 13,
                           linewidth = 1,
                           color_VE = "#003300",
+                          vert_lines = FALSE,
                           ...) {
   d <- spiro_smooth(data, smooth = smooth, columns = "VE")
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
@@ -216,6 +227,7 @@ spiro_plot_VE <- function(data,
     data = d,
     ggplot2::aes(x = d$t, y = d$VE, colour = "VE (l/min)")
   ) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(linewidth = linewidth) +
     ggplot2::scale_colour_manual(values = color_VE) +
     ggplot2::labs(x = "Duration (s)", y = NULL) +
@@ -230,6 +242,7 @@ spiro_plot_HR <- function(data,
                           linewidth = 1,
                           color_HR = "red",
                           color_pulse = "pink",
+                          vert_lines = FALSE,
                           ...) {
   sec_factor <- 5
 
@@ -239,8 +252,8 @@ spiro_plot_HR <- function(data,
   if (!all(is.na(data$HR))) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "HR"))
     # use raw breath time data if smoothing method is breath-based
-    if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$t <- attr(data, "raw")$time
+    if (nrow(spiro_raw(data)) == nrow(d)) {
+      d$t <- spiro_raw(data)$time
     } else {
       d$t <- data$time
     }
@@ -289,6 +302,7 @@ spiro_plot_HR <- function(data,
   )
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(
       mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
       linewidth = linewidth
@@ -321,6 +335,7 @@ spiro_plot_VO2 <- function(data,
                            linewidth = 1,
                            color_VO2 = "#c00000",
                            color_VCO2 = "#0053a4",
+                           vert_lines = FALSE,
                            ...) {
   yl <- spiro_plot.guess_units(data)
 
@@ -335,8 +350,8 @@ spiro_plot_VO2 <- function(data,
   )
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(v_smooth)) {
-    t_data <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(v_smooth)) {
+    t_data <- spiro_raw(data)$time
   } else {
     t_data <- data$time
   }
@@ -373,6 +388,7 @@ spiro_plot_VO2 <- function(data,
       ggplot2::aes(x = tl_data$time, y = tl_data$load_scaled),
       fill = "black", alpha = 0.2, position = "identity"
     ) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(
       data = v_data_long,
       mapping = ggplot2::aes(
@@ -401,10 +417,10 @@ spiro_plot_VO2 <- function(data,
 #' @noRd
 spiro_plot_EQCO2 <- function(data,
                              base_size = 13,
-                             size = 2.5,
+                             size = 2,
                              color_VCO2 = "#0053a4",
                              ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
   # bring VCO2 data into desired unit (l/min)
   raw$VCO2 <- raw$VCO2 / 1000
 
@@ -425,11 +441,11 @@ spiro_plot_EQCO2 <- function(data,
 #' @noRd
 spiro_plot_vslope <- function(data,
                               base_size = 13,
-                              size = 2.5,
+                              size = 2,
                               color_HR = "red",
                               color_VCO2 = "#0053a4",
                               ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
   # remove rows without time stamp
   raw <- raw[!is.na(raw$time), ]
 
@@ -489,10 +505,11 @@ spiro_plot_EQ <- function(data,
                           linewidth = 1,
                           color_VO2 = "#c00000",
                           color_VCO2 = "#0053a4",
+                          vert_lines = FALSE,
                           ...) {
   # use calculated EQ data for smoothing if measurement method is not
   # breath-by-breath
-  if (check_bb(attr(data, "raw")$time)) {
+  if (check_bb(spiro_raw(data)$time)) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2", "VE"))
     d$EQ_O2 <- 1000 * d$VE / d$VO2
     d$EQ_CO2 <- 1000 * d$VE / d$VCO2
@@ -506,8 +523,8 @@ spiro_plot_EQ <- function(data,
   }
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
@@ -527,6 +544,7 @@ spiro_plot_EQ <- function(data,
   d_long$measure <- factor(d_long$measure, levels = c("EQ_O2", "EQ_CO2"))
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$t)) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(
       mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
       linewidth = linewidth
@@ -542,10 +560,10 @@ spiro_plot_EQ <- function(data,
 #' @noRd
 spiro_plot_vent <- function(data,
                             base_size = 13,
-                            size = 2.5,
+                            size = 2,
                             color_VT = "grey30",
                             ...) {
-  raw <- attr(data, "raw")
+  raw <- spiro_raw(data)
 
   ggplot2::ggplot(data = raw, ggplot2::aes(x = raw$VE, y = raw$VT)) +
     ggplot2::geom_point(
@@ -567,10 +585,11 @@ spiro_plot_RER <- function(data,
                            base_size = 13,
                            linewidth = 1,
                            color_RER = "#003300",
+                           vert_lines = FALSE,
                            ...) {
   # use calculated RER data for smoothing if measurement method is not
   # breath-by-breath
-  if (check_bb(attr(data, "raw")$time)) {
+  if (check_bb(spiro_raw(data)$time)) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("VO2", "VCO2"))
     d$RER <- d$VCO2 / d$VO2
   } else {
@@ -578,13 +597,14 @@ spiro_plot_RER <- function(data,
   }
 
   # use raw breath time data if smoothing method is breath-based
-  if (nrow(attr(data, "raw")) == nrow(d)) {
-    d$t <- attr(data, "raw")$time
+  if (nrow(spiro_raw(data)) == nrow(d)) {
+    d$t <- spiro_raw(data)$time
   } else {
     d$t <- data$time
   }
 
   ggplot2::ggplot(data = d, ggplot2::aes(x = d$t)) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(
       mapping = ggplot2::aes(y = d$RER, colour = "RER"),
       linewidth = linewidth
@@ -600,16 +620,17 @@ spiro_plot_RER <- function(data,
 spiro_plot_Pet <- function(data,
                            smooth = "fz",
                            base_size = 13,
-                           linewidth = linewidth,
+                           linewidth = 1,
                            color_VO2 = "#c00000",
                            color_VCO2 = "#0053a4",
+                           vert_lines = FALSE,
                            ...) {
   if (!all(is.na(data$PetO2))) {
     d <- spiro_smooth(data, smooth = smooth, columns = c("PetO2", "PetCO2"))
 
     # use raw breath time data if smoothing method is breath-based
-    if (nrow(attr(data, "raw")) == nrow(d)) {
-      d$time <- attr(data, "raw")$time
+    if (nrow(spiro_raw(data)) == nrow(d)) {
+      d$time <- spiro_raw(data)$time
     } else {
       d$time <- data$time
     }
@@ -640,6 +661,7 @@ spiro_plot_Pet <- function(data,
   )
 
   ggplot2::ggplot(data = d_long, ggplot2::aes(x = d_long$time)) +
+    vert_lines(data = data, plot = vert_lines) +
     plot_lines(
       mapping = ggplot2::aes(y = d_long$value, colour = d_long$measure),
       linewidth = linewidth
@@ -674,7 +696,6 @@ spiro_plot.guess_units <- function(data) {
 
 #' Internal ggplot2 theme for spiro plots
 #'
-#'
 #' @param base_size An integer, giving the base size for the theme.
 #' @param ... Arguments passed to ggplot2::theme()
 #'
@@ -701,7 +722,7 @@ theme_spiro <- function(base_size = 13,
 #' and ggplot2 version
 #'
 #' Uses the ggborderline package if available to plot lines. Use the linewidth
-#' aesthetic for ggplot2 version >= 3.4 and size aesthetic for older versions
+#' aesthetic for ggplot2 version >= 3.4 and size aesthetic for older versions.
 #'
 #' @param data Passed to ggplot2::geom_line() or ggborderline::geom_borderline()
 #' @param mapping Passed to ggplot2::geom_line() or
@@ -749,6 +770,55 @@ plot_lines <- function(data = NULL,
           na.rm = na.rm
         )
       }
+    }
+  )
+}
+
+#' Plot vertical lines in spiro_plot() functions at selected time points of the
+#' exercise protocol
+#'
+#' @param data A data.frame of the class `spiro`, usually the output of
+#'   `spiro()`
+#'
+#' @noRd
+vert_lines <- function(data, plot = TRUE) {
+  ptcl <- attr(data, "protocol")
+  list(
+    # check protocol availability
+    if (is.null(ptcl) | isFALSE(plot)) {
+      NULL
+    } else {
+      cs <- cumsum(ptcl$duration)
+      # set empty time points
+      t1 <- NULL
+      t2 <- NULL
+      t3 <- NULL
+      # time point 1: first load
+      if (any(ptcl$type == "load")) {
+        t1i <- min(which(ptcl$type == "load"))
+        if (t1i >= 2) { # requires measurements prior to first load
+          t1 <- cs[t1i-1]
+        }
+      }
+      # time point 2: first warm-up load
+      if (any(ptcl$type == "warm up")) {
+        t2i <- min(which(ptcl$type == "warm up"))
+        if (t2i >= 2) { # requires measurements prior to first load
+          t2 <- cs[t2i-1]
+        }
+      }
+      # time point 3: last load
+      if (any(ptcl$type == "load")) {
+        t3i <- max(which(ptcl$type == "load"))
+        # only apply if there are measurements after the last load
+        if (t3i != nrow(ptcl)) {
+          t3 <- cs[t3i]
+        }
+      }
+      ggplot2::geom_vline(
+        xintercept = c(t1, t2, t3),
+        colour = "#e3ad0f"
+      )
     }
   )
 }

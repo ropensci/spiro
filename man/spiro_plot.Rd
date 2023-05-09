@@ -10,7 +10,8 @@ spiro_plot(
   smooth = "fz",
   base_size = 13,
   style_args = list(),
-  grid_args = list()
+  grid_args = list(),
+  vert_lines = FALSE
 )
 }
 \arguments{
@@ -45,18 +46,22 @@ arguments. Additional arguments are passed to ggplot2::theme() to modify
 the appearance of the plots.}
 
 \item{grid_args}{A list of arguments passed to \code{cowplot::plot_grid()} to
-modify the arrangement of the plots}
+modify the arrangement of the plots.}
+
+\item{vert_lines}{Whether vertical lines should be displayed at the
+time points of the first warm-up load, first load, and last load.
+Defaults to FALSE.}
 }
 \value{
 A ggplot object.
 }
 \description{
-\code{spiro_plot()} returns a \code{ggplot2} graph visualizing
-data from cardiopulmonary exercise testing.
+\code{spiro_plot()} returns a \code{ggplot2} graph visualizing data from
+cardiopulmonary exercise testing.
 }
 \details{
-This function provides a shortcut for visualizing spiroergometric data from
-\code{\link{spiro}} with the help of \code{ggplot2}.
+This function provides a shortcut for visualizing data from metabolic carts
+processed by the \code{\link{spiro}} function.
 \subsection{Customization}{
 
 There are three ways to customize the appearance of plots in
@@ -71,7 +76,7 @@ argument and customize the arrangement by passing arguments to
 \subsection{Style arguments}{
 
 \describe{
-\item{\code{size = 2.5}}{Defines the size of all points}
+\item{\code{size = 2}}{Defines the size of all points}
 \item{\code{linewidth = 1}}{Defines the width of all lines}
 \item{\code{color_VO2 = "#c00000"}, \code{color_VCO2 = "#0053a4"},
 \code{color_VE = "#003300"}, \code{color_VT = "grey30"},

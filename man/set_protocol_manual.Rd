@@ -14,11 +14,12 @@ set_protocol_manual(duration, load = NULL)
 }
 \arguments{
 \item{duration}{Either a numeric vector containing the duration (in seconds)
-load each load step, or a \code{data.frame} containing columns for duration
+of each load step, or a \code{data.frame} containing columns for duration
 and load.}
 
 \item{load}{A numeric vector of the same length as \code{duration} containing
-the corresponding load of each step.}
+the corresponding load of each step. Not needed, if load and duration are
+both given in a \code{data.frame} as the first argument of the function.}
 }
 \value{
 A \code{data.frame} with the duration and load of each protocol step.

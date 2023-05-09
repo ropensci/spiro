@@ -4,28 +4,28 @@
 #' Provides the data filtering for \code{\link{spiro_max}} and
 #' \code{\link{spiro_plot}}.
 #'
-#' Raw data from cardiopulmonary is usually noisy due to measurement errors and
+#' Raw data from cardiopulmonary is usually noisy due to measurement error and
 #' biological breath-to-breath variability. When processing or visualizing the
 #' gas exchange data, it is often helpful to filter the raw data. This function
 #' provides different filtering methods (time average, breath average, digital
 #' filters).
 #'
 #' Breath-based and digital filters will be applied on the raw breath-by-breath
-#' data. Time-based averages will be conducted on the interpolated data.
+#' data. Time-based averages will be used on the interpolated data.
 #'
 #' @section Filtering Methods:
 #' \describe{
 #'   \item{Time-Based Average (e.g. \code{smooth = 30})}{A (centered) moving
-#'     average over a defined timespan. The number can be given as an integer or
-#'     as a character (e.g. \code{smooth = "30"}) and defines the length of the
-#'     calculation interval in seconds.}
+#'     average over a defined time span. The number can be given as an integer
+#'     or as a character (e.g. \code{smooth = "30"}) and defines the length of
+#'     the calculation interval in seconds.}
 #'   \item{Breath-Based Average (e.g. \code{smooth = "15b"})}{A (centered)
 #'     moving average over a defined number of breaths. The integer before the
 #'     letter 'b' defines the number of breaths for the calculation interval.}
 #'   \item{Butterworth filter (e.g. \code{smooth = "0.04f3"})}{A digital
 #'     Butterworth filter (with lag). The number before the letter 'f' defines
-#'     the low-pass cut-off frequency, the number after gives the order of the
-#'     filter. See \code{\link{bw_filter}} for more details.}
+#'     the low-pass cut-off frequency, the number after the letter 'f' gives the
+#'     order of the filter. See \code{\link{bw_filter}} for more details.}
 #'   \item{Zero-lag Butterworth filter (e.g. \code{smooth = "0.04fz3"})}{A
 #'     digital forwards-backwards Butterworth filter (without lag). The number
 #'     before the letter 'f' defines the low-pass cut-off frequency, the number
@@ -90,7 +90,7 @@ spiro_smooth <- function(data, smooth = 30, columns = NULL, quiet = FALSE) {
   out
 }
 
-#' Apply a smoothing filter to data a single numeric vector
+#' Apply a smoothing filter to a single numeric vector
 #'
 #' Internal function to \code{\link{spiro_smooth}}
 #' @noRd
@@ -157,9 +157,9 @@ bw_smooth_extract <- function(smooth, matchstring = "f") {
   out
 }
 
-#' Calculate the (centred) moving average
+#' Calculate the (centered) moving average
 #'
-#' Internal function for \code{\link{spiro_max}} and \code{\link{spiro_plot}}
+#' Internal function for \code{\link{spiro_smooth}}
 #'
 #' @param x A numeric vector on which the moving average should be applied
 #' @param k Length of the interval for the rolling average
@@ -188,11 +188,11 @@ mavg <- function(x, k) {
 #' frequency of 0.04 for filtering VO2 data.
 #'
 #' It should be noted that Butterworth filter comprise a time lag. A method to
-#' create a data series with zero lag is to subsequently apply two Butterworth
-#' filters in forward and reverse direction (forward-backwards filtering). While
-#' this procedure removes any time lag it changes the magnitude of the filtering
-#' response, i.e. the resulting filter has not the same properties (order and
-#' cut-off frequency) as a single filter has.
+#' create a time series with zero lag is to subsequently apply two Butterworth
+#' filters in forward and reverse direction (forwards-backwards filtering).
+#' While this procedure removes any time lag it changes the magnitude of the
+#' filtering response, i.e. the resulting filter has not the same properties
+#' (order and cut-off frequency) as a single filter.
 #'
 #' @param x A numeric vector on which the digital filter should be applied
 #' @param n Order of the Butterworth filter, defaults to 3
@@ -222,21 +222,20 @@ bw_filter <- function(x, n = 3, W = 0.04, zero_lag = TRUE) {
   # set filter
   bf <- signal::butter(n, W, "low")
 
-  # handle of internal NAs
-  # internal NAs can not be processed by Butterworth filters. For the zero-phase
-  # method used in this package, leading and trailing NAs can also not be
-  # processed. To overcome these issues all internal NAs will be linearly
-  # interpolated
+  # handle of internal NAs internal NAs can not be processed by Butterworth
+  # filters. For the zero-phase method used in this package, leading and
+  # trailing NAs can also not be processed. To overcome these issues all
+  # internal NAs will be linearly interpolated
 
   if (zero_lag) {
     # the signal package currently only contains an old version of the zero-lag
     # filter function `filtfilt()`, which does not minimize end-transients. To
     # overcome this issue this function pads the signal in reverse order before
     # the beginning and at the end of the series. This is equal to the
-    # even padtype in Python's scipy.signal.filtfilt()
+    # 'even' padtype in Python's scipy.signal.filtfilt()
     x_ext <- replace_intna(c(rev(x), x, rev(x)))
     # Remaining leading or trailing NAs should be now irrelevant to the filter
-    # procedure, but need to be replaces to make signal::filtfilt() work
+    # procedure, but need to be replaced to make signal::filtfilt() work
     x_ext[which(is.na(x_ext))] <- 0
     out_pre <- signal::filtfilt(bf, x_ext)
     out <- out_pre[(length(x) + 1):(2 * length(x))]
@@ -276,7 +275,7 @@ get_smooth_data <- function(data, columns, s_method, quiet = FALSE) {
   # breath-by-breath data
   if (s_method$type != "time") {
     # get raw data
-    rawdata <- attr(data, "raw")
+    rawdata <- spiro_raw(data)
     if (check_bb(rawdata$time)) { # raw data is breath-by-breath
       if (is.null(columns)) {
         # use all columns (besides time and load) if columns argument is empty

@@ -25,6 +25,7 @@ reference:
 - contents:
   - spiro
   - add_bodymass
+  - spiro_raw
   - spiro_import
   - get_anonid
 - title: "Working with additional heart rate data"

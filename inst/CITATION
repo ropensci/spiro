@@ -1,17 +1,19 @@
 bibentry(
-  bibtype  = "Manual",
-  title    = "spiro: Manage Data from Cardiopulmonary Exercise Testing",
+  bibtype  = "Article",
+  title    = "spiro: An R package for analyzing data from cardiopulmonary exercise testing",
   author   = person("Simon", "Nolte"),
-  year     = 2022,
-  url      = "https://docs.ropensci.org/spiro/",
-  doi      = "10.5281/zenodo.5816170",
-  note     = "R package version 0.1.2.9000",
+  year     = 2023,
+  volume   = 8,
+  number   = 81,
+  pages    = 5089,
+  journal  = "Journal of Open Source Software",
+  url      = "https://joss.theoj.org/papers/10.21105/joss.05089",
+  doi      = "10.21105/joss.05089",
   textVersion = paste0(
     "Simon Nolte (2022). ",
-    "spiro: Manage Data from Cardiopulmonary Exercise Testing. ",
-    "R package version 0.1.2.9000", ". ",
-    "DOI: 10.5281/zenodo.1040727. ",
-    "https://docs.ropensci.org/spiro"
+    "spiro: An R package for analyzing data from cardiopulmonary exercise testing. ",
+    "Journal of Open Source Software, 8(81), 5089, ",
+    "https://doi.org/10.21105/joss.05089"
   ),
   header = "To cite spiro in publications use:"
 )

@@ -50,7 +50,7 @@ seconds).}
 A \code{data.frame} with the duration and load of each protocol step.
 }
 \description{
-\code{set_protocol()} allows to set an load profile for an exercise test
+\code{set_protocol()} allows to set a load profile for an exercise test
 based on profile sections.
 }
 \section{Functions}{
@@ -68,7 +68,7 @@ based on profile sections.
 set_protocol(pt_pre(60), pt_wu(300, 100), pt_steps(180, 150, 25, 8, 30))
 }
 \seealso{
-\link{set_protocol_manual} For manual protocol design.
+\link{set_protocol_manual} for manual protocol design.
 
-\link{get_protocol} For automated extracting of protocols from raw data.
+\link{get_protocol} for automated extracting of protocols from raw data.
 }

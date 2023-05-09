@@ -33,12 +33,13 @@
 
 knit_print.spiro <- function(x, min = 10, max = 20, digits = 2, ...) {
   n <- nrow(x)
+  # rounding
+  x[, 4:ncol(x)] <- round(x[, 4:ncol(x)], digits = digits)
   if (n <= max) {
     NextMethod(x, ...)
   } else {
     x <- x[1:min, ]
     nr <- n - min
-    x[, 4:ncol(x)] <- round(x[, 4:ncol(x)], digits = digits)
     c(NextMethod(x, ...), sprintf("... with %s more rows", nr))
   }
 }

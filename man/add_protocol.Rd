@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_protocol.R
 \name{add_protocol}
 \alias{add_protocol}
-\title{Add a test protocol to an exercise testing dataset}
+\title{Add a test protocol to an exercise testing data set}
 \usage{
 add_protocol(data, protocol)
 }
@@ -37,5 +37,5 @@ head(out)
 
 \link{set_protocol_manual} for manual protocol design.
 
-\link{get_protocol} For automated extracting of protocols from raw data.
+\link{get_protocol} For automated extraction of protocols from raw data.
 }

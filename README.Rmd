@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN status](https://www.r-pkg.org/badges/version/spiro)](https://CRAN.R-project.org/package=spiro)
-[![DOI](https://zenodo.org/badge/354232342.svg)](https://zenodo.org/badge/latestdoi/354232342)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.05089/status.svg)](https://doi.org/10.21105/joss.05089)
 [![R-CMD-check](https://github.com/ropensci/spiro/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/spiro/actions)
 [![codecov](https://codecov.io/gh/ropensci/spiro/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/spiro)
 [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/541_status.svg)](https://github.com/ropensci/software-review/issues/541)

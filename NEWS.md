@@ -1,11 +1,20 @@
 spiro (development version)
 ===========================
 
+* Fix bug in import when raw time data contained invalid values (e.g. when the content of a row, but not the row itself was deleted in the excel raw data file)
+* deprecated spiro_import(), as its name led to confusion that this might be the general import function, which is spiro(). Use spiro_raw() instead.
+* new function spiro_raw() to access or import raw data only. This is a wrapper around attr(data, "raw") for spiro objects and replaces spiro_import() for raw data files.
+* Updated citation information (A software paper for the spiro package was accepted by the Journal of Open Source Software).
+* Fix bug in device detection when cortex files contained a header with an id field
 * Fix bug in Cortex import when time data contained milliseconds
 * Remove secondary load axis in spiro_plot(which = 3), when no load data is available
 * New customization options for spiro_plot(). It is now possible to control the size and color of points and lines using the style_args argument.
 * Documentation and vignette updated to changes in spiro_plot()
 * Updated testing infrastructure (new soft dependency 'vdiffr' for snapshot testing of spiro_plot() output)
+* Change default point size in spiro_plot()
+* Improved Vyntus import for German language
+* Add option to display vertical lines in spiro_plot() at the start of warm-up, first load and last load.
+* Fix rare bug when in the time data an identical value was present more than three times.
 
 spiro 0.1.2 (2022-11-13)
 ===========================

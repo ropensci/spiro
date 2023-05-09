@@ -1,18 +1,19 @@
-#' Import and apply heart rate data to cardiopulmonary exercise testing data
+#' Import and add heart rate data to cardiopulmonary exercise testing data
 #'
-#' \code{add_hr()} imports an additional file containing heart rate data and
-#' adds it to an existing spiroergometric data file.
+#' \code{add_hr()} imports an external file containing heart rate data and adds
+#' it to an existing gas exchange data file.
 #'
 #' Heart rate data will be imported from a \code{.tcx} file. After interpolating
-#' the data to full seconds, it is then matched to the imported data.
+#' the data to full seconds, it is then matched to the imported gas exchange
+#' data.
 #'
 #' @param data A \code{data.frame} of the class \code{spiro} containing the gas
 #'   exchange data. Usually the output of a \code{\link{spiro}} call.
 #'
 #' @inheritParams spiro
 #'
-#' @return A \code{data.frame} containing the spiroergometric and heart rate
-#'   data.
+#' @return A \code{data.frame} of the class \code{spiro} containing the
+#'   cardiopulmonary exercise testing data including heart rate data.
 #'
 #' @examples
 #' # Get example data
@@ -28,8 +29,12 @@
 #' @export
 
 add_hr <- function(data, hr_file, hr_offset = 0) {
-  if (!is.numeric(hr_offset)) {
-    stop("'hr_offset' must be a numeric value")
+  # input validation
+  if (!any(class(hr_file) == "character") | length(hr_file) != 1) {
+    stop("'hr_offset' must be a single numeric value")
+  }
+  if (!is.numeric(hr_offset) | length(hr_offset) != 1) {
+    stop("'hr_offset' must be a single numeric value")
   }
 
   # import heart rate data

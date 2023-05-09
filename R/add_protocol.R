@@ -1,4 +1,4 @@
-#' Add a test protocol to an exercise testing dataset
+#' Add a test protocol to an exercise testing data set
 #'
 #' \code{add_protocol()} adds a predefined test protocol to an existing set of
 #' data from an exercise test.
@@ -23,7 +23,7 @@
 #' head(out)
 #' @seealso [set_protocol] for protocol setting with helper functions.
 #' @seealso [set_protocol_manual] for manual protocol design.
-#' @seealso [get_protocol] For automated extracting of protocols from raw data.
+#' @seealso [get_protocol] For automated extraction of protocols from raw data.
 #' @export
 
 add_protocol <- function(data, protocol) {
@@ -76,19 +76,20 @@ add_protocol <- function(data, protocol) {
 }
 
 
-#' Guess a test protocol from a corresponding exercise testing dataset
+#' Guess a test protocol from a corresponding exercise testing data set
 #'
-#' \code{get_protocol()} gets the underlying test protocol based on given
-#' load data.
+#' \code{get_protocol()} gets the underlying test protocol based on given load
+#' data.
 #'
 #' @param data A \code{data.frame} containing the exercise testing data. It is
-#'   highly recommend to parse non-interpolated breath-by-breath data.
+#'   highly recommend to parse non-interpolated breath-by-breath data or
+#'   processed data with a very short interpolating/averaging interval.
 #'
 #' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
 #' @examples
 #' # Import example data
-#' raw_data <- spiro_import(file = spiro_example("zan_gxt"))
+#' raw_data <- spiro_raw(data = spiro_example("zan_gxt"))
 #'
 #' get_protocol(raw_data)
 #' @export
@@ -96,7 +97,7 @@ add_protocol <- function(data, protocol) {
 get_protocol <- function(data) {
   # Round load data before protocol guessing assuming that power data will be
   # only relevant in steps of 5W and velocity data in steps of .05 m/s or km/h.
-  # This is necessary as load data will sometimes show minor fluctuation, which
+  # This is necessary as load data will sometimes show minor fluctuations, which
   # should not influence the protocol guessing
 
   if (max(data$load, na.rm = TRUE) > 30) {
@@ -182,9 +183,13 @@ get_features <- function(protocol) {
   if (nrow(protocol) > 1) {
     last_load <- protocol$load[nrow(protocol)]
     cut_load <- protocol$load[protocol$load[-nrow(protocol)] != 0]
-    if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
-      protocol$type[nrow(protocol)] <- "post measures"
-      protocol$code[nrow(protocol)] <- -2
+    # evaluate post measures only if measures with load are available before the
+    # last load step
+    if (any(isTRUE(cut_load))) {
+      if (last_load <= (1 / 3) * cut_load[length(cut_load)]) {
+        protocol$type[nrow(protocol)] <- "post measures"
+        protocol$code[nrow(protocol)] <- -2
+      }
     }
   }
   protocol
@@ -221,7 +226,7 @@ get_testtype <- function(protocol) {
 
 #' Setting an exercise testing profile
 #'
-#' \code{set_protocol()} allows to set an load profile for an exercise test
+#' \code{set_protocol()} allows to set a load profile for an exercise test
 #' based on profile sections.
 #'
 #' @param ... Functions related to sections of the load profile, such as
@@ -240,8 +245,8 @@ get_testtype <- function(protocol) {
 #'
 #' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
-#' @seealso [set_protocol_manual] For manual protocol design.
-#' @seealso [get_protocol] For automated extracting of protocols from raw data.
+#' @seealso [set_protocol_manual] for manual protocol design.
+#' @seealso [get_protocol] for automated extracting of protocols from raw data.
 #'
 #' @examples
 #' set_protocol(pt_pre(60), pt_wu(300, 100), pt_steps(180, 150, 25, 8, 30))
@@ -388,10 +393,11 @@ pt_const <- function(duration,
 #' for an exercise test.
 #'
 #' @param duration Either a numeric vector containing the duration (in seconds)
-#'   load each load step, or a \code{data.frame} containing columns for duration
+#'   of each load step, or a \code{data.frame} containing columns for duration
 #'   and load.
 #' @param load A numeric vector of the same length as \code{duration} containing
-#'   the corresponding load of each step.
+#'   the corresponding load of each step. Not needed, if load and duration are
+#'   both given in a \code{data.frame} as the first argument of the function.
 #'
 #' @return A \code{data.frame} with the duration and load of each protocol step.
 #'
