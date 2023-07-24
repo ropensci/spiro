@@ -739,7 +739,7 @@ plot_lines <- function(data = NULL,
                        na.rm = TRUE) {
   list(
     if (!requireNamespace("ggborderline", quietly = TRUE)) {
-      if (utils::packageVersion("ggplot2") >= 3.4) {
+      if (utils::packageVersion("ggplot2") >= "3.4") {
         ggplot2::geom_line(
           data = data,
           mapping = mapping,
@@ -755,7 +755,7 @@ plot_lines <- function(data = NULL,
         )
       }
     } else {
-      if (utils::packageVersion("ggplot2") >= 3.4) {
+      if (utils::packageVersion("ggplot2") >= "3.4") {
         ggborderline::geom_borderline(
           data = data,
           mapping = mapping,
