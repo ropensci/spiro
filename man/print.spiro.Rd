@@ -4,12 +4,12 @@
 \alias{print.spiro}
 \title{Printing spiro data frames}
 \usage{
-\method{print}{spiro}(x, digits = 2, ...)
+\method{print}{spiro}(x, round = 2, ...)
 }
 \arguments{
 \item{x}{A \code{data.frame} of the class \code{spiro} to be printed.}
 
-\item{digits}{An integer giving the number of decimals to be rounded to.}
+\item{round}{An integer giving the number of decimals to be rounded to.}
 
 \item{...}{Passing of additional arguments to \code{print.data.frame()}.}
 }
