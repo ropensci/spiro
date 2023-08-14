@@ -1,7 +1,9 @@
-spiro (development version)
+spiro 0.2.1 (2023-08-14)
 ===========================
 
-* Fix due to changes in R-devel
+### BUG FIXES
+
+* Internal fix due to changes in R-devel
 * Fix bug in printing spiro data frames when non-numeric columns were manually added
 
 

@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/spiro",
   "issueTracker": "https://github.com/ropensci/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.0.9000",
+  "version": "0.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -177,7 +177,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "6710.55KB",
+  "fileSize": "6709.059KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
