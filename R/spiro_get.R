@@ -31,6 +31,7 @@ spiro_get <- function(file, device = NULL, anonymize = TRUE) {
   if (is.null(device)) device <- guess_device(file)
   out <- switch(device,
     zan = spiro_get_zan(file),
+    zan2 = spiro_get_zan2(file),
     cosmed = spiro_get_cosmed(file),
     cortex = spiro_get_cortex(file),
     vyntus = spiro_get_vyntus(file),
@@ -197,6 +198,56 @@ spiro_get_zan <- function(file) {
   # sometimes values will be saved at the end of the raw data file (after the
   # last measurement). These will be removed.
   df <- df[1:which.max(df$time), ]
+
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
+  df
+}
+
+#' Import raw data from ZAN metabolic carts exporting Cxcel files
+#'
+#' \code{spiro_get_zan()} retrieves cardiopulmonary data from ZAN
+#' metabolic cart files in Excel format.
+#'
+#' This is currently a non-production ready function only for specific use
+#' cases. It currently only works for German language files.
+#'
+#' ZAN Excel files are in Excel 2.0 format and have to be converted to a newer
+#' format (e.g., .xlsx) before they can be read by this function.
+#'
+#' @noRd
+spiro_get_zan2 <- function(file) {
+  # read meta data
+  meta <- as.data.frame(readxl::read_excel(
+    file,
+    range = readxl::cell_cols(c(1,2)),
+    col_names = c("type", "value")
+  ))
+  # read main data
+  data_raw <- readxl::read_excel(file, range = readxl::cell_cols(c(4, NA)))
+  data <- as.data.frame(data_raw[-c(1,2), ])
+
+  info <- data.frame(
+    name = get_meta(meta, "Vorname"),
+    surname = get_meta(meta, "Name"),
+    birthday = get_meta(meta, "Geburtsdatum  (TT.MM.JJJJ)"),
+    sex = get_sex(get_meta(meta, "Geschlecht")),
+    height = as.numeric(get_meta(meta, "Größe   (cm)")),
+    bodymass = as.numeric(get_meta(meta, "Gewicht (kg)"))
+  )
+
+  df <- data.frame(
+    time = as.numeric(data[["Zeit"]]),
+    VO2 = get_data(data, "VO2") * 1000, # given in l/min
+    VCO2 = get_data(data, "VCO2") * 1000, # given in l/min
+    RR = get_data(data, "BF"),
+    VT = get_data(data, "VT"),
+    VE = get_data(data, "VE"),
+    HR = get_data(data, "HR"),
+    load = get_data(data, "Geschw."),
+    PetO2 = get_data(data, "PETO2"),
+    PetCO2 = get_data(data, "PETCO2")
+  )
 
   attr(df, "info") <- info # write meta data
   class(df) <- c("spiro", "data.frame") # create spiro class
@@ -496,6 +547,7 @@ get_sex <- function(chr) {
     sex <- switch(chr,
       m = ,
       "M" = ,
+      männl. = ,
       male = "male",
       f = ,
       "F" = ,
@@ -503,6 +555,7 @@ get_sex <- function(chr) {
       W = ,
       weiblich = ,
       Weiblich = ,
+      weibl. = ,
       female = "female",
       NA
     )
