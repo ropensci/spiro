@@ -82,7 +82,7 @@
 
     Code
       spiro_summary(ramp_data, interval = 300)
-    Message <simpleMessage>
+    Message
       for load steps, interval was set to 30 seconds
       for step 23, interval was set to length of step (10 seconds)
     Output

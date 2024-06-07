@@ -89,7 +89,7 @@ guess_device <- function(file) {
     }
   } else { # non-Excel file
     # read the first rows of the file
-    head <- utils::read.delim(file, header = FALSE, nrows = 5)
+    head <- utils::read.delim(file, header = FALSE, nrows = 5, encoding = "latin1")
     # remove leading or trailing white spaces that may occur in some Vyntus
     # files
     head <- apply(head, 2, trimws)
@@ -113,7 +113,7 @@ guess_device <- function(file) {
 #' @noRd
 spiro_get_zan <- function(file) {
   # find indices for document structure
-  rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE)
+  rawdata <- utils::read.delim(file, header = FALSE, blank.lines.skip = FALSE, encoding = "latin1")
   meta_imin <- which(rawdata == "[person]") # meta data
   cnames_imin <- which(rawdata == "[parameter]") # column names
   data_imin <- which(rawdata == "[Data]") # raw data
@@ -125,7 +125,8 @@ spiro_get_zan <- function(file) {
     skip = meta_imin,
     nrows = cnames_imin - meta_imin - 3,
     row.names = 1,
-    blank.lines.skip = FALSE
+    blank.lines.skip = FALSE,
+    encoding = "latin1"
   )
   meta_df <- data.frame(t(meta))
   info <- data.frame(
@@ -143,16 +144,21 @@ spiro_get_zan <- function(file) {
   cnames <- utils::read.csv(file,
     header = FALSE,
     skip = cnames_imin + 2,
-    nrows = data_imin - cnames_imin - 4
+    nrows = data_imin - cnames_imin - 4,
+    encoding = "latin1"
   )$V3
   # remove last column due to encoding problems
   cnames <- cnames[-length(cnames)]
+  # remove empty name entries
+  # these may be additional parameter values instead of column names
+  cnames <- cnames[!cnames == ""]
 
   # import the main data
   data <- utils::read.csv(file,
     header = FALSE,
     skip = data_imin,
-    col.names = c("index", cnames, "fan")
+    col.names = c("index", cnames, "fan"),
+    encoding = "latin1"
   )
 
   # extract data with metabolic exchange parameters from data.
