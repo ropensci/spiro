@@ -5,9 +5,7 @@
 \alias{spiro-package}
 \title{spiro: Manage Data from Cardiopulmonary Exercise Testing}
 \description{
-The spiro package enables a fast workflow with raw files from metabolic
-carts. It provides simple tools for the import, processing, summary and
-visualization of cardiopulmonary exercise test data.
+Import, process, summarize and visualize raw data from metabolic carts. See Robergs, Dwyer, and Astorino (2010) \doi{10.2165/11319670-000000000-00000} for more details on data processing.
 }
 \section{Main functions}{
 
@@ -21,3 +19,23 @@ imported data.
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/ropensci/spiro}
+  \item \url{https://docs.ropensci.org/spiro/}
+  \item Report bugs at \url{https://github.com/ropensci/spiro/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Simon Nolte \email{s.nolte@dshs-koeln.de} (\href{https://orcid.org/0000-0003-1643-1860}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Manuel Ramon (reviewed the package (v. 0.0.5) for rOpenSci, see <https://github.com/ropensci/software-review/issues/541>) [reviewer]
+  \item James Hunter (reviewed the package (v. 0.0.5) for rOpenSci, see <https://github.com/ropensci/software-review/issues/541>) [reviewer]
+}
+
+}
+\keyword{internal}

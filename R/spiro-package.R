@@ -1,8 +1,4 @@
-#' spiro: Manage Data from Cardiopulmonary Exercise Testing
-#'
-#' The spiro package enables a fast workflow with raw files from metabolic
-#' carts. It provides simple tools for the import, processing, summary and
-#' visualization of cardiopulmonary exercise test data.
+#' @keywords internal
 #'
 #' @section Main functions:
 #' \itemize{
@@ -13,7 +9,9 @@
 #'     imported data.
 #'   \item Use \code{\link{spiro_plot}} to visualize the data.
 #' }
-#'
-#' @name spiro-package
-#' @docType package
+"_PACKAGE"
+
+
+## usethis namespace: start
+## usethis namespace: end
 NULL
