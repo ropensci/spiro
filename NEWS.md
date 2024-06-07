@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+* Fix bug in ZAN import
 
 
 spiro 0.2.1 (2023-08-14)

@@ -147,6 +147,9 @@ spiro_get_zan <- function(file) {
   )$V3
   # remove last column due to encoding problems
   cnames <- cnames[-length(cnames)]
+  # remove empty name entries
+  # these may be additional parameter values instead of column names
+  cnames <- cnames[!cnames == ""]
 
   # import the main data
   data <- utils::read.csv(file,
