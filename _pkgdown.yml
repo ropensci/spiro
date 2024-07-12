@@ -4,21 +4,16 @@ template:
   bootstrap: 5
 
 navbar:
-  title: "spiro"
-  left:
-    - icon: fa-home fa-lg
-      href: index.html
-    - text: "Import & Processing"
+  components:
+    processing:
+      text: "Import & Processing"
       href: articles/import_processing.html
-    - text: "Summarizing & Plotting"
+    plotting:
+      text: "Summarizing & Plotting"
       href: articles/summarizing_plotting.html
-    - text: "Reference"
-      href: reference/index.html
-    - text: "Changelog"
-      href: news/index.html
-  right:
-    - icon: fab fa-github fa-lg
-      href: https://docs.ropensci.org/spiro/
+  structure:
+    left: [home, processing, plotting, reference, news]
+    right: [search, github]
 
 reference:
 - title: "General data import and processing"
