@@ -266,7 +266,7 @@ spiro_get_cosmed <- function(file) {
       load_data <- load_data / 10
     }
   } else { # no velocity data available
-    load_data <- get_data(data, "Power")
+    load_data <- get_data(data, c("Power", "Last"))
   }
 
   # Check if time data import worked

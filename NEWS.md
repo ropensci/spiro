@@ -3,6 +3,7 @@ spiro (development version)
 
 * Fix bug in ZAN import when several dead space parameters are given
 * Fix bug in ZAN import when meta data contained special characters
+* Improve import for German Cosmed files
 
 
 spiro 0.2.1 (2023-08-14)
