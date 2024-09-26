@@ -704,18 +704,37 @@ theme_spiro <- function(base_size = 13,
                         panel.grid.minor.x = ggplot2::element_blank(),
                         legend.title = ggplot2::element_blank(),
                         legend.position = c(1, 0),
+                        legend.position.inside = c(1, 0),
                         legend.justification = c(1, 0),
+                        legend.justification.inside = c(1, 0),
                         ...) {
-  list(
-    ggplot2::theme_minimal(base_size = base_size),
-    ggplot2::theme(
-      panel.grid.minor.x = panel.grid.minor.x,
-      legend.title = legend.title,
-      legend.position = legend.position,
-      legend.justification = legend.justification,
-      ...
+  # ggplot version 3.5 or newer has a legend.position.inside argument in theme()
+  # with legend.position = "inside" instead of a numeric vector as input
+  # also legend.justification is replaced by legend.justification.inside
+  if (utils::packageVersion("ggplot2") >= "3.5") {
+    list(
+      ggplot2::theme_minimal(base_size = base_size),
+      ggplot2::theme(
+        panel.grid.minor.x = panel.grid.minor.x,
+        legend.title = legend.title,
+        legend.position = "inside",
+        legend.position.inside = legend.position.inside,
+        legend.justification.inside = legend.justification.inside,
+        ...
+      )
     )
-  )
+  } else {
+    list(
+      ggplot2::theme_minimal(base_size = base_size),
+      ggplot2::theme(
+        panel.grid.minor.x = panel.grid.minor.x,
+        legend.title = legend.title,
+        legend.position = legend.position,
+        legend.justification = legend.justification,
+        ...
+      )
+    )
+  }
 }
 
 #' Plot lines in spiro_plot() functions depending on ggborderline availability
