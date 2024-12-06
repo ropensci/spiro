@@ -96,7 +96,7 @@ guess_device <- function(file) {
     # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) {
       device <- "zan"
-    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit")) {
+    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit" | head == "Time")) {
       device <- "vyntus"
     } else {
       device <- "none"
@@ -423,7 +423,7 @@ spiro_get_vyntus <- function(file) {
   head_rm <- as.data.frame(apply(head, 2, trimws))
 
   colstart <- which(
-    head_rm == "Tid" | head_rm == "Temps" | head_rm == "Zeit",
+    head_rm == "Tid" | head_rm == "Temps" | head_rm == "Zeit" | head_rm == "Time",
     arr.ind = TRUE
   )
 
@@ -439,15 +439,15 @@ spiro_get_vyntus <- function(file) {
 
   df <- data.frame(
     time = to_seconds(
-      get_data(data_mod, c("Tid", "Temps", "Zeit"), as_numeric = FALSE)
+      get_data(data_mod, c("Tid", "Time", "Temps", "Zeit"), as_numeric = FALSE)
     ),
     VO2 = get_data(data_mod, "V.O2"),
     VCO2 = get_data(data_mod, "V.CO2"),
     RR = get_data(data_mod, c("BF", "FR")),
     VT = get_data(data_mod, "VTex"),
     VE = get_data(data_mod, c("V.E", "VeSTPD")),
-    HR = get_data(data_mod, c("HF", "FC")),
-    load = get_data(data_mod, c("Last", "Vitesse", "Watt")),
+    HR = get_data(data_mod, c("HR", "HF", "FC")),
+    load = get_data(data_mod, c("Load", "Last", "Vitesse", "Watt")),
     PetO2 = get_data(data_mod, "PETO2") * 7.50062, # convert from kPa to mmHg
     PetCO2 = get_data(data_mod, "PETCO2") * 7.50062 # convert from kPa to mmHg
   )

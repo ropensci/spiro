@@ -1,6 +1,7 @@
 spiro (development version)
 ===========================
 
+* Add support for Vyntus files in English
 * Fix bug in ZAN import when several dead space parameters are given
 * Fix bug in ZAN import when meta data contained special characters
 * Improve import for German Cosmed files
