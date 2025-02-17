@@ -58,7 +58,7 @@ spiro_get <- function(file, device = NULL, anonymize = TRUE) {
 #' @noRd
 guess_device <- function(file) {
   if (grepl("\\.xls$", file, ignore.case = TRUE) ||
-      grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
+    grepl("\\.xlsx$", file, ignore.case = TRUE)) { # Excel file
     # Read head of the Excel file
     head <- readxl::read_excel(file, range = "A1:B8", col_names = c("V1", "V2"))
 
@@ -96,7 +96,7 @@ guess_device <- function(file) {
     # files from ZAN devices usually start with a line "[person]"
     if (any(head == "[person]")) {
       device <- "zan"
-    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit" | head == "Time")) {
+    } else if (any(head == "Tid" | head == "Temps" | head == "Zeit" | head == "Time" | head == "t-ph" | head == "t")) {
       device <- "vyntus"
     } else {
       device <- "none"
@@ -423,7 +423,7 @@ spiro_get_vyntus <- function(file) {
   head_rm <- as.data.frame(apply(head, 2, trimws))
 
   colstart <- which(
-    head_rm == "Tid" | head_rm == "Temps" | head_rm == "Zeit" | head_rm == "Time",
+    head_rm == "Tid" | head_rm == "Temps" | head_rm == "Zeit" | head_rm == "Time" | head_rm == "t-ph" | head_rm == "t",
     arr.ind = TRUE
   )
 
@@ -439,7 +439,7 @@ spiro_get_vyntus <- function(file) {
 
   df <- data.frame(
     time = to_seconds(
-      get_data(data_mod, c("Tid", "Time", "Temps", "Zeit"), as_numeric = FALSE)
+      get_data(data_mod, c("Tid", "Time", "Temps", "Zeit", "t.ph", "t"), as_numeric = FALSE)
     ),
     VO2 = get_data(data_mod, "V.O2"),
     VCO2 = get_data(data_mod, "V.CO2"),
