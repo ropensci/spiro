@@ -816,14 +816,14 @@ vert_lines <- function(data, plot = TRUE) {
       if (any(ptcl$type == "load")) {
         t1i <- min(which(ptcl$type == "load"))
         if (t1i >= 2) { # requires measurements prior to first load
-          t1 <- cs[t1i-1]
+          t1 <- cs[t1i - 1]
         }
       }
       # time point 2: first warm-up load
       if (any(ptcl$type == "warm up")) {
         t2i <- min(which(ptcl$type == "warm up"))
         if (t2i >= 2) { # requires measurements prior to first load
-          t2 <- cs[t2i-1]
+          t2 <- cs[t2i - 1]
         }
       }
       # time point 3: last load

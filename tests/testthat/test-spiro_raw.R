@@ -19,4 +19,3 @@ test_that("overriding of anonymization works", {
 test_that("device argument is ignored for spiro class method", {
   expect_warning(spiro_raw(spiro(file), device = "cortex"))
 })
-

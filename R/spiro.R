@@ -24,8 +24,8 @@
 #'   English or German language)
 #'   \item \strong{COSMED} (\code{.xlsx} or \code{.xls} files, in English or
 #'   German language)
-#'   \item \strong{Vyntus} (\code{.txt} files in French, German or Norwegian
-#'   language)
+#'   \item \strong{Vyntus} (\code{.txt} files in English, French, German or
+#'   Norwegian language)
 #'   \item \strong{ZAN} (\code{.dat} files in German language, usually with
 #'   names in the form of \code{"EXEDxxx"})
 #' }
