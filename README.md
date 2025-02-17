@@ -135,27 +135,27 @@ spiro_plot(gxt_data)
 
 ``` r
 citation("spiro")
-#> 
-#> To cite spiro in publications use:
-#> 
-#>   Simon Nolte (2023). spiro: An R package for analyzing data from
-#>   cardiopulmonary exercise testing. Journal of Open Source Software,
-#>   8(81), 5089, https://doi.org/10.21105/joss.05089
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Article{,
-#>     title = {spiro: An R package for analyzing data from cardiopulmonary exercise testing},
-#>     author = {Simon Nolte},
-#>     year = {2023},
-#>     volume = {8},
-#>     number = {81},
-#>     pages = {5089},
-#>     journal = {Journal of Open Source Software},
-#>     url = {https://joss.theoj.org/papers/10.21105/joss.05089},
-#>     doi = {10.21105/joss.05089},
-#>   }
 ```
+
+    To cite spiro in publications use:
+
+      Simon Nolte (2023). spiro: An R package for analyzing data from
+      cardiopulmonary exercise testing. Journal of Open Source Software,
+      8(81), 5089, https://doi.org/10.21105/joss.05089
+
+    A BibTeX entry for LaTeX users is
+
+      @Article{,
+        title = {spiro: An R package for analyzing data from cardiopulmonary exercise testing},
+        author = {Simon Nolte},
+        year = {2023},
+        volume = {8},
+        number = {81},
+        pages = {5089},
+        journal = {Journal of Open Source Software},
+        url = {https://joss.theoj.org/papers/10.21105/joss.05089},
+        doi = {10.21105/joss.05089},
+      }
 
 ## Related Work
 
@@ -167,8 +167,9 @@ testing. It additionally offers functions for analyzing VO2 kinetics.
 
 The following persons contributed to this package by providing raw data
 files, reviewing code and/or suggesting features: Daniel Appelhans,
-James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff, Manuel Ramon,
-Anton Schiffer, Yannick Schwarz, Adrian Swoboda, Andreas Wagner.
+Michael Beaven, James Hunter, Virgile Lecoultre, Sebastian Mühlenhoff,
+Manuel Ramon, Anton Schiffer, Yannick Schwarz, Adrian Swoboda, Andreas
+Wagner.
 
 ## Contributing
 
