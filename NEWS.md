@@ -1,3 +1,9 @@
+spiro 0.2.3 (2025-02-18)
+===========================
+
+* Fix for CRAN release
+
+
 spiro 0.2.2 (2025-02-17)
 ===========================
 
@@ -14,7 +20,6 @@ spiro 0.2.2 (2025-02-17)
 
 * Fix bug in ZAN import when several dead space parameters are given
 * Fix bug in ZAN import when meta data contained special characters
-
 
 
 spiro 0.2.1 (2023-08-14)
