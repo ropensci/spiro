@@ -13,7 +13,8 @@ p_color <- spiro_plot(
   style_args = list(
     color_VO2 = "black", color_VCO2 = "purple", color_RER = "pink",
     color_VE = "royalblue", color_VT = "orange", color_HR = "lightblue",
-    color_pulse = "grey")
+    color_pulse = "grey"
+  )
 )
 p_theme <- spiro_plot(
   data,

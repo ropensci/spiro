@@ -61,8 +61,10 @@ spiro_raw.spiro <- function(data, device = NULL, anonymize = TRUE) {
   }
   if (!is.null(device)) {
     warning(
-      paste0("'device' argument in spiro_raw() is ignored when called for an ",
-             " spiro object")
+      paste0(
+        "'device' argument in spiro_raw() is ignored when called for an ",
+        " spiro object"
+      )
     )
   }
   # rewrite meta data attribute
