@@ -34,6 +34,7 @@ spiro_get <- function(file, device = NULL, anonymize = TRUE) {
     cosmed = spiro_get_cosmed(file),
     cortex = spiro_get_cortex(file),
     vyntus = spiro_get_vyntus(file),
+    calibre = spiro_get_calibre(file),
     stop("Could not find device type. Please specify the 'device' argument")
   )
   if (anonymize) {
@@ -86,6 +87,13 @@ guess_device <- function(file) {
       device <- "cortex"
     } else {
       device <- "none"
+    }
+  } else if (grepl("\\.csv$", file, ignore.case = TRUE)) { # csv file
+    head <- utils::read.csv(file, header = FALSE, nrows = 5)[,1:5]
+    if (any(head == "Device S/N")) { # calibre files have this in the header
+      device = "calibre"
+    } else {
+      device = "none"
     }
   } else { # non-Excel file
     # read the first rows of the file
@@ -478,6 +486,46 @@ spiro_get_vyntus <- function(file) {
     sex = NA,
     height = NA,
     bodymass = bodymass
+  )
+
+  attr(df, "info") <- info # write meta data
+  class(df) <- c("spiro", "data.frame") # create spiro class
+  df
+}
+
+#' Import raw data from Calibre metabolic carts
+#'
+#' \code{spiro_get_calibre()} retrieves cardiopulmonary data from cortex
+#' metabolic cart files.
+#'
+#' @noRd
+#'
+spiro_get_calibre <- function(file) {
+  d <- utils::read.csv(file)
+
+  bm <- as.numeric(get_meta(d, "Body Weight (kg)"))
+
+  df <- data.frame(
+    time = get_data(d, c("Timer..s.")),
+    VO2 = get_data(d, "VO2..slpm.") * 1000, # given in l/min
+    VCO2 = get_data(d, "VCO2..slpm.") * 1000, #  given in l/min
+    RR = get_data(d, "Respiratory.Rate..breaths.min."),
+    VT = get_data(d, "Tidal.Volume..l."),
+    VE = get_data(d, "Minute.Volume..l.min."),
+    HR = get_data(d, "HR..bpm."),
+    load = NA,
+    PetO2 = NA,
+    PetCO2 = NA
+  )
+
+  # Write meta data
+  info <- data.frame(
+    name = NA,
+    surname = NA,
+    birthday = NA,
+    sex = NA,
+    height = NA,
+    bodymass = bm
   )
 
   attr(df, "info") <- info # write meta data
