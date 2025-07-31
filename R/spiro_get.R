@@ -245,7 +245,8 @@ spiro_get_cosmed <- function(file) {
     bodymass = as.numeric(
       get_meta(
         tbl,
-        c("Weight (Kg):", "Weight (Kg)", "Gewicht (Kg):", "Gewicht (Kg)")
+        c("Weight (Kg):", "Weight (Kg)", "Gewicht (Kg):", "Gewicht (Kg)",
+          "Weight (kg):", "Weight (kg)", "Gewicht (kg):", "Gewicht (kg)")
       )
     )
   )
@@ -308,10 +309,15 @@ spiro_get_cosmed <- function(file) {
   # rare special case if body mass has been deleted from meta data. Recalculates
   # body mass based on relative oxygen uptake present in raw data
   if (is.na(info$bodymass)) {
-    info$bodymass <- round(
-      # used first data value to recalculate body mass
-      as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]), 1
-    )
+    if (any(colnames(data) == "VO2/Kg")) {
+      info$bodymass <- round(
+        as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/Kg`[[1]]), 1
+      )
+    } else if (any(colnames(data) == "VO2/kg")) {
+      info$bodymass <- round(
+        as.numeric(data$VO2[[1]]) / as.numeric(data$`VO2/kg`[[1]]), 1
+      )
+    }
   }
 
   attr(df, "info") <- info # write meta data
