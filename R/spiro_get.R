@@ -416,7 +416,7 @@ spiro_get_cortex <- function(file) {
 #' @noRd
 spiro_get_vyntus <- function(file) {
   # get head of file to find column names and start of data
-  head <- utils::read.delim(file, header = FALSE, nrows = 10)
+  head <- utils::read.delim(file, header = FALSE, nrows = 10, fileEncoding = "Latin1")
 
   # sometimes the files will contain leading or trailing whitespaces
   # complicating the character matching. These are removed first.
@@ -427,7 +427,7 @@ spiro_get_vyntus <- function(file) {
     arr.ind = TRUE
   )
 
-  data <- utils::read.delim(file, skip = colstart[[1]] - 1)[-1, ]
+  data <- utils::read.delim(file, skip = colstart[[1]] - 1, fileEncoding = "Latin1")[-1, ]
   # remove whitespaces
   data <- as.data.frame(apply(data, 2, trimws))
   # remove first row if it containes empty values
@@ -445,12 +445,23 @@ spiro_get_vyntus <- function(file) {
     VCO2 = get_data(data_mod, "V.CO2"),
     RR = get_data(data_mod, c("BF", "FR")),
     VT = get_data(data_mod, "VTex"),
-    VE = get_data(data_mod, c("V.E", "VeSTPD")),
+    VE = get_data(data_mod, c("V.E", "VeSTPD", "V.E..ST.")),
     HR = get_data(data_mod, c("HR", "HF", "FC")),
     load = get_data(data_mod, c("Load", "Last", "Vitesse", "Watt")),
-    PetO2 = get_data(data_mod, "PETO2") * 7.50062, # convert from kPa to mmHg
-    PetCO2 = get_data(data_mod, "PETCO2") * 7.50062 # convert from kPa to mmHg
+    PetO2 = get_data(data_mod, "PETO2") ,
+    PetCO2 = get_data(data_mod, "PETCO2")
   )
+
+  # convert units for partial pressure if necessary
+  # get unit for PetO2 measurement
+  pet <- which(head == "PETO2", arr.ind = TRUE)
+  if (nrow(pet) > 0) {
+    pet_unit <- head[pet[1,1]+1, pet[1,2]]
+    if (pet_unit != "mmHg") { # if not in mmHg
+      df$PetO2 <- df$PetO2 * 7.50062  # convert from kPa to mmHg
+      df$PetO2 <- df$PetCO2 * 7.50062 # convert from kPa to mmHg
+    }
+  }
 
   # use power data if velocity data is empty
   if (all(df$load == 0, na.rm = TRUE)) df$load <- get_data(data_mod, c("Watt"))
