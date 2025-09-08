@@ -1,7 +1,7 @@
 spiro (development version)
 ===========================
 
-
+* Fix bug in Cosmed import leading to failure in rare cases
 
 spiro 0.2.3 (2025-02-18)
 ===========================
