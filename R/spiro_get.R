@@ -347,7 +347,7 @@ spiro_get_cortex <- function(file) {
   # get meta data
 
   # filter data frame for section with meta data
-  meta_begin <- which(d == "Patient data" | d == "Patient")
+  meta_begin <- which(d == "Patient data" | d == "Patient" | d == "Proband" | d == "Subject")
   meta_raw <- d[c(meta_begin:(meta_begin + 25)), ]
 
   # extract meta data

@@ -2,6 +2,7 @@ spiro (development version)
 ===========================
 
 * Fix bug in Cosmed import leading to failure in rare cases
+* Fix bug in Cortex import for newer devices
 
 spiro 0.2.3 (2025-02-18)
 ===========================
