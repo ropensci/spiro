@@ -31,6 +31,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Simon Nolte \email{s.nolte@dshs-koeln.de} (\href{https://orcid.org/0000-0003-1643-1860}{ORCID})
 
+Authors:
+\itemize{
+  \item Simon Nolte \email{s.nolte@dshs-koeln.de} (\href{https://orcid.org/0000-0003-1643-1860}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Manuel Ramon (reviewed the package (v. 0.0.5) for rOpenSci, see <https://github.com/ropensci/software-review/issues/541>) [reviewer]
