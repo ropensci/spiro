@@ -1,5 +1,7 @@
-spiro (development version)
+spiro 0.2.4 (2026-06-22)
 ===========================
+
+### BUG FIXES
 
 * Fix bug in Cosmed import leading to failure in rare cases
 * Fix bug in Cortex import for newer devices

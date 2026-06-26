@@ -1,14 +1,14 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "spiro" in publications use:'
 type: software
 license: MIT
 title: 'spiro: Manage Data from Cardiopulmonary Exercise Testing'
-version: 0.2.3.9000
+version: 0.2.4
 doi: 10.21105/joss.05089
 identifiers:
 - type: doi
@@ -83,23 +83,23 @@ references:
     given-names: Teun
     name-particle: van den
     orcid: https://orcid.org/0000-0002-9335-7468
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.ggplot2
 - type: software
   title: xml2
   abstract: 'xml2: Parse XML'
   notes: Imports
-  url: https://xml2.r-lib.org/
+  url: https://xml2.r-lib.org
   repository: https://CRAN.R-project.org/package=xml2
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@posit.co
   - family-names: Hester
     given-names: Jim
   - family-names: Ooms
     given-names: Jeroen
-  year: '2025'
+    email: jeroenooms@gmail.com
+  year: '2026'
   doi: 10.32614/CRAN.package.xml2
 - type: software
   title: readxl
@@ -116,7 +116,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.readxl
 - type: software
   title: knitr
@@ -129,7 +129,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: cowplot
@@ -142,73 +142,26 @@ references:
     given-names: Claus O.
     email: wilke@austin.utexas.edu
     orcid: https://orcid.org/0000-0002-7470-9261
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.cowplot
 - type: software
   title: digest
   abstract: 'digest: Create Compact Hash Digests of R Objects'
   notes: Imports
-  url: https://dirk.eddelbuettel.com/code/digest.html
+  url: https://eddelbuettel.github.io/digest/
   repository: https://CRAN.R-project.org/package=digest
   authors:
-  - family-names: Lucas
-    given-names: Dirk Eddelbuettel with contributions by Antoine
-    email: edd@debian.org
-  - family-names: Tuszynski
-    given-names: Jarek
-  - family-names: Bengtsson
-    given-names: Henrik
-  - family-names: Urbanek
-    given-names: Simon
-  - family-names: Frasca
-    given-names: Mario
-  - family-names: Lewis
-    given-names: Bryan
-  - family-names: Stokely
-    given-names: Murray
-  - family-names: Muehleisen
-    given-names: Hannes
-  - family-names: Murdoch
-    given-names: Duncan
-  - family-names: Hester
-    given-names: Jim
-  - family-names: Wu
-    given-names: Wush
-  - family-names: Kou
-    given-names: Qiang
-  - family-names: Onkelinx
-    given-names: Thierry
-  - family-names: Lang
-    given-names: Michel
-  - family-names: Simko
-    given-names: Viliam
-  - family-names: Hornik
-    given-names: Kurt
-  - family-names: Neal
-    given-names: Radford
-  - family-names: Bell
-    given-names: Kendon
-  - family-names: Queljoe
-    given-names: Matthew
-    name-particle: de
-  - family-names: Suruceanu
-    given-names: Ion
-  - family-names: Denney
-    given-names: Bill
-  - family-names: Schumacher
+  - family-names: Eddelbuettel
     given-names: Dirk
-  - family-names: Chang
-    given-names: Winston
-  - family-names: Attali
-    given-names: Dean
-  - family-names: Chirico.
-    given-names: Michael
-  year: '2025'
+    email: edd@debian.org
+    orcid: https://orcid.org/0000-0001-6419-907X
+  year: '2026'
   doi: 10.32614/CRAN.package.digest
 - type: software
   title: signal
   abstract: 'signal: Signal Processing'
   notes: Imports
+  url: https://signal.R-forge.R-project.org
   repository: https://CRAN.R-project.org/package=signal
   authors:
   - family-names: Ligges
@@ -219,7 +172,7 @@ references:
     email: tshort@eprisolutions.com
   - family-names: Kienzle
     given-names: Paul
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.signal
 - type: software
   title: testthat
@@ -231,7 +184,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
 - type: software
@@ -257,7 +210,7 @@ references:
   - family-names: Lise
     given-names: Vaudor
     email: lise.vaudor@ens-lyon.fr
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.vdiffr
 - type: software
   title: rmarkdown
@@ -301,7 +254,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: ggborderline
@@ -312,6 +265,7 @@ references:
   authors:
   - family-names: Scott
     given-names: Jacob
-  year: '2025'
+    email: jscott2718@gmail.com
+  year: '2026'
   doi: 10.32614/CRAN.package.ggborderline
 
