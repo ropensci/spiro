@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/spiro",
   "issueTracker": "https://github.com/ropensci/spiro/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.4",
+  "version": "0.2.4.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.3 (2025-02-28 ucrt)",
+  "runtimePlatform": "R version 4.6.1 Patched (2026-06-24 r90191 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",

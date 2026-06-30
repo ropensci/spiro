@@ -1,6 +1,6 @@
 Package: spiro
 Title: Manage Data from Cardiopulmonary Exercise Testing
-Version: 0.2.4
+Version: 0.2.4.9000
 Authors@R:
     c(
       person(given = "Simon",
